@@ -1,0 +1,164 @@
+/**
+ * Responsive overrides — loaded last so it wins the cascade over the
+ * section stylesheets it adjusts. Breakpoints match the Figma source
+ * exactly: 1000px (tablet) and 640px (mobile). Brief §11/§19 mobile spec.
+ */
+
+@media (max-width: 1000px) {
+	.hero-inner {
+		grid-template-columns: 1fr;
+		gap: var(--evently-space-5);
+	}
+
+	.hero-img-wrap {
+		display: none;
+	}
+
+	.cat-grid {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: auto;
+	}
+
+	.cat-card--wide {
+		grid-column: span 1;
+	}
+
+	.cal-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.steps-grid {
+		grid-template-columns: 1fr;
+		gap: var(--evently-space-5);
+	}
+
+	.steps-line {
+		display: none;
+	}
+
+	.ticket-grid,
+	.org-grid {
+		grid-template-columns: 1fr;
+		gap: var(--evently-space-6);
+	}
+
+	.stats-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.testi-grid {
+		grid-template-columns: 1fr;
+		gap: var(--evently-space-2);
+	}
+
+	.journal-grid {
+		grid-template-columns: 1fr;
+		gap: var(--evently-space-6);
+	}
+
+	.footer-grid {
+		grid-template-columns: 1fr 1fr;
+		gap: var(--evently-space-4);
+	}
+}
+
+@media (max-width: 640px) {
+	.site-nav,
+	.header-actions {
+		display: none;
+	}
+
+	.mobile-menu-btn {
+		display: flex;
+	}
+
+	.search-bar {
+		display: none;
+	}
+
+	.search-bar-mobile {
+		display: flex;
+		gap: var(--evently-space-1);
+		padding: var(--evently-space-4) var(--evently-pad) 0;
+		background: var(--evently-surface);
+	}
+
+	.events-grid,
+	.evently-grid--2,
+	.evently-grid--3,
+	.evently-grid--4 {
+		grid-template-columns: 1fr;
+	}
+
+	.stats-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.footer-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.cat-grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto;
+	}
+
+	.cat-card {
+		aspect-ratio: 4/3;
+	}
+
+	.evently-archive-header,
+	.evently-single-post,
+	.evently-page {
+		padding-top: calc(var(--evently-header-height) + var(--evently-space-2));
+	}
+
+	/* Testimonials become a horizontal snap-scroll row instead of a stack —
+	   matches brief §19 "Testimonials: Horizontal carousel". */
+	.testi-grid {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		-webkit-overflow-scrolling: touch;
+		padding-bottom: 4px;
+	}
+
+	.testi-grid .testi-card {
+		flex: 0 0 85%;
+		scroll-snap-align: start;
+	}
+
+	/* Footer columns become a real native <details>/<summary> accordion —
+	   brief §19. Undo the desktop "always expanded" override so opening/
+	   closing is genuinely functional, and add a rotating chevron. */
+	.footer-col > *:not(summary) {
+		display: revert !important;
+	}
+
+	.footer-col {
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		padding-bottom: var(--evently-space-2);
+	}
+
+	.footer-col-title {
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: var(--evently-space-2);
+	}
+
+	.footer-col-title::after {
+		content: '';
+		width: 8px;
+		height: 8px;
+		border-right: 1.5px solid rgba(255, 255, 255, 0.4);
+		border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
+		transform: rotate(45deg);
+		transition: transform var(--evently-transition-fast) ease;
+	}
+
+	.footer-col[open] .footer-col-title::after {
+		transform: rotate(-135deg);
+	}
+}

@@ -1,0 +1,10 @@
+{
+  "description": "Enables users to browse and book events seamlessly through an intuitive homepage designed for easy event discovery and reservation.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

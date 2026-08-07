@@ -1,0 +1,694 @@
+/**
+ * Single Event page: hero, description, schedule, venue, FAQ, sidebar,
+ * and — the important part — restyling the booking plugin's REAL
+ * ticket-selection/add-to-cart markup (rendered by
+ * Evently_Booking_Adapter::render_booking_form(), i.e. the plugin's own
+ * `mpwem_registration` hook output) to match Evently's sticky booking-card
+ * design without touching a single line of its logic.
+ */
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+
+.evently-event-hero {
+	position: relative;
+	padding-top: var(--evently-header-height);
+	background: var(--evently-dark);
+}
+
+.evently-event-hero__media {
+	position: absolute;
+	inset: 0;
+}
+
+.evently-event-hero__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.55;
+}
+
+.evently-event-hero__content {
+	position: relative;
+	padding: var(--evently-space-6) var(--evently-pad) var(--evently-space-8);
+	color: var(--evently-white);
+}
+
+.evently-event-hero__media ~ .evently-event-hero__content {
+	min-height: 320px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+
+.evently-breadcrumb--on-media {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.evently-breadcrumb--on-media a {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.evently-breadcrumb--on-media a:hover {
+	color: var(--evently-white);
+}
+
+.evently-breadcrumb--on-media span:last-child {
+	color: var(--evently-white);
+}
+
+.evently-event-hero__cat {
+	margin: var(--evently-space-2) 0 var(--evently-space-2);
+}
+
+.evently-event-hero__title {
+	color: var(--evently-white);
+	margin-bottom: var(--evently-space-3);
+	font-size: clamp(2rem, 4.5vw, 3.25rem);
+}
+
+.evently-event-hero__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--evently-space-4);
+}
+
+.evently-event-hero__meta-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: rgba(255, 255, 255, 0.85);
+	font-size: var(--evently-fs-small);
+}
+
+/* ── Layout ───────────────────────────────────────────────────────── */
+
+.evently-event-layout {
+	display: grid;
+	grid-template-columns: 1fr 360px;
+	gap: var(--evently-space-6);
+	padding: var(--evently-space-6) var(--evently-pad) var(--evently-space-9);
+	align-items: start;
+}
+
+.evently-event-section {
+	margin-bottom: var(--evently-space-6);
+}
+
+.evently-event-section h2 {
+	font-size: 26px;
+	margin-bottom: var(--evently-space-3);
+}
+
+.evently-event-description {
+	font-size: var(--evently-fs-body-lg);
+	line-height: 1.75;
+	color: var(--evently-text);
+}
+
+.evently-event-description :is(h3, h4) {
+	margin-top: var(--evently-space-4);
+}
+
+/* Speakers */
+
+.evently-speaker-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+	gap: var(--evently-space-3);
+}
+
+.evently-speaker-card {
+	text-align: center;
+}
+
+.evently-speaker-card__avatar {
+	border-radius: 50%;
+	overflow: hidden;
+	width: 96px;
+	height: 96px;
+	margin: 0 auto var(--evently-space-2);
+}
+
+.evently-speaker-card__avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.evently-speaker-card h3 {
+	font-size: var(--evently-fs-body);
+}
+
+/* Venue */
+
+.evently-venue-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--evently-space-3);
+	flex-wrap: wrap;
+	background: var(--evently-surface);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+}
+
+.evently-venue-card__name {
+	font-weight: 700;
+	margin-bottom: 4px;
+}
+
+.evently-venue-card__address {
+	color: var(--evently-muted);
+	margin: 0;
+}
+
+/* FAQ */
+
+.evently-faq-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-2);
+}
+
+.evently-faq-item {
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+	padding: var(--evently-space-3) var(--evently-space-4);
+}
+
+.evently-faq-item summary {
+	cursor: pointer;
+	font-weight: 600;
+	list-style: none;
+}
+
+.evently-faq-item summary::-webkit-details-marker {
+	display: none;
+}
+
+.evently-faq-item summary::after {
+	content: '+';
+	float: right;
+	font-weight: 400;
+	color: var(--evently-muted);
+}
+
+.evently-faq-item[open] summary::after {
+	content: '−';
+}
+
+.evently-faq-item__answer {
+	margin-top: var(--evently-space-2);
+	color: var(--evently-muted);
+}
+
+/* Related events */
+
+.evently-related-events {
+	border-top: 1px solid var(--evently-border);
+	padding-top: var(--evently-space-6);
+}
+
+/* ── Sidebar / booking card ──────────────────────────────────────── */
+
+.evently-event-sidebar {
+	position: sticky;
+	top: calc(var(--evently-header-height) + var(--evently-space-2));
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-3);
+}
+
+.evently-booking-card {
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+	box-shadow: var(--evently-shadow-card);
+}
+
+.evently-booking-card__title {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--evently-muted);
+	margin-bottom: var(--evently-space-3);
+}
+
+.evently-organizer-card {
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+	display: flex;
+	align-items: center;
+	gap: var(--evently-space-3);
+}
+
+.evently-organizer-card__avatar {
+	width: 48px;
+	height: 48px;
+	font-size: 18px;
+	flex-shrink: 0;
+}
+
+.evently-organizer-card__label {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--evently-muted);
+	margin-bottom: 2px;
+}
+
+.evently-organizer-card__name {
+	font-weight: 700;
+	color: var(--evently-text);
+}
+
+.evently-organizer-card__name:hover {
+	color: var(--evently-primary);
+}
+
+/* ── Restyling the plugin's REAL ticket-selection form ───────────── */
+/* Selectors below target mage-eventpress's own markup (verified against
+   its templates/layout/{registration,ticket_type,add_to_cart}.php) —
+   nothing here is a class Evently invented. */
+
+.evently-booking-card .mpwem_style,
+.evently-booking-card .mpwem_registration_area {
+	display: block;
+}
+
+.evently-booking-card .mpwem_booking_panel {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-3);
+}
+
+/* The plugin's own date-selection header (shown even for single-date
+   events) ships with a solid brand-color background by default — replace
+   it with a plain, subtle label to match the card. */
+.evently-booking-card .date-time-header {
+	background: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+	margin-bottom: var(--evently-space-2);
+}
+
+.evently-booking-card .ticket-title {
+	background: none !important;
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	color: var(--evently-muted) !important;
+	font-size: 12px !important;
+	font-weight: 700 !important;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	padding: 0 !important;
+	display: inline-block;
+}
+
+.evently-booking-card .mpwem_ticket_type .card-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-3);
+}
+
+.evently-booking-card .mep_ticket_item {
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+	padding: var(--evently-space-3);
+}
+
+.evently-booking-card .ticket-data {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--evently-space-2);
+	flex-wrap: wrap;
+}
+
+.evently-booking-card .ticket-name {
+	font-weight: 700;
+	font-size: 16px;
+	color: var(--evently-text);
+}
+
+.evently-booking-card .ticket-description {
+	font-size: var(--evently-fs-small);
+	color: var(--evently-muted);
+	margin-top: 2px;
+	max-width: 220px;
+}
+
+.evently-booking-card .ticket-remaining {
+	font-size: 11px;
+	font-weight: 600;
+	margin-top: 6px;
+}
+
+.evently-booking-card .ticket-remaining.remaining-low {
+	color: var(--evently-warning);
+}
+
+.evently-booking-card .ticket-remaining.remaining-high {
+	color: var(--evently-muted);
+}
+
+.evently-booking-card .ticket-price {
+	font-weight: 800;
+	font-size: 17px;
+	color: var(--evently-text);
+	white-space: nowrap;
+}
+
+.evently-booking-card .mep-ticket-mode-badge {
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	border-radius: var(--evently-radius-pill);
+	padding: 2px 8px;
+	margin-left: 6px;
+	background: var(--evently-surface);
+	color: var(--evently-muted);
+}
+
+.evently-booking-card .mep-ticket-mode-badge--online {
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+}
+
+/* Quantity stepper — plugin markup: .qtyIncDec > .decQty / label input.inputIncDec / .incQty */
+
+.evently-booking-card .quantity-control {
+	margin-top: var(--evently-space-2);
+}
+
+.evently-booking-card .qtyIncDec {
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-pill);
+	overflow: hidden;
+}
+
+.evently-booking-card .decQty,
+.evently-booking-card .incQty {
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: var(--evently-text);
+	background: var(--evently-surface);
+	font-size: 12px;
+}
+
+.evently-booking-card .decQty:hover,
+.evently-booking-card .incQty:hover {
+	background: var(--evently-border);
+}
+
+.evently-booking-card .inputIncDec {
+	width: 40px;
+	height: 32px;
+	border: none;
+	text-align: center;
+	font-weight: 700;
+	font-family: inherit;
+	background: transparent;
+}
+
+/* Total + submit — plugin markup: .mpwem_summery > .total > .mpwem_total, .mpwem_book_now */
+
+.evently-booking-card .mpwem_summery {
+	border-top: 1px solid var(--evently-border);
+	padding-top: var(--evently-space-3);
+	margin-top: var(--evently-space-2);
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-2);
+}
+
+.evently-booking-card .total {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: var(--evently-fs-small);
+	color: var(--evently-muted);
+}
+
+.evently-booking-card .mpwem_total {
+	font-size: 20px;
+	font-weight: 800;
+	color: var(--evently-text);
+}
+
+.evently-booking-card .mpwem_book_now,
+.evently-booking-card ._button_theme {
+	width: 100%;
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	border: none;
+	border-radius: var(--evently-radius-pill);
+	padding: 14px 28px;
+	font-size: var(--evently-fs-button);
+	font-weight: 700;
+	font-family: inherit;
+	cursor: pointer;
+	transition: opacity var(--evently-transition-fast) ease;
+}
+
+.evently-booking-card .mpwem_book_now:hover,
+.evently-booking-card ._button_theme:hover {
+	opacity: 0.88;
+}
+
+.evently-booking-card .dNone {
+	display: none;
+}
+
+.evently-booking-card .mep_ticket_item + .mep_ticket_item {
+	margin-top: 0;
+}
+
+/* Booking confirmation/cancellation banner — plugin markup rendered inside
+   the same mpwem_registration hook (MPWEM_Booking_Confirmation, priority 5,
+   runs before the form itself), shown after ?mep_booking=success|pending|
+   cancelled. The plugin ships its own inline <style> with hardcoded
+   colors; these selectors are scoped one level deeper so they win without
+   needing !important. */
+
+.evently-booking-card .mep-booking-confirmation {
+	border-radius: var(--evently-radius-md);
+	padding: var(--evently-space-3) var(--evently-space-4);
+	margin-bottom: var(--evently-space-3);
+	border: 1px solid var(--evently-border);
+}
+
+.evently-booking-card .mep-booking-confirmation.mep-booking-success {
+	background: rgba(22, 163, 74, 0.08);
+	border-color: rgba(22, 163, 74, 0.3);
+	color: #14532d;
+}
+
+.evently-booking-card .mep-booking-confirmation.mep-booking-pending {
+	background: rgba(245, 158, 11, 0.1);
+	border-color: rgba(245, 158, 11, 0.35);
+	color: #78350f;
+}
+
+.evently-booking-card .mep-booking-confirmation.mep-booking-cancelled {
+	background: rgba(220, 38, 38, 0.08);
+	border-color: rgba(220, 38, 38, 0.3);
+	color: #7f1d1d;
+}
+
+.evently-booking-card .mep-booking-confirmation-header h3 {
+	font-size: 16px;
+	margin: 0 0 4px;
+}
+
+.evently-booking-card .mep-booking-summary-table {
+	width: 100%;
+	border-collapse: collapse;
+	background: var(--evently-white);
+	color: var(--evently-text);
+	margin-top: var(--evently-space-2);
+}
+
+.evently-booking-card .mep-booking-summary-table th,
+.evently-booking-card .mep-booking-summary-table td {
+	padding: 8px 10px;
+	border: 1px solid var(--evently-border);
+	text-align: left;
+	font-size: 13px;
+}
+
+.evently-booking-card__calendar {
+	margin-top: var(--evently-space-3);
+}
+
+.evently-booking-card__calendar a,
+.evently-booking-card__calendar button {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-pill);
+	padding: 10px 16px;
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	color: var(--evently-text);
+	background: transparent;
+}
+
+@media (max-width: 1000px) {
+	.evently-event-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.evently-event-sidebar {
+		position: static;
+	}
+}
+
+@media (max-width: 640px) {
+	.evently-event-hero__content {
+		padding: var(--evently-space-4) var(--evently-pad) var(--evently-space-6);
+	}
+
+	.evently-venue-card {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+/* ── Gallery ──────────────────────────────────────────────────────────
+ * Light restyling of the booking plugin's REAL slider markup
+ * (Evently_Booking_Adapter::render_hook_widget('mpwem_custom_slider', ...),
+ * i.e. mpwem_custom_slider → MPWEM_Custom_Slider::super_slider()) — same
+ * "don't touch the logic/JS, just the skin" approach as the booking form
+ * above. The plugin's own frontend CSS/JS still drives the actual slide
+ * navigation and lightbox popup; this only rounds corners and fits it to
+ * Evently's spacing so it doesn't look like an unstyled plugin default.
+ * ────────────────────────────────────────────────────────────────── */
+
+.evently-event-gallery .mpwem_slider_area {
+	border-radius: var(--evently-radius-lg);
+	overflow: hidden;
+}
+
+.evently-event-gallery img,
+.evently-event-gallery .post_thumb {
+	border-radius: var(--evently-radius-lg);
+}
+
+.evently-event-gallery .sliderItem,
+.evently-event-gallery .sliderShowcaseItem {
+	border-radius: var(--evently-radius-md);
+	overflow: hidden;
+}
+
+.evently-event-gallery .post_thumb img {
+	width: 100%;
+	max-height: 480px;
+	object-fit: cover;
+}
+
+/* ── Timeline ─────────────────────────────────────────────────────────
+ * Restyling of the plugin's real agenda markup
+ * (do_action('mpwem_timeline', ...) → templates/layout/timeline.php,
+ * meta key mep_event_day). The template prints its own "Event Timelines"
+ * heading inside timeline_section_header — hidden here since Evently
+ * already prints a matching <h2> for the section, and a duplicate heading
+ * would look like a bug rather than a design choice.
+ * ────────────────────────────────────────────────────────────────── */
+
+.evently-event-timeline .timeline_section_header {
+	display: none;
+}
+
+.evently-event-timeline .timeline_area {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-3);
+}
+
+.evently-event-timeline .timeline_item {
+	display: flex;
+	gap: var(--evently-space-3);
+	padding: var(--evently-space-3) var(--evently-space-4);
+	background: var(--evently-surface);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-lg);
+}
+
+.evently-event-timeline .timeline_counter {
+	flex: none;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--evently-primary);
+	color: var(--evently-white);
+	font-weight: 700;
+	font-size: var(--evently-fs-small);
+}
+
+.evently-event-timeline .timeline_content {
+	flex: 1;
+	min-width: 0;
+}
+
+.evently-event-timeline .timeline_header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--evently-space-2);
+	cursor: pointer;
+}
+
+.evently-event-timeline .tl_title {
+	font-weight: 600;
+}
+
+.evently-event-timeline .timeline_connector {
+	display: none;
+}
+
+.evently-event-timeline .timeline_time {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-small);
+	white-space: nowrap;
+}
+
+.evently-event-timeline .timeline_time .fa {
+	display: none; /* Font Awesome icon font not bundled with the theme — the text label alone is enough. */
+}
+
+.evently-event-timeline .mp_wp_editor {
+	margin-top: var(--evently-space-2);
+	color: var(--evently-muted);
+}
+
+@media (max-width: 640px) {
+	.evently-event-timeline .timeline_item {
+		flex-direction: column;
+	}
+}

@@ -1,0 +1,296 @@
+/**
+ * Site header + mobile nav drawer + footer.
+ * Depends on variables.css, typography.css, components.css.
+ */
+
+/* ── Header ───────────────────────────────────────────────────────── */
+
+.site-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: var(--evently-header-height);
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid transparent;
+	background: transparent;
+	transition: background var(--evently-transition-base) ease, border-color var(--evently-transition-base) ease,
+		backdrop-filter var(--evently-transition-base) ease;
+}
+
+.site-header.is-scrolled {
+	background: rgba(255, 255, 255, 0.92);
+	backdrop-filter: blur(16px);
+	border-color: var(--evently-border);
+}
+
+.site-header__inner {
+	display: flex;
+	align-items: center;
+	gap: var(--evently-space-5);
+	width: 100%;
+}
+
+.site-logo {
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	color: var(--evently-text);
+	flex-shrink: 0;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.site-logo img {
+	max-height: 40px;
+	width: auto;
+	text-transform: none;
+}
+
+.site-nav {
+	display: flex;
+	gap: var(--evently-space-4);
+}
+
+/* wp_nav_menu() outputs bare <li> items here (items_wrap omits the <ul>
+   wrapper so the primary menu can sit inline in the flex row) — <li> shows
+   a default disc marker even without a <ul> ancestor, so reset explicitly. */
+.site-nav li,
+.mobile-nav li {
+	list-style: none;
+}
+
+.site-nav a {
+	font-size: var(--evently-fs-label);
+	font-weight: 500;
+	color: var(--evently-muted);
+	transition: color var(--evently-transition-fast) ease;
+}
+
+.site-nav a:hover {
+	color: var(--evently-text);
+}
+
+.header-spacer {
+	flex: 1;
+}
+
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--evently-space-2);
+}
+
+.header-search-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 8px;
+	color: var(--evently-muted);
+	display: flex;
+}
+
+.header-search-btn:hover {
+	color: var(--evently-text);
+}
+
+.header-login {
+	font-size: var(--evently-fs-label);
+	font-weight: 500;
+	color: var(--evently-text);
+}
+
+.mobile-menu-btn {
+	display: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 8px;
+	color: var(--evently-text);
+}
+
+.mobile-menu-btn__icon-close {
+	display: none;
+}
+
+.mobile-menu-btn[aria-expanded='true'] .mobile-menu-btn__icon-open {
+	display: none;
+}
+
+.mobile-menu-btn[aria-expanded='true'] .mobile-menu-btn__icon-close {
+	display: block;
+}
+
+.mobile-nav {
+	position: absolute;
+	top: var(--evently-header-height);
+	left: 0;
+	right: 0;
+	background: var(--evently-white);
+	border-bottom: 1px solid var(--evently-border);
+	padding: var(--evently-space-3) var(--evently-pad) var(--evently-space-3);
+	display: flex;
+	flex-direction: column;
+}
+
+.mobile-nav[hidden] {
+	display: none;
+}
+
+.mobile-nav a {
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--evently-text);
+	padding: 14px 0;
+	border-bottom: 1px solid var(--evently-border);
+	display: block;
+}
+
+.mobile-nav-actions {
+	display: flex;
+	gap: var(--evently-space-2);
+	margin-top: var(--evently-space-2);
+}
+
+.mobile-nav-actions a {
+	flex: 1;
+	text-align: center;
+	padding: 13px;
+	border-radius: var(--evently-radius-pill);
+	font-size: var(--evently-fs-label);
+	font-weight: 600;
+	border: 1px solid var(--evently-border);
+	color: var(--evently-text);
+}
+
+.mobile-nav-actions__cta {
+	background: var(--evently-dark);
+	color: var(--evently-white) !important;
+	border-color: var(--evently-dark) !important;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+
+.site-footer {
+	background: #060608;
+	padding: var(--evently-space-8) var(--evently-pad) var(--evently-space-5);
+	border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-grid {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr;
+	gap: var(--evently-space-6);
+	margin-bottom: var(--evently-space-7);
+}
+
+.footer-logo {
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	color: var(--evently-white);
+	margin-bottom: var(--evently-space-2);
+	text-transform: uppercase;
+}
+
+.footer-tagline {
+	font-size: var(--evently-fs-label);
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.4);
+	margin: 0 0 var(--evently-space-4);
+	max-width: 240px;
+}
+
+.footer-social {
+	display: flex;
+	gap: var(--evently-space-2);
+}
+
+.social-icon {
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.07);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 700;
+	color: rgba(255, 255, 255, 0.5);
+	transition: background var(--evently-transition-fast) ease;
+}
+
+.social-icon:hover {
+	background: rgba(255, 255, 255, 0.12);
+}
+
+/* Footer columns are <details>/<summary> so they become a real, native,
+   JS-free accordion on mobile (brief §19) while staying permanently
+   expanded — and non-interactive-looking — on desktop. */
+.footer-col-title {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	color: rgba(255, 255, 255, 0.4);
+	text-transform: uppercase;
+	margin-bottom: var(--evently-space-3);
+	cursor: default;
+	list-style: none;
+}
+
+.footer-col-title::-webkit-details-marker {
+	display: none;
+}
+
+.footer-col > *:not(summary) {
+	display: block !important;
+}
+
+.footer-col ul {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-2);
+}
+
+.footer-col ul a {
+	font-size: var(--evently-fs-label);
+	color: rgba(255, 255, 255, 0.5);
+	transition: color var(--evently-transition-fast) ease;
+}
+
+.footer-col ul a:hover {
+	color: var(--evently-white);
+}
+
+.footer-bottom {
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	padding-top: var(--evently-space-3);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--evently-space-2);
+}
+
+.footer-copy {
+	font-size: var(--evently-fs-caption);
+	color: rgba(255, 255, 255, 0.3);
+}
+
+.footer-legal {
+	display: flex;
+	gap: var(--evently-space-3);
+}
+
+.footer-legal a {
+	font-size: var(--evently-fs-caption);
+	color: rgba(255, 255, 255, 0.3);
+	transition: color var(--evently-transition-fast) ease;
+}
+
+.footer-legal a:hover {
+	color: rgba(255, 255, 255, 0.6);
+}

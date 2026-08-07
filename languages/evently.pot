@@ -1,0 +1,1731 @@
+# Copyright (C) 2026 Evently
+# This file is distributed under the same license as the Evently theme.
+msgid ""
+msgstr ""
+"Project-Id-Version: Evently 1.0.0\n"
+"Report-Msgid-Bugs-To: https://evently.example.com/support\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2026-08-07 16:49+0000\n"
+"X-Generator: evently-pot-generator\n"
+"X-Domain: evently\n"
+
+#: template-parts/home/calendar.php:83
+msgid "%1$s %2$d"
+msgstr ""
+
+#: template-parts/home/calendar.php:60
+msgid "%d, no events"
+msgstr ""
+
+#: comments.php:22
+msgid "%s comment"
+msgid_plural "%s comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: mage-event/taxonomy-organozer.php:74
+msgid "%s event"
+msgid_plural "%s events"
+msgstr[0] ""
+msgstr[1] ""
+
+#: mage-event/taxonomy-category.php:52 template-parts/archive/event-archive-content.php:82
+msgid "%s event found"
+msgid_plural "%s events found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/admin/setup-wizard.php:40
+msgid "1. Required plugins"
+msgstr ""
+
+#: template-parts/home/hero.php:15
+msgid "2,840 tickets sold today"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:68
+msgid "2. Import demo content"
+msgstr ""
+
+#: template-parts/home/featured-event.php:16
+msgid "20,000+ attendees expected"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:111
+msgid "3. Next steps"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:374
+msgid "5 things to know before buying festival tickets"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:145
+msgid "5K, 10K and full marathon routes through the historic city center."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:165
+msgid "A full-day masterclass on composition, light and post-production."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:85
+msgid "A hands-on day of brand, product and interaction design exercises."
+msgstr ""
+
+#: template-parts/footer/site-footer.php:27
+msgid "About"
+msgstr ""
+
+#: mage-event/single-events.php:101
+msgid "About this event"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:101
+msgid "Activate the Evently Booking plugin above before importing — events cannot be created without it."
+msgstr ""
+
+#: inc/admin/setup-wizard.php:50 inc/admin/setup-wizard.php:61
+msgid "Active"
+msgstr ""
+
+#: mage-event/single-events.php:64 mage-event/taxonomy-category.php:40 mage-event/taxonomy-organozer.php:54 template-parts/archive/event-archive-content.php:77
+msgid "All Events"
+msgstr ""
+
+#: template-parts/archive/filters.php:38
+msgid "All categories"
+msgstr ""
+
+#: template-parts/archive/filters.php:66
+msgid "All cities"
+msgstr ""
+
+#: template-parts/home/search-bar.php:51
+msgid "All events"
+msgstr ""
+
+#: template-parts/archive/filters.php:52
+msgid "All organizers"
+msgstr ""
+
+#: mage-event/single-events.php:211 template-parts/cards/event-card.php:73
+msgid "Almost full"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:185
+msgid "An informal evening of lightning pitches, networking and community."
+msgstr ""
+
+#: template-parts/home/search-bar.php:46
+msgid "Any date"
+msgstr ""
+
+#: template-parts/archive/filters.php:77
+msgid "Apply Filters"
+msgstr ""
+
+#: inc/admin/theme-settings.php:80
+msgid "Archive"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:53
+msgid "Army Stadium"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:186
+msgid "Attendee"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:110
+msgid "Attendees"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:70
+msgid "Aug 24, 2026"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:50
+msgid "Aug 24–26, 2026"
+msgstr ""
+
+#: template-parts/home/calendar.php:20
+msgid "August 2026"
+msgstr ""
+
+#: template-parts/home/featured-event.php:14
+msgid "August 24–26, 2026"
+msgstr ""
+
+#: template-parts/content/content-none.php:23
+msgid "Back to homepage"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:29
+msgid "Blog"
+msgstr ""
+
+#: inc/demo-import/importer.php:83
+msgid "Blog posts ready: %d"
+msgstr ""
+
+#: template-parts/cards/event-card.php:101 template-parts/home/calendar.php:99 template-parts/home/how-it-works.php:20
+msgid "Book"
+msgstr ""
+
+#: template-parts/home/hero.php:73
+msgid "Book Now"
+msgstr ""
+
+#: template-parts/home/how-it-works.php:33
+msgid "Book experiences in three simple steps."
+msgstr ""
+
+#: mage-event/single-events.php:208
+msgid "Book this event"
+msgstr ""
+
+#: inc/setup.php:33
+msgid "Border"
+msgstr ""
+
+#: template-parts/home/hero.php:35
+msgid "Browse Categories"
+msgstr ""
+
+#: mage-event/taxonomy-category.php:71 mage-event/taxonomy-organozer.php:100
+msgid "Browse all events"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:186 template-parts/home/choose-vibe.php:20
+msgid "Business"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:70
+msgid "Button label"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:79
+msgid "Button link"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:113
+msgid "CRB Waterfront"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:73
+msgid "Card style"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:30
+msgid "Careers"
+msgstr ""
+
+#: inc/demo-import/importer.php:427 template-parts/footer/site-footer.php:22 template-parts/header/site-header.php:60 template-parts/header/site-header.php:123
+msgid "Categories"
+msgstr ""
+
+#: inc/demo-import/importer.php:71
+msgid "Categories ready: %d"
+msgstr ""
+
+#: template-parts/archive/filters.php:36 template-parts/home/search-bar.php:49
+msgid "Category"
+msgstr ""
+
+#: mage-event/taxonomy-category.php:69 mage-event/taxonomy-organozer.php:98
+msgid "Check back soon, or browse all events instead."
+msgstr ""
+
+#: template-parts/content/content-none.php:21
+msgid "Check back soon."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:112
+msgid "Chittagong, Bangladesh"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:84
+msgid "Choose a demo:"
+msgstr ""
+
+#: template-parts/home/how-it-works.php:21
+msgid "Choose your ticket and pay securely. Get instant confirmation."
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:61
+msgid "Choose your vibe"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:305
+msgid "Cities"
+msgstr ""
+
+#: template-parts/archive/filters.php:64
+msgid "City"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:144
+msgid "City Marathon"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:160
+msgid "City Runners Club"
+msgstr ""
+
+#: template-parts/archive/filters.php:80
+msgid "Clear all"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:157
+msgid "Clear filters"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:195
+msgid "Close filters"
+msgstr ""
+
+#: template-parts/modals/search-modal.php:21
+msgid "Close search"
+msgstr ""
+
+#: inc/admin/theme-settings.php:78
+msgid "Colors"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:88
+msgid "Columns"
+msgstr ""
+
+#: comments.php:44
+msgid "Comments are closed."
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:79
+msgid "Compact"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:15
+msgid "Company"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:243
+msgid "Concerts"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:66 inc/demo-import/sample-data.php:126
+msgid "Conference"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:337
+msgid "Conference Director"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:248
+msgid "Conferences"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:113
+msgid "Configure Evently Theme Settings →"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:28
+msgid "Contact"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:46 inc/integrations/elementor/class-widget-event-grid.php:47
+msgid "Content"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:356
+msgid "Conversion"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:182
+msgid "Could not install WooCommerce. You can install it manually from Plugins → Add New."
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:73 template-parts/header/site-header.php:85 template-parts/header/site-header.php:129
+msgid "Create Event"
+msgstr ""
+
+#: inc/admin/theme-settings.php:26
+msgid "Create Event URL"
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:30
+msgid "Create events, sell tickets, manage attendees and track your performance from one powerful dashboard."
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:98
+msgid "Create your first event"
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:21
+msgid "Creative"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:84
+msgid "Creative Design Workshop"
+msgstr ""
+
+#: template-parts/home/hero.php:56
+msgid "Crowd at a live summer music festival"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:381
+msgid "Culture"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:304 template-parts/home/hero.php:45
+msgid "Customer Satisfaction"
+msgstr ""
+
+#: inc/admin/theme-settings.php:36 inc/setup.php:36
+msgid "Dark"
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:50
+msgid "Dashboard Overview"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:144
+msgid "Date"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:124
+msgid "Date: Latest first"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:123
+msgid "Date: Soonest first"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:77
+msgid "Default"
+msgstr ""
+
+#: inc/admin/theme-settings.php:39
+msgid "Default City"
+msgstr ""
+
+#: inc/admin/theme-settings.php:41
+msgid "Default archive view"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:76
+msgid "Demo content was already imported on %s. Running it again will not duplicate existing demo events/pages."
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:61
+msgid "Description"
+msgstr ""
+
+#: inc/admin/theme-settings.php:39 template-parts/home/near-you.php:15 template-parts/home/search-bar.php:41
+msgid "Dhaka"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:52 inc/demo-import/sample-data.php:72 inc/demo-import/sample-data.php:92 inc/demo-import/sample-data.php:132 inc/demo-import/sample-data.php:152 inc/demo-import/sample-data.php:192
+msgid "Dhaka, Bangladesh"
+msgstr ""
+
+#: template-parts/home/how-it-works.php:15
+msgid "Discover"
+msgstr ""
+
+#: template-parts/home/hero.php:20
+msgid "Discover Your Next Experience"
+msgstr ""
+
+#: patterns/event-carousel.php:26
+msgid "Discover events"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:53
+msgid "Discover experiences.<br>Create memories."
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:63 template-parts/home/final-cta.php:16
+msgid "Discover thousands of events, experiences and unforgettable moments."
+msgstr ""
+
+#: inc/admin/admin.php:85
+msgid "Done"
+msgstr ""
+
+#: inc/demo-import/importer.php:254
+msgid "Doors open one hour before the listed start time."
+msgstr ""
+
+#: template-parts/home/digital-ticket.php:54
+msgid "ENTRY 06:30 PM"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:168
+msgid "Edit"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:214
+msgid "Edit profile"
+msgstr ""
+
+#: inc/admin/theme-settings.php:185
+msgid "Enabled"
+msgstr ""
+
+#: template-parts/home/how-it-works.php:25
+msgid "Enjoy"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:143 page-templates/organizer-dashboard.php:187
+msgid "Event"
+msgstr ""
+
+#: template-parts/home/event-journal.php:34
+msgid "Event Journal"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:321
+msgid "Event Organizer"
+msgstr ""
+
+#: mage-event/single-events.php:221
+msgid "Event booking requires the Evently Booking plugin."
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:143
+msgid "Event booking requires the Evently Booking plugin. %s"
+msgstr ""
+
+#: template-parts/archive/filters.php:31
+msgid "Event name…"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:102
+msgid "Event status"
+msgstr ""
+
+#: inc/admin/admin.php:35 inc/admin/admin.php:36 inc/integrations/elementor.php:46 inc/setup.php:93
+msgid "Evently"
+msgstr ""
+
+#: inc/blocks/blocks.php:31
+msgid "Evently Accent"
+msgstr ""
+
+#: inc/patterns/patterns.php:64
+msgid "Evently Blog Grid"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:55
+msgid "Evently Booking plugin (mage-eventpress)"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:30 inc/patterns/patterns.php:65
+msgid "Evently CTA"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-categories.php:29 inc/patterns/patterns.php:56
+msgid "Evently Categories"
+msgstr ""
+
+#: inc/blocks/blocks.php:55
+msgid "Evently Dark"
+msgstr ""
+
+#: inc/patterns/patterns.php:59
+msgid "Evently Event Calendar"
+msgstr ""
+
+#: inc/patterns/patterns.php:55
+msgid "Evently Event Carousel"
+msgstr ""
+
+#: inc/patterns/patterns.php:54
+msgid "Evently Event Grid"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-search.php:29 inc/patterns/patterns.php:53
+msgid "Evently Event Search"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:31
+msgid "Evently Events Grid"
+msgstr ""
+
+#: inc/patterns/patterns.php:57
+msgid "Evently Featured Event"
+msgstr ""
+
+#: inc/blocks/blocks.php:39
+msgid "Evently Ghost"
+msgstr ""
+
+#: inc/blocks/blocks.php:63
+msgid "Evently Hairline"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-hero.php:30 inc/patterns/patterns.php:52
+msgid "Evently Hero"
+msgstr ""
+
+#: inc/patterns/patterns.php:60
+msgid "Evently How It Works"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:60
+msgid "Evently Live"
+msgstr ""
+
+#: inc/patterns/patterns.php:58
+msgid "Evently Nearby Events"
+msgstr ""
+
+#: inc/patterns/patterns.php:62
+msgid "Evently Organizer CTA"
+msgstr ""
+
+#: inc/demo-import/importer.php:412
+msgid "Evently Primary Menu"
+msgstr ""
+
+#: inc/admin/admin.php:46 inc/admin/setup-wizard.php:34
+msgid "Evently Setup"
+msgstr ""
+
+#: inc/blocks/blocks.php:47
+msgid "Evently Surface"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:140
+msgid "Evently Tech"
+msgstr ""
+
+#: inc/patterns/patterns.php:63
+msgid "Evently Testimonials"
+msgstr ""
+
+#: inc/admin/admin.php:55 inc/admin/theme-settings.php:238
+msgid "Evently Theme Settings"
+msgstr ""
+
+#: inc/patterns/patterns.php:61
+msgid "Evently Ticket Preview"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:86
+msgid "Evently — All Events (available now)"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:87
+msgid "Evently — Concert (coming soon)"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:88
+msgid "Evently — Conference (coming soon)"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:90
+msgid "Evently — Sports (coming soon)"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:89
+msgid "Evently — Wedding (coming soon)"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:91
+msgid "Evently — Workshop (coming soon)"
+msgstr ""
+
+#: inc/admin/theme-settings.php:79 inc/demo-import/importer.php:352 inc/demo-import/importer.php:426 inc/demo-import/sample-data.php:302 inc/demo-import/sample-data.php:369 template-parts/footer/site-footer.php:21
+msgid "Events"
+msgstr ""
+
+#: inc/admin/theme-settings.php:27
+msgid "Events Page"
+msgstr ""
+
+#: template-parts/home/near-you.php:22
+msgid "Events happening near you"
+msgstr ""
+
+#: mage-event/taxonomy-category.php:81 mage-event/taxonomy-organozer.php:110 template-parts/archive/event-archive-content.php:167
+msgid "Events pagination"
+msgstr ""
+
+#: inc/admin/theme-settings.php:40
+msgid "Events per page"
+msgstr ""
+
+#: inc/demo-import/importer.php:79
+msgid "Events ready: %d"
+msgstr ""
+
+#: template-parts/home/hero.php:21
+msgid "Events worth"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:319
+msgid "Everything from discovering the event to receiving my ticket felt effortless. This is how event booking should work."
+msgstr ""
+
+#: template-parts/home/digital-ticket.php:26
+msgid "Everything you need for your next event, right in one beautiful digital ticket."
+msgstr ""
+
+#: template-parts/footer/site-footer.php:14
+msgid "Explore"
+msgstr ""
+
+#: template-parts/home/featured-event.php:32
+msgid "Explore Event"
+msgstr ""
+
+#: 404.php:24 inc/integrations/elementor/class-widget-cta.php:72 template-parts/home/final-cta.php:20 template-parts/home/hero.php:28
+msgid "Explore Events"
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:43
+msgid "Explore Organizer Tools"
+msgstr ""
+
+#: template-parts/home/categories.php:18
+msgid "Explore by experience"
+msgstr ""
+
+#: template-parts/home/calendar.php:25
+msgid "F"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:34
+msgid "FAQ"
+msgstr ""
+
+#: inc/admin/theme-settings.php:62
+msgid "Facebook URL"
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:23
+msgid "Family"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:78
+msgid "Featured"
+msgstr ""
+
+#: inc/admin/theme-settings.php:53
+msgid "Featured Event Date"
+msgstr ""
+
+#: inc/admin/theme-settings.php:52
+msgid "Featured Event Image URL"
+msgstr ""
+
+#: inc/admin/theme-settings.php:54
+msgid "Featured Event Location"
+msgstr ""
+
+#: inc/admin/theme-settings.php:55
+msgid "Featured Event Note"
+msgstr ""
+
+#: inc/admin/theme-settings.php:51
+msgid "Featured Event Title"
+msgstr ""
+
+#: template-parts/home/featured-event.php:24
+msgid "Featured Experience"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:329
+msgid "Festival Goer"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:258 inc/demo-import/sample-data.php:375
+msgid "Festivals"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:96 template-parts/archive/event-archive-content.php:191
+msgid "Filter events"
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:65
+msgid "Filter events by vibe"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:93 template-parts/archive/event-archive-content.php:194
+msgid "Filters"
+msgstr ""
+
+#: template-parts/home/how-it-works.php:16
+msgid "Find an event you love from thousands of curated experiences worldwide."
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:62
+msgid "Find an experience that matches your mood."
+msgstr ""
+
+#: template-parts/home/hero.php:22
+msgid "Find concerts, conferences, festivals and experiences happening around you."
+msgstr ""
+
+#: template-parts/home/categories.php:19
+msgid "Find something you'll love."
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:24
+msgid "Food"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:291
+msgid "Food & Culture Fair"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:106 inc/demo-import/sample-data.php:263
+msgid "Food & Dining"
+msgstr ""
+
+#: inc/admin/theme-settings.php:82
+msgid "Footer"
+msgstr ""
+
+#: inc/admin/theme-settings.php:58
+msgid "Footer Tagline"
+msgstr ""
+
+#: inc/setup.php:69
+msgid "Footer — Company"
+msgstr ""
+
+#: inc/setup.php:68
+msgid "Footer — Explore"
+msgstr ""
+
+#: inc/setup.php:70
+msgid "Footer — Support"
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:27
+msgid "For Organizers"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:200
+msgid "Founders Bangladesh"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:65
+msgid "Founders, investors and operators share what is actually working right now."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:180
+msgid "Frame & Light"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:197 inc/demo-import/sample-data.php:285 inc/integrations/booking-plugin.php:402
+msgid "Free"
+msgstr ""
+
+#: mage-event/single-events.php:183
+msgid "Frequently asked questions"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:77 inc/demo-import/sample-data.php:289
+msgid "From $129"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:291
+msgid "From $18"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:117
+msgid "From $20"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:286
+msgid "From $25"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:157
+msgid "From $30"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:57 inc/demo-import/sample-data.php:288
+msgid "From $49"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:177
+msgid "From $65"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:97
+msgid "From $75"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:137
+msgid "From $89"
+msgstr ""
+
+#: inc/integrations/booking-plugin.php:402
+msgid "From %s"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:64 inc/demo-import/sample-data.php:289
+msgid "Future Business Summit"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:80
+msgid "Future Forum"
+msgstr ""
+
+#: template-parts/home/featured-event.php:13
+msgid "Future Music Festival"
+msgstr ""
+
+#: inc/admin/theme-settings.php:76
+msgid "General"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:36
+msgid "Get Evently ready in a few steps: confirm the required plugins are active, then import the \"All Events\" demo — realistic categories, organizers, events with real ticket types, blog posts and the Events/Organizer Dashboard pages."
+msgstr ""
+
+#: inc/admin/setup-wizard.php:58
+msgid "Get the plugin"
+msgstr ""
+
+#: inc/demo-import/importer.php:290
+msgid "Great events don't happen by accident — they're the result of careful planning, a clear sense of who you're creating the experience for, and a healthy amount of flexibility when things don't go exactly to plan."
+msgstr ""
+
+#: inc/admin/theme-settings.php:41
+msgid "Grid"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:127
+msgid "Grid or list view"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:128
+msgid "Grid view"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:153
+msgid "Hatirjheel"
+msgstr ""
+
+#: inc/admin/theme-settings.php:77
+msgid "Header"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:53
+msgid "Heading"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:33
+msgid "Help Center"
+msgstr ""
+
+#: inc/admin/theme-settings.php:30
+msgid "Hero Image URL"
+msgstr ""
+
+#: inc/admin/theme-settings.php:31
+msgid "Hero Live Note"
+msgstr ""
+
+#: inc/admin/theme-settings.php:30
+msgid "Homepage hero photograph."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:368
+msgid "How to plan an unforgettable event"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:327
+msgid "I've tried every event app out there. Evently is the only one that actually feels premium. The ticket experience is beautiful."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:133
+msgid "ICCB"
+msgstr ""
+
+#: template-parts/home/event-journal.php:35
+msgid "Ideas, inspiration and stories from the world of events."
+msgstr ""
+
+#: inc/admin/setup-wizard.php:96
+msgid "Import Demo Content"
+msgstr ""
+
+#: inc/admin/admin.php:84
+msgid "Importing…"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:286
+msgid "Indie Folk Showcase"
+msgstr ""
+
+#: inc/admin/theme-settings.php:61
+msgid "Instagram URL"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:47
+msgid "Install & Activate"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:104
+msgid "International Food Festival"
+msgstr ""
+
+#: inc/demo-import/importer.php:255
+msgid "Is this event refundable?"
+msgstr ""
+
+#: inc/admin/theme-settings.php:67
+msgid "Lazy-load images"
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:19
+msgid "Learn"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:144
+msgid "Learn more"
+msgstr ""
+
+#: comments.php:51
+msgid "Leave a comment"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:82
+msgid "Leave empty to link to the Events page"
+msgstr ""
+
+#: inc/admin/theme-settings.php:41 inc/integrations/elementor/class-widget-event-grid.php:80
+msgid "List"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:131
+msgid "List view"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:36 template-parts/header/site-header.php:80 template-parts/header/site-header.php:128
+msgid "Log in"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:33
+msgid "Log in to access your Organizer Dashboard"
+msgstr ""
+
+#: template-parts/modals/search-modal.php:40
+msgid "Looking for filters by date, location or category? Use the %s on the homepage."
+msgstr ""
+
+#: template-parts/home/testimonials.php:15
+msgid "Loved by people who love great experiences."
+msgstr ""
+
+#: template-parts/home/calendar.php:25
+msgid "M"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:213
+msgid "Manage your name, email and password from your WordPress profile."
+msgstr ""
+
+#: template-parts/header/site-header.php:98
+msgid "Menu"
+msgstr ""
+
+#: inc/setup.php:71
+msgid "Mobile Navigation (optional override)"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:46 template-parts/home/choose-vibe.php:18
+msgid "Music"
+msgstr ""
+
+#: inc/setup.php:34
+msgid "Muted"
+msgstr ""
+
+#: template-parts/header/site-header.php:80 template-parts/header/site-header.php:128
+msgid "My Account"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:109
+msgid "My Events"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:174
+msgid "Next"
+msgstr ""
+
+#: template-parts/home/calendar.php:39
+msgid "Next month"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:180
+msgid "No attendees yet."
+msgstr ""
+
+#: inc/template-functions.php:196
+msgid "No events found"
+msgstr ""
+
+#: mage-event/taxonomy-category.php:68
+msgid "No events in this category yet"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:154
+msgid "No events match your filters"
+msgstr ""
+
+#: template-parts/content/content-none.php:18
+msgid "No results found"
+msgstr ""
+
+#: mage-event/taxonomy-organozer.php:97
+msgid "No upcoming events from this organizer"
+msgstr ""
+
+#: inc/demo-import/importer.php:95
+msgid "Note: %d demo image(s) could not be downloaded (the server could not reach the image host — check outbound HTTPS/SSL). Everything else imported normally; you can add featured images manually."
+msgstr ""
+
+#: template-parts/cards/empty-state.php:20
+msgid "Nothing here yet"
+msgstr ""
+
+#: template-parts/content/content-none.php:18
+msgid "Nothing published yet"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:150
+msgid "Nov 2, 2026"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:62
+msgid "Number of events"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:90
+msgid "Oct 10, 2026"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:170
+msgid "Oct 18, 2026"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:110
+msgid "Oct 3–4, 2026"
+msgstr ""
+
+#: archive.php:32 index.php:28 search.php:37
+msgid "Older →"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:96
+msgid "Once you publish an event, your revenue, ticket sales and attendees will show up here automatically."
+msgstr ""
+
+#: inc/setup.php:38
+msgid "Orange Accent"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:190
+msgid "Order"
+msgstr ""
+
+#: mage-event/single-events.php:236
+msgid "Organized by"
+msgstr ""
+
+#: template-parts/archive/filters.php:50
+msgid "Organizer / Venue"
+msgstr ""
+
+#: inc/demo-import/importer.php:356 page-templates/organizer-dashboard.php:67
+msgid "Organizer Dashboard"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:50
+msgid "Organizer access required"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:107
+msgid "Organizer dashboard sections"
+msgstr ""
+
+#: inc/demo-import/importer.php:429 mage-event/taxonomy-organozer.php:56 template-parts/footer/site-footer.php:24 template-parts/header/site-header.php:62 template-parts/header/site-header.php:125
+msgid "Organizers"
+msgstr ""
+
+#: inc/demo-import/importer.php:75
+msgid "Organizers ready: %d"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:108
+msgid "Overview"
+msgstr ""
+
+#: inc/demo-import/importer.php:87
+msgid "Pages ready: %d"
+msgstr ""
+
+#: single.php:50
+msgid "Pages:"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:73
+msgid "Pan Pacific Sonargaon"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:107
+msgid "Past"
+msgstr ""
+
+#: inc/admin/theme-settings.php:84
+msgid "Performance"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:164
+msgid "Photography Masterclass"
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:51
+msgid "Preview"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:173
+msgid "Previous"
+msgstr ""
+
+#: template-parts/home/calendar.php:38
+msgid "Previous month"
+msgstr ""
+
+#: inc/setup.php:37 template-parts/header/site-header.php:42 template-parts/header/site-header.php:56
+msgid "Primary"
+msgstr ""
+
+#: inc/admin/theme-settings.php:34
+msgid "Primary Accent"
+msgstr ""
+
+#: inc/setup.php:67
+msgid "Primary Navigation"
+msgstr ""
+
+#: inc/demo-import/importer.php:90
+msgid "Primary navigation menu created."
+msgstr ""
+
+#: inc/demo-import/importer.php:229
+msgid "Priority entry and a reserved area."
+msgstr ""
+
+#: template-parts/footer/site-footer.php:36 template-parts/footer/site-footer.php:111
+msgid "Privacy"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:189
+msgid "Qty"
+msgstr ""
+
+#: inc/template-functions.php:111
+msgid "Rated %s out of 5"
+msgstr ""
+
+#: template-parts/content/content.php:35 template-parts/home/event-journal.php:53
+msgid "Read article"
+msgstr ""
+
+#: template-parts/home/how-it-works.php:26
+msgid "Receive your digital ticket and enjoy the event worry-free."
+msgstr ""
+
+#: template-parts/content/related-posts.php:35
+msgid "Related articles"
+msgstr ""
+
+#: template-parts/event/related-events.php:45
+msgid "Related events"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:353 page-templates/organizer-dashboard.php:117 page-templates/organizer-dashboard.php:147
+msgid "Revenue"
+msgstr ""
+
+#: template-parts/home/calendar.php:25
+msgid "S"
+msgstr ""
+
+#: inc/admin/theme-settings.php:250
+msgid "Save Settings"
+msgstr ""
+
+#: template-parts/cards/event-card.php:63
+msgid "Save to favorites"
+msgstr ""
+
+#: mage-event/single-events.php:120
+msgid "Schedule"
+msgstr ""
+
+#: template-parts/archive/filters.php:30 template-parts/home/search-bar.php:59 template-parts/home/search-bar.php:67 template-parts/modals/search-modal.php:34
+msgid "Search"
+msgstr ""
+
+#: template-parts/header/site-header.php:76 template-parts/home/search-bar.php:65 template-parts/home/search-bar.php:58 template-parts/modals/search-modal.php:20
+msgid "Search events"
+msgstr ""
+
+#: template-parts/home/search-bar.php:37 template-parts/modals/search-modal.php:26 template-parts/modals/search-modal.php:32
+msgid "Search events, artists, venues…"
+msgstr ""
+
+#: template-parts/home/search-bar.php:66
+msgid "Search events…"
+msgstr ""
+
+#: search.php:21
+msgid "Search results for: %s"
+msgstr ""
+
+#: inc/admin/theme-settings.php:35
+msgid "Secondary Accent"
+msgstr ""
+
+#: template-parts/home/calendar.php:71 template-parts/home/calendar.php:112
+msgid "Select a date to see events"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:190
+msgid "Sep 14, 2026"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:130
+msgid "Sep 21, 2026"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:111
+msgid "Settings"
+msgstr ""
+
+#: inc/admin/admin.php:47
+msgid "Setup"
+msgstr ""
+
+#: inc/admin/theme-settings.php:44
+msgid "Show favorite button on cards"
+msgstr ""
+
+#: inc/admin/theme-settings.php:43
+msgid "Show location on cards"
+msgstr ""
+
+#: inc/admin/theme-settings.php:42
+msgid "Show price on cards"
+msgstr ""
+
+#: inc/admin/theme-settings.php:45
+msgid "Show rating on featured cards"
+msgstr ""
+
+#: inc/admin/theme-settings.php:48
+msgid "Show related events"
+msgstr ""
+
+#: inc/admin/theme-settings.php:81
+msgid "Single Event"
+msgstr ""
+
+#: inc/template-hooks.php:40
+msgid "Skip to content"
+msgstr ""
+
+#: inc/admin/theme-settings.php:83
+msgid "Social"
+msgstr ""
+
+#: mage-event/single-events.php:211 template-parts/cards/event-card.php:71
+msgid "Sold out"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:335
+msgid "Sold out our 500-person conference in 48 hours. The dashboard made it simple to track everything in real time."
+msgstr ""
+
+#: inc/admin/admin.php:86
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:121
+msgid "Sort by"
+msgstr ""
+
+#: mage-event/single-events.php:127
+msgid "Speakers"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:146 inc/demo-import/sample-data.php:253 template-parts/home/choose-vibe.php:22
+msgid "Sports"
+msgstr ""
+
+#: inc/demo-import/importer.php:210
+msgid "Standard admission."
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:36
+msgid "Start Selling"
+msgstr ""
+
+#: inc/demo-import/importer.php:291
+msgid "Start with the outcome you want attendees to leave with, then work backwards to the logistics: venue, schedule, ticketing and promotion all follow from that single decision."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:193
+msgid "Startup Bangladesh Hub"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:184
+msgid "Startup Founders Meetup"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:285
+msgid "Startup Networking Night"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:145
+msgid "Status"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:105
+msgid "Street food, chef demos and tastings from over forty kitchens."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:93
+msgid "Studio 9"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:100
+msgid "Studio Nine Collective"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:44 inc/demo-import/sample-data.php:288
+msgid "Summer Music Festival"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:16
+msgid "Support"
+msgstr ""
+
+#: inc/setup.php:32
+msgid "Surface"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:173
+msgid "Sylhet Arts Centre"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:172
+msgid "Sylhet, Bangladesh"
+msgstr ""
+
+#: template-parts/home/calendar.php:25
+msgid "T"
+msgstr ""
+
+#: template-parts/home/digital-ticket.php:52
+msgid "TICKET TYPE"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:120
+msgid "Taste of the World"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:124
+msgid "Tech Innovation Conference"
+msgstr ""
+
+#: template-parts/footer/site-footer.php:35 template-parts/footer/site-footer.php:112
+msgid "Terms"
+msgstr ""
+
+#: inc/setup.php:35
+msgid "Text"
+msgstr ""
+
+#: inc/demo-import/importer.php:58
+msgid "The Evently Booking plugin is not active — install/activate it before importing demo events."
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:85
+msgid "The Organizer Dashboard requires the Evently Booking plugin to be active."
+msgstr ""
+
+#: inc/admin/setup-wizard.php:135
+msgid "The demo importer is unavailable."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:380
+msgid "The future of live events"
+msgstr ""
+
+#: inc/admin/theme-settings.php:27
+msgid "The page using the \"Evently — Event Archive\" template. Auto-detected if left unset."
+msgstr ""
+
+#: inc/admin/admin.php:56
+msgid "Theme Settings"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:134
+msgid "These figures are calculated from your real ticket orders — there is no simulated or placeholder data on this page."
+msgstr ""
+
+#: 404.php:18
+msgid "This page took a wrong turn."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:45
+msgid "Three days of live music across five stages, headlined by international touring acts."
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:188
+msgid "Ticket"
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:65
+msgid "Ticket Sales — Aug 2026"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:303 inc/demo-import/sample-data.php:354 page-templates/organizer-dashboard.php:121 page-templates/organizer-dashboard.php:146
+msgid "Tickets Sold"
+msgstr ""
+
+#: inc/demo-import/importer.php:255
+msgid "Tickets are refundable up to 7 days before the event."
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:52
+msgid "Title"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:106
+msgid "Today"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:129
+msgid "Total Events"
+msgstr ""
+
+#: template-parts/home/choose-vibe.php:25
+msgid "Travel"
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-event-grid.php:55 template-parts/home/trending-events.php:18
+msgid "Trending right now"
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:155
+msgid "Try a different category, city, or clear your search."
+msgstr ""
+
+#: template-parts/content/content-none.php:20
+msgid "Try a different search term, or browse events and articles from the homepage."
+msgstr ""
+
+#: inc/template-functions.php:197
+msgid "Try adjusting your search or check back soon — new events are added regularly."
+msgstr ""
+
+#: template-parts/home/organizer-cta.php:28
+msgid "Turn your event into an experience."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:125
+msgid "Two stages, six tracks — product, AI, infrastructure and design engineering."
+msgstr ""
+
+#: template-parts/archive/event-archive-content.php:105
+msgid "Upcoming"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:355 page-templates/organizer-dashboard.php:125
+msgid "Upcoming Events"
+msgstr ""
+
+#: mage-event/taxonomy-organozer.php:89
+msgid "Upcoming events"
+msgstr ""
+
+#: template-parts/home/near-you.php:26
+msgid "Use my location"
+msgstr ""
+
+#: template-parts/home/digital-ticket.php:53
+msgid "VIP PASS"
+msgstr ""
+
+#: mage-event/single-events.php:145
+msgid "Venue"
+msgstr ""
+
+#: inc/demo-import/importer.php:428 template-parts/footer/site-footer.php:23 template-parts/header/site-header.php:61 template-parts/header/site-header.php:124
+msgid "Venues"
+msgstr ""
+
+#: template-parts/home/digital-ticket.php:30
+msgid "View My Tickets"
+msgstr ""
+
+#: template-parts/home/event-journal.php:38 template-parts/home/trending-events.php:20
+msgid "View all"
+msgstr ""
+
+#: template-parts/home/near-you.php:31
+msgid "View all events"
+msgstr ""
+
+#: mage-event/single-events.php:175
+msgid "View on map"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:115
+msgid "View the Events page →"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:114
+msgid "View your homepage →"
+msgstr ""
+
+#: template-parts/home/calendar.php:25
+msgid "W"
+msgstr ""
+
+#: 404.php:19
+msgid "We couldn't find what you were looking for. It may have moved, sold out, or never existed."
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:68
+msgid "Welcome back, %s."
+msgstr ""
+
+#: template-parts/home/search-bar.php:36
+msgid "What"
+msgstr ""
+
+#: inc/demo-import/importer.php:254
+msgid "What time do doors open?"
+msgstr ""
+
+#: template-parts/home/calendar.php:30
+msgid "What's happening this month"
+msgstr ""
+
+#: template-parts/home/search-bar.php:44
+msgid "When"
+msgstr ""
+
+#: template-parts/home/search-bar.php:40
+msgid "Where"
+msgstr ""
+
+#: inc/admin/theme-settings.php:26
+msgid "Where the header/footer \"Create Event\" buttons link. Leave empty to use the admin new-event screen."
+msgstr ""
+
+#: inc/setup.php:31
+msgid "White"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:44
+msgid "WooCommerce"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:190
+msgid "WooCommerce installed and activated."
+msgstr ""
+
+#: inc/admin/setup-wizard.php:165
+msgid "WooCommerce is already active."
+msgstr ""
+
+#: inc/demo-import/sample-data.php:86 inc/demo-import/sample-data.php:166
+msgid "Workshop"
+msgstr ""
+
+#: inc/demo-import/sample-data.php:268
+msgid "Workshops"
+msgstr ""
+
+#: inc/admin/theme-settings.php:63
+msgid "X (Twitter) URL"
+msgstr ""
+
+#: inc/admin/setup-wizard.php:131
+msgid "You do not have permission to do this."
+msgstr ""
+
+#: inc/admin/setup-wizard.php:161
+msgid "You do not have permission to install plugins."
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:95
+msgid "You haven't created any events yet"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:34
+msgid "You'll need an account to view your events, tickets and attendees."
+msgstr ""
+
+#: inc/admin/theme-settings.php:64
+msgid "YouTube URL"
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:51
+msgid "Your account doesn't currently have permission to create or manage events. Contact the site administrator if you believe this is a mistake."
+msgstr ""
+
+#: template-parts/home/digital-ticket.php:25
+msgid "Your experience."
+msgstr ""
+
+#: inc/integrations/elementor/class-widget-cta.php:54 template-parts/home/final-cta.php:15
+msgid "Your next great experience is waiting."
+msgstr ""
+
+#: template-parts/home/digital-ticket.php:25
+msgid "Your ticket."
+msgstr ""
+
+#: inc/admin/theme-settings.php:31
+msgid "e.g. \"2,840 tickets sold today\"."
+msgstr ""
+
+#: template-parts/modals/search-modal.php:41
+msgid "full search"
+msgstr ""
+
+#: template-parts/home/hero.php:21
+msgid "remembering."
+msgstr ""
+
+#: template-parts/footer/site-footer.php:104
+msgid "© %1$s %2$s. All rights reserved."
+msgstr ""
+
+#: page-templates/organizer-dashboard.php:163
+msgid "—"
+msgstr ""
+
+#: inc/admin/theme-settings.php:209
+msgid "— Auto-detect —"
+msgstr ""
+
+#: archive.php:32 index.php:28 search.php:37
+msgid "← Newer"
+msgstr ""
+

@@ -1,0 +1,146 @@
+/**
+ * Organizer Dashboard (brief §23) — real stats, real events table, real
+ * attendees table. Depends on variables/typography/layout/components.
+ */
+
+.evently-organizer-dashboard-page {
+	padding-top: calc(var(--evently-header-height) + var(--evently-space-4));
+	min-height: 60vh;
+}
+
+.evently-org-dash-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: var(--evently-space-3);
+	margin-bottom: var(--evently-space-5);
+}
+
+.evently-org-dash-header h1 {
+	margin-bottom: 4px;
+}
+
+.evently-org-dash-header p {
+	color: var(--evently-muted);
+	margin: 0;
+}
+
+.evently-org-dash-tabs {
+	display: flex;
+	gap: 8px;
+	border-bottom: 1px solid var(--evently-border);
+	margin-bottom: var(--evently-space-5);
+	overflow-x: auto;
+}
+
+.evently-org-dash-tab {
+	background: none;
+	border: none;
+	font-family: inherit;
+	font-size: var(--evently-fs-label);
+	font-weight: 600;
+	color: var(--evently-muted);
+	padding: 10px 4px;
+	margin-right: var(--evently-space-4);
+	border-bottom: 2px solid transparent;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.evently-org-dash-tab:hover {
+	color: var(--evently-text);
+}
+
+.evently-org-dash-tab.is-active {
+	color: var(--evently-text);
+	border-color: var(--evently-primary);
+}
+
+.evently-org-dash-stats {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--evently-space-3);
+	margin-bottom: var(--evently-space-3);
+}
+
+.evently-org-dash-stat {
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+}
+
+.evently-org-dash-stat__label {
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+	margin-bottom: 8px;
+}
+
+.evently-org-dash-stat__value {
+	font-size: 26px;
+	font-weight: 800;
+	color: var(--evently-text);
+}
+
+.evently-org-dash-note {
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-small);
+}
+
+.evently-org-dash-table-wrap {
+	overflow-x: auto;
+}
+
+.evently-org-dash-table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+}
+
+.evently-org-dash-table th,
+.evently-org-dash-table td {
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--evently-border);
+	text-align: left;
+	font-size: var(--evently-fs-small);
+}
+
+.evently-org-dash-table thead th {
+	background: var(--evently-surface);
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--evently-muted);
+}
+
+.evently-org-dash-table__event-link {
+	font-weight: 700;
+	color: var(--evently-text);
+}
+
+.evently-org-dash-table__event-link:hover {
+	color: var(--evently-primary);
+}
+
+.evently-org-dash-table__attendee {
+	font-weight: 600;
+}
+
+.evently-org-dash-table__attendee-email {
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-caption);
+}
+
+@media (max-width: 1000px) {
+	.evently-org-dash-stats {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 640px) {
+	.evently-org-dash-header {
+		flex-direction: column;
+	}
+}

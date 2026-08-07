@@ -1,0 +1,37 @@
+# Event Booking Integration
+
+Evently is a presentation-only theme. All booking business logic — pricing, availability, cart, checkout, attendee records, order status — belongs to the event-booking plugin and (optionally) WooCommerce. The theme never re-implements any of it. This document explains exactly how the two integration mechanisms work, so you can extend the theme safely or point it at a different (compatible) plugin.
+
+## The plugin this theme was built against
+
+mage-eventpress ("Event Booking Manager for WooCommerce" by MagePeople) — CPT `mep_events`, taxonomies `mep_cat` (category) / `mep_org` (organizer/venue) / `mep_tag`, prefixes `mep_` / `mpwem_` / `MPWEM_` / `MEP_`.
+
+Two important, non-obvious facts about it that shaped this integration:
+
+1. **`mep_events` is registered with `has_archive => false`.** There is no native "browse all events" URL. The plugin's own intended pattern is a WordPress Page with its `[event-list]`/`[events_list]` shortcode — Evently's equivalent is `page-templates/event-archive.php`, a real Page Template, found automatically by `evently_get_events_page_url()`. Never call `get_post_type_archive_link( 'mep_events' )` directly in a template — it returns `false` on a default install.
+2. **The plugin has its own template-override folder convention**, unrelated to WordPress's normal template hierarchy: `MPWEM_Functions::template_path( $file )` checks `get_stylesheet_directory() . '/mage-event/' . $file` before falling back to its own bundled template. Evently's `mage-event/event-archive.php`, `mage-event/single-events.php`, `mage-event/taxonomy-category.php`, and `mage-event/taxonomy-organozer.php` (filename intentionally matches the plugin's own misspelling) are registered this way — they are not reachable via `is_page_template()` or the classic hierarchy.
+
+## `Evently_Booking_Adapter` — the only door into plugin data
+
+`inc/integrations/booking-plugin.php` defines every method a template needs: `get_event_card_data()`, `get_events_for_cards()`, `search_events()`, `get_ticket_types()`, `get_min_price()`, `get_availability_status()`, `get_address()`, `get_organizer_term()`, `get_faqs()`, `get_organizer_stats()`, `render_booking_form()`, and more. Every method:
+
+- Starts with `if ( ! self::is_active() ) { return <safe empty value>; }` — so nothing fatals when the plugin is inactive.
+- Reads plugin data only through the plugin's own public statics (`MPWEM_Functions`, `MPWEM_Query`, `MPWEM_Global_Function`) or public hooks — never raw SQL, never guessed meta keys.
+
+**No template should call `MPWEM_*`/`mep_*` anything directly.** If you need a new piece of plugin data in a template, add a method to the adapter first.
+
+## The one thing the adapter deliberately does NOT rebuild
+
+`Evently_Booking_Adapter::render_booking_form( $event_id )` captures the output of `do_action( 'mpwem_registration', $event_id, $meta )` — the plugin's own real ticket-selection + add-to-cart form (early-bird windows, member-only gating, cart-state detection, WooCommerce-vs-native-checkout branching all live there). `assets/css/single-event.css` restyles that real markup by its real class names (`.mpwem_booking_panel`, `.mep_ticket_item`, `.qtyIncDec`, `.mpwem_summery`, …) documented inline in that stylesheet. If you need to change how tickets are selected, that's a plugin-side change, not a theme-side one.
+
+## Swapping in a different booking plugin
+
+1. Rewrite `Evently_Booking_Adapter`'s method bodies to call your plugin's real API (keep the same public method signatures so every template keeps working unmodified).
+2. Update `evently_has_booking_plugin()` (`inc/helpers.php`) to detect your plugin instead of `mep_events`.
+3. If your plugin has its own template-override convention, replace the `mage-event/` files; if it uses the normal WordPress template hierarchy instead, you can delete `mage-event/` entirely and add classic `single-{post_type}.php` / `archive-{post_type}.php` files instead.
+4. `render_booking_form()` is the one method it's fine to actually reimplement, if your plugin's checkout form isn't hook-renderable the same way — everything else should stay a thin, faithful wrapper.
+
+## Confirmed absent from the inspected plugin (so Evently never fakes them)
+
+- **No organizer-facing frontend dashboard.** It's a listed paid upsell in the plugin's own admin screens. Evently's Organizer Dashboard (`page-templates/organizer-dashboard.php`) is real, but scoped to what the data model actually supports: real revenue/ticket stats (via `MPWEM_Functions::registration_stats()`) for events the logged-in user authored — not a simulated multi-tenant SaaS dashboard.
+- **No QR-code / digital-ticket feature.** Also a separate paid add-on. The homepage's Digital Ticket showcase is explicitly decorative marketing artwork (`aria-hidden`, documented in its own file header) — never presented as a real, scannable ticket.

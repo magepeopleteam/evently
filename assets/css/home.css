@@ -1,0 +1,770 @@
+/**
+ * Homepage-only sections: Categories, Featured Event, Choose Your Vibe,
+ * Event Calendar, How It Works, Digital Ticket, Organizer CTA, Stats,
+ * Testimonials, Event Journal, Final CTA. Depends on variables/typography/
+ * layout/components/events.
+ */
+
+/* ── Categories (bento grid) ──────────────────────────────────────── */
+
+.cat-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 260px);
+	gap: var(--evently-space-2);
+}
+
+.cat-card {
+	border-radius: var(--evently-radius-lg);
+	overflow: hidden;
+	position: relative;
+	background: var(--evently-border);
+}
+
+.cat-card--wide {
+	grid-column: span 2;
+}
+
+.cat-card img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform var(--evently-transition-slow) var(--evently-ease);
+}
+
+.cat-card:hover img {
+	transform: scale(1.05);
+}
+
+.cat-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.1) 60%, transparent 100%);
+}
+
+.cat-label {
+	position: absolute;
+	inset: 0;
+	padding: var(--evently-space-3) var(--evently-space-4);
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	color: var(--evently-white);
+}
+
+.cat-label span:first-child {
+	font-size: 20px;
+	font-weight: 700;
+	position: relative;
+}
+
+.cat-arrow {
+	font-size: 20px;
+	transition: transform var(--evently-transition-fast) ease;
+	display: inline-block;
+	position: relative;
+}
+
+.cat-card:hover .cat-arrow {
+	transform: translateX(5px);
+}
+
+/* ── Featured Event (full-bleed) ─────────────────────────────────── */
+
+.featured-section {
+	position: relative;
+	height: 600px;
+	overflow: hidden;
+	display: block;
+}
+
+.featured-section img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.8s ease;
+}
+
+.featured-section:hover img,
+.featured-section:focus-within img {
+	transform: scale(1.03);
+}
+
+.featured-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+}
+
+.featured-content {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	padding: 0 clamp(20px, 5vw, 80px);
+}
+
+.featured-inner {
+	max-width: 600px;
+}
+
+.featured-title {
+	font-size: clamp(2.25rem, 5vw, 4rem);
+	color: var(--evently-white);
+	line-height: 1.06;
+	margin-bottom: var(--evently-space-3);
+}
+
+.featured-meta {
+	display: flex;
+	gap: var(--evently-space-3);
+	flex-wrap: wrap;
+	margin-bottom: var(--evently-space-1);
+}
+
+.featured-meta span {
+	font-size: 16px;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.featured-attendees {
+	font-size: var(--evently-fs-small);
+	color: rgba(255, 255, 255, 0.6);
+	margin-bottom: var(--evently-space-5);
+}
+
+/* ── Choose Your Vibe ─────────────────────────────────────────────── */
+
+.vibe-filters {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-bottom: var(--evently-space-6);
+}
+
+/* ── Near You ─────────────────────────────────────────────────────── */
+
+.near-loc {
+	display: flex;
+	align-items: center;
+	gap: var(--evently-space-2);
+	flex-wrap: wrap;
+	margin-top: 10px;
+}
+
+.near-loc span {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 16px;
+	color: var(--evently-muted);
+}
+
+/* ── Calendar ─────────────────────────────────────────────────────── */
+
+.cal-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--evently-space-5);
+	align-items: start;
+}
+
+.cal-widget {
+	background: var(--evently-white);
+	border-radius: var(--evently-radius-lg);
+	border: 1px solid var(--evently-border);
+	padding: var(--evently-space-4);
+}
+
+.cal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--evently-space-4);
+}
+
+.cal-month {
+	font-size: 20px;
+	font-weight: 700;
+	margin: 0;
+}
+
+.cal-nav {
+	display: flex;
+	gap: 8px;
+}
+
+.cal-nav button {
+	background: var(--evently-surface);
+	border: none;
+	border-radius: 10px;
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cal-nav button:hover {
+	background: var(--evently-border);
+}
+
+.cal-days-head,
+.cal-days {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 4px;
+}
+
+.cal-days-head {
+	margin-bottom: 8px;
+}
+
+.cal-day-name {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--evently-muted);
+	text-align: center;
+	padding: 4px 0;
+	letter-spacing: 0.04em;
+}
+
+.cal-day {
+	border: none;
+	border-radius: 10px;
+	aspect-ratio: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 3px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--evently-text);
+	background: transparent;
+	font-family: inherit;
+	transition: background var(--evently-transition-fast) ease;
+}
+
+.cal-day:hover {
+	background: var(--evently-surface);
+}
+
+.cal-day.is-selected {
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	font-weight: 700;
+}
+
+.cal-dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--evently-primary);
+}
+
+.cal-day.is-selected .cal-dot {
+	background: rgba(255, 255, 255, 0.65);
+}
+
+.cal-events-panel {
+	min-height: 200px;
+}
+
+.cal-event-date {
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	color: var(--evently-muted);
+	margin-bottom: var(--evently-space-3);
+	text-transform: uppercase;
+}
+
+.cal-event-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-2);
+}
+
+.cal-event-row {
+	background: var(--evently-white);
+	border-radius: var(--evently-radius-md);
+	border: 1px solid var(--evently-border);
+	padding: 20px 24px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--evently-space-2);
+	flex-wrap: wrap;
+}
+
+.cal-event-row h4 {
+	font-size: 16px;
+	margin-bottom: 4px;
+}
+
+.cal-event-row p {
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+	margin: 0;
+}
+
+.cal-empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 200px;
+	color: var(--evently-muted);
+	font-size: 15px;
+	text-align: center;
+}
+
+/* ── How It Works ─────────────────────────────────────────────────── */
+
+.steps-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	position: relative;
+}
+
+.steps-line {
+	position: absolute;
+	top: 36px;
+	left: 16%;
+	right: 16%;
+	height: 1px;
+	background: var(--evently-border);
+}
+
+.step {
+	text-align: center;
+	padding: 0 var(--evently-space-4);
+}
+
+.step-num {
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	border: 1px solid var(--evently-border);
+	background: var(--evently-white);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto var(--evently-space-4);
+	position: relative;
+	z-index: 1;
+}
+
+.step-num span {
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.04em;
+}
+
+.step-label {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	color: var(--evently-primary);
+	margin-bottom: var(--evently-space-2);
+	text-transform: uppercase;
+}
+
+.step p {
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--evently-muted);
+	margin: 0;
+}
+
+/* ── Digital Ticket showcase ──────────────────────────────────────── */
+
+.ticket-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--evently-space-8);
+	align-items: center;
+}
+
+.ticket-ui-wrap {
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.ticket-ui {
+	background: var(--evently-dark);
+	border-radius: var(--evently-radius-hero);
+	padding: 36px 32px;
+	width: 100%;
+	max-width: 360px;
+	position: relative;
+	overflow: hidden;
+	box-shadow: var(--evently-shadow-deep);
+}
+
+.ticket-deco-1,
+.ticket-deco-2 {
+	position: absolute;
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.ticket-deco-1 {
+	top: -40px;
+	right: -40px;
+	width: 160px;
+	height: 160px;
+	background: var(--evently-primary-soft);
+}
+
+.ticket-deco-2 {
+	bottom: -30px;
+	left: -30px;
+	width: 120px;
+	height: 120px;
+	background: var(--evently-orange-soft);
+}
+
+.ticket-body {
+	position: relative;
+}
+
+.ticket-brand {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	color: var(--evently-primary);
+	margin-bottom: var(--evently-space-3);
+}
+
+.ticket-event {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	color: rgba(255, 255, 255, 0.45);
+	margin-bottom: 8px;
+	text-transform: uppercase;
+}
+
+.ticket-date-title {
+	font-size: 28px;
+	font-weight: 800;
+	color: var(--evently-white);
+	letter-spacing: -0.02em;
+	margin-bottom: 4px;
+}
+
+.ticket-location {
+	font-size: 15px;
+	color: rgba(255, 255, 255, 0.55);
+	margin-bottom: var(--evently-space-4);
+}
+
+.ticket-divider {
+	height: 1px;
+	background: rgba(255, 255, 255, 0.1);
+	margin-bottom: var(--evently-space-3);
+	position: relative;
+}
+
+.ticket-divider::before,
+.ticket-divider::after {
+	content: '';
+	position: absolute;
+	top: -10px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--evently-surface);
+}
+
+.ticket-divider::before {
+	left: -32px;
+}
+
+.ticket-divider::after {
+	right: -32px;
+}
+
+.ticket-foot {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: var(--evently-space-2);
+}
+
+.ticket-type-lbl {
+	font-size: 11px;
+	color: rgba(255, 255, 255, 0.4);
+	margin-bottom: 4px;
+	letter-spacing: 0.08em;
+}
+
+.ticket-type {
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--evently-white);
+}
+
+.ticket-entry {
+	font-size: var(--evently-fs-caption);
+	color: rgba(255, 255, 255, 0.45);
+	margin-top: 4px;
+}
+
+.ticket-qr {
+	background: var(--evently-white);
+	border-radius: 12px;
+	padding: 10px;
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 2px;
+	width: 84px;
+	height: 84px;
+	flex-shrink: 0;
+}
+
+.ticket-qr-cell {
+	border-radius: 1px;
+	background: transparent;
+}
+
+.ticket-qr-cell.is-on {
+	background: #111;
+}
+
+.ticket-num {
+	margin-top: var(--evently-space-3);
+	padding: 10px 14px;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 10px;
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.35);
+	letter-spacing: 0.06em;
+}
+
+.ticket-shadow-card {
+	position: absolute;
+	bottom: -20px;
+	right: -20px;
+	z-index: -1;
+	background: var(--evently-primary);
+	border-radius: var(--evently-radius-hero);
+	width: 320px;
+	height: 90%;
+	opacity: 0.25;
+}
+
+/* ── Organizer CTA + dashboard mockup ─────────────────────────────── */
+
+.org-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--evently-space-8);
+	align-items: center;
+}
+
+.org-sub {
+	color: rgba(255, 255, 255, 0.5);
+	max-width: 420px;
+	font-size: 17px;
+	line-height: 1.65;
+	margin-bottom: var(--evently-space-6);
+}
+
+.org-btns {
+	display: flex;
+	gap: var(--evently-space-2);
+	flex-wrap: wrap;
+}
+
+.dashboard {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+}
+
+.dashboard-title {
+	font-size: 13px;
+	font-weight: 700;
+	color: rgba(255, 255, 255, 0.5);
+	letter-spacing: 0.04em;
+	margin-bottom: var(--evently-space-4);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--evently-space-2);
+}
+
+.dashboard-badge {
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.4);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: var(--evently-radius-pill);
+	padding: 3px 10px;
+	white-space: nowrap;
+}
+
+.dash-stats {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--evently-space-2);
+	margin-bottom: var(--evently-space-4);
+}
+
+.dash-stat {
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: var(--evently-radius-md);
+	padding: 18px 20px;
+}
+
+.dash-stat-lbl {
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.4);
+	margin-bottom: 8px;
+}
+
+.dash-stat-val {
+	font-size: 22px;
+	font-weight: 800;
+	color: var(--evently-white);
+	letter-spacing: -0.02em;
+	margin-bottom: 4px;
+}
+
+.dash-stat-chg {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--evently-live);
+}
+
+.dash-chart {
+	background: rgba(255, 255, 255, 0.04);
+	border-radius: var(--evently-radius-md);
+	padding: 16px 20px;
+}
+
+.dash-chart-lbl {
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.4);
+	margin-bottom: var(--evently-space-2);
+}
+
+.dash-chart svg {
+	width: 100%;
+	height: 80px;
+	display: block;
+}
+
+/* ── Stats ────────────────────────────────────────────────────────── */
+
+.stats-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--evently-space-5);
+	text-align: center;
+}
+
+.stat-val {
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	line-height: 1;
+}
+
+.stat-lbl {
+	font-size: 15px;
+	color: var(--evently-muted);
+	margin-top: var(--evently-space-2);
+	font-weight: 500;
+}
+
+/* ── Testimonials ─────────────────────────────────────────────────── */
+
+.testi-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--evently-space-3);
+}
+
+.testi-card {
+	background: var(--evently-white);
+	border-radius: var(--evently-radius-lg);
+	border: 1px solid var(--evently-border);
+	padding: 32px 28px;
+}
+
+.testi-text {
+	font-size: 16px;
+	line-height: 1.65;
+	margin-bottom: var(--evently-space-4);
+}
+
+.testi-author {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+
+.testi-name {
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.testi-role {
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+}
+
+/* Event Journal card styles moved to blog.css (shared with the real blog
+   archive/index, not just the homepage teaser section) — see that file. */
+
+/* ── Final CTA ────────────────────────────────────────────────────── */
+
+.cta-section {
+	padding: var(--evently-space-10) var(--evently-pad);
+	background: var(--evently-dark);
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+}
+
+.cta-glow {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 600px;
+	height: 600px;
+	border-radius: 50%;
+	background: var(--evently-primary-soft);
+	filter: blur(80px);
+	pointer-events: none;
+}
+
+.cta-inner {
+	position: relative;
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.cta-title {
+	font-size: clamp(2.5rem, 6vw, 5rem);
+	letter-spacing: -0.04em;
+	color: var(--evently-white);
+	line-height: 1.05;
+	margin-bottom: var(--evently-space-3);
+}
+
+.cta-sub {
+	font-size: 19px;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.5);
+	margin-bottom: var(--evently-space-6);
+}

@@ -1,0 +1,322 @@
+/**
+ * The Evently event card — one component, five layout variants
+ * (default/featured/horizontal/compact/list — "mobile" aliases "default",
+ * see template-parts/cards/event-card.php). Depends on variables.css,
+ * typography.css, components.css.
+ */
+
+.event-card {
+	display: flex;
+	flex-direction: column;
+	border-radius: var(--evently-radius-md);
+	overflow: hidden;
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	transition: transform var(--evently-transition-base) ease, box-shadow var(--evently-transition-base) ease;
+	position: relative;
+}
+
+.event-card:hover,
+.event-card:focus-within {
+	transform: translateY(-4px);
+	box-shadow: var(--evently-shadow-card-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.event-card:hover,
+	.event-card:focus-within {
+		transform: none;
+	}
+}
+
+.event-img {
+	position: relative;
+	overflow: hidden;
+	height: 220px;
+	background: var(--evently-surface);
+	flex-shrink: 0;
+}
+
+.event-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform var(--evently-transition-slow) ease;
+}
+
+.event-card:hover .event-img img {
+	transform: scale(1.04);
+}
+
+.event-img__placeholder {
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, var(--evently-surface), var(--evently-border));
+}
+
+.event-cat {
+	position: absolute;
+	top: 14px;
+	left: 14px;
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(8px);
+	border-radius: 8px;
+	padding: 4px 10px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--evently-text);
+}
+
+.event-fav {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	font-size: 15px;
+	color: var(--evently-text);
+}
+
+.event-fav .evently-icon-filled {
+	display: none;
+	color: var(--evently-error);
+}
+
+.event-fav[aria-pressed='true'] .evently-icon-outline {
+	display: none;
+}
+
+.event-fav[aria-pressed='true'] .evently-icon-filled {
+	display: block;
+}
+
+.event-availability {
+	position: absolute;
+	bottom: 14px;
+	left: 14px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 5px 10px;
+	border-radius: 8px;
+	backdrop-filter: blur(8px);
+}
+
+.event-availability--low-stock {
+	background: rgba(245, 158, 11, 0.9);
+	color: #fff;
+}
+
+.event-availability--sold-out {
+	background: rgba(17, 17, 19, 0.85);
+	color: #fff;
+}
+
+.event-body {
+	padding: 18px 20px 20px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.event-date {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--evently-primary);
+	margin-bottom: 6px;
+	letter-spacing: 0.04em;
+}
+
+.event-title {
+	font-size: 17px;
+	font-weight: 700;
+	margin-bottom: 8px;
+	line-height: 1.3;
+	letter-spacing: -0.01em;
+}
+
+.event-title__link {
+	color: var(--evently-text);
+}
+
+.event-title__link:hover {
+	color: var(--evently-primary);
+}
+
+.event-loc {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+	margin-bottom: 14px;
+}
+
+.event-loc svg {
+	flex-shrink: 0;
+	color: var(--evently-muted);
+}
+
+.evently-stars {
+	margin-bottom: 10px;
+}
+
+.event-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: auto;
+	gap: var(--evently-space-2);
+}
+
+.event-price {
+	font-size: 16px;
+	font-weight: 800;
+	color: var(--evently-text);
+}
+
+.event-book {
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	border-radius: var(--evently-radius-pill);
+	padding: 8px 16px;
+	font-size: var(--evently-fs-caption);
+	font-weight: 600;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	transition: opacity var(--evently-transition-fast) ease;
+	flex-shrink: 0;
+}
+
+.event-book:hover {
+	opacity: 0.85;
+}
+
+.event-book .evently-arrow {
+	transition: transform var(--evently-transition-fast) ease;
+}
+
+.event-book:hover .evently-arrow {
+	transform: translateX(3px);
+}
+
+/* ── Variant: featured — larger image, room for a rating row ─────── */
+
+.event-card--featured .event-img {
+	height: 280px;
+}
+
+.event-card--featured .event-title {
+	font-size: 20px;
+}
+
+/* ── Variant: compact — tighter, for sidebars / related-events rails ─ */
+
+.event-card--compact .event-img {
+	height: 140px;
+}
+
+.event-card--compact .event-body {
+	padding: 14px 16px 16px;
+}
+
+.event-card--compact .event-title {
+	font-size: 15px;
+	margin-bottom: 6px;
+}
+
+.event-card--compact .event-loc {
+	margin-bottom: 10px;
+}
+
+.evently-scroll-row .event-card--compact {
+	width: 260px;
+	flex: 0 0 260px;
+}
+
+/* ── Variant: horizontal — image left, content right ─────────────── */
+
+.event-card--horizontal {
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.event-card--horizontal .event-img {
+	height: auto;
+	width: 220px;
+	flex-shrink: 0;
+}
+
+.event-card--horizontal .event-body {
+	flex: 1;
+	justify-content: center;
+}
+
+/* ── Variant: list — thin row, small square thumbnail, for the Event
+   Archive's list view toggle (brief §15) ────────────────────────── */
+
+.event-card--list {
+	flex-direction: row;
+	align-items: center;
+	border-radius: var(--evently-radius-sm);
+}
+
+.event-card--list .event-img {
+	width: 96px;
+	height: 96px;
+	flex-shrink: 0;
+}
+
+.event-card--list .event-body {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: var(--evently-space-2);
+	padding: 14px 20px;
+}
+
+.event-card--list .event-date {
+	margin-bottom: 0;
+}
+
+.event-card--list .event-title {
+	margin-bottom: 0;
+	flex: 1 1 200px;
+}
+
+.event-card--list .event-loc {
+	margin-bottom: 0;
+}
+
+.event-card--list .event-foot {
+	margin-top: 0;
+}
+
+@media (max-width: 640px) {
+	.event-card--horizontal {
+		flex-direction: column;
+	}
+
+	.event-card--horizontal .event-img {
+		width: 100%;
+		height: 200px;
+	}
+
+	.event-card--list {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.event-card--list .event-img {
+		width: 100%;
+		height: 160px;
+	}
+
+	.event-card--list .event-body {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}

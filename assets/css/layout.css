@@ -1,0 +1,115 @@
+/**
+ * Layout primitives shared by every section: container, section padding,
+ * background tone modifiers, and the small set of grid patterns that repeat
+ * across the homepage (brief §11) rather than being redefined per section.
+ */
+
+.evently-container {
+	max-width: var(--evently-max);
+	margin: 0 auto;
+	padding: 0 var(--evently-pad);
+}
+
+.evently-container--wide {
+	max-width: var(--evently-canvas);
+}
+
+.evently-section {
+	padding: var(--evently-space-9) var(--evently-pad); /* 100px vertical (rounded to 96px token) */
+}
+
+.evently-section--tight {
+	padding: var(--evently-space-8) var(--evently-pad);
+}
+
+.evently-section--soft {
+	background: var(--evently-surface);
+}
+
+.evently-section--dark {
+	background: var(--evently-dark);
+	color: var(--evently-white);
+}
+
+.evently-section--dark h1,
+.evently-section--dark h2,
+.evently-section--dark h3,
+.evently-section--dark h4 {
+	color: var(--evently-white);
+}
+
+/* Generic responsive grid utilities used by Trending Events / Near You /
+   Choose Your Vibe / Stats / Testimonials / Journal — one implementation,
+   column count supplied per section via a modifier or inline custom property
+   so there's no duplicated grid rule per section (brief §14 "don't duplicate
+   markup unnecessarily" extends to CSS). */
+.evently-grid {
+	display: grid;
+	gap: var(--evently-space-3);
+}
+
+.evently-grid--2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.evently-grid--3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.evently-grid--4 {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.evently-grid--2-1 {
+	grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 1000px) {
+	.evently-grid--3,
+	.evently-grid--4 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.evently-grid--2-1 {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 640px) {
+	.evently-grid--2,
+	.evently-grid--3,
+	.evently-grid--4 {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Horizontal-scroll variant used on mobile for card rows that would
+   otherwise wrap awkwardly (brief §11 mobile behavior: "Events: Horizontal
+   scroll or 1-column list depending on section"). Opt-in per section. */
+.evently-scroll-row {
+	display: flex;
+	gap: var(--evently-space-3);
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 4px;
+}
+
+.evently-scroll-row > * {
+	scroll-snap-align: start;
+	flex: 0 0 auto;
+}
+
+.evently-visually-hidden-until-scroll {
+	scrollbar-width: thin;
+}
+
+/* Utility spacing (matches the 8px scale — used sparingly, most spacing
+   should live in the component's own stylesheet). */
+.evently-mt-0 {
+	margin-top: 0;
+}
+
+.evently-mb-0 {
+	margin-bottom: 0;
+}

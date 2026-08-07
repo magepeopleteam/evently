@@ -1,0 +1,238 @@
+<?php
+/**
+ * Conditional asset loading.
+ *
+ * Every stylesheet/script here is registered first (cheap) and only
+ * enqueued on the templates that actually need it (brief §33 — "Do not
+ * load booking/dashboard scripts globally").
+ *
+ * @package Evently
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Font loading: use a locally bundled Plus Jakarta Sans if the site owner has
+ * dropped woff2 files into assets/fonts/ (recommended before ThemeForest
+ * submission — avoids a third-party request to Google Fonts for GDPR/perf
+ * reasons), otherwise fall back to the Google Fonts CDN so the theme still
+ * looks correct out of the box.
+ *
+ * @return void
+ */
+function evently_enqueue_fonts() {
+	$local_font = EVENTLY_DIR . 'assets/fonts/plus-jakarta-sans.css';
+
+	if ( is_readable( $local_font ) ) {
+		wp_enqueue_style( 'evently-fonts', EVENTLY_URI . 'assets/fonts/plus-jakarta-sans.css', array(), EVENTLY_VERSION );
+		return;
+	}
+
+	wp_enqueue_style(
+		'evently-fonts',
+		'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
+		array(),
+		null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- third-party URL; versioning it would break Google Fonts' own cache-busting.
+	);
+}
+
+/**
+ * Preconnect to Google Fonts only when we're actually using the CDN fallback.
+ *
+ * @return void
+ */
+function evently_resource_hints() {
+	if ( is_readable( EVENTLY_DIR . 'assets/fonts/plus-jakarta-sans.css' ) ) {
+		return;
+	}
+	echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+}
+add_action( 'wp_head', 'evently_resource_hints', 1 );
+
+/**
+ * Evently → Theme Settings → Colors (brief §32) overrides the locked design
+ * tokens only when a site owner explicitly changes them — printed as a
+ * tiny inline override so assets/css/variables.css never needs a build
+ * step to reflect a color change.
+ *
+ * @return void
+ */
+function evently_print_color_overrides() {
+	$overrides = array(
+		'--evently-primary' => evently_get_setting( 'color_primary', '#6C5CE7' ),
+		'--evently-orange'  => evently_get_setting( 'color_orange', '#FF7657' ),
+		'--evently-dark'    => evently_get_setting( 'color_dark', '#0B0B0D' ),
+	);
+
+	$defaults = array( '--evently-primary' => '#6C5CE7', '--evently-orange' => '#FF7657', '--evently-dark' => '#0B0B0D' );
+	$changed  = array_diff_assoc( $overrides, $defaults );
+
+	if ( empty( $changed ) ) {
+		return;
+	}
+
+	echo '<style id="evently-color-overrides">:root{';
+	foreach ( $changed as $property => $value ) {
+		printf( '%s:%s;', esc_attr( $property ), esc_attr( $value ) );
+	}
+	echo '}</style>' . "\n";
+}
+add_action( 'wp_head', 'evently_print_color_overrides', 5 );
+
+/**
+ * Register every theme stylesheet/script up front (cheap — no I/O beyond the
+ * function definitions below), then enqueue only what the current template needs.
+ *
+ * @return void
+ */
+function evently_register_assets() {
+	$css_dir = EVENTLY_URI . 'assets/css/';
+	$js_dir  = EVENTLY_URI . 'assets/js/';
+	$ver     = EVENTLY_VERSION;
+
+	// Design-system core — needed on every page, deliberately small & split so
+	// a reviewer (or a child theme) can see exactly what governs what.
+	$core_styles = array(
+		'evently-variables'   => 'variables.css',
+		'evently-base'        => 'base.css',
+		'evently-typography'  => 'typography.css',
+		'evently-layout'      => 'layout.css',
+		'evently-components'  => 'components.css',
+	);
+	$deps = array();
+	foreach ( $core_styles as $handle => $file ) {
+		wp_register_style( $handle, $css_dir . $file, $deps, $ver );
+		$deps[] = $handle;
+	}
+	// $deps now holds every core handle in load order — reused as the
+	// dependency chain for section-specific stylesheets below.
+	$core_deps = $deps;
+
+	// Section-specific styles, only enqueued on the templates that render that markup.
+	wp_register_style( 'evently-header', $css_dir . 'header.css', $core_deps, $ver );
+	wp_register_style( 'evently-hero', $css_dir . 'hero.css', $core_deps, $ver );
+	wp_register_style( 'evently-events', $css_dir . 'events.css', $core_deps, $ver );
+	wp_register_style( 'evently-home', $css_dir . 'home.css', array_merge( $core_deps, array( 'evently-events' ) ), $ver );
+	wp_register_style( 'evently-archive', $css_dir . 'archive.css', $core_deps, $ver );
+	wp_register_style( 'evently-single-event', $css_dir . 'single-event.css', $core_deps, $ver );
+	wp_register_style( 'evently-booking', $css_dir . 'booking.css', $core_deps, $ver );
+	wp_register_style( 'evently-dashboard', $css_dir . 'dashboard.css', $core_deps, $ver );
+	wp_register_style( 'evently-blog', $css_dir . 'blog.css', $core_deps, $ver );
+	wp_register_style( 'evently-responsive', $css_dir . 'responsive.css', array_merge( $core_deps, array( 'evently-header', 'evently-hero', 'evently-events', 'evently-home', 'evently-blog' ) ), $ver );
+
+	// Scripts — vanilla JS, in_footer, no framework (brief §38).
+	wp_register_script( 'evently-navigation', $js_dir . 'navigation.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-favorites', $js_dir . 'favorites.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-search', $js_dir . 'search.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-filters', $js_dir . 'filters.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-calendar', $js_dir . 'calendar.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-carousel', $js_dir . 'carousel.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-modal', $js_dir . 'modal.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-booking-form', $js_dir . 'booking-form.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+}
+add_action( 'init', 'evently_register_assets' );
+
+/**
+ * Decide what the current request actually needs and enqueue it.
+ *
+ * @return void
+ */
+function evently_enqueue_assets() {
+	evently_enqueue_fonts();
+
+	wp_enqueue_style( 'evently-variables' );
+	wp_enqueue_style( 'evently-base' );
+	wp_enqueue_style( 'evently-typography' );
+	wp_enqueue_style( 'evently-layout' );
+	wp_enqueue_style( 'evently-components' );
+	wp_enqueue_style( 'evently-header' );
+	wp_enqueue_script( 'evently-navigation' );
+	wp_enqueue_script( 'evently-modal' ); // Backs the header's quick-search modal on every page.
+
+	$is_event_context = evently_has_booking_plugin() && ( is_singular( 'mep_events' ) || is_post_type_archive( 'mep_events' ) || is_tax( array( 'mep_cat', 'mep_org', 'mep_tag' ) ) );
+
+	if ( is_front_page() ) {
+		wp_enqueue_style( 'evently-hero' );
+		wp_enqueue_style( 'evently-events' );
+		wp_enqueue_style( 'evently-home' );
+		wp_enqueue_style( 'evently-blog' ); // Event Journal teaser section reuses the real blog's editorial card styles.
+		wp_enqueue_script( 'evently-search' );
+		wp_enqueue_script( 'evently-favorites' );
+		wp_enqueue_script( 'evently-calendar' );
+		wp_enqueue_script( 'evently-carousel' );
+	}
+
+	if ( $is_event_context || is_page_template( 'page-templates/event-archive.php' ) ) {
+		wp_enqueue_style( 'evently-events' );
+		wp_enqueue_style( 'evently-archive' );
+		wp_enqueue_script( 'evently-search' );
+		wp_enqueue_script( 'evently-filters' );
+		wp_enqueue_script( 'evently-favorites' );
+	}
+
+	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) ) {
+		wp_enqueue_style( 'evently-events' );
+		wp_enqueue_style( 'evently-single-event' );
+		wp_enqueue_style( 'evently-booking' );
+		wp_enqueue_script( 'evently-modal' );
+		wp_enqueue_script( 'evently-booking-form' );
+	}
+
+	if ( ( evently_has_woocommerce() && is_account_page() ) || evently_is_organizer_dashboard() ) {
+		wp_enqueue_style( 'evently-dashboard' );
+		wp_enqueue_script( 'evently-filters' ); // Organizer Dashboard tabs + My Account's own JS is enqueued by WooCommerce/the plugin.
+		wp_enqueue_style( 'evently-events' );
+	}
+
+	if ( is_singular( 'post' ) || is_home() || ( is_archive() && ! $is_event_context ) || is_search() ) {
+		wp_enqueue_style( 'evently-blog' );
+	}
+
+	if ( evently_has_woocommerce() && ( is_cart() || is_checkout() || is_account_page() || is_shop() || is_product() ) ) {
+		wp_enqueue_style( 'evently-booking' );
+	}
+
+	wp_enqueue_style( 'evently-responsive' );
+
+	// Comment reply script only where it's actually usable.
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'evently_enqueue_assets' );
+
+/**
+ * Whether the current request is the (theme-provided) Organizer Dashboard
+ * page template. Declared here as a light stub; the real implementation
+ * lives in inc/template-functions.php once that file loads (function_exists
+ * guard keeps this file safe to load in isolation/tests).
+ *
+ * @return bool
+ */
+if ( ! function_exists( 'evently_is_organizer_dashboard' ) ) {
+	function evently_is_organizer_dashboard() {
+		return is_page_template( 'page-templates/organizer-dashboard.php' );
+	}
+}
+
+/**
+ * Editor styles so the block editor roughly matches the front end typography
+ * and color palette (brief §25/§4 — Gutenberg support).
+ *
+ * @return void
+ */
+function evently_editor_assets() {
+	add_theme_support( 'editor-styles' );
+	add_editor_style(
+		array(
+			'assets/css/variables.css',
+			'assets/css/base.css',
+			'assets/css/typography.css',
+			'assets/css/editor.css',
+		)
+	);
+}
+add_action( 'after_setup_theme', 'evently_editor_assets' );

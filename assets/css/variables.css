@@ -1,0 +1,105 @@
+/**
+ * Evently design tokens.
+ *
+ * Single source of truth for every color/spacing/radius/shadow value used
+ * anywhere in the theme. Nothing outside this file should hardcode a hex
+ * value or a magic pixel spacing number — see docs/design-system.md.
+ *
+ * These are plain CSS custom properties (not theme.json output) so they work
+ * identically on the front end, inside plugin-rendered pages (mage-event/
+ * overrides), and inside WooCommerce templates — none of which necessarily
+ * run through the block editor's style engine.
+ */
+
+:root {
+	/* ── Color — brief §7 ─────────────────────────────────────────── */
+	--evently-white: #ffffff;
+	--evently-surface: #f6f6f3;
+	--evently-dark: #0b0b0d;
+	--evently-text: #111113;
+	--evently-muted: #777773;
+	--evently-border: #e7e7e3;
+	--evently-primary: #6c5ce7;
+	--evently-primary-soft: rgba(108, 92, 231, 0.1);
+	--evently-orange: #ff7657;
+	--evently-orange-soft: rgba(255, 118, 87, 0.1);
+	--evently-success: #16a34a;
+	--evently-warning: #f59e0b;
+	--evently-error: #dc2626;
+	--evently-live: #22c55e; /* micro live-status dot only — see components.css .evently-live-dot */
+
+	/* ── Spacing — 8px scale, brief §9 ────────────────────────────── */
+	--evently-space-1: 8px;
+	--evently-space-2: 16px;
+	--evently-space-3: 24px;
+	--evently-space-4: 32px;
+	--evently-space-5: 40px;
+	--evently-space-6: 48px;
+	--evently-space-7: 64px;
+	--evently-space-8: 80px;
+	--evently-space-9: 96px;
+	--evently-space-10: 120px;
+	--evently-space-11: 144px;
+
+	/* ── Radius — brief §10 ───────────────────────────────────────── */
+	--evently-radius-sm: 10px;
+	--evently-radius-md: 16px;
+	--evently-radius-lg: 24px;
+	--evently-radius-xl: 32px;
+	--evently-radius-pill: 999px;
+	--evently-radius-hero: 28px; /* hero imagery / digital ticket — matches the Figma source exactly */
+
+	/* ── Shadow — subtle, per Figma source ────────────────────────── */
+	--evently-shadow-card: 0 2px 8px rgba(11, 11, 13, 0.04);
+	--evently-shadow-card-hover: 0 20px 48px rgba(11, 11, 13, 0.1);
+	--evently-shadow-floating: 0 20px 60px rgba(11, 11, 13, 0.12);
+	--evently-shadow-deep: 0 40px 80px rgba(11, 11, 13, 0.2);
+	--evently-shadow-soft: 0 4px 20px rgba(11, 11, 13, 0.08);
+
+	/* ── Layout ───────────────────────────────────────────────────── */
+	--evently-max: 1240px;
+	--evently-canvas: 1440px;
+	--evently-pad: 40px;
+	--evently-header-height: 76px;
+
+	/* ── Typography scale — brief §8 ──────────────────────────────── */
+	--evently-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--evently-fs-hero: clamp(2.75rem, 6vw, 4.75rem); /* 44–76px */
+	--evently-fs-h1: clamp(2.75rem, 6vw, 4.75rem);
+	--evently-fs-h2: clamp(2.125rem, 4vw, 3rem); /* 34–48px */
+	--evently-fs-h3: 1.75rem; /* 28px */
+	--evently-fs-h4: 1.25rem; /* 20px */
+	--evently-fs-body: 1rem; /* 16px */
+	--evently-fs-body-lg: 1.0625rem; /* 17px */
+	--evently-fs-small: 0.875rem; /* 14px */
+	--evently-fs-caption: 0.8125rem; /* 13px */
+	--evently-fs-label: 0.9375rem; /* 15px */
+	--evently-fs-button: 0.9375rem; /* 15px */
+
+	/* ── Motion — brief §41 preferred interaction timing ─────────────── */
+	--evently-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	--evently-transition-fast: 150ms;
+	--evently-transition-base: 220ms;
+	--evently-transition-slow: 500ms;
+}
+
+@media (max-width: 1000px) {
+	:root {
+		--evently-pad: 32px;
+	}
+}
+
+@media (max-width: 640px) {
+	:root {
+		--evently-pad: 20px;
+	}
+}
+
+/* Respect a user's reduced-motion preference globally (brief §34). */
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--evently-transition-fast: 0ms;
+		--evently-transition-base: 0ms;
+		--evently-transition-slow: 0ms;
+	}
+}

@@ -1,0 +1,141 @@
+/**
+ * Typography — headings, body copy, and the recurring "section head" /
+ * "eyebrow" patterns used by nearly every homepage section (brief §8, §11).
+ */
+
+body {
+	font-size: var(--evently-fs-body);
+	line-height: 1.6;
+	color: var(--evently-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	line-height: 1.1;
+	color: var(--evently-text);
+	margin: 0 0 var(--evently-space-2);
+}
+
+h1 {
+	font-size: var(--evently-fs-h1);
+	line-height: 1.04;
+}
+
+h2 {
+	font-size: var(--evently-fs-h2);
+}
+
+h3 {
+	font-size: var(--evently-fs-h3);
+	font-weight: 700;
+}
+
+h4 {
+	font-size: var(--evently-fs-h4);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+p {
+	margin: 0 0 var(--evently-space-2);
+	color: var(--evently-text);
+}
+
+small,
+.evently-text-small {
+	font-size: var(--evently-fs-small);
+}
+
+.evently-text-caption {
+	font-size: var(--evently-fs-caption);
+}
+
+.evently-text-muted {
+	color: var(--evently-muted);
+}
+
+.evently-text-center {
+	text-align: center;
+}
+
+.evently-text-balance {
+	text-wrap: balance;
+}
+
+/* Small uppercase "eyebrow" label used above hero/section headings and on
+   category badges (".hero-eyebrow" / ".org-eyebrow" / ".featured-eyebrow"
+   in the source design — unified into one reusable class + tone modifiers). */
+.evently-eyebrow {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--evently-primary);
+	margin-bottom: var(--evently-space-3);
+}
+
+.evently-eyebrow--pill {
+	background: var(--evently-primary-soft);
+	padding: 6px 14px;
+	border-radius: var(--evently-radius-pill);
+}
+
+.evently-eyebrow--on-dark {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+/* Section heading block: <h2> + optional lede paragraph, with row/center layout modifiers. */
+.evently-section-head {
+	margin-bottom: var(--evently-space-6);
+}
+
+.evently-section-head h2 {
+	margin-bottom: var(--evently-space-2);
+}
+
+.evently-section-head p {
+	font-size: var(--evently-fs-body-lg);
+	color: var(--evently-muted);
+	margin: 0;
+}
+
+.evently-section-head--center {
+	text-align: center;
+	max-width: 640px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.evently-section-head--row {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: var(--evently-space-2);
+}
+
+.evently-section-head--row .evently-section-head__link {
+	font-size: var(--evently-fs-label);
+	font-weight: 600;
+	color: var(--evently-text);
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	white-space: nowrap;
+}
+
+.evently-section-head--row .evently-section-head__link .arrow {
+	transition: transform var(--evently-transition-fast) ease;
+	display: inline-block;
+}
+
+.evently-section-head--row .evently-section-head__link:hover .arrow {
+	transform: translateX(4px);
+}

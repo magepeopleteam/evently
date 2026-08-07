@@ -1,0 +1,116 @@
+/**
+ * Evently Setup + Theme Settings admin screens. Self-contained (doesn't
+ * depend on the front-end design tokens) since it must render correctly
+ * inside wp-admin regardless of the active theme's own styles.
+ */
+
+.evently-setup-wrap {
+	max-width: 760px;
+}
+
+.evently-setup-intro {
+	font-size: 15px;
+	color: #50575e;
+	max-width: 640px;
+}
+
+.evently-setup-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	padding: 24px;
+	margin-bottom: 20px;
+}
+
+.evently-setup-card h2 {
+	margin-top: 0;
+}
+
+.evently-setup-requirements {
+	margin: 0;
+}
+
+.evently-setup-requirement {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 0;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.evently-setup-requirement:last-child {
+	border-bottom: none;
+}
+
+.evently-setup-requirement__status {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	font-weight: 700;
+	font-size: 13px;
+	flex-shrink: 0;
+}
+
+.evently-setup-requirement.is-ok .evently-setup-requirement__status {
+	background: #d1fae5;
+	color: #065f46;
+}
+
+.evently-setup-requirement.is-missing .evently-setup-requirement__status {
+	background: #fef3c7;
+	color: #92400e;
+}
+
+.evently-setup-requirement__label {
+	flex: 1;
+	font-weight: 600;
+}
+
+.evently-setup-requirement__note {
+	color: #646970;
+	font-size: 13px;
+}
+
+.evently-setup-progress {
+	margin-top: 16px;
+}
+
+.evently-setup-progress__bar {
+	height: 8px;
+	border-radius: 4px;
+	background: #f0f0f1;
+	overflow: hidden;
+	margin-bottom: 12px;
+}
+
+.evently-setup-progress__fill {
+	height: 100%;
+	width: 0%;
+	background: #6c5ce7;
+	transition: width 0.3s ease;
+}
+
+.evently-setup-log {
+	margin: 0;
+	font-size: 13px;
+	color: #50575e;
+}
+
+.evently-setup-log li {
+	padding: 4px 0;
+}
+
+.evently-setup-log li.is-error {
+	color: #b32d2e;
+}
+
+.evently-setup-links {
+	margin: 0;
+}
+
+.evently-setup-links li {
+	padding: 4px 0;
+}

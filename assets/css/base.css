@@ -1,0 +1,151 @@
+/**
+ * Reset + base element styles. Depends on variables.css.
+ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
+body {
+	margin: 0;
+	font-family: var(--evently-font-sans);
+	background: var(--evently-white);
+	color: var(--evently-text);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg {
+	max-width: 100%;
+	display: block;
+}
+
+img {
+	height: auto;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button {
+	font-family: inherit;
+	cursor: pointer;
+}
+
+button,
+input,
+select,
+textarea {
+	color: inherit;
+	font-size: 100%;
+}
+
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+/* Prevent any single component (tables, embeds, wide media) from forcing
+   horizontal scroll on the whole page — brief §37 responsive requirement. */
+.evently-overflow-x {
+	overflow-x: auto;
+	max-width: 100%;
+}
+
+/* ── Accessibility — brief §34 ────────────────────────────────────── */
+
+.skip-link {
+	position: absolute;
+	left: -9999px;
+	top: 1rem;
+	z-index: 10000;
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	padding: 0.75rem 1.25rem;
+	border-radius: var(--evently-radius-sm);
+	font-weight: 600;
+	font-size: var(--evently-fs-small);
+}
+
+.skip-link:focus {
+	left: 1rem;
+}
+
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+	background-color: var(--evently-white);
+	border-radius: var(--evently-radius-sm);
+	box-shadow: var(--evently-shadow-soft);
+	clip: auto !important;
+	clip-path: none;
+	color: var(--evently-text);
+	display: block;
+	font-size: var(--evently-fs-small);
+	font-weight: 700;
+	height: auto;
+	left: 5px;
+	line-height: normal;
+	padding: 12px 16px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000;
+}
+
+/* Visible focus state on every interactive element — never removed without
+   a replacement, per brief §34. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+	outline: 2px solid var(--evently-primary);
+	outline-offset: 2px;
+	border-radius: var(--evently-radius-sm);
+}
+
+/* Minimum 44px touch targets on coarse-pointer (touch) devices — brief §41. */
+@media (pointer: coarse) {
+	.btn,
+	.evently-icon-btn,
+	.cal-day,
+	.vibe-btn {
+		min-height: 44px;
+	}
+}

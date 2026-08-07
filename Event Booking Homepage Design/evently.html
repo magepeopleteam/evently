@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evently — Discover. Book. Experience.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #fff;
+      color: #111113;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; width: 100%; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    ::-webkit-scrollbar { width: 0; }
+
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg:      #ffffff;
+      --soft:    #F6F6F3;
+      --dark:    #0B0B0D;
+      --text:    #111113;
+      --muted:   #777773;
+      --border:  #E7E7E3;
+      --accent:  #6C5CE7;
+      --orange:  #FF7657;
+      --max:     1240px;
+      --pad:     40px;
+      --radius:  24px;
+    }
+
+    /* ─── LAYOUT HELPERS ─────────────────────────────────────── */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+    .section   { padding: 100px var(--pad); }
+    .section--soft { background: var(--soft); }
+    .section--dark { background: var(--dark); }
+
+    /* ─── BUTTONS ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 14px 28px; border-radius: 100px;
+      font-size: 15px; font-weight: 700; font-family: inherit;
+      transition: transform .18s, box-shadow .18s, opacity .15s;
+      cursor: pointer; border: none;
+    }
+    .btn .arrow { transition: transform .18s; display: inline-block; }
+    .btn:hover .arrow { transform: translateX(4px); }
+
+    .btn--primary { background: var(--dark); color: #fff; }
+    .btn--primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+
+    .btn--secondary { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+    .btn--secondary:hover { transform: translateY(-1px); border-color: #999; }
+
+    .btn--white { background: #fff; color: var(--dark); }
+    .btn--white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.2); }
+
+    .btn--accent { background: var(--accent); color: #fff; }
+    .btn--accent:hover { opacity: .88; }
+
+    /* ─── PILL / BADGE ───────────────────────────────────────── */
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px;
+    }
+    .badge--accent { background: rgba(108,92,231,.1); color: var(--accent); }
+    .badge--white  { background: rgba(255,255,255,.92); color: var(--dark); backdrop-filter: blur(8px); }
+    .badge--dark   { background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(8px); }
+
+    /* ─── SECTION HEADING ────────────────────────────────────── */
+    .section-head { margin-bottom: 48px; }
+    .section-head h2 {
+      font-size: clamp(34px, 4vw, 48px); font-weight: 800;
+      letter-spacing: -.03em; color: var(--text); line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .section-head p { font-size: 17px; color: var(--muted); }
+    .section-head--center { text-align: center; }
+    .section-head--row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .section-head--row a { font-size: 15px; font-weight: 600; color: var(--text); white-space: nowrap; }
+
+    /* ══════════════════════════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════════════════════════ */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 76px; display: flex; align-items: center;
+      transition: background .3s, border-color .3s, backdrop-filter .3s;
+      border-bottom: 1px solid transparent;
+    }
+    .site-header.scrolled {
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      border-color: var(--border);
+    }
+    .site-header .container {
+      display: flex; align-items: center; gap: 40px; width: 100%;
+    }
+    .site-logo {
+      font-size: 22px; font-weight: 800; letter-spacing: -.04em;
+      color: var(--text); flex-shrink: 0;
+    }
+    .site-nav { display: flex; gap: 32px; }
+    .site-nav a {
+      font-size: 15px; font-weight: 500; color: var(--muted);
+      transition: color .15s;
+    }
+    .site-nav a:hover { color: var(--text); }
+    .header-spacer { flex: 1; }
+    .header-actions { display: flex; align-items: center; gap: 16px; }
+    .header-search-btn {
+      background: none; border: none; cursor: pointer; padding: 8px;
+      color: var(--muted); display: flex;
+    }
+    .header-login { font-size: 15px; font-weight: 500; color: var(--text); }
+    .header-cta {
+      background: var(--dark); color: #fff; border: none;
+      border-radius: 100px; padding: 10px 22px;
+      font-size: 15px; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .header-cta:hover { opacity: .85; }
+    .mobile-menu-btn { display: none; }
+    .mobile-nav {
+      display: none; position: fixed; top: 76px; left: 0; right: 0; z-index: 99;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 20px 20px 24px; flex-direction: column; gap: 0;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-size: 16px; font-weight: 500; color: var(--text); padding: 14px 0;
+      border-bottom: 1px solid var(--border); display: block;
+    }
+    .mobile-nav-actions { display: flex; gap: 12px; margin-top: 16px; }
+    .mobile-nav-actions a, .mobile-nav-actions button {
+      flex: 1; text-align: center; padding: 13px; border-radius: 100px;
+      font-size: 15px; font-weight: 600; font-family: inherit;
+    }
+    .mobile-nav-actions a {
+      border: 1px solid var(--border); color: var(--text);
+    }
+    .mobile-nav-actions button {
+      background: var(--dark); color: #fff; border: none; cursor: pointer;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════════════ */
+    .hero {
+      padding-top: 76px; background: var(--soft);
+      min-height: 720px; position: relative;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+      padding: 80px var(--pad) 60px;
+    }
+    .hero-eyebrow {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      letter-spacing: .14em; color: var(--accent); text-transform: uppercase;
+      background: rgba(108,92,231,.1); padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-size: clamp(44px, 6vw, 76px); font-weight: 800;
+      line-height: 1.04; letter-spacing: -.03em;
+      color: var(--text); margin-bottom: 24px;
+    }
+    .hero-sub {
+      font-size: 18px; line-height: 1.6; color: var(--muted);
+      margin-bottom: 40px; max-width: 420px;
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 32px; margin-top: 48px; flex-wrap: wrap; }
+    .hero-stat-num { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -.03em; }
+    .hero-stat-lbl { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    /* Hero image col */
+    .hero-img-wrap { position: relative; }
+    .hero-img {
+      border-radius: 28px; overflow: hidden;
+      aspect-ratio: 4/3; background: var(--border);
+    }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Floating card */
+    .hero-card {
+      position: absolute; bottom: 24px; left: -32px;
+      background: #fff; border-radius: 20px; padding: 20px 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.12);
+      border: 1px solid var(--border); min-width: 260px;
+    }
+    .hero-card-cat {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .hero-card-date { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .hero-card-loc  { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .hero-card-foot { display: flex; align-items: center; justify-content: space-between; }
+    .hero-card-price { font-size: 18px; font-weight: 800; color: var(--text); }
+    .hero-card-btn {
+      background: var(--dark); color: #fff; border: none; border-radius: 100px;
+      padding: 9px 18px; font-size: 13px; font-weight: 600; font-family: inherit;
+      cursor: pointer;
+    }
+
+    /* Live badge */
+    .hero-live {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
+      border-radius: 14px; padding: 10px 16px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+    .hero-live-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #22C55E;
+    }
+    .hero-live span { font-size: 13px; font-weight: 600; color: var(--text); }
+
+    /* ══════════════════════════════════════════════════════════
+       SEARCH BAR
+    ══════════════════════════════════════════════════════════ */
+    .search-wrap {
+      padding: 32px var(--pad) 0;
+      background: var(--soft);
+    }
+    .search-bar {
+      max-width: var(--max); margin: 0 auto;
+      background: #fff; border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 56px rgba(0,0,0,.12);
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto;
+      overflow: hidden; height: 88px;
+    }
+    .search-field {
+      padding: 0 28px; display: flex; flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid var(--border);
+    }
+    .search-field:last-of-type { border-right: none; }
+    .search-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      color: var(--muted); text-transform: uppercase; margin-bottom: 5px;
+    }
+    .search-field input {
+      border: none; outline: none; font-size: 15px; font-weight: 500;
+      color: var(--text); background: transparent; font-family: inherit;
+      width: 100%;
+    }
+    .search-field input::placeholder { color: #bbb; }
+    .search-submit {
+      display: flex; align-items: center; padding: 0 20px;
+    }
+    .search-submit button {
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 16px; padding: 14px 32px;
+      font-size: 15px; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: opacity .15s; white-space: nowrap;
+    }
+    .search-submit button:hover { opacity: .88; }
+
+    /* Mobile search (hidden desktop) */
+    .search-bar-mobile { display: none; }
+
+    /* ══════════════════════════════════════════════════════════
+       CATEGORIES
+    ══════════════════════════════════════════════════════════ */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 260px);
+      gap: 16px;
+    }
+    .cat-card {
+      border-radius: var(--radius); overflow: hidden;
+      position: relative; cursor: pointer; background: var(--border);
+    }
+    .cat-card:first-child { grid-column: span 2; }
+    .cat-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .cat-card:hover img { transform: scale(1.05); }
+    .cat-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.1) 60%, transparent 100%);
+    }
+    .cat-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 28px; display: flex; align-items: flex-end;
+      justify-content: space-between;
+    }
+    .cat-label span:first-child { font-size: 20px; font-weight: 700; color: #fff; }
+    .cat-arrow {
+      font-size: 20px; color: #fff;
+      transition: transform .2s; display: inline-block;
+    }
+    .cat-card:hover .cat-arrow { transform: translateX(5px); }
+
+    /* ══════════════════════════════════════════════════════════
+       EVENT CARD
+    ══════════════════════════════════════════════════════════ */
+    .events-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .event-card {
+      border-radius: 20px; overflow: hidden; background: #fff;
+      border: 1px solid var(--border);
+      transition: transform .22s, box-shadow .22s;
+      cursor: pointer;
+    }
+    .event-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0,0,0,.10);
+    }
+    .event-img {
+      position: relative; height: 220px; overflow: hidden;
+      background: var(--soft);
+    }
+    .event-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s;
+    }
+    .event-card:hover .event-img img { transform: scale(1.04); }
+    .event-cat {
+      position: absolute; top: 14px; left: 14px;
+      background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
+      border-radius: 8px; padding: 4px 10px;
+      font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--text);
+    }
+    .event-fav {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
+      border-radius: 50%; width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; cursor: pointer; border: none;
+      transition: transform .15s;
+    }
+    .event-fav:hover { transform: scale(1.2); }
+    .event-body { padding: 18px 20px 20px; }
+    .event-date { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 6px; letter-spacing: .04em; }
+    .event-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+    .event-loc { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .event-foot { display: flex; align-items: center; justify-content: space-between; }
+    .event-price { font-size: 16px; font-weight: 800; color: var(--text); }
+    .event-book {
+      background: var(--dark); color: #fff; border: none; border-radius: 100px;
+      padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .event-book:hover { opacity: .85; }
+
+    /* ══════════════════════════════════════════════════════════
+       FEATURED EVENT
+    ══════════════════════════════════════════════════════════ */
+    .featured-section {
+      position: relative; height: 600px; overflow: hidden; cursor: pointer;
+    }
+    .featured-section img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .8s;
+    }
+    .featured-section:hover img { transform: scale(1.03); }
+    .featured-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,.78) 0%, rgba(0,0,0,.3) 60%, transparent 100%);
+    }
+    .featured-content {
+      position: absolute; inset: 0;
+      display: flex; align-items: center;
+      padding: 0 clamp(20px,5vw,80px);
+    }
+    .featured-inner { max-width: 600px; }
+    .featured-eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: .14em;
+      color: rgba(255,255,255,.6); margin-bottom: 20px; text-transform: uppercase;
+    }
+    .featured-title {
+      font-size: clamp(36px,5vw,64px); font-weight: 800;
+      letter-spacing: -.03em; color: #fff; line-height: 1.06; margin-bottom: 20px;
+    }
+    .featured-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 12px; }
+    .featured-meta span { font-size: 16px; color: rgba(255,255,255,.8); }
+    .featured-attendees { font-size: 14px; color: rgba(255,255,255,.6); margin-bottom: 36px; }
+
+    /* ══════════════════════════════════════════════════════════
+       VIBE FILTERS
+    ══════════════════════════════════════════════════════════ */
+    .vibe-filters { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+    .vibe-btn {
+      border: none; border-radius: 100px; padding: 11px 22px;
+      font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer;
+      transition: all .18s; background: #fff; color: var(--text);
+      box-shadow: 0 0 0 1px var(--border);
+    }
+    .vibe-btn.active { background: var(--dark); color: #fff; box-shadow: none; }
+    .vibe-events { display: none; }
+    .vibe-events.active { display: grid; }
+
+    /* ══════════════════════════════════════════════════════════
+       CALENDAR
+    ══════════════════════════════════════════════════════════ */
+    .cal-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;
+    }
+    .cal-widget {
+      background: #fff; border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 32px;
+    }
+    .cal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 28px;
+    }
+    .cal-month { font-size: 20px; font-weight: 700; color: var(--text); }
+    .cal-nav { display: flex; gap: 8px; }
+    .cal-nav button {
+      background: var(--soft); border: none; border-radius: 10px;
+      width: 36px; height: 36px; font-size: 15px; cursor: pointer;
+      font-family: inherit;
+    }
+    .cal-days-head {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 4px; margin-bottom: 8px;
+    }
+    .cal-day-name {
+      font-size: 12px; font-weight: 700; color: var(--muted);
+      text-align: center; padding: 4px 0; letter-spacing: .04em;
+    }
+    .cal-days {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+    }
+    .cal-day {
+      border: none; border-radius: 10px; aspect-ratio: 1;
+      cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3px;
+      font-size: 14px; font-weight: 500; color: var(--text);
+      background: transparent; font-family: inherit;
+      transition: background .15s;
+    }
+    .cal-day:hover { background: var(--soft); }
+    .cal-day.selected { background: var(--dark); color: #fff; font-weight: 700; }
+    .cal-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+    }
+    .cal-day.selected .cal-dot { background: rgba(255,255,255,.65); }
+    .cal-events { display: flex; flex-direction: column; gap: 16px; }
+    .cal-event-date {
+      font-size: 14px; font-weight: 700; letter-spacing: .06em;
+      color: var(--muted); margin-bottom: 20px; text-transform: uppercase;
+    }
+    .cal-event-row {
+      background: #fff; border-radius: 18px; border: 1px solid var(--border);
+      padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .cal-event-row h4 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .cal-event-row p { font-size: 13px; color: var(--muted); }
+    .cal-empty { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); font-size: 15px; }
+
+    /* ══════════════════════════════════════════════════════════
+       HOW IT WORKS
+    ══════════════════════════════════════════════════════════ */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; position: relative;
+    }
+    .steps-line {
+      position: absolute; top: 36px; left: 16%; right: 16%;
+      height: 1px; background: var(--border);
+    }
+    .step { text-align: center; padding: 0 32px; }
+    .step-num {
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 1px solid var(--border); background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px; position: relative; z-index: 1;
+    }
+    .step-num span { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -.04em; }
+    .step-label {
+      font-size: 12px; font-weight: 700; letter-spacing: .12em;
+      color: var(--accent); margin-bottom: 12px; text-transform: uppercase;
+    }
+    .step p { font-size: 16px; line-height: 1.6; color: var(--muted); }
+
+    /* ══════════════════════════════════════════════════════════
+       DIGITAL TICKET
+    ══════════════════════════════════════════════════════════ */
+    .ticket-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .ticket-ui {
+      background: var(--dark); border-radius: 28px; padding: 36px 32px;
+      max-width: 360px; position: relative; overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,.2);
+    }
+    .ticket-deco1 {
+      position: absolute; top: -40px; right: -40px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(108,92,231,.15);
+    }
+    .ticket-deco2 {
+      position: absolute; bottom: -30px; left: -30px;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: rgba(255,118,87,.1);
+    }
+    .ticket-body { position: relative; }
+    .ticket-brand {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      color: var(--accent); margin-bottom: 20px;
+    }
+    .ticket-event {
+      font-size: 12px; font-weight: 700; letter-spacing: .1em;
+      color: rgba(255,255,255,.45); margin-bottom: 8px; text-transform: uppercase;
+    }
+    .ticket-date-title {
+      font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -.02em; margin-bottom: 4px;
+    }
+    .ticket-location { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 28px; }
+    .ticket-divider {
+      height: 1px; background: rgba(255,255,255,.1); margin-bottom: 24px;
+      position: relative;
+    }
+    .ticket-divider::before, .ticket-divider::after {
+      content: ''; position: absolute; top: -10px;
+      width: 20px; height: 20px; border-radius: 50%; background: var(--soft);
+    }
+    .ticket-divider::before { left: -32px; }
+    .ticket-divider::after  { right: -32px; }
+    .ticket-foot { display: flex; justify-content: space-between; align-items: flex-end; }
+    .ticket-type-lbl {
+      font-size: 11px; color: rgba(255,255,255,.4); margin-bottom: 4px; letter-spacing: .08em;
+    }
+    .ticket-type { font-size: 18px; font-weight: 800; color: #fff; }
+    .ticket-entry { font-size: 13px; color: rgba(255,255,255,.45); margin-top: 4px; }
+    .ticket-qr {
+      background: #fff; border-radius: 12px; padding: 10px;
+      display: grid; grid-template-columns: repeat(7,1fr); gap: 2px;
+      width: 84px; height: 84px;
+    }
+    .ticket-qr-cell { border-radius: 1px; }
+    .ticket-num {
+      margin-top: 20px; padding: 10px 14px;
+      background: rgba(255,255,255,.05); border-radius: 10px;
+      font-size: 12px; color: rgba(255,255,255,.35); letter-spacing: .06em;
+    }
+    .ticket-shadow { position: absolute; bottom: -20px; right: -20px; z-index: -1; }
+    .ticket-shadow-card {
+      background: var(--accent); border-radius: 28px; width: 320px; height: 90%;
+      opacity: .25;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       ORGANIZER
+    ══════════════════════════════════════════════════════════ */
+    .org-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .org-eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: .12em;
+      color: var(--accent); margin-bottom: 24px; text-transform: uppercase;
+    }
+    .org-title {
+      font-size: clamp(34px,4vw,52px); font-weight: 800; letter-spacing: -.03em;
+      color: #fff; line-height: 1.1; margin-bottom: 24px;
+    }
+    .org-sub {
+      font-size: 17px; line-height: 1.65; color: rgba(255,255,255,.45);
+      margin-bottom: 40px; max-width: 420px;
+    }
+    .org-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn--outline-white {
+      background: transparent; color: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.2); border-radius: 100px;
+      padding: 14px 30px; font-size: 15px; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: border-color .15s;
+    }
+    .btn--outline-white:hover { border-color: rgba(255,255,255,.4); }
+
+    /* Dashboard */
+    .dashboard {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .dashboard-title {
+      font-size: 13px; font-weight: 700; color: rgba(255,255,255,.45);
+      letter-spacing: .04em; margin-bottom: 24px;
+    }
+    .dash-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+    }
+    .dash-stat {
+      background: rgba(255,255,255,.05); border-radius: 16px; padding: 18px 20px;
+    }
+    .dash-stat-lbl { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 8px; }
+    .dash-stat-val {
+      font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -.02em; margin-bottom: 4px;
+    }
+    .dash-stat-chg { font-size: 12px; font-weight: 600; color: #22C55E; }
+    .dash-chart {
+      background: rgba(255,255,255,.04); border-radius: 16px; padding: 16px 20px;
+    }
+    .dash-chart-lbl { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 12px; }
+    .dash-chart svg { width: 100%; height: 80px; }
+
+    /* ══════════════════════════════════════════════════════════
+       STATS
+    ══════════════════════════════════════════════════════════ */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 40px; text-align: center;
+    }
+    .stat-val {
+      font-size: clamp(40px,5vw,64px); font-weight: 800; letter-spacing: -.04em;
+      color: var(--text); line-height: 1;
+    }
+    .stat-lbl { font-size: 15px; color: var(--muted); margin-top: 12px; font-weight: 500; }
+
+    /* ══════════════════════════════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════════════════════════════ */
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+    }
+    .testi-card {
+      background: #fff; border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 32px 28px;
+    }
+    .testi-stars { font-size: 18px; color: #F59E0B; letter-spacing: 2px; margin-bottom: 20px; }
+    .testi-text { font-size: 16px; line-height: 1.65; color: var(--text); margin-bottom: 28px; }
+    .testi-author { display: flex; align-items: center; gap: 14px; }
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .testi-name { font-size: 15px; font-weight: 700; color: var(--text); }
+    .testi-role { font-size: 13px; color: var(--muted); }
+
+    /* ══════════════════════════════════════════════════════════
+       JOURNAL
+    ══════════════════════════════════════════════════════════ */
+    .journal-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 28px;
+    }
+    .journal-card { cursor: pointer; }
+    .journal-img {
+      border-radius: 20px; overflow: hidden; height: 280px;
+      background: var(--soft); margin-bottom: 24px;
+    }
+    .journal-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .journal-card:hover .journal-img img { transform: scale(1.04); }
+    .journal-cat {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      color: var(--accent); margin-bottom: 10px; text-transform: uppercase;
+    }
+    .journal-title { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 14px; }
+    .journal-foot { display: flex; justify-content: space-between; align-items: center; }
+    .journal-date { font-size: 13px; color: var(--muted); }
+    .journal-read { font-size: 14px; font-weight: 600; color: var(--text); transition: gap .15s; display: flex; align-items: center; gap: 4px; }
+
+    /* ══════════════════════════════════════════════════════════
+       FINAL CTA
+    ══════════════════════════════════════════════════════════ */
+    .cta-section {
+      padding: 120px var(--pad); background: var(--dark);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: rgba(108,92,231,.1); filter: blur(80px); pointer-events: none;
+    }
+    .cta-inner { position: relative; max-width: 800px; margin: 0 auto; }
+    .cta-title {
+      font-size: clamp(40px,6vw,80px); font-weight: 800; letter-spacing: -.04em;
+      color: #fff; line-height: 1.05; margin-bottom: 24px;
+    }
+    .cta-sub { font-size: 19px; line-height: 1.6; color: rgba(255,255,255,.5); margin-bottom: 48px; }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════════ */
+    .site-footer {
+      background: #060608; padding: 72px var(--pad) 40px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 64px;
+    }
+    .footer-logo {
+      font-size: 22px; font-weight: 800; letter-spacing: -.04em;
+      color: #fff; margin-bottom: 14px;
+    }
+    .footer-tagline { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.35); margin-bottom: 28px; max-width: 240px; }
+    .footer-social { display: flex; gap: 12px; }
+    .social-icon {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: rgba(255,255,255,.45);
+      text-decoration: none; transition: background .15s;
+    }
+    .social-icon:hover { background: rgba(255,255,255,.12); }
+    .footer-col-title {
+      font-size: 12px; font-weight: 700; letter-spacing: .1em;
+      color: rgba(255,255,255,.4); text-transform: uppercase; margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col ul a {
+      font-size: 15px; color: rgba(255,255,255,.5); transition: color .15s;
+    }
+    .footer-col ul a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08); padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,.3); }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: 13px; color: rgba(255,255,255,.3); transition: color .15s; }
+    .footer-legal a:hover { color: rgba(255,255,255,.6); }
+
+    /* ══════════════════════════════════════════════════════════
+       NEAR YOU
+    ══════════════════════════════════════════════════════════ */
+    .near-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 48px; flex-wrap: wrap; gap: 16px;
+    }
+    .near-loc { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+    .near-loc span { font-size: 16px; color: var(--muted); }
+    .btn--pill-outline {
+      background: none; border: 1px solid var(--border); border-radius: 100px;
+      padding: 7px 16px; font-size: 13px; font-weight: 600; font-family: inherit;
+      cursor: pointer; color: var(--text); transition: border-color .15s;
+    }
+    .btn--pill-outline:hover { border-color: #999; }
+
+    /* ══════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 1000px) {
+      :root { --pad: 32px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-img-wrap { display: none; }
+      .cat-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: auto; }
+      .cat-card:first-child { grid-column: span 1; }
+      .events-grid { grid-template-columns: repeat(2,1fr); }
+      .cal-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; gap: 40px; }
+      .steps-line { display: none; }
+      .ticket-grid { grid-template-columns: 1fr; gap: 48px; }
+      .org-grid { grid-template-columns: 1fr; gap: 48px; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .testi-grid { grid-template-columns: 1fr; gap: 20px; }
+      .journal-grid { grid-template-columns: 1fr; gap: 48px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+
+    @media (max-width: 640px) {
+      :root { --pad: 20px; }
+      .site-nav, .header-actions { display: none; }
+      .mobile-menu-btn { display: flex; }
+      .search-bar { display: none; }
+      .search-bar-mobile { display: flex; gap: 8px; padding: 32px var(--pad) 0; background: var(--soft); }
+      .search-bar-mobile input {
+        flex: 1; border: none; outline: none; font-size: 16px;
+        padding: 14px 16px; border-radius: 12px; background: #fff;
+        font-family: inherit; color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .search-bar-mobile button {
+        background: var(--accent); color: #fff; border: none; border-radius: 12px;
+        padding: 14px 20px; font-size: 15px; font-weight: 700; font-family: inherit;
+        cursor: pointer;
+      }
+      .events-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .cat-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════ -->
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a href="#" class="site-logo">EVENTLY</a>
+
+    <nav class="site-nav">
+      <a href="#">Events</a>
+      <a href="#">Categories</a>
+      <a href="#">Venues</a>
+      <a href="#">Organizers</a>
+    </nav>
+
+    <div class="header-spacer"></div>
+
+    <div class="header-actions">
+      <button class="header-search-btn" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+      <a href="#" class="header-login">Log in</a>
+      <button class="header-cta">Create Event</button>
+    </div>
+
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#">Events</a>
+  <a href="#">Categories</a>
+  <a href="#">Venues</a>
+  <a href="#">Organizers</a>
+  <div class="mobile-nav-actions">
+    <a href="#">Log in</a>
+    <button>Create Event</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container hero-inner">
+
+    <!-- Left -->
+    <div class="hero-left">
+      <span class="hero-eyebrow">Discover Your Next Experience</span>
+      <h1 class="hero-title">Events worth<br>remembering.</h1>
+      <p class="hero-sub">Find concerts, conferences, festivals and experiences happening around you.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn btn--primary">Explore Events <span class="arrow">→</span></a>
+        <a href="#" class="btn btn--secondary">Browse Categories <span class="arrow">→</span></a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">10K+</div>
+          <div class="hero-stat-lbl">Events</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">250K+</div>
+          <div class="hero-stat-lbl">Tickets Sold</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">50+</div>
+          <div class="hero-stat-lbl">Cities</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right (hidden on mobile) -->
+    <div class="hero-img-wrap">
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=900&h=720&fit=crop&auto=format" alt="Concert crowd at summer music festival" />
+      </div>
+
+      <!-- Live badge -->
+      <div class="hero-live">
+        <div class="hero-live-dot"></div>
+        <span>2,840 tickets sold today</span>
+      </div>
+
+      <!-- Floating card -->
+      <div class="hero-card">
+        <div class="hero-card-cat">Summer Music Festival</div>
+        <div class="hero-card-date">Aug 24–26, 2026</div>
+        <div class="hero-card-loc">📍 Dhaka, Bangladesh</div>
+        <div class="hero-card-foot">
+          <span class="hero-card-price">From $49</span>
+          <button class="hero-card-btn">Book Now →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Search bar desktop -->
+  <div class="search-wrap">
+    <div class="search-bar">
+      <div class="search-field">
+        <div class="search-label">What</div>
+        <input type="text" placeholder="Search events, artists, venues..." />
+      </div>
+      <div class="search-field">
+        <div class="search-label">Where</div>
+        <input type="text" placeholder="Dhaka" />
+      </div>
+      <div class="search-field">
+        <div class="search-label">When</div>
+        <input type="text" placeholder="Any date" />
+      </div>
+      <div class="search-field">
+        <div class="search-label">Category</div>
+        <input type="text" placeholder="All events" />
+      </div>
+      <div class="search-submit">
+        <button>Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search bar mobile -->
+  <div class="search-bar-mobile">
+    <input type="text" placeholder="Search events..." />
+    <button>Search</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CATEGORIES
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Explore by experience</h2>
+      <p>Find something you'll love.</p>
+    </div>
+    <div class="cat-grid">
+
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=400&fit=crop&auto=format" alt="Concerts" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label"><span>Concerts</span><span class="cat-arrow">→</span></div>
+      </div>
+
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&h=400&fit=crop&auto=format" alt="Conferences" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label"><span>Conferences</span><span class="cat-arrow">→</span></div>
+      </div>
+
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1563299796-b729d0af54a5?w=600&h=400&fit=crop&auto=format" alt="Sports" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label"><span>Sports</span><span class="cat-arrow">→</span></div>
+      </div>
+
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&h=400&fit=crop&auto=format" alt="Festivals" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label"><span>Festivals</span><span class="cat-arrow">→</span></div>
+      </div>
+
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1638132704795-6bb223151bf7?w=600&h=400&fit=crop&auto=format" alt="Food & Dining" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label"><span>Food & Dining</span><span class="cat-arrow">→</span></div>
+      </div>
+
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1560831340-b9679dc9e9f0?w=600&h=400&fit=crop&auto=format" alt="Workshops" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label"><span>Workshops</span><span class="cat-arrow">→</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TRENDING EVENTS
+══════════════════════════════════════════════════════════ -->
+<section class="section section--soft">
+  <div class="container">
+    <div class="section-head section-head--row">
+      <div><h2>Trending right now</h2></div>
+      <a href="#">View all →</a>
+    </div>
+    <div class="events-grid">
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=500&h=380&fit=crop&auto=format" alt="Summer Music Festival" />
+          <span class="event-cat">MUSIC</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">AUG 24</div>
+          <div class="event-title">Summer Music Festival</div>
+          <div class="event-loc">📍 Dhaka, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $49</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&h=380&fit=crop&auto=format" alt="Tech Innovation Summit" />
+          <span class="event-cat">CONFERENCE</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">SEP 08</div>
+          <div class="event-title">Tech Innovation Summit</div>
+          <div class="event-loc">📍 Dhaka, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $89</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1565035010268-a3816f98589a?w=500&h=380&fit=crop&auto=format" alt="Jazz & Blues Night" />
+          <span class="event-cat">MUSIC</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">SEP 14</div>
+          <div class="event-title">Jazz &amp; Blues Night</div>
+          <div class="event-loc">📍 Chittagong, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $35</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1563841930606-67e2bce48b78?w=500&h=380&fit=crop&auto=format" alt="Cultural Arts Festival" />
+          <span class="event-cat">FESTIVAL</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">OCT 03</div>
+          <div class="event-title">Cultural Arts Festival</div>
+          <div class="event-loc">📍 Dhaka, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $20</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&h=380&fit=crop&auto=format" alt="Business Growth Summit" />
+          <span class="event-cat">BUSINESS</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">SEP 21</div>
+          <div class="event-title">Business Growth Summit</div>
+          <div class="event-loc">📍 Dhaka, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $129</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?w=500&h=380&fit=crop&auto=format" alt="Photography Masterclass" />
+          <span class="event-cat">WORKSHOP</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">OCT 10</div>
+          <div class="event-title">Photography Masterclass</div>
+          <div class="event-loc">📍 Dhaka, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $75</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1512540452972-baac55d40ef1?w=500&h=380&fit=crop&auto=format" alt="Modern Art Exhibition" />
+          <span class="event-cat">ARTS</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">OCT 18</div>
+          <div class="event-title">Modern Art Exhibition</div>
+          <div class="event-loc">📍 Sylhet, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $15</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1705593973313-75de7bf95b56?w=500&h=380&fit=crop&auto=format" alt="Premier League Night" />
+          <span class="event-cat">SPORTS</span>
+          <button class="event-fav" aria-label="Favorite">🤍</button>
+        </div>
+        <div class="event-body">
+          <div class="event-date">NOV 02</div>
+          <div class="event-title">Premier League Night</div>
+          <div class="event-loc">📍 Dhaka, Bangladesh</div>
+          <div class="event-foot">
+            <span class="event-price">From $60</span>
+            <button class="event-book">Book →</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FEATURED EVENT
+══════════════════════════════════════════════════════════ -->
+<div class="featured-section">
+  <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1440&h=620&fit=crop&auto=format" alt="Future Music Festival" />
+  <div class="featured-overlay"></div>
+  <div class="featured-content">
+    <div class="featured-inner">
+      <div class="featured-eyebrow">Featured Experience</div>
+      <h2 class="featured-title">Future Music Festival</h2>
+      <div class="featured-meta">
+        <span>August 24–26, 2026</span>
+        <span style="color:rgba(255,255,255,.4)">·</span>
+        <span>Dhaka, Bangladesh</span>
+      </div>
+      <div class="featured-attendees">20,000+ attendees expected</div>
+      <a href="#" class="btn btn--white">Explore Event <span class="arrow">→</span></a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CHOOSE YOUR VIBE
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <h2>Choose your vibe</h2>
+      <p>Find an experience that matches your mood.</p>
+    </div>
+
+    <div class="vibe-filters" id="vibe-filters">
+      <button class="vibe-btn active" data-vibe="music">Music</button>
+      <button class="vibe-btn" data-vibe="learn">Learn</button>
+      <button class="vibe-btn" data-vibe="business">Business</button>
+      <button class="vibe-btn" data-vibe="creative">Creative</button>
+      <button class="vibe-btn" data-vibe="sports">Sports</button>
+      <button class="vibe-btn" data-vibe="family">Family</button>
+      <button class="vibe-btn" data-vibe="food">Food</button>
+      <button class="vibe-btn" data-vibe="travel">Travel</button>
+    </div>
+
+    <!-- Vibe grids (show/hide via JS) -->
+    <div class="vibe-events events-grid active" data-vibe="music">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=500&h=380&fit=crop&auto=format" alt="Summer Music Festival"/><span class="event-cat">MUSIC</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">AUG 24</div><div class="event-title">Summer Music Festival</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $49</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1565035010268-a3816f98589a?w=500&h=380&fit=crop&auto=format" alt="Jazz & Blues Night"/><span class="event-cat">MUSIC</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">SEP 14</div><div class="event-title">Jazz &amp; Blues Night</div><div class="event-loc">📍 Chittagong, Bangladesh</div><div class="event-foot"><span class="event-price">From $35</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=500&h=380&fit=crop&auto=format" alt="Indie Folk Showcase"/><span class="event-cat">MUSIC</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">AUG 14</div><div class="event-title">Indie Folk Showcase</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $25</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=500&h=380&fit=crop&auto=format" alt="Rooftop Jazz Evening"/><span class="event-cat">MUSIC</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 28</div><div class="event-title">Rooftop Jazz Evening</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $30</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+    <div class="vibe-events events-grid" data-vibe="business">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&h=380&fit=crop&auto=format" alt="Business Growth Summit"/><span class="event-cat">BUSINESS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">SEP 21</div><div class="event-title">Business Growth Summit</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $129</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&h=380&fit=crop&auto=format" alt="Tech Innovation Summit"/><span class="event-cat">CONFERENCE</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">SEP 08</div><div class="event-title">Tech Innovation Summit</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $89</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=500&h=380&fit=crop&auto=format" alt="Founders Forum 2026"/><span class="event-cat">BUSINESS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">NOV 15</div><div class="event-title">Founders Forum 2026</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $199</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?w=500&h=380&fit=crop&auto=format" alt="Marketing Masterclass"/><span class="event-cat">WORKSHOP</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 05</div><div class="event-title">Marketing Masterclass</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $75</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+    <div class="vibe-events events-grid" data-vibe="learn">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?w=500&h=380&fit=crop&auto=format" alt="Photography Masterclass"/><span class="event-cat">WORKSHOP</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 10</div><div class="event-title">Photography Masterclass</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $75</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&h=380&fit=crop&auto=format" alt="Tech Innovation Summit"/><span class="event-cat">CONFERENCE</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">SEP 08</div><div class="event-title">Tech Innovation Summit</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $89</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+    <div class="vibe-events events-grid" data-vibe="creative">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1512540452972-baac55d40ef1?w=500&h=380&fit=crop&auto=format" alt="Modern Art Exhibition"/><span class="event-cat">ARTS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 18</div><div class="event-title">Modern Art Exhibition</div><div class="event-loc">📍 Sylhet, Bangladesh</div><div class="event-foot"><span class="event-price">From $15</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1560831340-b9679dc9e9f0?w=500&h=380&fit=crop&auto=format" alt="Photography Masterclass"/><span class="event-cat">WORKSHOP</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 10</div><div class="event-title">Photography Masterclass</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $75</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1563841930606-67e2bce48b78?w=500&h=380&fit=crop&auto=format" alt="Cultural Arts Festival"/><span class="event-cat">FESTIVAL</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 03</div><div class="event-title">Cultural Arts Festival</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $20</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+    <div class="vibe-events events-grid" data-vibe="sports">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1705593973313-75de7bf95b56?w=500&h=380&fit=crop&auto=format" alt="Premier League Night"/><span class="event-cat">SPORTS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">NOV 02</div><div class="event-title">Premier League Night</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $60</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1563299796-b729d0af54a5?w=500&h=380&fit=crop&auto=format" alt="Cricket Finals 2026"/><span class="event-cat">SPORTS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">DEC 01</div><div class="event-title">Cricket Finals 2026</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $45</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+    <div class="vibe-events events-grid" data-vibe="family">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1563841930606-67e2bce48b78?w=500&h=380&fit=crop&auto=format" alt="Cultural Arts Festival"/><span class="event-cat">FESTIVAL</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 03</div><div class="event-title">Cultural Arts Festival</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $20</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1512540452972-baac55d40ef1?w=500&h=380&fit=crop&auto=format" alt="Modern Art Exhibition"/><span class="event-cat">ARTS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">OCT 18</div><div class="event-title">Modern Art Exhibition</div><div class="event-loc">📍 Sylhet, Bangladesh</div><div class="event-foot"><span class="event-price">From $15</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+    <div class="vibe-events events-grid" data-vibe="food">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1638132704795-6bb223151bf7?w=500&h=380&fit=crop&auto=format" alt="Food & Culture Fair"/><span class="event-cat">FOOD</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">AUG 28</div><div class="event-title">Food &amp; Culture Fair</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $18</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1638132704781-d1bdc0f43a6c?w=500&h=380&fit=crop&auto=format" alt="Gourmet Night Market"/><span class="event-cat">FOOD</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">SEP 05</div><div class="event-title">Gourmet Night Market</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $12</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+    <div class="vibe-events events-grid" data-vibe="travel">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=500&h=380&fit=crop&auto=format" alt="Summer Music Festival"/><span class="event-cat">MUSIC</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">AUG 24</div><div class="event-title">Summer Music Festival</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $49</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1705593973313-75de7bf95b56?w=500&h=380&fit=crop&auto=format" alt="Premier League Night"/><span class="event-cat">SPORTS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">NOV 02</div><div class="event-title">Premier League Night</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $60</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     EVENTS NEAR YOU
+══════════════════════════════════════════════════════════ -->
+<section class="section section--soft">
+  <div class="container">
+    <div class="near-head">
+      <div>
+        <h2 style="font-size:clamp(34px,4vw,48px);font-weight:800;letter-spacing:-.03em;color:var(--text);margin-bottom:10px;">Events happening near you</h2>
+        <div class="near-loc">
+          <span>📍 Dhaka</span>
+          <button class="btn--pill-outline">Use my location</button>
+        </div>
+      </div>
+      <a href="#" style="font-size:15px;font-weight:600;color:var(--text);">View on map →</a>
+    </div>
+    <div class="events-grid">
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=500&h=380&fit=crop&auto=format" alt="Summer Music Festival"/><span class="event-cat">MUSIC</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">AUG 24</div><div class="event-title">Summer Music Festival</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $49</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&h=380&fit=crop&auto=format" alt="Tech Innovation Summit"/><span class="event-cat">CONFERENCE</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">SEP 08</div><div class="event-title">Tech Innovation Summit</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $89</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1638132704795-6bb223151bf7?w=500&h=380&fit=crop&auto=format" alt="Food & Culture Fair"/><span class="event-cat">FOOD</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">AUG 28</div><div class="event-title">Food &amp; Culture Fair</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $18</span><button class="event-book">Book →</button></div></div>
+      </div>
+      <div class="event-card">
+        <div class="event-img"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&h=380&fit=crop&auto=format" alt="Business Growth Summit"/><span class="event-cat">BUSINESS</span><button class="event-fav">🤍</button></div>
+        <div class="event-body"><div class="event-date">SEP 21</div><div class="event-title">Business Growth Summit</div><div class="event-loc">📍 Dhaka, Bangladesh</div><div class="event-foot"><span class="event-price">From $129</span><button class="event-book">Book →</button></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     EVENT CALENDAR
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <h2>What's happening this month</h2>
+    </div>
+    <div class="cal-grid">
+
+      <!-- Calendar widget -->
+      <div class="cal-widget">
+        <div class="cal-header">
+          <div class="cal-month">August 2026</div>
+          <div class="cal-nav">
+            <button>←</button>
+            <button>→</button>
+          </div>
+        </div>
+        <div class="cal-days-head">
+          <div class="cal-day-name">S</div>
+          <div class="cal-day-name">M</div>
+          <div class="cal-day-name">T</div>
+          <div class="cal-day-name">W</div>
+          <div class="cal-day-name">T</div>
+          <div class="cal-day-name">F</div>
+          <div class="cal-day-name">S</div>
+        </div>
+        <div class="cal-days" id="cal-days">
+          <!-- JS fills this -->
+        </div>
+      </div>
+
+      <!-- Events panel -->
+      <div id="cal-events-panel">
+        <div class="cal-empty">Select a date to see events</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════════════════════ -->
+<section class="section section--soft">
+  <div class="container">
+    <div class="section-head section-head--center" style="margin-bottom:72px;">
+      <h2>Book experiences in three simple steps.</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="steps-line"></div>
+      <div class="step">
+        <div class="step-num"><span>01</span></div>
+        <div class="step-label">Discover</div>
+        <p>Find an event you love from thousands of curated experiences worldwide.</p>
+      </div>
+      <div class="step">
+        <div class="step-num"><span>02</span></div>
+        <div class="step-label">Book</div>
+        <p>Choose your ticket and pay securely. Get instant confirmation.</p>
+      </div>
+      <div class="step">
+        <div class="step-num"><span>03</span></div>
+        <div class="step-label">Enjoy</div>
+        <p>Receive your digital ticket and enjoy the event worry-free.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     DIGITAL TICKET
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="ticket-grid">
+
+      <div>
+        <h2 style="font-size:clamp(34px,4vw,52px);font-weight:800;letter-spacing:-.03em;color:var(--text);line-height:1.1;margin-bottom:24px;">Your ticket.<br>Your experience.</h2>
+        <p style="font-size:17px;line-height:1.65;color:var(--muted);margin-bottom:36px;max-width:400px;">Everything you need for your next event, right in one beautiful digital ticket.</p>
+        <a href="#" class="btn btn--primary">View My Tickets <span class="arrow">→</span></a>
+      </div>
+
+      <div style="display:flex;justify-content:center;position:relative;">
+        <div class="ticket-ui">
+          <div class="ticket-deco1"></div>
+          <div class="ticket-deco2"></div>
+          <div class="ticket-body">
+            <div class="ticket-brand">EVENTLY</div>
+            <div class="ticket-event">Summer Music Festival</div>
+            <div class="ticket-date-title">AUG 24 · 2026</div>
+            <div class="ticket-location">Dhaka, Bangladesh</div>
+            <div class="ticket-divider"></div>
+            <div class="ticket-foot">
+              <div>
+                <div class="ticket-type-lbl">TICKET TYPE</div>
+                <div class="ticket-type">VIP PASS</div>
+                <div class="ticket-entry">ENTRY 06:30 PM</div>
+              </div>
+              <!-- QR Code (CSS art) -->
+              <div class="ticket-qr" id="qr-grid"></div>
+            </div>
+            <div class="ticket-num">#EVT-82931</div>
+          </div>
+        </div>
+        <div class="ticket-shadow">
+          <div class="ticket-shadow-card" style="height:100%;min-height:400px;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ORGANIZER
+══════════════════════════════════════════════════════════ -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="org-grid">
+      <div>
+        <div class="org-eyebrow">For Organizers</div>
+        <h2 class="org-title">Turn your event into an experience.</h2>
+        <p class="org-sub">Create events, sell tickets, manage attendees and track your performance from one powerful dashboard.</p>
+        <div class="org-btns">
+          <a href="#" class="btn btn--white">Start Selling <span class="arrow">→</span></a>
+          <button class="btn--outline-white">Explore Organizer Tools</button>
+        </div>
+      </div>
+      <div class="dashboard">
+        <div class="dashboard-title">Dashboard Overview</div>
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-lbl">Revenue</div>
+            <div class="dash-stat-val">$48,290</div>
+            <div class="dash-stat-chg">+12.4%</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-lbl">Tickets Sold</div>
+            <div class="dash-stat-val">2,840</div>
+            <div class="dash-stat-chg">+8.1%</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-lbl">Upcoming Events</div>
+            <div class="dash-stat-val">24</div>
+            <div class="dash-stat-chg">→</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-lbl">Conversion</div>
+            <div class="dash-stat-val">8.42%</div>
+            <div class="dash-stat-chg">+0.3%</div>
+          </div>
+        </div>
+        <div class="dash-chart">
+          <div class="dash-chart-lbl">Ticket Sales — Aug 2026</div>
+          <svg viewBox="0 0 280 80" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="cg" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#6C5CE7" stop-opacity=".4"/>
+                <stop offset="100%" stop-color="#6C5CE7" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,60 L40,45 L80,52 L120,30 L160,38 L200,15 L240,22 L280,8 L280,80 L0,80 Z" fill="url(#cg)"/>
+            <path d="M0,60 L40,45 L80,52 L120,30 L160,38 L200,15 L240,22 L280,8" fill="none" stroke="#6C5CE7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     STATS
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="stats-grid">
+      <div><div class="stat-val">10K+</div><div class="stat-lbl">Events</div></div>
+      <div><div class="stat-val">250K+</div><div class="stat-lbl">Tickets Sold</div></div>
+      <div><div class="stat-val">98%</div><div class="stat-lbl">Customer Satisfaction</div></div>
+      <div><div class="stat-val">50+</div><div class="stat-lbl">Cities</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════════════════════════ -->
+<section class="section section--soft">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <h2 style="max-width:600px;margin-left:auto;margin-right:auto;">Loved by people who love great experiences.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Everything from discovering the event to receiving my ticket felt effortless. This is how event booking should work."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#6C5CE7;">SW</div>
+          <div>
+            <div class="testi-name">Sarah Williams</div>
+            <div class="testi-role">Event Organizer</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I've tried every event app out there. Evently is the only one that actually feels premium. The ticket experience is beautiful."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#FF7657;">MC</div>
+          <div>
+            <div class="testi-name">Marcus Chen</div>
+            <div class="testi-role">Festival Goer</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Sold out our 500-person conference in 48 hours. The organizer dashboard made it simple to track everything in real time."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#22C55E;">PN</div>
+          <div>
+            <div class="testi-name">Priya Nair</div>
+            <div class="testi-role">Conference Director</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     EVENT JOURNAL
+══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Event Journal</h2>
+      <p>Ideas, inspiration and stories from the world of events.</p>
+    </div>
+    <div class="journal-grid">
+      <div class="journal-card">
+        <div class="journal-img"><img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=700&h=460&fit=crop&auto=format" alt="How to plan an unforgettable event"/></div>
+        <div class="journal-cat">Events</div>
+        <div class="journal-title">How to plan an unforgettable event</div>
+        <div class="journal-foot">
+          <span class="journal-date">Aug 2, 2026</span>
+          <span class="journal-read">Read article →</span>
+        </div>
+      </div>
+      <div class="journal-card">
+        <div class="journal-img"><img src="https://images.unsplash.com/photo-1776654983411-fcf58974aee4?w=700&h=460&fit=crop&auto=format" alt="5 things to know before buying festival tickets"/></div>
+        <div class="journal-cat">Festivals</div>
+        <div class="journal-title">5 things to know before buying festival tickets</div>
+        <div class="journal-foot">
+          <span class="journal-date">Jul 28, 2026</span>
+          <span class="journal-read">Read article →</span>
+        </div>
+      </div>
+      <div class="journal-card">
+        <div class="journal-img"><img src="https://images.unsplash.com/photo-1569783721854-33a99b4c0bae?w=700&h=460&fit=crop&auto=format" alt="The future of live events"/></div>
+        <div class="journal-cat">Culture</div>
+        <div class="journal-title">The future of live events</div>
+        <div class="journal-foot">
+          <span class="journal-date">Jul 15, 2026</span>
+          <span class="journal-read">Read article →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FINAL CTA
+══════════════════════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <h2 class="cta-title">Your next great experience is waiting.</h2>
+    <p class="cta-sub">Discover thousands of events, experiences and unforgettable moments.</p>
+    <a href="#" class="btn btn--white">Explore Events <span class="arrow">→</span></a>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">EVENTLY</div>
+        <p class="footer-tagline">Discover experiences.<br>Create memories.</p>
+        <div class="footer-social">
+          <a href="#" class="social-icon">IG</a>
+          <a href="#" class="social-icon">FB</a>
+          <a href="#" class="social-icon">X</a>
+          <a href="#" class="social-icon">YT</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Explore</div>
+        <ul>
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Categories</a></li>
+          <li><a href="#">Venues</a></li>
+          <li><a href="#">Organizers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Support</div>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Evently. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* ─── HEADER SCROLL ─────────────────────────────────────── */
+window.addEventListener('scroll', function() {
+  document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ─── MOBILE MENU ────────────────────────────────────────── */
+document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+  document.getElementById('mobile-nav').classList.toggle('open');
+});
+
+/* ─── FAVORITE BUTTONS ───────────────────────────────────── */
+document.querySelectorAll('.event-fav').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    this.textContent = this.textContent === '🤍' ? '❤️' : '🤍';
+  });
+});
+
+/* ─── VIBE FILTERS ───────────────────────────────────────── */
+document.querySelectorAll('.vibe-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var vibe = this.dataset.vibe;
+    document.querySelectorAll('.vibe-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('.vibe-events').forEach(function(grid) {
+      grid.classList.toggle('active', grid.dataset.vibe === vibe);
+    });
+    /* Re-attach fav handlers to newly visible buttons */
+    document.querySelectorAll('.event-fav').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        this.textContent = this.textContent === '🤍' ? '❤️' : '🤍';
+      };
+    });
+  });
+});
+
+/* ─── CALENDAR ───────────────────────────────────────────── */
+var calEvents = {
+  5:  [{ title: 'Startup Networking Night',  loc: 'Dhaka', price: 'Free' }],
+  10: [{ title: 'Jazz & Blues Night',        loc: 'Chittagong', price: 'From $35' }],
+  14: [{ title: 'Indie Folk Showcase',       loc: 'Dhaka', price: 'From $25' }],
+  18: [{ title: 'Modern Art Exhibition',     loc: 'Sylhet', price: 'From $15' }],
+  21: [{ title: 'Business Growth Summit',    loc: 'Dhaka', price: 'From $129' }],
+  24: [
+    { title: 'Summer Music Festival',        loc: 'Dhaka', price: 'From $49' },
+    { title: 'Business Growth Summit',       loc: 'Dhaka', price: 'From $89' }
+  ],
+  28: [{ title: 'Food & Culture Fair',       loc: 'Dhaka', price: 'From $18' }]
+};
+
+var selectedDay = 24;
+
+function renderCalendar() {
+  var grid = document.getElementById('cal-days');
+  grid.innerHTML = '';
+  var blanks = 6; // Aug 2026 starts Saturday
+  for (var i = 0; i < blanks; i++) {
+    var blank = document.createElement('div');
+    grid.appendChild(blank);
+  }
+  for (var d = 1; d <= 31; d++) {
+    var btn = document.createElement('button');
+    btn.className = 'cal-day' + (d === selectedDay ? ' selected' : '');
+    btn.textContent = d;
+    if (calEvents[d]) {
+      var dot = document.createElement('div');
+      dot.className = 'cal-dot';
+      btn.appendChild(dot);
+    }
+    btn.dataset.day = d;
+    btn.addEventListener('click', function() {
+      selectedDay = +this.dataset.day === selectedDay ? null : +this.dataset.day;
+      renderCalendar();
+      renderCalEvents();
+    });
+    grid.appendChild(btn);
+  }
+}
+
+function renderCalEvents() {
+  var panel = document.getElementById('cal-events-panel');
+  if (!selectedDay || !calEvents[selectedDay]) {
+    panel.innerHTML = '<div class="cal-empty">Select a date to see events</div>';
+    return;
+  }
+  var html = '<div class="cal-event-date">August ' + selectedDay + '</div><div class="cal-events">';
+  calEvents[selectedDay].forEach(function(ev) {
+    html += '<div class="cal-event-row"><div><h4>' + ev.title + '</h4><p>' + ev.loc + ' · ' + ev.price + '</p></div><button class="event-book">Book →</button></div>';
+  });
+  html += '</div>';
+  panel.innerHTML = html;
+}
+
+renderCalendar();
+renderCalEvents();
+
+/* ─── QR CODE ────────────────────────────────────────────── */
+var qrFilled = [0,1,2,7,8,9,14,6,13,20,21,28,35,42,43,44,48,47,46,41,34,27,24,25,26,17,10,11,16,23,30,37,38,31,32,33];
+var qr = document.getElementById('qr-grid');
+if (qr) {
+  for (var i = 0; i < 49; i++) {
+    var cell = document.createElement('div');
+    cell.className = 'ticket-qr-cell';
+    cell.style.background = qrFilled.includes(i) ? '#111113' : 'transparent';
+    qr.appendChild(cell);
+  }
+}
+</script>
+</body>
+</html>

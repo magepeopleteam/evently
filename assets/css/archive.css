@@ -1,0 +1,286 @@
+/**
+ * Event Archive — search hero, filter sidebar, toolbar, grid/list toggle,
+ * pagination, mobile filter drawer (brief §15).
+ */
+
+.evently-archive-hero {
+	background: var(--evently-surface);
+	padding: calc(var(--evently-header-height) + var(--evently-space-6)) 0 var(--evently-space-3);
+}
+
+.evently-archive-hero__title {
+	margin-bottom: var(--evently-space-1);
+}
+
+.evently-archive-hero__sub {
+	color: var(--evently-muted);
+	margin-bottom: var(--evently-space-4);
+}
+
+.evently-archive-hero .search-wrap {
+	padding: 0;
+	background: transparent;
+}
+
+.evently-breadcrumb {
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+	margin-bottom: var(--evently-space-2);
+	display: flex;
+	gap: 8px;
+}
+
+.evently-breadcrumb a {
+	color: var(--evently-muted);
+}
+
+.evently-breadcrumb a:hover {
+	color: var(--evently-primary);
+}
+
+.evently-breadcrumb span:last-child {
+	color: var(--evently-text);
+	font-weight: 600;
+}
+
+/* Organizer profile hero (brief §22) */
+
+.evently-organizer-hero {
+	background: var(--evently-surface);
+	padding: calc(var(--evently-header-height) + var(--evently-space-6)) 0 var(--evently-space-6);
+}
+
+.evently-organizer-hero__row {
+	display: flex;
+	align-items: center;
+	gap: var(--evently-space-3);
+	margin-bottom: var(--evently-space-3);
+}
+
+.evently-organizer-hero__avatar {
+	width: 64px;
+	height: 64px;
+	font-size: 24px;
+	flex-shrink: 0;
+}
+
+.evently-organizer-hero__title {
+	margin-bottom: 4px;
+}
+
+.evently-organizer-hero__location {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-small);
+	margin-bottom: 2px;
+}
+
+.evently-organizer-hero__count {
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-small);
+	margin: 0;
+}
+
+.evently-organizer-hero__desc {
+	max-width: 700px;
+	color: var(--evently-muted);
+	margin: 0;
+}
+
+.evently-organizer-events-title {
+	margin-bottom: var(--evently-space-4);
+}
+
+.evently-archive-layout {
+	display: grid;
+	grid-template-columns: 280px 1fr;
+	gap: var(--evently-space-6);
+	padding: var(--evently-space-6) var(--evently-pad);
+	align-items: start;
+}
+
+.evently-archive-filters-toggle {
+	display: none;
+	grid-column: 1 / -1;
+	align-items: center;
+	gap: 6px;
+}
+
+.evently-archive-filters-toggle svg {
+	transform: rotate(90deg);
+}
+
+.evently-archive-sidebar {
+	position: sticky;
+	top: calc(var(--evently-header-height) + var(--evently-space-2));
+}
+
+.evently-filters-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-3);
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+}
+
+.evently-filters-form__field label {
+	margin-bottom: 6px;
+}
+
+.evently-filters-form__actions {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-2);
+	margin-top: var(--evently-space-2);
+}
+
+.evently-filters-form__clear {
+	text-align: center;
+	font-size: var(--evently-fs-small);
+	color: var(--evently-muted);
+	text-decoration: underline;
+}
+
+.evently-archive-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: var(--evently-space-3);
+	margin-bottom: var(--evently-space-4);
+}
+
+.evently-archive-toolbar__status {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.evently-archive-toolbar__status a.evently-pill-filter {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.evently-archive-toolbar__right {
+	display: flex;
+	align-items: center;
+	gap: var(--evently-space-2);
+}
+
+.evently-archive-sort {
+	width: auto;
+	padding: 10px 14px;
+}
+
+.evently-view-toggle {
+	display: flex;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	overflow: hidden;
+}
+
+.evently-view-toggle__btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	color: var(--evently-muted);
+	border-right: 1px solid var(--evently-border);
+}
+
+.evently-view-toggle__btn:last-child {
+	border-right: none;
+}
+
+.evently-view-toggle__btn.is-active {
+	background: var(--evently-dark);
+	color: var(--evently-white);
+}
+
+/* List view: stack the .event-card--list rows instead of a grid. */
+.evently-list-rows {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-2);
+}
+
+.evently-pagination {
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+	margin-top: var(--evently-space-6);
+}
+
+.evently-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: var(--evently-radius-sm);
+	border: 1px solid var(--evently-border);
+	color: var(--evently-text);
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+}
+
+.evently-pagination .page-numbers.current {
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	border-color: var(--evently-dark);
+}
+
+.evently-pagination .page-numbers.dots {
+	border: none;
+}
+
+/* Filter drawer (mobile modal reuses the generic .evently-modal system) */
+
+.evently-modal--drawer {
+	align-items: stretch;
+	justify-content: flex-end;
+	padding: 0;
+}
+
+.evently-modal__panel--drawer {
+	max-width: 360px;
+	height: 100%;
+	border-radius: 0;
+	overflow-y: auto;
+}
+
+.evently-modal__panel--drawer .evently-filters-form {
+	border: none;
+	padding: 0;
+}
+
+@media (max-width: 1000px) {
+	.evently-archive-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.evently-archive-filters-toggle {
+		display: flex;
+	}
+
+	.evently-archive-sidebar {
+		display: none;
+	}
+}
+
+@media (max-width: 640px) {
+	.evently-archive-toolbar {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.evently-archive-toolbar__right {
+		justify-content: space-between;
+	}
+}

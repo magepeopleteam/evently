@@ -1,0 +1,24 @@
+/*
+Theme Name: Evently
+Theme URI: https://evently.example.com
+Author: Evently Team
+Author URI: https://evently.example.com
+Description: Evently is a premium event discovery and ticket-booking WordPress theme. Built for concerts, conferences, festivals, workshops and every experience worth remembering — with a reusable event-card system, a premium event archive, single-event booking UI, WooCommerce checkout styling, Gutenberg blocks, and optional Elementor widgets. Evently is presentation-only: booking, tickets and orders are handled by a compatible event-booking plugin and WooCommerce; Evently never stores or deletes booking data.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: evently
+Domain Path: /languages
+Tags: event, booking, events, tickets, conference, festival, block-patterns, custom-logo, custom-menu, editor-style, featured-images, full-width-template, rtl-language-support, threaded-comments, translation-ready, wide-blocks
+
+Evently is distributed under the terms of the GNU General Public License v2 or later.
+This theme bundles no third-party code beyond what is credited in docs/credits.md.
+
+This stylesheet intentionally stays minimal — WordPress requires a style.css header block
+to recognize a theme, and the "screenshot: false" state below only applies while no
+screenshot.png is present. All real styling for Evently lives in assets/css/ and is loaded
+conditionally by inc/enqueue.php so pages never pay for CSS they don't use.
+*/

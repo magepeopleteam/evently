@@ -1,0 +1,728 @@
+/**
+ * WooCommerce styling (shop, product, cart, checkout, My Account, order
+ * received) + the booking plugin's My Account "Event Booking Dashboard"
+ * (My Tickets — brief §20/§21). All selectors below target WooCommerce's
+ * or mage-eventpress's own real markup/classes — Evently only restyles,
+ * never re-implements cart/checkout/order logic (brief §19).
+ */
+
+.evently-woocommerce {
+	padding-top: var(--evently-header-height);
+}
+
+.evently-woocommerce-title {
+	display: block;
+}
+
+.evently-woocommerce-breadcrumb {
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+	margin-bottom: var(--evently-space-3);
+}
+
+.evently-woocommerce-breadcrumb a {
+	color: var(--evently-muted);
+}
+
+.evently-woocommerce-breadcrumb a:hover {
+	color: var(--evently-primary);
+}
+
+/* ── Notices ──────────────────────────────────────────────────────── */
+
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error,
+.woocommerce-noreviews {
+	background: var(--evently-surface);
+	border: 1px solid var(--evently-border);
+	border-left: 3px solid var(--evently-primary);
+	border-radius: var(--evently-radius-md);
+	padding: var(--evently-space-3) var(--evently-space-4);
+	list-style: none;
+	margin-bottom: var(--evently-space-4);
+}
+
+.woocommerce-error {
+	border-left-color: var(--evently-error);
+}
+
+.woocommerce-message .button,
+.woocommerce-info .button {
+	float: right;
+}
+
+/* ── Shop / archive grid ──────────────────────────────────────────── */
+
+.woocommerce ul.products {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--evently-space-4);
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.woocommerce ul.products li.product {
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+	overflow: hidden;
+	padding: 0 0 var(--evently-space-3);
+	transition: transform var(--evently-transition-base) ease, box-shadow var(--evently-transition-base) ease;
+}
+
+.woocommerce ul.products li.product:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--evently-shadow-card-hover);
+}
+
+.woocommerce ul.products li.product img {
+	width: 100%;
+	aspect-ratio: 4/3;
+	object-fit: cover;
+	margin-bottom: var(--evently-space-2);
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title,
+.woocommerce ul.products li.product h2 {
+	font-size: 16px;
+	font-weight: 700;
+	padding: 0 var(--evently-space-3);
+	margin: 0 0 4px;
+}
+
+.woocommerce ul.products li.product .price {
+	padding: 0 var(--evently-space-3);
+	font-weight: 800;
+	color: var(--evently-text);
+}
+
+.woocommerce ul.products li.product .button {
+	margin: var(--evently-space-2) var(--evently-space-3) 0;
+}
+
+.woocommerce .star-rating {
+	color: var(--evently-warning);
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────── */
+
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.woocommerce-Button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	border: none;
+	border-radius: var(--evently-radius-pill);
+	padding: 12px 24px;
+	font-size: var(--evently-fs-button);
+	font-weight: 700;
+	font-family: inherit;
+	cursor: pointer;
+	transition: opacity var(--evently-transition-fast) ease;
+}
+
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover {
+	opacity: 0.88;
+	color: var(--evently-white);
+}
+
+.woocommerce a.button.alt,
+.woocommerce #respond input#submit.alt,
+.woocommerce button.button.alt {
+	background: var(--evently-primary);
+}
+
+/* ── Single product ───────────────────────────────────────────────── */
+
+.woocommerce div.product {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--evently-space-6);
+}
+
+.woocommerce div.product .woocommerce-product-gallery {
+	border-radius: var(--evently-radius-lg);
+	overflow: hidden;
+}
+
+.woocommerce div.product .summary {
+	max-width: none;
+}
+
+.woocommerce div.product .summary .price {
+	font-size: 26px;
+	font-weight: 800;
+	color: var(--evently-text);
+}
+
+.woocommerce div.product .single_add_to_cart_button {
+	margin-top: var(--evently-space-3);
+}
+
+.woocommerce .woocommerce-tabs {
+	margin-top: var(--evently-space-8);
+	grid-column: 1 / -1;
+}
+
+.woocommerce .woocommerce-tabs ul.tabs {
+	display: flex;
+	gap: var(--evently-space-2);
+	border-bottom: 1px solid var(--evently-border);
+	list-style: none;
+	padding: 0;
+	margin-bottom: var(--evently-space-4);
+}
+
+.woocommerce .woocommerce-tabs ul.tabs li {
+	padding: 10px 4px;
+	margin: 0 var(--evently-space-2) 0 0;
+	border-bottom: 2px solid transparent;
+}
+
+.woocommerce .woocommerce-tabs ul.tabs li.active {
+	border-color: var(--evently-primary);
+	font-weight: 700;
+}
+
+.woocommerce .woocommerce-tabs ul.tabs li a {
+	color: var(--evently-text);
+	text-decoration: none;
+}
+
+/* ── Cart ─────────────────────────────────────────────────────────── */
+
+.woocommerce table.shop_table,
+.woocommerce-orders-table,
+.mpwem-order-table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+	overflow: hidden;
+}
+
+.woocommerce table.shop_table th,
+.woocommerce table.shop_table td,
+.woocommerce-orders-table th,
+.woocommerce-orders-table td {
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--evently-border);
+	text-align: left;
+}
+
+.woocommerce table.shop_table thead th {
+	background: var(--evently-surface);
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--evently-muted);
+}
+
+.woocommerce table.cart td.actions .coupon .input-text {
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	padding: 10px 14px;
+}
+
+.woocommerce-cart-form .quantity input.qty,
+.woocommerce input.qty {
+	width: 60px;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	padding: 8px 10px;
+	text-align: center;
+}
+
+.woocommerce .cart_totals {
+	background: var(--evently-surface);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+	margin-top: var(--evently-space-4);
+}
+
+.woocommerce .cart_totals table {
+	width: 100%;
+}
+
+.woocommerce .cart_totals .order-total .amount {
+	font-size: 20px;
+	font-weight: 800;
+}
+
+/* ── Checkout ─────────────────────────────────────────────────────── */
+
+.woocommerce-checkout #customer_details {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--evently-space-6);
+}
+
+.woocommerce form .form-row {
+	margin-bottom: var(--evently-space-2);
+}
+
+.woocommerce form .form-row label {
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	margin-bottom: 4px;
+	display: block;
+}
+
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce-checkout select {
+	width: 100%;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	padding: 12px 14px;
+	font-family: inherit;
+	background: var(--evently-white);
+}
+
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row textarea:focus {
+	outline: none;
+	border-color: var(--evently-primary);
+	box-shadow: 0 0 0 3px var(--evently-primary-soft);
+}
+
+.woocommerce-checkout #order_review {
+	background: var(--evently-surface);
+	border-radius: var(--evently-radius-lg);
+	padding: var(--evently-space-4);
+}
+
+.woocommerce-checkout-review-order-table {
+	background: transparent;
+	border: none;
+}
+
+.woocommerce-checkout-review-order-table th,
+.woocommerce-checkout-review-order-table td {
+	border-bottom: 1px solid var(--evently-border);
+	background: transparent;
+}
+
+#payment.woocommerce-checkout-payment {
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+	margin-top: var(--evently-space-3);
+}
+
+#payment ul.payment_methods {
+	list-style: none;
+	padding: var(--evently-space-3);
+	margin: 0;
+	border-bottom: 1px solid var(--evently-border);
+}
+
+#payment ul.payment_methods li {
+	padding: 8px 0;
+}
+
+#payment div.payment_box {
+	background: var(--evently-surface);
+	border-radius: var(--evently-radius-sm);
+	padding: var(--evently-space-3);
+	margin-top: var(--evently-space-2);
+}
+
+#payment #place_order {
+	width: 100%;
+	margin: var(--evently-space-3);
+}
+
+/* ── My Account ───────────────────────────────────────────────────── */
+
+.woocommerce-account .woocommerce-MyAccount-navigation {
+	float: none;
+	width: auto;
+	margin-bottom: var(--evently-space-4);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	list-style: none;
+	padding: 0;
+	border-bottom: 1px solid var(--evently-border);
+	padding-bottom: var(--evently-space-3);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li {
+	margin: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li a {
+	display: inline-block;
+	padding: 8px 18px;
+	border-radius: var(--evently-radius-pill);
+	background: var(--evently-surface);
+	color: var(--evently-text);
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a {
+	background: var(--evently-dark);
+	color: var(--evently-white);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+	float: none;
+	width: auto;
+}
+
+.woocommerce-EditAccountForm,
+.woocommerce-Address,
+.woocommerce-address-fields {
+	max-width: 560px;
+}
+
+/* ── Order received / thank you ───────────────────────────────────── */
+
+.woocommerce-order-received .woocommerce-thankyou-order-received {
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--evently-success);
+	margin-bottom: var(--evently-space-4);
+}
+
+.woocommerce-order-overview {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--evently-space-4);
+	list-style: none;
+	padding: var(--evently-space-4);
+	background: var(--evently-surface);
+	border-radius: var(--evently-radius-lg);
+	margin-bottom: var(--evently-space-5);
+}
+
+.woocommerce-order-overview li {
+	flex: 1 1 160px;
+}
+
+.woocommerce-order-overview li strong {
+	display: block;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+/* ── Event Booking Dashboard ("My Tickets") — mage-eventpress's real
+   My Account endpoint markup, restyled (brief §20/§21) ───────────── */
+
+.mpwem-event-bookings-dashboard {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-4);
+}
+
+.mpwem-dashboard-header h2 {
+	margin-bottom: 4px;
+}
+
+.mpwem-dashboard-description {
+	color: var(--evently-muted);
+	margin: 0;
+}
+
+.mpwem-dashboard-filters {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: var(--evently-space-3);
+}
+
+.mpwem-filter-group {
+	display: flex;
+	gap: 8px;
+}
+
+.mpwem-search-input {
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	padding: 10px 14px;
+	min-width: 220px;
+	font-family: inherit;
+}
+
+.mpwem-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	border: 1px solid var(--evently-border);
+	background: var(--evently-white);
+	color: var(--evently-text);
+	border-radius: var(--evently-radius-pill);
+	padding: 8px 16px;
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.mpwem-btn:hover {
+	border-color: var(--evently-primary);
+	color: var(--evently-primary);
+}
+
+.mpwem-btn-primary {
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	border-color: var(--evently-dark);
+}
+
+.mpwem-stats {
+	display: flex;
+	gap: var(--evently-space-5);
+}
+
+.mpwem-stat-item {
+	text-align: center;
+	cursor: pointer;
+}
+
+.mpwem-stat-number {
+	display: block;
+	font-size: 24px;
+	font-weight: 800;
+	color: var(--evently-text);
+}
+
+.mpwem-stat-label {
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+}
+
+.mpwem-bookings-table-wrapper {
+	overflow-x: auto;
+}
+
+.mpwem-order-info,
+.mpwem-event-info {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.mpwem-order-number,
+.mpwem-event-name {
+	font-weight: 700;
+	color: var(--evently-text);
+}
+
+.mpwem-order-date,
+.mpwem-event-date {
+	font-size: var(--evently-fs-caption);
+	color: var(--evently-muted);
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.mpwem-status {
+	display: inline-block;
+	padding: 4px 12px;
+	border-radius: var(--evently-radius-pill);
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	background: var(--evently-surface);
+	color: var(--evently-muted);
+}
+
+.mpwem-status-completed,
+.mpwem-status-processing {
+	background: rgba(22, 163, 74, 0.1);
+	color: var(--evently-success);
+}
+
+.mpwem-status-pending,
+.mpwem-status-on-hold {
+	background: rgba(245, 158, 11, 0.12);
+	color: #92400e;
+}
+
+.mpwem-status-cancelled,
+.mpwem-status-failed,
+.mpwem-status-refunded {
+	background: rgba(220, 38, 38, 0.1);
+	color: var(--evently-error);
+}
+
+.mpwem-actions-group {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.mpwem-no-bookings {
+	text-align: center;
+	color: var(--evently-muted);
+	padding: var(--evently-space-6) !important;
+}
+
+/* Booking details modal */
+
+.mpwem-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	background: rgba(11, 11, 13, 0.55);
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 8vh 20px 20px;
+}
+
+.mpwem-modal-content {
+	background: var(--evently-white);
+	border-radius: var(--evently-radius-lg);
+	max-width: 640px;
+	width: 100%;
+	max-height: 84vh;
+	overflow-y: auto;
+	padding: var(--evently-space-5);
+	position: relative;
+	box-shadow: var(--evently-shadow-deep);
+}
+
+.mpwem-modal-close {
+	position: absolute;
+	top: var(--evently-space-3);
+	right: var(--evently-space-3);
+	font-size: 24px;
+	cursor: pointer;
+	color: var(--evently-muted);
+	line-height: 1;
+}
+
+.mpwem-booking-header h3 {
+	font-size: 20px;
+	margin-bottom: var(--evently-space-2);
+}
+
+.mpwem-booking-meta {
+	display: flex;
+	gap: var(--evently-space-4);
+	font-size: var(--evently-fs-small);
+	color: var(--evently-muted);
+	margin-bottom: var(--evently-space-4);
+	flex-wrap: wrap;
+}
+
+.mpwem-section {
+	margin-bottom: var(--evently-space-4);
+}
+
+.mpwem-section h4 {
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--evently-muted);
+	margin-bottom: var(--evently-space-2);
+}
+
+.mpwem-attendee-card {
+	background: var(--evently-surface);
+	border-radius: var(--evently-radius-md);
+	padding: var(--evently-space-3);
+	margin-bottom: var(--evently-space-2);
+}
+
+.mpwem-attendee-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--evently-space-2);
+}
+
+.mpwem-attendee-header h5 {
+	margin: 0;
+	font-size: 14px;
+}
+
+.mpwem-info-row {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--evently-space-2);
+	padding: 4px 0;
+	font-size: var(--evently-fs-small);
+	border-bottom: 1px solid var(--evently-border);
+}
+
+.mpwem-info-row:last-child {
+	border-bottom: none;
+}
+
+.mpwem-info-label {
+	color: var(--evently-muted);
+}
+
+.mpwem-info-value {
+	font-weight: 600;
+	text-align: right;
+}
+
+.mpwem-booking-footer {
+	display: flex;
+	gap: var(--evently-space-2);
+	margin-top: var(--evently-space-4);
+	flex-wrap: wrap;
+}
+
+.mep-ticket-mode-badge {
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	border-radius: var(--evently-radius-pill);
+	padding: 2px 8px;
+	margin-left: 6px;
+	background: var(--evently-surface);
+	color: var(--evently-muted);
+}
+
+.mep-ticket-mode-badge--online {
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+}
+
+@media (max-width: 1000px) {
+	.woocommerce div.product {
+		grid-template-columns: 1fr;
+	}
+
+	.woocommerce-checkout #customer_details {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 640px) {
+	.woocommerce ul.products {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.mpwem-dashboard-filters {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.mpwem-stats {
+		justify-content: space-between;
+	}
+}

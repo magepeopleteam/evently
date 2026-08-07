@@ -1,0 +1,42 @@
+/**
+ * CSS for the block style variations registered in inc/blocks/blocks.php.
+ * Loaded globally (front end + editor) since these core-block styles can
+ * appear on any post/page, not just Evently's own templates.
+ */
+
+.is-style-evently-accent.wp-block-button .wp-block-button__link {
+	background-color: var(--evently-primary, #6c5ce7);
+	color: #fff;
+}
+
+.is-style-evently-ghost.wp-block-button .wp-block-button__link {
+	background: transparent;
+	color: var(--evently-text, #111113);
+	border: 1.5px solid var(--evently-border, #e7e7e3);
+}
+
+.is-style-evently-ghost.wp-block-button .wp-block-button__link:hover {
+	border-color: #999;
+}
+
+.is-style-evently-surface {
+	background-color: var(--evently-surface, #f6f6f3);
+	border-radius: var(--evently-radius-lg, 24px);
+	padding: var(--evently-space-4, 32px);
+}
+
+.is-style-evently-dark {
+	background-color: var(--evently-dark, #0b0b0d);
+	color: #fff;
+	border-radius: var(--evently-radius-lg, 24px);
+	padding: var(--evently-space-4, 32px);
+}
+
+.is-style-evently-dark :is(h1, h2, h3, h4, h5, h6) {
+	color: #fff;
+}
+
+.is-style-evently-hairline.wp-block-separator {
+	border-top: 1px solid var(--evently-border, #e7e7e3);
+	opacity: 1;
+}
