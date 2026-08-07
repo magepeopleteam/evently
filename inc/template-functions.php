@@ -246,6 +246,28 @@ function evently_get_home_events( $count = 8, $context = 'trending', $adapter_ar
 }
 
 /**
+ * The 4 homepage stats (stats.php's full strip, plus the hero's 3-up teaser
+ * which drops the 3rd one). Overlays any admin values from Evently → Theme
+ * Settings → Homepage: Stats on top of the bundled demo numbers, keyed by
+ * position rather than by label text so renaming a stat's label doesn't
+ * break the hero's "skip the 3rd one" logic.
+ *
+ * @return array[] 4 entries, each {value, label}.
+ */
+function evently_home_stats() {
+	$stats = evently_demo_stats();
+
+	foreach ( $stats as $evently_index => &$evently_stat ) {
+		$evently_n            = $evently_index + 1;
+		$evently_stat['value'] = evently_get_setting( "stat_{$evently_n}_value", $evently_stat['value'] );
+		$evently_stat['label'] = evently_get_setting( "stat_{$evently_n}_label", $evently_stat['label'] );
+	}
+	unset( $evently_stat );
+
+	return $stats;
+}
+
+/**
  * Render a template-part to a string instead of echoing it. Used by the
  * block patterns (patterns/*.php) so a pattern's content is always exactly
  * what the live theme templates render — never a hand-duplicated copy that

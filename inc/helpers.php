@@ -123,7 +123,29 @@ function evently_get_setting( $key, $default = '' ) {
 		}
 	}
 
-	return array_key_exists( $key, $settings ) ? $settings[ $key ] : $default;
+	if ( ! array_key_exists( $key, $settings ) ) {
+		return $default;
+	}
+
+	// The Theme Settings form (inc/admin/theme-settings.php) always writes every
+	// registered field on save, including ones left blank, as ''. Without this,
+	// saving the settings screen even once — with e.g. the image fields left
+	// empty — permanently blanks the homepage hero/featured images and copy
+	// instead of falling back to the theme's bundled demo content.
+	$value = $settings[ $key ];
+	return ( '' === $value || null === $value ) ? $default : $value;
+}
+
+/**
+ * Whether single `mep_events` pages should use the plugin details template
+ * instead of Evently's mage-event/single-events.php skin.
+ *
+ * Controlled by Evently → Theme Settings → Single Event → Event details page.
+ *
+ * @return bool
+ */
+function evently_use_plugin_event_details() {
+	return 'plugin' === evently_get_setting( 'single_event_template', 'theme' );
 }
 
 /**

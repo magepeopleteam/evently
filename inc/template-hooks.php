@@ -41,3 +41,37 @@ function evently_output_skip_link() {
 	);
 }
 add_action( 'evently_before_header', 'evently_output_skip_link' );
+
+/**
+ * When Theme Settings → Event details page is "Plugin", force the Event
+ * Booking Manager single template instead of Evently's mage-event override.
+ *
+ * The plugin's MPWEM_Frontend::load_events_templates() prefers
+ * theme/mage-event/single-events.php whenever that file exists. Priority 20
+ * runs after that filter and swaps back to the plugin file when requested.
+ *
+ * @param string $template Absolute path to the single template.
+ * @return string
+ */
+function evently_maybe_use_plugin_single_event_template( $template ) {
+	if ( ! evently_use_plugin_event_details() || ! evently_has_booking_plugin() ) {
+		return $template;
+	}
+
+	$post = get_queried_object();
+	if ( ! $post instanceof WP_Post || 'mep_events' !== $post->post_type ) {
+		return $template;
+	}
+
+	if ( ! defined( 'MPWEM_PLUGIN_DIR' ) ) {
+		return $template;
+	}
+
+	$plugin_template = MPWEM_PLUGIN_DIR . '/templates/single-events.php';
+	if ( is_readable( $plugin_template ) ) {
+		return $plugin_template;
+	}
+
+	return $template;
+}
+add_filter( 'single_template', 'evently_maybe_use_plugin_single_event_template', 20 );

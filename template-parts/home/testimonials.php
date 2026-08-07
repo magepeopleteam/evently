@@ -8,6 +8,20 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+// Overlay any admin-entered values (Evently → Theme Settings → Homepage:
+// Testimonials) on top of the bundled demo quote at the same card position.
+$evently_testimonials = evently_demo_testimonials();
+foreach ( $evently_testimonials as $evently_index => &$evently_t ) {
+	$evently_n         = $evently_index + 1;
+	$evently_t['name']     = evently_get_setting( "testimonial_{$evently_n}_name", $evently_t['name'] );
+	$evently_t['role']     = evently_get_setting( "testimonial_{$evently_n}_role", $evently_t['role'] );
+	$evently_t['text']     = evently_get_setting( "testimonial_{$evently_n}_text", $evently_t['text'] );
+	$evently_t['initials'] = evently_get_setting( "testimonial_{$evently_n}_initials", $evently_t['initials'] );
+	$evently_t['color']    = evently_get_setting( "testimonial_{$evently_n}_color", $evently_t['color'] );
+	$evently_t['stars']    = (int) evently_get_setting( "testimonial_{$evently_n}_stars", $evently_t['stars'] );
+}
+unset( $evently_t );
 ?>
 <section class="evently-section evently-section--soft">
 	<div class="evently-container">
@@ -16,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="testi-grid" data-evently-carousel="mobile">
-			<?php foreach ( evently_demo_testimonials() as $evently_testimonial ) : ?>
+			<?php foreach ( $evently_testimonials as $evently_testimonial ) : ?>
 				<div class="testi-card">
 					<?php evently_star_rating( $evently_testimonial['stars'] ); ?>
 					<p class="testi-text">&ldquo;<?php echo esc_html( $evently_testimonial['text'] ); ?>&rdquo;</p>

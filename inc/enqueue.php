@@ -173,7 +173,9 @@ function evently_enqueue_assets() {
 		wp_enqueue_script( 'evently-favorites' );
 	}
 
-	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) ) {
+	// Theme single-event skin assets — skip when Theme Settings loads the
+	// plugin's own details template (plugin enqueues its own CSS/JS).
+	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && ! evently_use_plugin_event_details() ) {
 		wp_enqueue_style( 'evently-events' );
 		wp_enqueue_style( 'evently-single-event' );
 		wp_enqueue_style( 'evently-booking' );

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <section class="evently-section">
 	<div class="evently-container stats-grid" data-evently-count-up>
-		<?php foreach ( evently_demo_stats() as $evently_stat ) : ?>
+		<?php foreach ( evently_home_stats() as $evently_stat ) : ?>
 			<div>
 				<div class="stat-val"><?php echo esc_html( $evently_stat['value'] ); ?></div>
 				<div class="stat-lbl"><?php echo esc_html( $evently_stat['label'] ); ?></div>

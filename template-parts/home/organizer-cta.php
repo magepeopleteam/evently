@@ -16,6 +16,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $evently_dash_stats  = evently_demo_dashboard_stats();
+
+// Overlay any admin-entered values (Evently → Theme Settings → Homepage:
+// Organizer Dashboard) on top of the bundled demo numbers at the same slot.
+foreach ( $evently_dash_stats as $evently_index => &$evently_dash_stat ) {
+	$evently_n                    = $evently_index + 1;
+	$evently_dash_stat['label']  = evently_get_setting( "dash_stat_{$evently_n}_label", $evently_dash_stat['label'] );
+	$evently_dash_stat['value']  = evently_get_setting( "dash_stat_{$evently_n}_value", $evently_dash_stat['value'] );
+	$evently_dash_stat['change'] = evently_get_setting( "dash_stat_{$evently_n}_change", $evently_dash_stat['change'] );
+}
+unset( $evently_dash_stat );
+
 $evently_create_url  = evently_get_setting( 'create_event_url', '' );
 if ( empty( $evently_create_url ) ) {
 	$evently_create_url = evently_has_booking_plugin() ? admin_url( 'post-new.php?post_type=mep_events' ) : '#organizer';

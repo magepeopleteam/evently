@@ -9,21 +9,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Base copy lives here; Evently → Theme Settings → Homepage: How It Works
+// can override each step's title/description without touching this file.
 $evently_steps = array(
 	array(
 		'num'   => '01',
-		'label' => __( 'Discover', 'evently' ),
-		'desc'  => __( 'Find an event you love from thousands of curated experiences worldwide.', 'evently' ),
+		'label' => evently_get_setting( 'step_1_label', __( 'Discover', 'evently' ) ),
+		'desc'  => evently_get_setting( 'step_1_desc', __( 'Find an event you love from thousands of curated experiences worldwide.', 'evently' ) ),
 	),
 	array(
 		'num'   => '02',
-		'label' => __( 'Book', 'evently' ),
-		'desc'  => __( 'Choose your ticket and pay securely. Get instant confirmation.', 'evently' ),
+		'label' => evently_get_setting( 'step_2_label', __( 'Book', 'evently' ) ),
+		'desc'  => evently_get_setting( 'step_2_desc', __( 'Choose your ticket and pay securely. Get instant confirmation.', 'evently' ) ),
 	),
 	array(
 		'num'   => '03',
-		'label' => __( 'Enjoy', 'evently' ),
-		'desc'  => __( 'Receive your digital ticket and enjoy the event worry-free.', 'evently' ),
+		'label' => evently_get_setting( 'step_3_label', __( 'Enjoy', 'evently' ) ),
+		'desc'  => evently_get_setting( 'step_3_desc', __( 'Receive your digital ticket and enjoy the event worry-free.', 'evently' ) ),
 	),
 );
 ?>

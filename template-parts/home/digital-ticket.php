@@ -16,6 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $evently_ticket_event = evently_demo_events()[0];
 
+// Evently → Theme Settings → Homepage: Digital Ticket can override the
+// sample ticket's copy without touching this file.
+$evently_ticket_event['title']      = evently_get_setting( 'ticket_event_title', $evently_ticket_event['title'] );
+$evently_ticket_event['date_label'] = evently_get_setting( 'ticket_event_date', $evently_ticket_event['date_label'] );
+$evently_ticket_event['city']       = evently_get_setting( 'ticket_event_city', $evently_ticket_event['city'] );
+$evently_ticket_type                = evently_get_setting( 'ticket_type', __( 'VIP PASS', 'evently' ) );
+$evently_ticket_entry_time           = evently_get_setting( 'ticket_entry_time', __( 'ENTRY 06:30 PM', 'evently' ) );
+
 // A fixed decorative cell pattern — not a real QR payload.
 $evently_qr_on_cells = array( 0, 1, 2, 7, 8, 9, 14, 6, 13, 20, 21, 28, 35, 42, 43, 44, 48, 47, 46, 41, 34, 27, 24, 25, 26, 17, 10, 11, 16, 23, 30, 37, 38, 31, 32, 33 );
 ?>
@@ -50,8 +58,8 @@ $evently_qr_on_cells = array( 0, 1, 2, 7, 8, 9, 14, 6, 13, 20, 21, 28, 35, 42, 4
 					<div class="ticket-foot">
 						<div>
 							<div class="ticket-type-lbl"><?php esc_html_e( 'TICKET TYPE', 'evently' ); ?></div>
-							<div class="ticket-type"><?php esc_html_e( 'VIP PASS', 'evently' ); ?></div>
-							<div class="ticket-entry"><?php esc_html_e( 'ENTRY 06:30 PM', 'evently' ); ?></div>
+							<div class="ticket-type"><?php echo esc_html( $evently_ticket_type ); ?></div>
+							<div class="ticket-entry"><?php echo esc_html( $evently_ticket_entry_time ); ?></div>
 						</div>
 						<div class="ticket-qr">
 							<?php for ( $evently_cell = 0; $evently_cell < 49; $evently_cell++ ) : ?>

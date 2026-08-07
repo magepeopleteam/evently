@@ -41,8 +41,14 @@ $evently_tickets_today = evently_get_setting( 'hero_live_note', __( '2,840 ticke
 			</div>
 
 			<div class="hero-stats">
-				<?php foreach ( evently_demo_stats() as $evently_stat ) : ?>
-					<?php if ( __( 'Customer Satisfaction', 'evently' ) === $evently_stat['label'] ) { continue; } ?>
+				<?php
+				// Hero shows only 3 of the 4 stats; the 3rd (index 2) is reserved
+				// for the full Stats section further down the page.
+				foreach ( evently_home_stats() as $evently_stat_index => $evently_stat ) :
+					if ( 2 === $evently_stat_index ) {
+						continue;
+					}
+					?>
 					<div>
 						<div class="hero-stat-num"><?php echo esc_html( $evently_stat['value'] ); ?></div>
 						<div class="hero-stat-lbl"><?php echo esc_html( $evently_stat['label'] ); ?></div>
