@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/hero",
+    "title": "Evently Hero",
+    "category": "evently",
+    "description": "The homepage hero banner — headline, live stat, hero photo, spotlight event card. Content comes from Evently → Theme Settings.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}

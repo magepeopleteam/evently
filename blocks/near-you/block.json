@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/near-you",
+    "title": "Evently Near You",
+    "category": "evently",
+    "description": "Events near the configured default city. Content comes from Evently → Theme Settings.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}

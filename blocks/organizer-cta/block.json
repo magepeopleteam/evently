@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/organizer-cta",
+    "title": "Evently Organizer CTA",
+    "category": "evently",
+    "description": "Dark \"for organizers\" section with a dashboard mockup. Content comes from Evently → Theme Settings.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}

@@ -116,6 +116,14 @@ function evently_has_elementor() {
 function evently_get_setting( $key, $default = '' ) {
 	static $settings = null;
 
+	// The Theme Settings screen's live-preview iframe (inc/admin/theme-settings.php's
+	// evently_ajax_preview_section()) overlays unsaved, sanitized values here for the
+	// span of a single preview request — never persisted, never touches the DB option.
+	if ( isset( $GLOBALS['evently_preview_overrides'] ) && array_key_exists( $key, $GLOBALS['evently_preview_overrides'] ) ) {
+		$value = $GLOBALS['evently_preview_overrides'][ $key ];
+		return ( '' === $value || null === $value ) ? $default : $value;
+	}
+
 	if ( null === $settings ) {
 		$settings = get_option( 'evently_settings', array() );
 		if ( ! is_array( $settings ) ) {
@@ -273,6 +281,39 @@ function evently_format_price( $amount ) {
  */
 function evently_trim_words( $text, $words = 20 ) {
 	return wp_trim_words( wp_strip_all_tags( $text ), $words, '…' );
+}
+
+/**
+ * Whether the homepage should be handed over to an admin-built page (Gutenberg
+ * blocks or Elementor) instead of the theme's built-in 14-section demo layout.
+ *
+ * Deliberately conservative: a fresh/default install (`show_on_front` still
+ * "posts", or a static front page picked in Settings → Reading that has no
+ * real content yet) always falls through to the built-in homepage — nothing
+ * changes for anyone who hasn't gone through Evently Setup's "Homepage Editor"
+ * step (inc/admin/setup-wizard.php) and actually built something.
+ *
+ * @return bool
+ */
+function evently_homepage_uses_custom_builder() {
+	if ( 'page' !== get_option( 'show_on_front' ) ) {
+		return false;
+	}
+
+	$front_id = (int) get_option( 'page_on_front' );
+	if ( ! $front_id ) {
+		return false;
+	}
+
+	$front_page = get_post( $front_id );
+	if ( ! $front_page || 'publish' !== $front_page->post_status ) {
+		return false;
+	}
+
+	$has_content   = '' !== trim( (string) $front_page->post_content );
+	$has_elementor = 'builder' === get_post_meta( $front_id, '_elementor_edit_mode', true );
+
+	return $has_content || $has_elementor;
 }
 
 /**

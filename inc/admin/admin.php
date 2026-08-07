@@ -74,6 +74,10 @@ function evently_admin_enqueue( $hook ) {
 
 	wp_enqueue_style( 'evently-admin', EVENTLY_URI . 'assets/css/admin.css', array(), EVENTLY_VERSION );
 	wp_enqueue_script( 'evently-admin', EVENTLY_URI . 'assets/js/admin-setup.js', array(), EVENTLY_VERSION, true );
+	// Depends on evently-admin so eventlyAdmin (localized below) is guaranteed
+	// to exist before this runs — this file only touches the Theme Settings
+	// screen's live-preview panels, admin-setup.js only the Setup wizard's.
+	wp_enqueue_script( 'evently-admin-live-preview', EVENTLY_URI . 'assets/js/admin-live-preview.js', array( 'evently-admin' ), EVENTLY_VERSION, true );
 	wp_localize_script(
 		'evently-admin',
 		'eventlyAdmin',

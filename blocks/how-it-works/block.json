@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/how-it-works",
+    "title": "Evently How It Works",
+    "category": "evently",
+    "description": "The 3-step Discover → Book → Enjoy process. Content comes from Evently → Theme Settings.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}

@@ -205,6 +205,108 @@ function evently_get_settings_sections() {
 }
 
 /**
+ * Which settings sections get a live preview panel on the Theme Settings
+ * screen, and which homepage/footer template-part renders it. Sections not
+ * listed here (General, Archive, Single Event, Colors, Performance) either
+ * aren't a single visual homepage block or — Colors — get a lightweight
+ * client-side swatch instead (see assets/js/admin-live-preview.js), not a
+ * rendered-template iframe.
+ *
+ * @return array<string,array{template:string,note?:string}>
+ */
+function evently_get_preview_section_map() {
+	return array(
+		'header'              => array( 'template' => 'template-parts/home/hero' ),
+		'events'              => array(
+			'template' => 'template-parts/home/featured-event',
+			'note'     => __( 'Shows the Featured Event banner. "Default City" and the card-display toggles above apply to the Trending Events / Near You sections elsewhere on the homepage, not shown here.', 'evently' ),
+		),
+		'categories'          => array( 'template' => 'template-parts/home/categories' ),
+		'calendar'            => array(
+			'template' => 'template-parts/home/calendar',
+			'note'     => __( 'Only the month label is editable — the day-by-day event list shown here is the theme\'s bundled demo data.', 'evently' ),
+		),
+		'how_it_works'        => array( 'template' => 'template-parts/home/how-it-works' ),
+		'stats'               => array(
+			'template' => 'template-parts/home/stats',
+			'note'     => __( 'Stats 1, 2 and 4 also appear in the homepage hero above the fold; stat 3 only shows here.', 'evently' ),
+		),
+		'testimonials'        => array( 'template' => 'template-parts/home/testimonials' ),
+		'digital_ticket'      => array( 'template' => 'template-parts/home/digital-ticket' ),
+		'organizer_dashboard' => array( 'template' => 'template-parts/home/organizer-cta' ),
+		'final_cta'           => array( 'template' => 'template-parts/home/final-cta' ),
+		'footer'              => array( 'template' => 'template-parts/footer/site-footer' ),
+		'social'              => array(
+			'template' => 'template-parts/footer/site-footer',
+			'note'     => __( 'Social icons only appear once at least one URL above is set.', 'evently' ),
+		),
+	);
+}
+
+/**
+ * AJAX: render one homepage/footer template-part for the Theme Settings
+ * live-preview panel, with the fields the visitor is currently editing
+ * overlaid on top of the saved settings — nothing here is ever written to
+ * the database (see evently_get_setting()'s `$GLOBALS['evently_preview_overrides']`
+ * check, inc/helpers.php). Runs the posted values through the exact same
+ * evently_sanitize_settings() used on real save, so preview escaping/typing
+ * behavior never drifts from what Save Settings would actually persist.
+ *
+ * @return void
+ */
+function evently_ajax_preview_section() {
+	check_ajax_referer( 'evently_admin_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'evently' ) ), 403 );
+	}
+
+	$section = isset( $_POST['section'] ) ? sanitize_key( wp_unslash( $_POST['section'] ) ) : '';
+	$map     = evently_get_preview_section_map();
+
+	if ( ! isset( $map[ $section ] ) ) {
+		wp_send_json_error( array( 'message' => __( 'Unknown preview section.', 'evently' ) ) );
+	}
+
+	// Only fields actually registered under this settings section may be
+	// overridden — a posted key outside that set is silently ignored.
+	$section_fields = array_filter(
+		evently_get_settings_fields(),
+		static function ( $field ) use ( $section ) {
+			return $field['section'] === $section;
+		}
+	);
+
+	$posted = isset( $_POST['values'] ) && is_array( $_POST['values'] ) ? wp_unslash( $_POST['values'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- every value is run through evently_sanitize_settings() below, the same sanitizer real Save Settings uses.
+	$scoped = array_intersect_key( $posted, $section_fields );
+	$clean  = evently_sanitize_settings( $scoped );
+
+	$GLOBALS['evently_preview_overrides'] = array_intersect_key( $clean, $section_fields );
+
+	$section_html = evently_capture_template_part( $map[ $section ]['template'] );
+
+	unset( $GLOBALS['evently_preview_overrides'] );
+
+	if ( function_exists( 'evently_enqueue_fonts' ) ) {
+		evently_enqueue_fonts();
+	}
+	// The same handle bundle evently_enqueue_assets() loads for is_front_page() —
+	// simplest way to guarantee the preview never drifts from real homepage CSS.
+	ob_start();
+	wp_print_styles( array( 'evently-fonts', 'evently-header', 'evently-hero', 'evently-events', 'evently-home', 'evently-responsive' ) );
+	$styles_html = ob_get_clean();
+
+	$html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+		. $styles_html
+		. '<style>body{margin:0;background:#fff;}</style></head><body>'
+		. $section_html
+		. '</body></html>';
+
+	wp_send_json_success( array( 'html' => $html ) );
+}
+add_action( 'wp_ajax_evently_preview_section', 'evently_ajax_preview_section' );
+
+/**
  * Sanitize the whole `evently_settings` array on save.
  *
  * @param array $input Raw POSTed values.
@@ -369,18 +471,50 @@ function evently_render_theme_settings_page() {
 		return;
 	}
 	?>
-	<div class="wrap evently-setup-wrap">
+	<div class="wrap evently-setup-wrap evently-theme-settings-wrap">
 		<h1><?php esc_html_e( 'Evently Theme Settings', 'evently' ); ?></h1>
 		<form method="post" action="options.php">
 			<?php
 			settings_fields( 'evently_settings_group' );
+			$evently_preview_map = evently_get_preview_section_map();
 			foreach ( evently_get_settings_sections() as $section_id => $section_label ) {
-				echo '<div class="evently-setup-card">';
+				$evently_has_template_preview = isset( $evently_preview_map[ $section_id ] );
+				$evently_has_color_preview     = 'colors' === $section_id;
+				$evently_has_preview           = $evently_has_template_preview || $evently_has_color_preview;
+
+				echo '<div class="evently-setup-card' . ( $evently_has_preview ? ' evently-setup-card--with-preview' : '' ) . '">';
 				echo '<h2>' . esc_html( $section_label ) . '</h2>';
+				echo '<div class="evently-setup-card__body">';
+
 				echo '<table class="form-table" role="presentation">';
 				do_settings_fields( 'evently-settings', 'evently_section_' . $section_id );
 				echo '</table>';
-				echo '</div>';
+
+				if ( $evently_has_template_preview ) {
+					$evently_note = $evently_preview_map[ $section_id ]['note'] ?? '';
+					echo '<div class="evently-live-preview" data-section="' . esc_attr( $section_id ) . '">';
+					echo '<div class="evently-live-preview__label">' . esc_html__( 'Live preview', 'evently' ) . '</div>';
+					echo '<div class="evently-live-preview__frame-wrap"><iframe class="evently-live-preview__frame" title="' . esc_attr(
+						/* translators: %s: settings section name, e.g. "Homepage: Categories". */
+						sprintf( __( '%s live preview', 'evently' ), $section_label )
+					) . '"></iframe></div>';
+					if ( $evently_note ) {
+						echo '<p class="evently-live-preview__note">' . esc_html( $evently_note ) . '</p>';
+					}
+					echo '</div>';
+				} elseif ( $evently_has_color_preview ) {
+					echo '<div class="evently-live-preview">';
+					echo '<div class="evently-live-preview__label">' . esc_html__( 'Live preview', 'evently' ) . '</div>';
+					echo '<div class="evently-color-preview" id="evently-color-preview">';
+					echo '<span class="evently-color-preview__badge">' . esc_html__( 'Featured Experience', 'evently' ) . '</span>';
+					echo '<button type="button" class="evently-color-preview__btn">' . esc_html__( 'Explore Events', 'evently' ) . '</button>';
+					echo '</div>';
+					echo '<p class="evently-live-preview__note">' . esc_html__( 'A quick swatch, not a full page render — see the homepage itself for the true effect.', 'evently' ) . '</p>';
+					echo '</div>';
+				}
+
+				echo '</div>'; // .evently-setup-card__body
+				echo '</div>'; // .evently-setup-card
 			}
 			submit_button( __( 'Save Settings', 'evently' ) );
 			?>

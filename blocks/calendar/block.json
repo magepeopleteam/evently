@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/calendar",
+    "title": "Evently Event Calendar",
+    "category": "evently",
+    "description": "Editorial month calendar with per-day events. The month label comes from Evently → Theme Settings.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}

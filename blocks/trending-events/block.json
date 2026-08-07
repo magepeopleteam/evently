@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/trending-events",
+    "title": "Evently Trending Events",
+    "category": "evently",
+    "description": "Grid of trending events — real events once added via the booking plugin, demo cards otherwise.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}

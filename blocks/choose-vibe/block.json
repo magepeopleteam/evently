@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/choose-vibe",
+    "title": "Evently Choose Your Vibe",
+    "category": "evently",
+    "description": "Mood-based pill filter (Music, Learn, Business…) with matching events.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}

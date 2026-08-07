@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "evently/event-journal",
+    "title": "Evently Event Journal",
+    "category": "evently",
+    "description": "Blog/editorial teaser grid — links to real posts once published.",
+    "textdomain": "evently",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false
+    }
+}
