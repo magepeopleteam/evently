@@ -62,11 +62,42 @@ function evently_elementor_register_widgets() {
 	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-event-search.php';
 	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-cta.php';
 
+	// The remaining 12 homepage sections — simple delegates, same shape as
+	// Hero/Categories above (zero controls, content from Theme Settings),
+	// giving full 1:1 Elementor parity with all 14 evently/{slug} Gutenberg
+	// blocks. Event Grid/Event Search/CTA above stay as independently
+	// configurable, general-purpose widgets — this isn't replacing them.
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-trending-events.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-featured-event.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-choose-vibe.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-near-you.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-calendar.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-how-it-works.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-digital-ticket.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-organizer-cta.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-stats.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-testimonials.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-event-journal.php';
+	require_once EVENTLY_DIR . 'inc/integrations/elementor/class-widget-final-cta.php';
+
 	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Hero() );
 	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Event_Grid() );
 	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Categories() );
 	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Event_Search() );
 	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Cta() );
+
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Trending_Events() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Featured_Event() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Choose_Vibe() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Near_You() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Calendar() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_How_It_Works() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Digital_Ticket() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Organizer_Cta() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Stats() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Testimonials() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Event_Journal() );
+	\Elementor\Plugin::instance()->widgets_manager->register( new \Evently_Elementor_Widget_Final_Cta() );
 }
 
 /**

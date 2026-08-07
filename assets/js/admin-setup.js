@@ -55,6 +55,56 @@
 		} );
 	}
 
+	var installElementorBtn = document.getElementById( 'evently-install-elementor' );
+	if ( installElementorBtn ) {
+		installElementorBtn.addEventListener( 'click', function () {
+			installElementorBtn.disabled = true;
+			installElementorBtn.textContent = eventlyAdmin.strings.importing;
+
+			postAction( 'evently_install_elementor' )
+				.then( function ( response ) {
+					if ( response.success ) {
+						window.location.reload();
+					} else {
+						installElementorBtn.disabled = false;
+						installElementorBtn.textContent = eventlyAdmin.strings.error;
+						window.alert( response.data && response.data.message ? response.data.message : eventlyAdmin.strings.error );
+					}
+				} )
+				.catch( function () {
+					installElementorBtn.disabled = false;
+					window.alert( eventlyAdmin.strings.error );
+				} );
+		} );
+	}
+
+	document.querySelectorAll( '[data-evently-homepage-mode]' ).forEach( function ( button ) {
+		button.addEventListener( 'click', function () {
+			var mode = button.getAttribute( 'data-evently-homepage-mode' );
+			button.disabled = true;
+
+			postAction( 'evently_setup_homepage_mode', { mode: mode } )
+				.then( function ( response ) {
+					button.disabled = false;
+
+					if ( ! response.success ) {
+						window.alert( response.data && response.data.message ? response.data.message : eventlyAdmin.strings.error );
+						return;
+					}
+
+					if ( response.data.editUrl ) {
+						window.location.href = response.data.editUrl;
+					} else {
+						window.location.reload();
+					}
+				} )
+				.catch( function () {
+					button.disabled = false;
+					window.alert( eventlyAdmin.strings.error );
+				} );
+		} );
+	} );
+
 	var importBtn = document.getElementById( 'evently-run-import' );
 	var progress  = document.getElementById( 'evently-import-progress' );
 	var fill      = progress ? progress.querySelector( '.evently-setup-progress__fill' ) : null;

@@ -168,6 +168,15 @@ function evently_enqueue_block_editor_js() {
 	);
 
 	wp_localize_script( 'evently-blocks-editor', 'eventlyBlockSections', evently_get_block_sections() );
+
+	// A tiny editor-only tweak — 'wp-edit-blocks' is a core style handle
+	// always present in the block editor, the standard place for a rule this
+	// small instead of a whole new stylesheet file just for one label.
+	wp_add_inline_style(
+		'wp-edit-blocks',
+		'.evently-block-preview{position:relative;}' .
+		'.evently-block-preview__label{position:absolute;top:8px;left:8px;z-index:1;background:#1e1e1e;color:#fff;font-size:11px;font-weight:600;letter-spacing:.02em;padding:3px 8px;border-radius:4px;pointer-events:none;opacity:.85;}'
+	);
 }
 add_action( 'enqueue_block_editor_assets', 'evently_enqueue_block_editor_js' );
 

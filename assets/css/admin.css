@@ -202,3 +202,42 @@
 .evently-setup-links li {
 	padding: 4px 0;
 }
+
+.evently-setup-editor-choice {
+	display: grid;
+	grid-template-columns: repeat( 3, 1fr );
+	gap: 16px;
+	margin-top: 16px;
+}
+
+@media ( max-width: 900px ) {
+	.evently-setup-editor-choice {
+		grid-template-columns: 1fr;
+	}
+}
+
+.evently-setup-editor-option {
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.evently-setup-editor-option.is-active {
+	border-color: #6c5ce7;
+	background: #f7f5ff;
+}
+
+.evently-setup-editor-option h3 {
+	margin: 0;
+	font-size: 14px;
+}
+
+.evently-setup-editor-option p {
+	margin: 0;
+	font-size: 13px;
+	color: #50575e;
+	flex: 1;
+}
