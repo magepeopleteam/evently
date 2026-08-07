@@ -101,15 +101,15 @@ function evently_elementor_register_widgets() {
 }
 
 /**
- * Wire everything up, but only once Elementor itself has confirmed it loaded.
- *
- * @return void
+ * Wire everything up directly on Elementor's own action hooks — no
+ * `did_action( 'elementor/loaded' )` gate needed (and one previously here
+ * was actually a bug: Elementor fires `elementor/loaded` AFTER the
+ * `plugins_loaded` callback chain has already reached the theme's own
+ * `plugins_loaded` callbacks, so that check was always false and these two
+ * hooks never attached — meaning every Evently Elementor widget silently
+ * failed to register). Registering straight on Elementor's hooks is already
+ * "entirely optional" by construction: if Elementor never loads, these
+ * actions simply never fire, so nothing here ever runs.
  */
-function evently_elementor_init() {
-	if ( ! did_action( 'elementor/loaded' ) ) {
-		return;
-	}
-	add_action( 'elementor/elements/categories_registered', 'evently_elementor_register_category' );
-	add_action( 'elementor/widgets/register', 'evently_elementor_register_widgets' );
-}
-add_action( 'plugins_loaded', 'evently_elementor_init' );
+add_action( 'elementor/elements/categories_registered', 'evently_elementor_register_category' );
+add_action( 'elementor/widgets/register', 'evently_elementor_register_widgets' );
