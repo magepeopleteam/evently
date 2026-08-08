@@ -180,6 +180,24 @@ function evently_enqueue_assets() {
 	// plugin's own details template (plugin enqueues its own CSS/JS).
 	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && ! evently_use_plugin_event_details() ) {
 		wp_enqueue_style( 'evently-events' );
+		// Load after the plugin's ticket CSS so our booking-card overrides win.
+		$evently_single_deps = array( 'evently-components' );
+		foreach ( array( 'mpwem_style', 'mpwem_global' ) as $evently_plugin_style ) {
+			if ( wp_style_is( $evently_plugin_style, 'registered' ) || wp_style_is( $evently_plugin_style, 'enqueued' ) ) {
+				$evently_single_deps[] = $evently_plugin_style;
+			}
+		}
+		$evently_styles = wp_styles();
+		if ( isset( $evently_styles->registered['evently-single-event'] ) ) {
+			$evently_styles->registered['evently-single-event']->deps = array_values(
+				array_unique(
+					array_merge(
+						$evently_styles->registered['evently-single-event']->deps,
+						$evently_single_deps
+					)
+				)
+			);
+		}
 		wp_enqueue_style( 'evently-single-event' );
 		wp_enqueue_style( 'evently-booking' );
 		wp_enqueue_script( 'evently-modal' );
