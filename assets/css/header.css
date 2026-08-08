@@ -20,6 +20,29 @@
 		backdrop-filter var(--evently-transition-base) ease;
 }
 
+/* When logged in, WordPress pins its own admin toolbar (#wpadminbar) to
+   `position: fixed; top: 0`, the exact same spot this fixed header uses —
+   without this, the site's own nav renders underneath/overlapping it.
+   Values matched exactly to wp-includes/css/admin-bar.css: 32px normally,
+   46px at its own <=782px breakpoint, and no offset at all below 601px,
+   where core itself switches #wpadminbar to `position: absolute` (it
+   scrolls away with the page there, so it never overlaps a fixed header). */
+body.admin-bar .site-header {
+	top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar .site-header {
+		top: 46px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	body.admin-bar .site-header {
+		top: 0;
+	}
+}
+
 .site-header.is-scrolled {
 	background: rgba(255, 255, 255, 0.92);
 	backdrop-filter: blur(16px);
