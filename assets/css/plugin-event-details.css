@@ -97,6 +97,654 @@ body.single-mep_events .horizon_theme .horizon_hero {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   Smart Theme — meta strip (organizer + location + time)
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: stretch !important;
+	gap: 12px !important;
+	margin: 0 0 var(--evently-space-4) !important;
+	padding: 14px !important;
+	background:
+		radial-gradient(120% 90% at 0% 0%, var(--evently-primary-soft), transparent 55%),
+		var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 20px !important;
+	box-shadow: var(--evently-shadow-card) !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer {
+	flex: 1 1 260px !important;
+	min-width: 0 !important;
+	margin: 0 !important;
+	padding: 8px 10px !important;
+	display: flex !important;
+	align-items: center !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item,
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 12px !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__identity {
+	display: flex !important;
+	align-items: center !important;
+	gap: 12px !important;
+	min-width: 0 !important;
+	flex: 1 1 auto !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__avatar {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	width: 48px !important;
+	height: 48px !important;
+	border-radius: 14px !important;
+	background: linear-gradient(180deg, #7a6bf0 0%, var(--evently-primary) 100%) !important;
+	color: #fff !important;
+	font-size: 18px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1 !important;
+	box-shadow: 0 8px 18px rgba(108, 92, 231, 0.24) !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__meta {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 3px !important;
+	min-width: 0 !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__label {
+	display: block !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.1em !important;
+	text-transform: uppercase !important;
+	line-height: 1.2 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__name,
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-organizer__name {
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: 16px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+	text-decoration: none !important;
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-organizer__name:hover {
+	color: var(--evently-primary) !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__follow {
+	appearance: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	margin: 0 !important;
+	padding: 9px 14px !important;
+	min-height: 36px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: var(--evently-radius-pill) !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 13px !important;
+	font-weight: 700 !important;
+	line-height: 1 !important;
+	text-decoration: none !important;
+	box-shadow: none !important;
+	transition:
+		background var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__follow:hover {
+	background: var(--evently-dark) !important;
+	border-color: var(--evently-dark) !important;
+	color: var(--evently-white) !important;
+	transform: translateY(-1px) !important;
+	text-decoration: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location,
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
+	flex: 1 1 180px !important;
+	min-width: 0 !important;
+	margin: 0 !important;
+	padding: 12px 14px !important;
+	display: flex !important;
+	align-items: center !important;
+	gap: 12px !important;
+	background: rgba(255, 255, 255, 0.72) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 14px !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	line-height: 1.4 !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location i,
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time i {
+	flex-shrink: 0 !important;
+	width: 36px !important;
+	height: 36px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	margin: 0 !important;
+	border-radius: 11px !important;
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-primary) !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > div {
+	min-width: 0 !important;
+	overflow: hidden !important;
+	display: -webkit-box !important;
+	-webkit-line-clamp: 2 !important;
+	-webkit-box-orient: vertical !important;
+}
+
+@media (max-width: 640px) {
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo {
+		padding: 12px !important;
+		gap: 10px !important;
+		border-radius: 16px !important;
+	}
+
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer,
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location,
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
+		flex: 1 1 100% !important;
+	}
+
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__follow {
+		width: auto !important;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Smart Theme — "When and where" right sidebar
+   Scope: .mep_smart_theme .mpwem_right_content / .mpwem_sidebar_content
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .mep_smart_theme .mpwem_right_content {
+	position: sticky;
+	top: calc(var(--evently-header-height) + var(--evently-space-2));
+	align-self: start;
+	z-index: 4;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_right_content > h2,
+body.single-mep_events .mep_smart_theme .mpwem_right_content > h2._mb {
+	margin: 0 0 var(--evently-space-3) !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: var(--evently-dt-section-title-size, 1.5rem) !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+	text-transform: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .event_date_list_area,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .mpwem_location_sidebar,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .share_widgets,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .mpwem_calender_area,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .mep-default-sidebar-tags,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .event_speaker_list_area {
+	margin: 0 !important;
+	padding: 20px 22px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 20px !important;
+	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.05) !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content h5,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .widgets_title,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_title {
+	display: flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	margin: 0 0 14px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	font-family: inherit !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.12em !important;
+	text-transform: uppercase !important;
+	line-height: 1.3 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content h5 .mi,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content h5 .fa,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content h5 .fas,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content h5 .far {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 28px !important;
+	height: 28px !important;
+	border-radius: 9px !important;
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-primary) !important;
+	font-size: 13px !important;
+	line-height: 1 !important;
+	flex-shrink: 0;
+	margin: 0 !important;
+}
+
+/* Schedule */
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date_list_area,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .evently-date-list {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 10px !important;
+	max-height: none !important;
+	overflow: visible !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date-list-item,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date_item {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date_item::before {
+	display: none !important;
+}
+
+/* Location */
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_location_sidebar p {
+	margin: 0 0 14px !important;
+	padding: 0 !important;
+	font-size: 15px !important;
+	font-weight: 600 !important;
+	line-height: 1.45 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_location_sidebar > button,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_location_sidebar ._button_theme_margin_auto {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	gap: 8px !important;
+	width: 100% !important;
+	min-height: 46px !important;
+	margin: 0 !important;
+	padding: 12px 16px !important;
+	border: 1px solid rgba(108, 92, 231, 0.22) !important;
+	border-radius: 12px !important;
+	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	cursor: pointer !important;
+	box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08) !important;
+	transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_location_sidebar > button:hover,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_location_sidebar ._button_theme_margin_auto:hover {
+	background: var(--evently-primary-soft) !important;
+	border-color: rgba(108, 92, 231, 0.4) !important;
+	color: var(--evently-text) !important;
+	transform: translateY(-1px);
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_location_sidebar > button i,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_location_sidebar ._button_theme_margin_auto i {
+	color: var(--evently-primary) !important;
+	margin: 0 !important;
+}
+
+/* Share */
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: center !important;
+	gap: 8px !important;
+	list-style: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li {
+	margin: 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a {
+	width: 40px !important;
+	height: 40px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-surface) !important;
+	color: var(--evently-text) !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	text-decoration: none !important;
+	transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a i {
+	width: 1em !important;
+	height: 1em !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: inherit !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a:hover {
+	transform: translateY(-1px);
+	color: #fff !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a.facebook:hover {
+	background: #1877f2 !important;
+	border-color: #1877f2 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a.twitter:hover {
+	background: #111 !important;
+	border-color: #111 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a.linkedin:hover {
+	background: #0a66c2 !important;
+	border-color: #0a66c2 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a.whatsapp:hover {
+	background: #25d366 !important;
+	border-color: #25d366 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a.email:hover {
+	background: var(--evently-primary) !important;
+	border-color: var(--evently-primary) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .share_widgets_list li a:hover i {
+	background: transparent !important;
+	color: #fff !important;
+}
+
+/* Add to calendar */
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area {
+	position: relative;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button.evently-cal-btn,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button._button_theme_margin_auto_min_150 {
+	position: relative !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	gap: 12px !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	min-height: 52px !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 12px 44px 12px 12px !important;
+	border: 1px solid rgba(108, 92, 231, 0.2) !important;
+	border-radius: 14px !important;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 247, 252, 0.98) 100%) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.25 !important;
+	text-align: left !important;
+	text-transform: none !important;
+	cursor: pointer !important;
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.8) inset,
+		0 6px 16px rgba(108, 92, 231, 0.08) !important;
+	transition:
+		background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button:hover,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button.evently-cal-btn:hover {
+	background: var(--evently-primary-soft) !important;
+	border-color: rgba(108, 92, 231, 0.4) !important;
+	transform: translateY(-1px) !important;
+	color: var(--evently-text) !important;
+	box-shadow: 0 10px 22px rgba(108, 92, 231, 0.14) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button.is-open,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button.evently-cal-btn.is-open {
+	background: var(--evently-primary) !important;
+	border-color: var(--evently-primary) !important;
+	color: #fff !important;
+	box-shadow: 0 10px 22px rgba(108, 92, 231, 0.28) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button span,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button [data-text] {
+	color: inherit !important;
+	font-weight: 700 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area .evently-cal-btn__icon {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	width: 34px !important;
+	height: 34px !important;
+	border-radius: 10px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	color: var(--evently-primary) !important;
+	box-shadow: 0 1px 2px rgba(11, 11, 13, 0.04) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button.is-open .evently-cal-btn__icon {
+	background: rgba(255, 255, 255, 0.18) !important;
+	border-color: rgba(255, 255, 255, 0.28) !important;
+	color: #fff !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area .evently-cal-btn__icon svg {
+	display: block !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area .evently-cal-btn__chevron {
+	position: absolute !important;
+	right: 14px !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	color: inherit !important;
+	opacity: 0.7 !important;
+	transition: transform 0.15s ease !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area > button.is-open .evently-cal-btn__chevron {
+	transform: translateY(-50%) rotate(180deg) !important;
+	opacity: 1 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area [data-collapse],
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area .evently-cal-panel {
+	margin-top: 10px !important;
+	padding: 12px !important;
+	background: var(--evently-surface) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 14px !important;
+	box-shadow: 0 8px 20px rgba(11, 11, 13, 0.05) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area [data-collapse] > div,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area ._mt_xs_fdColumn {
+	display: grid !important;
+	grid-template-columns: 1fr 1fr !important;
+	gap: 8px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	flex-direction: unset !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area [data-collapse] a,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area a._button_general_mt_xs,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area .evently-cal-provider {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	gap: 10px !important;
+	width: 100% !important;
+	min-height: 44px !important;
+	margin: 0 !important;
+	padding: 10px 12px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-size: 13px !important;
+	font-weight: 600 !important;
+	text-decoration: none !important;
+	box-shadow: none !important;
+	transition:
+		border-color var(--evently-transition-fast) ease,
+		background var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area [data-collapse] a:hover,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area .evently-cal-provider:hover {
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-text) !important;
+	transform: translateY(-1px) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area .evently-cal-provider__icon {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	width: 28px !important;
+	height: 28px !important;
+	border-radius: 8px !important;
+	background: var(--evently-surface) !important;
+	color: var(--evently-primary) !important;
+	font-size: 14px !important;
+}
+
+@media (max-width: 1024px) {
+	body.single-mep_events .mep_smart_theme .mpwem_right_content {
+		position: static;
+	}
+}
+
+@media (max-width: 640px) {
+	body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .event_date_list_area,
+	body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .mpwem_location_sidebar,
+	body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .share_widgets,
+	body.single-mep_events .mep_smart_theme .mpwem_sidebar_content > .mpwem_calender_area {
+		padding: 16px !important;
+		border-radius: 16px !important;
+	}
+
+	body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area [data-collapse] > div,
+	body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_area ._mt_xs_fdColumn {
+		grid-template-columns: 1fr !important;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    Default Theme — shared title + section rhythm
    One type scale for every main-column heading so Description / FAQ /
    Timeline / Related / Reviews / Ticket Options feel consistent.
