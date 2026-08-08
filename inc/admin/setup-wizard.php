@@ -197,26 +197,27 @@ add_action( 'admin_notices', 'evently_required_plugins_notice' );
 function evently_admin_page_header( $title, $intro, $active = 'setup' ) {
 	?>
 	<header class="evently-admin-hero">
-		<div class="evently-admin-hero__glow" aria-hidden="true"></div>
 		<div class="evently-admin-hero__inner">
-			<div class="evently-admin-hero__brand">
-				<span class="evently-admin-logo" aria-hidden="true">
-					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<rect width="28" height="28" rx="8" fill="currentColor"/>
-						<path d="M8 10.5h12M8 14h8M8 17.5h10" stroke="#fff" stroke-width="1.75" stroke-linecap="round"/>
-						<circle cx="19.5" cy="9.5" r="2.25" fill="#FF7657"/>
-					</svg>
-				</span>
-				<span class="evently-admin-logo-text"><?php esc_html_e( 'Evently', 'evently' ); ?></span>
+			<div class="evently-admin-hero__top">
+				<div class="evently-admin-hero__brand">
+					<span class="evently-admin-logo" aria-hidden="true">
+						<svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<rect width="28" height="28" rx="8" fill="currentColor"/>
+							<path d="M8 10.5h12M8 14h8M8 17.5h10" stroke="#fff" stroke-width="1.75" stroke-linecap="round"/>
+							<circle cx="19.5" cy="9.5" r="2.25" fill="#BFDBFE"/>
+						</svg>
+					</span>
+					<span class="evently-admin-logo-text"><?php esc_html_e( 'Evently', 'evently' ); ?></span>
+				</div>
+				<nav class="evently-admin-tabs" aria-label="<?php esc_attr_e( 'Evently admin', 'evently' ); ?>">
+					<a class="evently-admin-tabs__link<?php echo 'setup' === $active ? ' is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=evently' ) ); ?>">
+						<?php esc_html_e( 'Setup', 'evently' ); ?>
+					</a>
+					<a class="evently-admin-tabs__link<?php echo 'settings' === $active ? ' is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=evently-settings' ) ); ?>">
+						<?php esc_html_e( 'Theme Settings', 'evently' ); ?>
+					</a>
+				</nav>
 			</div>
-			<nav class="evently-admin-tabs" aria-label="<?php esc_attr_e( 'Evently admin', 'evently' ); ?>">
-				<a class="evently-admin-tabs__link<?php echo 'setup' === $active ? ' is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=evently' ) ); ?>">
-					<?php esc_html_e( 'Setup', 'evently' ); ?>
-				</a>
-				<a class="evently-admin-tabs__link<?php echo 'settings' === $active ? ' is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=evently-settings' ) ); ?>">
-					<?php esc_html_e( 'Theme Settings', 'evently' ); ?>
-				</a>
-			</nav>
 			<div class="evently-admin-hero__copy">
 				<h1><?php echo esc_html( $title ); ?></h1>
 				<p><?php echo esc_html( $intro ); ?></p>
