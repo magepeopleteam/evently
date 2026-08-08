@@ -46,6 +46,296 @@
 		} );
 	}
 
+	/**
+	 * Plugin Default Theme gallery → full-bleed hero + right rail (arrows + zoom).
+	 * Zoom opens the existing .sliderPopup modal; main slides no longer open it.
+	 */
+	function clearInlineSliderHeights( stage ) {
+		if ( ! stage ) {
+			return;
+		}
+		stage.style.maxHeight = '';
+		stage.style.height = '';
+		Array.prototype.forEach.call( stage.querySelectorAll( '.sliderItem' ), function ( item ) {
+			item.style.minHeight = '';
+			item.style.maxHeight = '';
+			item.style.height = '';
+		} );
+	}
+
+	function currentSlideIndex( stage ) {
+		var active = stage.querySelector( '.sliderItem.activeSlide' );
+		var idx = active ? parseInt( active.getAttribute( 'data-slide-index' ), 10 ) : 1;
+		return idx > 0 ? idx : 1;
+	}
+
+	function getHeroSlides( stage ) {
+		var slides = [];
+		Array.prototype.forEach.call( stage.children, function ( child ) {
+			if ( child.classList && child.classList.contains( 'sliderItem' ) && child.getAttribute( 'data-slide-index' ) ) {
+				slides.push( child );
+			}
+		} );
+		return slides;
+	}
+
+	function setHeroSlide( stage, targetIndex ) {
+		var slides = getHeroSlides( stage );
+		var total = slides.length;
+		if ( ! total ) {
+			return 1;
+		}
+
+		var current = targetIndex;
+		if ( current < 1 ) {
+			current = total;
+		}
+		if ( current > total ) {
+			current = 1;
+		}
+
+		Array.prototype.forEach.call( slides, function ( item ) {
+			var n = parseInt( item.getAttribute( 'data-slide-index' ), 10 );
+			item.classList.remove( 'activeSlide', 'prevSlider', 'nextSlider' );
+			if ( n === current ) {
+				item.classList.add( 'activeSlide' );
+			} else if ( n < current ) {
+				item.classList.add( 'prevSlider' );
+			} else {
+				item.classList.add( 'nextSlider' );
+			}
+		} );
+
+		// Match plugin wrap behavior for seamless looping.
+		if ( total > 1 ) {
+			if ( current === 1 ) {
+				var last = stage.querySelector( '.sliderItem[data-slide-index="' + total + '"]' );
+				if ( last ) {
+					last.classList.remove( 'nextSlider' );
+					last.classList.add( 'prevSlider' );
+				}
+			}
+			if ( current === total ) {
+				var first = stage.querySelector( '.sliderItem[data-slide-index="1"]' );
+				if ( first ) {
+					first.classList.remove( 'prevSlider' );
+					first.classList.add( 'nextSlider' );
+				}
+			}
+		}
+
+		return current;
+	}
+
+	function advanceHeroSlide( stage, delta ) {
+		return setHeroSlide( stage, currentSlideIndex( stage ) + delta );
+	}
+
+	function openGalleryPopup( shell, slideIndex ) {
+		var $ = window.jQuery;
+		if ( ! $ ) {
+			return;
+		}
+		var idx = slideIndex > 0 ? slideIndex : 1;
+		var proxy = document.createElement( 'button' );
+		proxy.type = 'button';
+		proxy.setAttribute( 'data-target-popup', 'superSlider' );
+		proxy.setAttribute( 'data-slide-index', String( idx ) );
+		proxy.setAttribute( 'aria-hidden', 'true' );
+		proxy.tabIndex = -1;
+		proxy.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;';
+		shell.appendChild( proxy );
+		$( proxy ).trigger( 'click' );
+		if ( proxy.parentNode ) {
+			proxy.parentNode.removeChild( proxy );
+		}
+	}
+
+	function closeGalleryPopup( popup ) {
+		if ( ! popup ) {
+			return;
+		}
+		popup.classList.remove( 'in' );
+		document.body.classList.remove( 'noScroll' );
+	}
+
+	function ensurePopupClose( shell ) {
+		var popup = shell.querySelector( '[data-popup="superSlider"]' );
+		if ( ! popup || popup.getAttribute( 'data-evently-popup-close' ) ) {
+			return;
+		}
+		popup.setAttribute( 'data-evently-popup-close', '1' );
+
+		var header = popup.querySelector( '.popupHeader' );
+		var closeBtn = popup.querySelector( '.popup_close' );
+		if ( ! closeBtn && header ) {
+			closeBtn = document.createElement( 'button' );
+			closeBtn.type = 'button';
+			closeBtn.className = 'popup_close fas fa-times';
+			header.appendChild( closeBtn );
+		}
+		if ( closeBtn ) {
+			closeBtn.setAttribute( 'role', 'button' );
+			closeBtn.setAttribute( 'tabindex', '0' );
+			closeBtn.setAttribute( 'aria-label', t( 'close', 'Close' ) );
+			closeBtn.setAttribute( 'title', t( 'close', 'Close' ) );
+			closeBtn.addEventListener( 'click', function ( event ) {
+				event.preventDefault();
+				event.stopPropagation();
+				closeGalleryPopup( popup );
+			} );
+			closeBtn.addEventListener( 'keydown', function ( event ) {
+				if ( event.key !== 'Enter' && event.key !== ' ' ) {
+					return;
+				}
+				event.preventDefault();
+				closeGalleryPopup( popup );
+			} );
+		}
+
+		popup.addEventListener( 'click', function ( event ) {
+			if ( event.target === popup ) {
+				closeGalleryPopup( popup );
+			}
+		} );
+
+		document.addEventListener( 'keydown', function ( event ) {
+			if ( event.key === 'Escape' && popup.classList.contains( 'in' ) ) {
+				closeGalleryPopup( popup );
+			}
+		} );
+	}
+
+	function initPluginGallery( root ) {
+		var areas = root.querySelectorAll( '.default_theme .mpwem_slider_area' );
+		if ( ! areas.length ) {
+			return;
+		}
+
+		Array.prototype.forEach.call( areas, function ( area ) {
+			if ( area.getAttribute( 'data-evently-slider-ready' ) ) {
+				return;
+			}
+
+			var shell = null;
+			var children = area.children;
+			var i;
+			for ( i = 0; i < children.length; i++ ) {
+				if ( children[ i ].classList && children[ i ].classList.contains( 'superSlider' ) && children[ i ].classList.contains( 'placeholder_area' ) ) {
+					shell = children[ i ];
+					break;
+				}
+			}
+			if ( ! shell ) {
+				return;
+			}
+
+			var stage = shell.querySelector( '.dFlex > .sliderAllItem' );
+			if ( ! stage ) {
+				return;
+			}
+
+			area.setAttribute( 'data-evently-slider-ready', '1' );
+			area.classList.add( 'evently-slider-hero' );
+			stage.classList.add( 'evently-slider-hero__stage' );
+			clearInlineSliderHeights( stage );
+
+			var slides = getHeroSlides( stage );
+			var total = slides.length;
+			if ( total < 2 ) {
+				return;
+			}
+
+			// Click image → open lightbox; arrows stay for prev/next only.
+			Array.prototype.forEach.call( slides, function ( item ) {
+				item.removeAttribute( 'data-target-popup' );
+				item.style.cursor = 'zoom-in';
+				item.setAttribute( 'role', 'button' );
+				item.setAttribute( 'tabindex', '0' );
+				item.setAttribute( 'aria-label', t( 'zoomGallery', 'View gallery' ) );
+				item.addEventListener( 'click', function ( event ) {
+					if ( event.target.closest && event.target.closest( '.iconIndicator, .evently-slider-rail' ) ) {
+						return;
+					}
+					event.preventDefault();
+					event.stopPropagation();
+					openGalleryPopup( shell, currentSlideIndex( stage ) );
+				} );
+				item.addEventListener( 'keydown', function ( event ) {
+					if ( event.key !== 'Enter' && event.key !== ' ' ) {
+						return;
+					}
+					event.preventDefault();
+					openGalleryPopup( shell, currentSlideIndex( stage ) );
+				} );
+			} );
+
+			var rail = document.createElement( 'div' );
+			rail.className = 'evently-slider-rail';
+			rail.setAttribute( 'data-evently-slider-rail', '' );
+
+			var prev = null;
+			var next = null;
+			Array.prototype.forEach.call( stage.children, function ( child ) {
+				if ( ! child.classList || ! child.classList.contains( 'iconIndicator' ) ) {
+					return;
+				}
+				if ( child.classList.contains( 'prevItem' ) ) {
+					prev = child;
+				}
+				if ( child.classList.contains( 'nextItem' ) ) {
+					next = child;
+				}
+			} );
+
+			function bindArrow( el, delta ) {
+				if ( ! el ) {
+					return;
+				}
+				el.setAttribute( 'role', 'button' );
+				el.setAttribute( 'tabindex', '0' );
+				el.setAttribute( 'aria-label', delta < 0 ? t( 'prevImage', 'Previous image' ) : t( 'nextImage', 'Next image' ) );
+				el.addEventListener( 'click', function ( event ) {
+					event.preventDefault();
+					event.stopPropagation();
+					advanceHeroSlide( stage, delta );
+				} );
+				el.addEventListener( 'keydown', function ( event ) {
+					if ( event.key !== 'Enter' && event.key !== ' ' ) {
+						return;
+					}
+					event.preventDefault();
+					event.stopPropagation();
+					advanceHeroSlide( stage, delta );
+				} );
+				rail.appendChild( el );
+			}
+
+			bindArrow( prev, -1 );
+			bindArrow( next, 1 );
+			stage.appendChild( rail );
+
+			ensurePopupClose( shell );
+
+			var count = document.createElement( 'div' );
+			count.className = 'evently-slider-count';
+			count.setAttribute( 'aria-hidden', 'true' );
+			count.textContent = t( 'galleryCount', '%d photos' ).replace( '%d', String( total ) );
+			stage.appendChild( count );
+
+			// Plugin resize may re-apply inline heights after images load.
+			window.setTimeout( function () {
+				clearInlineSliderHeights( stage );
+			}, 50 );
+			window.setTimeout( function () {
+				clearInlineSliderHeights( stage );
+			}, 400 );
+			window.addEventListener( 'resize', function () {
+				clearInlineSliderHeights( stage );
+			} );
+		} );
+	}
+
 	function starLabel( value ) {
 		var n = parseInt( value, 10 ) || 0;
 		if ( n === 1 ) {
@@ -357,6 +647,7 @@
 
 	function init() {
 		initReadMore( document );
+		initPluginGallery( document );
 		document.querySelectorAll( '[data-evently-reviews]' ).forEach( enhanceReviews );
 		document.querySelectorAll( '.default_theme .mpwem_calender_area, .mep-default-sidebar .mpwem_calender_area' ).forEach( enhanceCalendarArea );
 	}

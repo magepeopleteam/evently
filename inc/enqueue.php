@@ -244,6 +244,11 @@ function evently_enqueue_assets() {
 				'starSingular'  => __( '1 star', 'evently' ),
 				/* translators: %d: star rating 2–5 */
 				'starPlural'    => __( '%d stars', 'evently' ),
+				'zoomGallery'   => __( 'View gallery', 'evently' ),
+				/* translators: %d: number of gallery photos */
+				'galleryCount'  => __( '%d photos', 'evently' ),
+				'prevImage'     => __( 'Previous image', 'evently' ),
+				'nextImage'     => __( 'Next image', 'evently' ),
 			)
 		);
 
@@ -307,6 +312,11 @@ function evently_enqueue_assets() {
 				'starSingular' => __( '1 star', 'evently' ),
 				/* translators: %d: star rating 2–5 */
 				'starPlural'   => __( '%d stars', 'evently' ),
+				'zoomGallery'  => __( 'View gallery', 'evently' ),
+				/* translators: %d: number of gallery photos */
+				'galleryCount' => __( '%d photos', 'evently' ),
+				'prevImage'    => __( 'Previous image', 'evently' ),
+				'nextImage'    => __( 'Next image', 'evently' ),
 			)
 		);
 	}

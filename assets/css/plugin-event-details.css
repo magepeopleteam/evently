@@ -273,6 +273,378 @@ body.single-mep_events .default_theme .mpwem_related_area {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   Default Theme — gallery hero (full-bleed single image)
+   Plugin markup: .mpwem_slider_area > .superSlider (+ right showcase).
+   Showcase is hidden; arrows + zoom sit in a right rail; zoom opens
+   the existing .sliderPopup lightbox for the full gallery.
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .default_theme .mpwem_slider_area {
+	margin: 0 0 var(--evently-space-4) !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area > .superSlider.placeholder_area {
+	display: block !important;
+	overflow: visible !important;
+	background: transparent !important;
+	border-radius: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex {
+	display: block !important;
+	position: relative !important;
+	width: 100% !important;
+	margin: 0 !important;
+	gap: 0 !important;
+}
+
+/* Hide thumbnail rail — hero is one image at a time */
+body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex > .sliderShowcase {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex > .sliderAllItem,
+body.single-mep_events .default_theme .mpwem_slider_area.evently-slider-hero .sliderAllItem.evently-slider-hero__stage {
+	position: relative !important;
+	float: none !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	aspect-ratio: 16 / 10;
+	height: auto !important;
+	max-height: min(560px, 72vh) !important;
+	min-height: 220px !important;
+	margin: 0 !important;
+	overflow: hidden !important;
+	border-radius: 18px !important;
+	background: var(--evently-surface-2, #eceff3) !important;
+	box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem {
+	position: absolute !important;
+	inset: 0 !important;
+	float: none !important;
+	width: 100% !important;
+	height: 100% !important;
+	min-height: 0 !important;
+	max-height: none !important;
+	margin: 0 !important;
+	border-radius: 0 !important;
+	cursor: zoom-in !important;
+	z-index: 0 !important;
+	opacity: 1 !important;
+	transform: translateX(100%) !important;
+	transition: transform 0.55s var(--evently-ease, ease) !important;
+	backface-visibility: hidden !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem.activeSlide {
+	z-index: 2 !important;
+	transform: translateX(0) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem.prevSlider {
+	z-index: 1 !important;
+	transform: translateX(-100%) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem.nextSlider {
+	z-index: 1 !important;
+	transform: translateX(100%) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem [data-bg-image] {
+	position: absolute !important;
+	inset: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	min-height: 0 !important;
+	background-size: cover !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
+	transform: none !important;
+	transition: opacity 0.35s var(--evently-ease, ease) !important;
+	cursor: zoom-in !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem [data-bg-image]:hover {
+	transform: none !important;
+}
+
+/* Single featured image (no gallery) */
+body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb {
+	position: relative !important;
+	overflow: hidden !important;
+	border-radius: 18px !important;
+	aspect-ratio: 16 / 10;
+	max-height: min(560px, 72vh) !important;
+	background: var(--evently-surface-2, #eceff3) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb img {
+	display: block !important;
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	margin: 0 !important;
+	max-height: none !important;
+}
+
+/* Bottom-right prev / next in one horizontal row */
+body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail {
+	position: absolute !important;
+	z-index: 20 !important;
+	top: auto !important;
+	bottom: 14px !important;
+	right: 14px !important;
+	left: auto !important;
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: center !important;
+	gap: 8px !important;
+	transform: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	pointer-events: none;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail > * {
+	pointer-events: auto;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator {
+	position: static !important;
+	top: auto !important;
+	left: auto !important;
+	right: auto !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 44px !important;
+	height: 44px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 999px !important;
+	background: rgba(255, 255, 255, 0.94) !important;
+	color: var(--evently-text) !important;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18) !important;
+	font-size: 16px !important;
+	line-height: 1 !important;
+	cursor: pointer !important;
+	transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator:hover {
+	background: var(--evently-primary) !important;
+	color: #fff !important;
+	transform: scale(1.04) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator:focus-visible {
+	outline: 2px solid var(--evently-primary) !important;
+	outline-offset: 3px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator span {
+	display: block !important;
+	line-height: 1 !important;
+}
+
+/* Hide stray plugin indicators still outside the rail (safety) */
+body.single-mep_events .default_theme .mpwem_slider_area.evently-slider-hero .sliderAllItem > .iconIndicator {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-count {
+	position: absolute !important;
+	z-index: 15 !important;
+	left: 14px !important;
+	bottom: 14px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 6px !important;
+	padding: 6px 12px !important;
+	border-radius: 999px !important;
+	background: rgba(15, 23, 42, 0.72) !important;
+	color: #fff !important;
+	font-size: 12px !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.02em !important;
+	line-height: 1.2 !important;
+	pointer-events: none;
+}
+
+/* Lightbox popup */
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup {
+	background: rgba(8, 12, 20, 0.92) !important;
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupHeader {
+	position: relative !important;
+	border-bottom: 0 !important;
+	background: transparent !important;
+	padding: 18px 72px 8px 24px !important;
+	overflow: visible !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupHeader h2 {
+	margin: 0 !important;
+	font-size: 1.125rem !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.02em !important;
+	color: #fff !important;
+}
+
+/* Always-visible close (plugin default places it off-screen at top: 100%) */
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup.in .popup_close,
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popup_close {
+	position: fixed !important;
+	z-index: 111111120 !important;
+	top: 20px !important;
+	right: 20px !important;
+	left: auto !important;
+	bottom: auto !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 48px !important;
+	height: 48px !important;
+	margin: 0 !important;
+	border-radius: 999px !important;
+	background: rgba(255, 255, 255, 0.16) !important;
+	color: #fff !important;
+	font-size: 20px !important;
+	line-height: 1 !important;
+	cursor: pointer !important;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popup_close:hover {
+	background: #fff !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody {
+	width: min(920px, 92vw) !important;
+	max-width: 92vw !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .sliderAllItem {
+	height: min(68vh, 640px) !important;
+	max-height: 68vh !important;
+	border-radius: 14px !important;
+	background: #0b1220 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .sliderItem [data-bg-image] {
+	background-size: contain !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
+	transform: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .iconIndicator {
+	width: 48px !important;
+	height: 48px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	border-radius: 999px !important;
+	background: rgba(255, 255, 255, 0.14) !important;
+	color: #fff !important;
+	font-size: 18px !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .iconIndicator.prevItem {
+	left: 12px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .iconIndicator.nextItem {
+	right: 12px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupFooter {
+	border-top: 0 !important;
+	background: transparent !important;
+	padding: 12px 16px 20px !important;
+	max-height: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicator {
+	justify-content: center !important;
+	gap: 8px !important;
+	margin: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicatorItem {
+	width: 64px !important;
+	height: 48px !important;
+	margin: 0 !important;
+	border: 2px solid transparent !important;
+	border-radius: 8px !important;
+	overflow: hidden !important;
+	background: rgba(255, 255, 255, 0.12) !important;
+	opacity: 0.72 !important;
+	cursor: pointer !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicatorItem.activeSlide {
+	border-color: var(--evently-primary) !important;
+	opacity: 1 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicatorItem [data-bg-image] {
+	width: 100% !important;
+	height: 100% !important;
+	min-height: 48px !important;
+	background-size: cover !important;
+	background-position: center !important;
+	transform: none !important;
+}
+
+@media (max-width: 767px) {
+	body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex > .sliderAllItem,
+	body.single-mep_events .default_theme .mpwem_slider_area.evently-slider-hero .sliderAllItem.evently-slider-hero__stage,
+	body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb {
+		aspect-ratio: 4 / 3;
+		border-radius: 14px !important;
+		max-height: min(420px, 58vh) !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail {
+		right: 10px !important;
+		bottom: 10px !important;
+		gap: 6px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator {
+		width: 40px !important;
+		height: 40px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popup_close {
+		top: 12px !important;
+		right: 12px !important;
+		width: 44px !important;
+		height: 44px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody {
+		width: 96vw !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .sliderAllItem {
+		height: min(52vh, 420px) !important;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    Default Theme — date / time / location strip
    Scope: .default_theme .date_time_location_short (plugin markup)
    ═══════════════════════════════════════════════════════════════════ */
