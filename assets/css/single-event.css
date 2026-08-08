@@ -357,10 +357,37 @@
 	line-height: 1 !important;
 	padding: 0 !important;
 	margin: 0 !important;
+	text-align: center !important;
 	transition: transform var(--evently-transition-fast) ease,
 		background var(--evently-transition-fast) ease,
 		border-color var(--evently-transition-fast) ease,
 		color var(--evently-transition-fast) ease;
+}
+
+/* Plugin sets the <i> to 40×40 without centering the glyph — override. */
+.evently-booking-card__share .share_widgets_list li a i,
+.evently-booking-card__share .share_widgets_list i {
+	width: 1em !important;
+	height: 1em !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	background-color: transparent !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	text-align: center !important;
+	vertical-align: middle !important;
+	position: static !important;
+	top: auto !important;
+	left: auto !important;
+	transform: none !important;
+	color: inherit !important;
 }
 
 .evently-booking-card__share .share_widgets_list li a:hover {
@@ -373,9 +400,21 @@
 	color: #fff !important;
 }
 
+.evently-booking-card__share .share_widgets_list li a.facebook:hover i {
+	background: transparent !important;
+	background-color: transparent !important;
+	color: #fff !important;
+}
+
 .evently-booking-card__share .share_widgets_list li a.twitter:hover {
 	background: #111 !important;
 	border-color: #111 !important;
+	color: #fff !important;
+}
+
+.evently-booking-card__share .share_widgets_list li a.twitter:hover i {
+	background: transparent !important;
+	background-color: transparent !important;
 	color: #fff !important;
 }
 
@@ -385,15 +424,33 @@
 	color: #fff !important;
 }
 
+.evently-booking-card__share .share_widgets_list li a.linkedin:hover i {
+	background: transparent !important;
+	background-color: transparent !important;
+	color: #fff !important;
+}
+
 .evently-booking-card__share .share_widgets_list li a.whatsapp:hover {
 	background: #25d366 !important;
 	border-color: #25d366 !important;
 	color: #fff !important;
 }
 
+.evently-booking-card__share .share_widgets_list li a.whatsapp:hover i {
+	background: transparent !important;
+	background-color: transparent !important;
+	color: #fff !important;
+}
+
 .evently-booking-card__share .share_widgets_list li a.email:hover {
 	background: var(--evently-primary) !important;
 	border-color: var(--evently-primary) !important;
+	color: #fff !important;
+}
+
+.evently-booking-card__share .share_widgets_list li a.email:hover i {
+	background: transparent !important;
+	background-color: transparent !important;
 	color: #fff !important;
 }
 
