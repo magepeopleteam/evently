@@ -4,33 +4,22 @@
  * inside wp-admin regardless of the active theme's own styles.
  */
 
-.evently-setup-wrap {
-	max-width: 760px;
-}
-
+/* No max-width here on purpose — WordPress's own .wrap (common.css) is
+   unconstrained on every native settings screen (Settings → General,
+   Reading, etc.), confirmed directly against core; narrowing it would read
+   as a custom-branded page again instead of a native one. */
 .evently-setup-intro {
 	font-size: 15px;
 	color: #50575e;
 	max-width: 640px;
 }
 
-.evently-setup-card {
-	background: #fff;
-	border: 1px solid #dcdcde;
-	border-radius: 8px;
-	padding: 24px;
-	margin-bottom: 20px;
-}
-
-.evently-setup-card h2 {
-	margin-top: 0;
-}
-
-/* Theme Settings screen only — same 760px card layout as the Setup wizard
-   now that there's no side-by-side live-preview panel to make room for. */
-.evently-theme-settings-wrap {
-	max-width: 760px;
-}
+/* Both the Setup wizard and Theme Settings render their sections as plain
+   "<h2>{title}</h2><table class='form-table'>" now — the exact pattern
+   WordPress core's own do_settings_sections() uses on every native
+   settings screen (wp-admin/includes/template.php) — so no card/box
+   wrapper and no extra CSS needed for section chrome; common.css (loaded
+   on every admin screen already) covers .form-table/h2 typography. */
 
 .evently-setup-requirements {
 	margin: 0;

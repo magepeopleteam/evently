@@ -214,8 +214,7 @@ function evently_render_setup_wizard_page() {
 			<?php esc_html_e( 'Get Evently ready in a few steps: install the required plugins, then import the "All Events" demo — realistic categories, organizers, events with real ticket types, blog posts, the Events/Organizer Dashboard pages, and a fully pre-built, directly editable Elementor homepage.', 'evently' ); ?>
 		</p>
 
-		<div class="evently-setup-card">
-			<h2><?php esc_html_e( '1. Required plugins', 'evently' ); ?></h2>
+		<h2><?php esc_html_e( '1. Required plugins', 'evently' ); ?></h2>
 			<ul class="evently-setup-requirements">
 				<li class="evently-setup-requirement <?php echo $has_elementor ? 'is-ok' : 'is-missing'; ?>">
 					<span class="evently-setup-requirement__status"><?php echo $has_elementor ? '✓' : '!'; ?></span>
@@ -251,10 +250,8 @@ function evently_render_setup_wizard_page() {
 					<?php endif; ?>
 				</li>
 			</ul>
-		</div>
 
-		<div class="evently-setup-card">
-			<h2><?php esc_html_e( '2. Import demo content', 'evently' ); ?></h2>
+		<h2><?php esc_html_e( '2. Import demo content', 'evently' ); ?></h2>
 
 			<?php if ( $is_imported ) : ?>
 				<div class="notice notice-success inline">
@@ -294,10 +291,8 @@ function evently_render_setup_wizard_page() {
 				<div class="evently-setup-progress__bar"><div class="evently-setup-progress__fill"></div></div>
 				<ul id="evently-import-log" class="evently-setup-log"></ul>
 			</div>
-		</div>
 
-		<div class="evently-setup-card">
-			<h2><?php esc_html_e( '3. Next steps', 'evently' ); ?></h2>
+		<h2><?php esc_html_e( '3. Next steps', 'evently' ); ?></h2>
 			<ul class="evently-setup-links">
 				<?php if ( $is_imported ) : ?>
 					<li><a href="<?php echo esc_url( admin_url( 'post.php?post=' . (int) get_option( 'page_on_front' ) . '&action=elementor' ) ); ?>"><?php esc_html_e( 'Edit Homepage with Elementor →', 'evently' ); ?></a></li>
@@ -306,7 +301,6 @@ function evently_render_setup_wizard_page() {
 				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php esc_html_e( 'View your homepage →', 'evently' ); ?></a></li>
 				<li><a href="<?php echo esc_url( evently_get_events_page_url() ); ?>" target="_blank"><?php esc_html_e( 'View the Events page →', 'evently' ); ?></a></li>
 			</ul>
-		</div>
 	</div>
 	<?php
 }

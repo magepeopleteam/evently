@@ -269,19 +269,16 @@ function evently_render_theme_settings_page() {
 		<h1><?php esc_html_e( 'Evently Theme Settings', 'evently' ); ?></h1>
 		<form method="post" action="options.php">
 			<?php
+			// The exact same call every native WordPress settings screen
+			// (Settings → General, Reading, Discussion…) uses to render its
+			// sections — plain "<h2>{title}</h2><table class='form-table'>",
+			// no card/box wrapper at all (confirmed directly against
+			// wp-admin/includes/template.php's own do_settings_sections()).
+			// Each section here was already registered with add_settings_section()
+			// against the 'evently-settings' page in evently_register_settings()
+			// below, so this needs no per-section loop of our own anymore.
 			settings_fields( 'evently_settings_group' );
-			foreach ( evently_get_settings_sections() as $section_id => $section_label ) {
-				echo '<div class="evently-setup-card">';
-				echo '<h2>' . esc_html( $section_label ) . '</h2>';
-				echo '<div class="evently-setup-card__body">';
-
-				echo '<table class="form-table" role="presentation">';
-				do_settings_fields( 'evently-settings', 'evently_section_' . $section_id );
-				echo '</table>';
-
-				echo '</div>'; // .evently-setup-card__body
-				echo '</div>'; // .evently-setup-card
-			}
+			do_settings_sections( 'evently-settings' );
 			submit_button( __( 'Save Settings', 'evently' ) );
 			?>
 		</form>

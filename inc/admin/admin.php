@@ -99,6 +99,13 @@ function evently_admin_enqueue( $hook ) {
 		return;
 	}
 
+	// The Setup wizard and Theme Settings screens both render their sections
+	// as plain "<h2>{title}</h2><table class='form-table'>" — the exact
+	// pattern WordPress core's own do_settings_sections() uses on every
+	// native settings screen (Settings → General, Reading, etc.), confirmed
+	// directly against wp-admin/includes/template.php — so no card/box
+	// wrapper, and no extra core stylesheet needed: common.css (loaded on
+	// every admin screen already) covers .form-table/.wrap/h2 typography.
 	wp_enqueue_style( 'evently-admin', EVENTLY_URI . 'assets/css/admin.css', array(), EVENTLY_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'evently_admin_enqueue' );
