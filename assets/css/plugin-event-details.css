@@ -6,6 +6,11 @@
  * Plugin wrappers use ~1320px / 20px top margin; Evently's header is fixed
  * at 76px with a 1240px (.evently-container) content track — without these
  * overrides the title sits under the nav and edges don't line up.
+ *
+ * Also restyles the Default Theme sidebar (.mep-default-sidebar) into a
+ * modern Evently card stack (organizer, seats, schedule, location, share,
+ * calendar), booking panel, FAQ accordion, and Pro review list — without
+ * changing plugin markup or hooks.
  */
 
 /* Clear the fixed site-header, then add a small breathing gap. */
@@ -56,3 +61,2784 @@ body.single-mep_events .horizon_theme .horizon_hero {
 	margin-right: auto;
 	box-sizing: border-box;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Default Theme — date / time / location strip
+   Scope: .default_theme .date_time_location_short (plugin markup)
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .default_theme .date_time_location_short {
+	display: grid !important;
+	grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+	gap: 14px !important;
+	margin: 20px 0 var(--evently-space-4) !important;
+	padding: 0 !important;
+	flex-wrap: unset !important;
+}
+
+body.single-mep_events .default_theme .date_time_location_short .short_item {
+	display: flex !important;
+	align-items: center !important;
+	gap: 14px !important;
+	width: 100% !important;
+	max-width: none !important;
+	margin: 0 !important;
+	padding: 20px !important;
+	background:
+		linear-gradient(180deg, rgba(108, 92, 231, 0.06) 0%, rgba(255, 255, 255, 0) 48%),
+		var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 18px !important;
+	box-shadow: 0 8px 24px rgba(11, 11, 13, 0.04) !important;
+	box-sizing: border-box !important;
+	transition:
+		border-color 0.18s var(--evently-ease),
+		box-shadow 0.18s var(--evently-ease),
+		transform 0.18s var(--evently-ease) !important;
+}
+
+body.single-mep_events .default_theme .date_time_location_short .short_item:hover {
+	border-color: rgba(108, 92, 231, 0.28) !important;
+	box-shadow: 0 12px 28px rgba(108, 92, 231, 0.1) !important;
+	transform: translateY(-2px);
+}
+
+body.single-mep_events .default_theme .date_time_location_short .short_item h4,
+body.single-mep_events .default_theme .date_time_location_short .short_item .__icon_circle_mr {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	width: 48px !important;
+	height: 48px !important;
+	min-width: 48px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border-radius: 14px !important;
+	background: linear-gradient(180deg, #7a6bf0 0%, var(--evently-primary) 100%) !important;
+	color: #fff !important;
+	font-size: 18px !important;
+	line-height: 1 !important;
+	box-shadow: 0 8px 18px rgba(108, 92, 231, 0.28) !important;
+}
+
+body.single-mep_events .default_theme .date_time_location_short .short_item h4 span,
+body.single-mep_events .default_theme .date_time_location_short .short_item .__icon_circle_mr span,
+body.single-mep_events .default_theme .date_time_location_short .short_item h4 i,
+body.single-mep_events .default_theme .date_time_location_short .short_item .__icon_circle_mr i {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	width: auto !important;
+	height: auto !important;
+	background: transparent !important;
+	border-radius: 0 !important;
+	color: inherit !important;
+	font-size: 18px !important;
+	line-height: 1 !important;
+}
+
+body.single-mep_events .default_theme .date_time_location_short .short_item ._fdColumn {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 4px !important;
+	min-width: 0 !important;
+	flex: 1 1 auto !important;
+}
+
+body.single-mep_events .default_theme .date_time_location_short .short_item h6 {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.1em !important;
+	text-transform: uppercase !important;
+	line-height: 1.2 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .date_time_location_short .short_item p,
+body.single-mep_events .default_theme .date_time_location_short .short_item .mep_date_status,
+body.single-mep_events .default_theme .date_time_location_short .short_item .mep_time_status {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.35 !important;
+	color: var(--evently-text) !important;
+	word-break: break-word;
+}
+
+@media (max-width: 900px) {
+	body.single-mep_events .default_theme .date_time_location_short {
+		grid-template-columns: 1fr !important;
+		gap: 10px !important;
+	}
+
+	body.single-mep_events .default_theme .date_time_location_short .short_item {
+		padding: 18px !important;
+		border-radius: 16px !important;
+	}
+
+	body.single-mep_events .default_theme .date_time_location_short .short_item:hover {
+		transform: none;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Default Theme sidebar — modern Evently card stack
+   Scope: .default_theme .mep-default-sidebar (plugin markup, Evently skin)
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .default_theme .mep-default-sidebar {
+	position: sticky;
+	top: calc(var(--evently-header-height) + var(--evently-space-2));
+	align-self: start;
+	z-index: 4;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .df-sidebar-part {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+/* Shared card shell for each sidebar block */
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_organizer,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_seat_status,
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar,
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area,
+body.single-mep_events .default_theme .mep-default-sidebar .event_speaker_list_area,
+body.single-mep_events .default_theme .mep-default-sidebar .mep-default-sidebar-tags {
+	margin: 0 !important;
+	padding: 20px 22px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 20px !important;
+	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.05) !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar h5,
+body.single-mep_events .default_theme .mep-default-sidebar .widgets_title,
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_title {
+	display: flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	margin: 0 0 14px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	font-family: inherit !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.12em !important;
+	text-transform: uppercase !important;
+	line-height: 1.3 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar h5 .mi,
+body.single-mep_events .default_theme .mep-default-sidebar h5 .fa,
+body.single-mep_events .default_theme .mep-default-sidebar h5 .fas,
+body.single-mep_events .default_theme .mep-default-sidebar h5 .far {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 28px !important;
+	height: 28px !important;
+	border-radius: 9px !important;
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-primary) !important;
+	font-size: 13px !important;
+	line-height: 1 !important;
+	flex-shrink: 0;
+}
+
+/* ── Organizer (identity card) ───────────────────────────────────── */
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_organizer {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	padding: 20px 22px !important;
+	background:
+		linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(255, 255, 255, 0) 52%),
+		var(--evently-white) !important;
+}
+
+/* Override shared sidebar h5 rules — override uses no heading */
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_organizer > h5 {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_organizer_item,
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 14px !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: inherit !important;
+	font-weight: inherit !important;
+	line-height: inherit !important;
+	color: var(--evently-text) !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__identity {
+	display: flex !important;
+	align-items: center !important;
+	gap: 14px !important;
+	min-width: 0 !important;
+	flex: 1 1 auto !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__avatar {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	width: 52px !important;
+	height: 52px !important;
+	border-radius: 16px !important;
+	background: linear-gradient(180deg, #7a6bf0 0%, var(--evently-primary) 100%) !important;
+	color: #fff !important;
+	font-size: 20px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1 !important;
+	box-shadow: 0 8px 18px rgba(108, 92, 231, 0.28) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__meta {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 4px !important;
+	min-width: 0 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__label {
+	display: block !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.1em !important;
+	text-transform: uppercase !important;
+	line-height: 1.2 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__name,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_organizer_item a.evently-plugin-organizer__name {
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 17px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+	text-decoration: none !important;
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	transition: color 0.15s ease;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__name:hover,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_organizer_item a.evently-plugin-organizer__name:hover {
+	color: var(--evently-primary) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__follow {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	min-height: 40px !important;
+	padding: 10px 18px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-surface) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 13px !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	text-decoration: none !important;
+	box-shadow: none !important;
+	transition:
+		background 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease,
+		transform 0.15s ease !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-plugin-organizer__follow:hover {
+	background: var(--evently-primary) !important;
+	border-color: var(--evently-primary) !important;
+	color: #fff !important;
+	transform: translateY(-1px);
+}
+
+/* ── Seat stats ──────────────────────────────────────────────────── */
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_seat_status {
+	padding: 16px !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mep-default-sidrbar-price-seat,
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info {
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info {
+	display: grid !important;
+	grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+	gap: 10px !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .total-seats,
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .available-seats {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 6px !important;
+	margin: 0 !important;
+	padding: 16px 14px !important;
+	border-radius: 14px !important;
+	border: 0 !important;
+	background: var(--evently-surface) !important;
+	text-align: left !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .total-seats {
+	background: var(--evently-primary-soft) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .available-seats {
+	background: rgba(22, 163, 74, 0.1) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .total-seats div,
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .available-seats div {
+	order: 2;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	color: var(--evently-muted) !important;
+	line-height: 1.2 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .total-seats strong,
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .available-seats strong {
+	order: 1;
+	font-size: 22px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.1 !important;
+	color: var(--evently-primary) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .setas-info .available-seats strong {
+	color: var(--evently-success) !important;
+}
+
+/* ── Schedule date list (modern calendar rows) ───────────────────── */
+
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_list_area,
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .evently-date-list {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 10px !important;
+	max-height: none !important;
+	overflow: visible !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date-list-item,
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_item {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_item::before {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-row__link,
+body.single-mep_events .evently-date-row__link {
+	display: grid !important;
+	grid-template-columns: auto 1fr auto !important;
+	align-items: center !important;
+	gap: 12px !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 12px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 14px !important;
+	background: var(--evently-surface) !important;
+	color: var(--evently-text) !important;
+	text-decoration: none !important;
+	box-sizing: border-box !important;
+	transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-row__link:hover,
+body.single-mep_events .evently-date-row.is-active .evently-date-row__link,
+body.single-mep_events .evently-date-row__link:hover {
+	background: var(--evently-white) !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	box-shadow: 0 8px 20px rgba(108, 92, 231, 0.08) !important;
+	transform: translateY(-1px);
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .evently-date-row.is-active .evently-date-row__link {
+	border-color: rgba(108, 92, 231, 0.45) !important;
+	box-shadow: 0 0 0 3px var(--evently-primary-soft) !important;
+}
+
+body.single-mep_events .evently-date-row__badge {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	min-height: 56px;
+	padding: 8px 6px;
+	border-radius: 12px;
+	background: linear-gradient(180deg, #7a6bf0 0%, var(--evently-primary) 100%);
+	color: #fff;
+	box-shadow: 0 6px 14px rgba(108, 92, 231, 0.28);
+	flex-shrink: 0;
+}
+
+body.single-mep_events .evently-date-row__month {
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	line-height: 1;
+	opacity: 0.9;
+}
+
+body.single-mep_events .evently-date-row__day {
+	margin-top: 4px;
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	line-height: 1;
+}
+
+body.single-mep_events .evently-date-row__body {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	min-width: 0;
+}
+
+body.single-mep_events .evently-date-row__dow {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--evently-primary);
+	line-height: 1.2;
+}
+
+body.single-mep_events .evently-date-row__full {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--evently-text);
+}
+
+body.single-mep_events .evently-date-row__time {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--evently-muted);
+	line-height: 1.3;
+}
+
+body.single-mep_events .evently-date-row__time svg {
+	flex-shrink: 0;
+	opacity: 0.85;
+}
+
+body.single-mep_events .evently-date-row__chevron {
+	display: inline-flex;
+	color: var(--evently-muted);
+	opacity: 0.7;
+}
+
+body.single-mep_events .evently-date-row__link:hover .evently-date-row__chevron,
+body.single-mep_events .evently-date-row.is-active .evently-date-row__chevron {
+	color: var(--evently-primary);
+	opacity: 1;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more,
+body.single-mep_events .evently-date-list__more {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 100% !important;
+	min-height: 42px !important;
+	margin: 10px 0 0 !important;
+	padding: 10px 14px !important;
+	border: 1px dashed rgba(108, 92, 231, 0.35) !important;
+	border-radius: 12px !important;
+	background: transparent !important;
+	color: var(--evently-primary) !important;
+	font-family: inherit !important;
+	font-size: 13px !important;
+	font-weight: 700 !important;
+	cursor: pointer !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more:hover,
+body.single-mep_events .evently-date-list__more:hover {
+	background: var(--evently-primary-soft) !important;
+	border-style: solid !important;
+}
+
+/* ── Location ────────────────────────────────────────────────────── */
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar p {
+	margin: 0 0 14px !important;
+	padding: 0 !important;
+	font-size: 15px !important;
+	font-weight: 600 !important;
+	line-height: 1.45 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar > button,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar ._button_theme_margin_auto {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	gap: 8px !important;
+	width: 100% !important;
+	min-height: 46px !important;
+	margin: 0 !important;
+	padding: 12px 16px !important;
+	border: 1px solid rgba(108, 92, 231, 0.22) !important;
+	border-radius: 12px !important;
+	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	cursor: pointer !important;
+	box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08) !important;
+	transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar > button:hover,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar ._button_theme_margin_auto:hover {
+	background: var(--evently-primary-soft) !important;
+	border-color: rgba(108, 92, 231, 0.4) !important;
+	color: var(--evently-text) !important;
+	transform: translateY(-1px);
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar > button i,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar ._button_theme_margin_auto i {
+	color: var(--evently-primary) !important;
+	margin: 0 !important;
+}
+
+/* ── Share ───────────────────────────────────────────────────────── */
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: center !important;
+	gap: 8px !important;
+	list-style: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li {
+	margin: 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a {
+	width: 40px !important;
+	height: 40px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-surface) !important;
+	color: var(--evently-text) !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	text-decoration: none !important;
+	transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a i {
+	width: 1em !important;
+	height: 1em !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: inherit !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a:hover {
+	transform: translateY(-1px);
+	color: #fff !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a.facebook:hover {
+	background: #1877f2 !important;
+	border-color: #1877f2 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a.twitter:hover {
+	background: #111 !important;
+	border-color: #111 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a.linkedin:hover {
+	background: #0a66c2 !important;
+	border-color: #0a66c2 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a.whatsapp:hover {
+	background: #25d366 !important;
+	border-color: #25d366 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a.email:hover {
+	background: var(--evently-primary) !important;
+	border-color: var(--evently-primary) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .share_widgets_list li a:hover i {
+	background: transparent !important;
+	color: #fff !important;
+}
+
+/* ── Add calendar ────────────────────────────────────────────────── */
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area {
+	position: relative;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button {
+	position: relative;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	gap: 12px !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	min-height: 48px !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 13px 42px 13px 14px !important;
+	border: 1px solid rgba(108, 92, 231, 0.22) !important;
+	border-radius: 14px !important;
+	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	text-align: left !important;
+	cursor: pointer !important;
+	box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08) !important;
+	transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button:hover {
+	background: var(--evently-primary-soft) !important;
+	border-color: rgba(108, 92, 231, 0.4) !important;
+	transform: translateY(-1px);
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button span,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button [data-text] {
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] {
+	margin-top: 10px !important;
+	padding: 12px !important;
+	background: var(--evently-surface) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 14px !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] > div,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area ._mt_xs_fdColumn {
+	display: grid !important;
+	grid-template-columns: 1fr 1fr !important;
+	gap: 8px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	flex-direction: unset !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] a,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area a._button_general_mt_xs {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 100% !important;
+	min-height: 42px !important;
+	margin: 0 !important;
+	padding: 10px 12px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-size: 13px !important;
+	font-weight: 600 !important;
+	text-decoration: none !important;
+	box-shadow: none !important;
+	transition: border-color 0.15s ease, transform 0.15s ease !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] a:hover {
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	color: var(--evently-text) !important;
+	transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Default Theme — Event Timelines (modern rail + cards)
+   Scope: .default_theme .mpwem_timeline_area (plugin markup)
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .default_theme .mpwem_timeline_area {
+	margin: var(--evently-space-4) 0 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	overflow: visible !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header {
+	margin: 0 0 var(--evently-space-3) !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header h2 {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: 26px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_body {
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area {
+	position: relative !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	margin: 0 !important;
+	padding: 0 0 0 28px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area::before {
+	content: "" !important;
+	position: absolute !important;
+	left: 7px !important;
+	top: 18px !important;
+	bottom: 18px !important;
+	width: 2px !important;
+	height: auto !important;
+	background: var(--evently-border) !important;
+	opacity: 1 !important;
+	z-index: 0 !important;
+	border-radius: 999px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item {
+	position: relative !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item .timeline_counter {
+	position: absolute !important;
+	left: -28px !important;
+	top: 22px !important;
+	z-index: 2 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 16px !important;
+	height: 16px !important;
+	min-width: 16px !important;
+	padding: 0 !important;
+	border: 3px solid #c8c8d2 !important;
+	border-radius: 50% !important;
+	background: var(--evently-white) !important;
+	color: transparent !important;
+	font-size: 0 !important;
+	font-weight: 700 !important;
+	line-height: 1 !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:first-child .timeline_counter,
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:has(.mp_wp_editor.mActive) .timeline_counter,
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:hover .timeline_counter {
+	background: var(--evently-primary) !important;
+	border-color: var(--evently-primary) !important;
+	box-shadow: 0 0 0 4px var(--evently-primary-soft) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content {
+	margin: 0 !important;
+	padding: 16px 18px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: var(--evently-radius-md) !important;
+	box-shadow: var(--evently-shadow-soft) !important;
+	transition:
+		border-color 0.18s var(--evently-ease),
+		box-shadow 0.18s var(--evently-ease) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:first-child .timeline_content,
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:has(.mp_wp_editor.mActive) .timeline_content,
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:hover .timeline_content {
+	border-color: rgba(108, 92, 231, 0.28) !important;
+	box-shadow: 0 8px 24px rgba(11, 11, 13, 0.06) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_header {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: center !important;
+	gap: 8px 10px !important;
+	margin: 0 0 2px !important;
+	padding: 0 !important;
+	cursor: pointer !important;
+	user-select: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_tag {
+	display: inline-flex !important;
+	align-items: center !important;
+	order: 3 !important;
+	flex: 1 1 100% !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	clip-path: none !important;
+	filter: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_header:hover .timeline_tag {
+	filter: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .tl_title {
+	display: block !important;
+	max-width: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+	line-height: 1.35 !important;
+	letter-spacing: -0.01em !important;
+	color: var(--evently-text) !important;
+	text-transform: none !important;
+	white-space: normal !important;
+	overflow: visible !important;
+	text-overflow: unset !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_connector {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_time {
+	order: 1 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 6px !important;
+	margin: 0 !important;
+	padding: 5px 11px !important;
+	border-radius: var(--evently-radius-pill) !important;
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-primary) !important;
+	font-size: 12px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.02em !important;
+	line-height: 1.2 !important;
+	white-space: nowrap !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_time i {
+	font-size: 11px !important;
+	line-height: 1 !important;
+	opacity: 0.9 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor {
+	display: none !important;
+	margin: 10px 0 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	font-size: 14px !important;
+	line-height: 1.6 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor.mActive {
+	display: block !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor > *:first-child {
+	margin-top: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor > *:last-child {
+	margin-bottom: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor p {
+	margin: 0 0 0.5em !important;
+	color: var(--evently-muted) !important;
+	font-size: 14px !important;
+	line-height: 1.6 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor p:last-child {
+	margin-bottom: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Default Theme — Booking / registration panel
+   Scope: .default_theme .mpwem_registration_area (plugin markup)
+   Wide main-column layout: flat ticket rows, not nested purple cards.
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .default_theme .mpwem_registration_area {
+	margin: var(--evently-space-5) 0 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .section-title {
+	margin: 0 0 6px !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: 26px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+}
+
+/* Outer shell — soft surface panel, matches sidebar cards */
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel,
+body.single-mep_events .default_theme .mpwem_booking_panel {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 20px !important;
+	overflow: hidden !important;
+	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.05) !important;
+	box-sizing: border-box !important;
+}
+
+/* Ticket Options header (+ optional date/time controls) */
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: stretch !important;
+	gap: 14px !important;
+	margin: 0 !important;
+	padding: 20px 22px 18px !important;
+	background:
+		linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.02) 100%) !important;
+	border: 0 !important;
+	border-bottom: 1px solid rgba(108, 92, 231, 0.12) !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	z-index: auto !important;
+	position: relative !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title {
+	display: flex !important;
+	align-items: center !important;
+	gap: 10px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: 18px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	text-transform: none !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title::before {
+	content: "" !important;
+	display: inline-block !important;
+	width: 8px !important;
+	height: 8px !important;
+	border-radius: 50% !important;
+	background: var(--evently-primary) !important;
+	box-shadow: 0 0 0 4px var(--evently-primary-soft) !important;
+	flex-shrink: 0 !important;
+}
+
+/* Title-only header (single date / hidden input) — tighter bottom padding */
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header:not(:has(.date-time-area)) {
+	padding-bottom: 20px !important;
+	border-radius: 12px !important;
+	border: 1px solid #ddd !important;
+	margin-bottom: 5px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area {
+	display: grid !important;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+	gap: 12px !important;
+	align-items: end !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area > ._dFlex {
+	display: contents !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem_time_area {
+	display: contents !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	width: auto !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: stretch !important;
+	gap: 8px !important;
+	width: 100% !important;
+	margin: 0 !important;
+	position: relative !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label::after {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label span {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 6px !important;
+	font-size: 12px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.04em !important;
+	text-transform: uppercase !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label i {
+	position: absolute !important;
+	right: 14px !important;
+	bottom: 13px !important;
+	z-index: 2 !important;
+	pointer-events: none !important;
+	color: var(--evently-primary) !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .formControl,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area select.formControl,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area input.formControl,
+body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time.formControl {
+	width: 100% !important;
+	max-width: 100% !important;
+	min-height: 46px !important;
+	padding: 12px 40px 12px 14px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-white) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	color: var(--evently-text) !important;
+	box-shadow: 0 1px 2px rgba(11, 11, 13, 0.04) !important;
+	box-sizing: border-box !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	cursor: pointer !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .formControl:hover,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area select.formControl:hover,
+body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time.formControl:hover {
+	border-color: rgba(108, 92, 231, 0.35) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .formControl:focus,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area select.formControl:focus,
+body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time.formControl:focus {
+	outline: none !important;
+	border-color: var(--evently-primary) !important;
+	box-shadow: 0 0 0 3px var(--evently-primary-soft) !important;
+}
+
+/* Keep true hidden inputs invisible (override earlier full-width input rules) */
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header input[type="hidden"],
+body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time[type="hidden"] {
+	display: none !important;
+	width: 0 !important;
+	height: 0 !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border: 0 !important;
+}
+
+/* Ticket block */
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_ticket_type,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_ex_service {
+	margin: 0 !important;
+	padding: 0 0 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	overflow: visible !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-header,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-header,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_ticket_type .card-header,
+body.single-mep_events .default_theme .mpwem_booking_panel .ticket-title {
+	display: block !important;
+	margin: 0 !important;
+	padding: 16px 22px 8px !important;
+	background: none !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.1em !important;
+	text-transform: uppercase !important;
+	line-height: 1.2 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_ticket_type .card-body {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+}
+
+/* Flat ticket rows — divider list, uses full column width */
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body .mep_ticket_item,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item {
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-bottom: 1px solid var(--evently-border) !important;
+	border-radius: 0 !important;
+	overflow: visible !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+	transition: background var(--evently-transition-fast) ease;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item:last-child,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item:last-child {
+	border-bottom: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item:hover {
+	background: rgba(108, 92, 231, 0.04) !important;
+	border-color: var(--evently-border) !important;
+	box-shadow: none !important;
+}
+
+/* Desktop: name | price | qty on one row */
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body .mep_ticket_item .ticket-data,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-data {
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) auto auto !important;
+	grid-template-areas: "info price qty" !important;
+	align-items: center !important;
+	column-gap: 20px !important;
+	row-gap: 0 !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+	padding: 18px 22px !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-sizing: border-box !important;
+	flex-wrap: nowrap !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data .ticket-info,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body .mep_ticket_item .ticket-data .ticket-info,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-data .ticket-info {
+	grid-area: info !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: flex-start !important;
+	gap: 4px !important;
+	flex: 1 1 auto !important;
+	flex-basis: auto !important;
+	width: auto !important;
+	max-width: none !important;
+	min-width: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	text-align: left !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data .ticket-info .ticket-name,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-name {
+	margin: 0 !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+	line-height: 1.3 !important;
+	color: var(--evently-text) !important;
+	text-align: left !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data .ticket-info .ticket-description,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-description {
+	margin: 0 !important;
+	font-size: 13px !important;
+	line-height: 1.45 !important;
+	color: var(--evently-muted) !important;
+	max-width: 42ch !important;
+	text-align: left !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data .ticket-info .ticket-remaining,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-remaining {
+	display: inline-flex !important;
+	align-items: center !important;
+	width: fit-content !important;
+	max-width: 100% !important;
+	margin: 4px 0 0 !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	font-size: 12px !important;
+	font-weight: 600 !important;
+	font-style: normal !important;
+	line-height: 1.3 !important;
+	color: var(--evently-success) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-remaining.remaining-low {
+	background: transparent !important;
+	color: var(--evently-warning) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-remaining.remaining-high {
+	background: transparent !important;
+	color: var(--evently-success) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data .ticket-price,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body .mep_ticket_item .ticket-data .ticket-price,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-data .ticket-price {
+	grid-area: price !important;
+	justify-self: end !important;
+	align-self: center !important;
+	flex: none !important;
+	flex-basis: auto !important;
+	width: auto !important;
+	max-width: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 18px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.2 !important;
+	color: var(--evently-text) !important;
+	text-align: right !important;
+	white-space: nowrap !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-price .amount,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-price .woocommerce-Price-amount,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-price bdi,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-price .woocommerce-Price-currencySymbol {
+	font-size: 18px !important;
+	font-weight: 800 !important;
+	line-height: 1.2 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data .quantity-control,
+body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body .mep_ticket_item .ticket-data .quantity-control,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-data .quantity-control {
+	grid-area: qty !important;
+	justify-self: end !important;
+	align-self: center !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: flex-end !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	width: auto !important;
+	max-width: none !important;
+	flex: none !important;
+}
+
+/* Quantity stepper — compact pill */
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qtyIncDec {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 2px !important;
+	margin: 0 !important;
+	padding: 3px !important;
+	height: auto !important;
+	min-width: 108px !important;
+	background: var(--evently-surface) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: var(--evently-radius-pill) !important;
+	overflow: visible !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .decQty,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .incQty {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 30px !important;
+	height: 30px !important;
+	min-width: 30px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 50% !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	line-height: 1 !important;
+	cursor: pointer !important;
+	box-shadow: 0 1px 2px rgba(11, 11, 13, 0.06) !important;
+	transition:
+		background var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .decQty:hover,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .incQty:hover {
+	background: var(--evently-primary) !important;
+	color: var(--evently-white) !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .decQty.mpDisabled,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .incQty.mpDisabled {
+	opacity: 0.35 !important;
+	cursor: default !important;
+	pointer-events: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qtyIncDec label {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	min-width: 32px;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .inputIncDec,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qtyIncDec .formControl,
+body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qtyIncDec input {
+	width: 32px !important;
+	min-width: 32px !important;
+	height: 30px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: none !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	color: var(--evently-text) !important;
+	text-align: center !important;
+}
+
+/* Summary + CTA footer */
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area,
+body.single-mep_events .default_theme div.mpwem_form_submit_area {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	margin: 0 !important;
+	padding: 18px 22px 20px !important;
+	border-top: 1px solid var(--evently-border) !important;
+	border-radius: 0 !important;
+	background: var(--evently-surface) !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_summery,
+body.single-mep_events .default_theme div.mpwem_form_submit_area .mpwem_summery {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	justify-content: stretch !important;
+	align-items: stretch !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_summery .total,
+body.single-mep_events .default_theme .mpwem_booking_panel .total,
+body.single-mep_events .default_theme div.mpwem_form_submit_area .total {
+	display: flex !important;
+	align-items: baseline !important;
+	justify-content: space-between !important;
+	gap: 12px !important;
+	margin: 0 !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	letter-spacing: 0 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_total {
+	font-size: 1.5rem !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.03em !important;
+	line-height: 1.1 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_book_now,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area > ._button_theme,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area button.mpwem_book_now {
+	position: relative !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	gap: 10px !important;
+	width: 100% !important;
+	min-height: 52px !important;
+	margin: 0 !important;
+	padding: 14px 22px !important;
+	border: 0 !important;
+	border-radius: 14px !important;
+	background: var(--evently-primary) !important;
+	color: #fff !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.01em !important;
+	line-height: 1.2 !important;
+	text-align: center !important;
+	text-decoration: none !important;
+	cursor: pointer !important;
+	overflow: hidden !important;
+	box-shadow: 0 8px 20px rgba(108, 92, 231, 0.28) !important;
+	transition:
+		transform var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease,
+		background var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_book_now::before,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area > ._button_theme::before {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_book_now i,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area > ._button_theme i {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	margin: 0 !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	opacity: 0.95;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_book_now:hover,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area > ._button_theme:hover {
+	transform: translateY(-1px) !important;
+	background: #5a4bd6 !important;
+	opacity: 1 !important;
+	filter: none !important;
+	box-shadow: 0 12px 26px rgba(108, 92, 231, 0.36) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_book_now:disabled,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_book_now.mpDisabled,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area > ._button_theme:disabled {
+	opacity: 0.45 !important;
+	cursor: not-allowed !important;
+	transform: none !important;
+	box-shadow: none !important;
+	background: var(--evently-primary) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_booking_panel .dNone,
+body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_native_checkout_trigger {
+	display: none !important;
+}
+
+/* Keep hidden modal out of flex layout flow */
+body.single-mep_events .default_theme .mpwem_booking_panel #mep-native-checkout-modal[style*="display:none"],
+body.single-mep_events .default_theme .mpwem_booking_panel #mep-native-checkout-modal[style*="display: none"] {
+	display: none !important;
+}
+
+/* Native checkout modal — Evently tokens */
+body.single-mep_events .default_theme #mep-native-checkout-modal {
+	--mep-accent: var(--evently-primary);
+	--mep-accent-2: #5a4bd6;
+	--mep-accent-soft: var(--evently-primary-soft);
+	--mep-ink: var(--evently-text);
+	--mep-ink-soft: #555552;
+	--mep-muted: var(--evently-muted);
+	--mep-line: var(--evently-border);
+	--mep-bg-soft: var(--evently-surface);
+	--mep-radius: var(--evently-radius-md);
+	font-family: var(--evently-font-sans) !important;
+}
+
+body.single-mep_events .default_theme .mep-native-modal-overlay {
+	background: rgba(11, 11, 13, 0.52) !important;
+}
+
+body.single-mep_events .default_theme .mep-native-modal-box {
+	border-radius: 20px !important;
+	box-shadow: var(--evently-shadow-floating) !important;
+}
+
+body.single-mep_events .default_theme .mep-native-modal-header {
+	background: var(--evently-surface) !important;
+	border-bottom-color: var(--evently-border) !important;
+}
+
+body.single-mep_events .default_theme .mep-native-event-datetime::before {
+	content: none !important;
+}
+
+body.single-mep_events .default_theme #mep-native-checkout-modal .mep-native-input:focus {
+	border-color: var(--evently-primary) !important;
+	box-shadow: 0 0 0 3px var(--evently-primary-soft) !important;
+}
+
+body.single-mep_events .default_theme .mep-native-payment-option:has(input:checked) {
+	border-color: var(--evently-primary) !important;
+	background: var(--evently-primary-soft) !important;
+	box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1) !important;
+}
+
+body.single-mep_events .default_theme #mep-native-checkout-modal .mep-native-primary-btn {
+	background: var(--evently-primary) !important;
+	box-shadow: 0 8px 20px rgba(108, 92, 231, 0.28) !important;
+}
+
+body.single-mep_events .default_theme #mep-native-total-display {
+	color: var(--evently-primary) !important;
+}
+
+@media (max-width: 720px) {
+	body.single-mep_events .default_theme .mpwem_registration_area .section-title {
+		font-size: 22px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data,
+	body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body .mep_ticket_item .ticket-data,
+	body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-data {
+		grid-template-columns: minmax(0, 1fr) auto !important;
+		grid-template-areas:
+			"info info"
+			"price qty" !important;
+		align-items: end !important;
+		row-gap: 14px !important;
+		column-gap: 12px !important;
+		padding: 16px 18px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data .ticket-price,
+	body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-data .ticket-price {
+		justify-self: start !important;
+		text-align: left !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_booking_panel .mpwem_form_submit_area,
+	body.single-mep_events .default_theme div.mpwem_form_submit_area {
+		padding: 16px 18px 18px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_registration_area .date-time-header,
+	body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-header {
+		padding-left: 18px !important;
+		padding-right: 18px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-description {
+		max-width: none !important;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Default Theme — FAQ accordion
+   Scope: .default_theme .faq_area (plugin markup)
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .default_theme .faq_area,
+body.single-mep_events .default_theme div.faq_area {
+	margin: var(--evently-space-5) 0 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	overflow: visible !important;
+}
+
+body.single-mep_events .default_theme .faq_area > h2,
+body.single-mep_events .default_theme div.faq_area h2 {
+	margin: 0 0 var(--evently-space-3) !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	font-family: inherit !important;
+	font-size: 26px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+	text-align: left !important;
+}
+
+body.single-mep_events .default_theme .faq_area > .description:empty {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .faq_area > .description:not(:empty) {
+	margin: 0 0 var(--evently-space-3) !important;
+	padding: 0 !important;
+	font-size: 15px !important;
+	line-height: 1.6 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .faq_area .faq_items {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 10px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item,
+body.single-mep_events .default_theme div.faq_area .item {
+	margin: 0 !important;
+	padding: 0 !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 16px !important;
+	box-shadow: 0 4px 16px rgba(11, 11, 13, 0.03) !important;
+	overflow: hidden !important;
+	color: var(--evently-text) !important;
+	cursor: default !important;
+	transition:
+		border-color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease,
+		background var(--evently-transition-fast) ease;
+}
+
+body.single-mep_events .default_theme .faq_area .item:hover,
+body.single-mep_events .default_theme div.faq_area .item:hover {
+	background: var(--evently-white) !important;
+	border-color: rgba(108, 92, 231, 0.28) !important;
+	box-shadow: 0 8px 22px rgba(108, 92, 231, 0.08) !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item:has(.content.mActive),
+body.single-mep_events .default_theme div.faq_area .item:has(.content.mActive) {
+	background: var(--evently-white) !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	box-shadow: 0 10px 28px rgba(108, 92, 231, 0.1) !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .title,
+body.single-mep_events .default_theme div.faq_area .item .title {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 16px !important;
+	margin: 0 !important;
+	padding: 18px 20px !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: var(--evently-text) !important;
+	cursor: pointer !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .title h3,
+body.single-mep_events .default_theme div.faq_area .item .title h3 {
+	margin: 0 !important;
+	padding: 0 !important;
+	flex: 1 1 auto !important;
+	min-width: 0 !important;
+	font-family: inherit !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.4 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .title i,
+body.single-mep_events .default_theme div.faq_area .item .title i {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex: 0 0 auto !important;
+	width: 32px !important;
+	height: 32px !important;
+	border-radius: 10px !important;
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-primary) !important;
+	font-size: 12px !important;
+	line-height: 1 !important;
+	transition:
+		transform var(--evently-transition-base) var(--evently-ease),
+		background var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease;
+}
+
+body.single-mep_events .default_theme .faq_area .item:has(.content.mActive) .title i,
+body.single-mep_events .default_theme div.faq_area .item:has(.content.mActive) .title i {
+	transform: rotate(90deg) !important;
+	background: var(--evently-primary) !important;
+	color: var(--evently-white) !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .content,
+body.single-mep_events .default_theme div.faq_area .item .content {
+	margin: 0 !important;
+	padding: 0 20px 18px !important;
+	border: 0 !important;
+	background: transparent !important;
+	color: var(--evently-muted) !important;
+	font-size: 15px !important;
+	line-height: 1.65 !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .content.mActive,
+body.single-mep_events .default_theme div.faq_area .item .content.mActive {
+	display: block !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .content > *:first-child {
+	margin-top: 0 !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .content > *:last-child {
+	margin-bottom: 0 !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .content p {
+	margin: 0 0 10px !important;
+	color: var(--evently-muted) !important;
+	font-size: 15px !important;
+	line-height: 1.65 !important;
+}
+
+body.single-mep_events .default_theme .faq_area .item .content p:last-child {
+	margin-bottom: 0 !important;
+}
+
+@media (max-width: 640px) {
+	body.single-mep_events .default_theme .faq_area > h2,
+	body.single-mep_events .default_theme div.faq_area h2 {
+		font-size: 22px !important;
+	}
+
+	body.single-mep_events .default_theme .faq_area .item .title,
+	body.single-mep_events .default_theme div.faq_area .item .title {
+		padding: 16px !important;
+		gap: 12px !important;
+	}
+
+	body.single-mep_events .default_theme .faq_area .item .title h3,
+	body.single-mep_events .default_theme div.faq_area .item .title h3 {
+		font-size: 15px !important;
+	}
+
+	body.single-mep_events .default_theme .faq_area .item .content,
+	body.single-mep_events .default_theme div.faq_area .item .content {
+		padding: 0 16px 16px !important;
+		font-size: 14px !important;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Default Theme — Related Events (minimal card carousel)
+   Scope: .default_theme .mpwem_related_area (plugin markup + slick)
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .default_theme .mpwem_related_area {
+	margin: var(--evently-space-6) 0 0 !important;
+	padding: var(--evently-space-6) 0 0 !important;
+	border-top: 1px solid var(--evently-border) !important;
+	background: transparent !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .related_title {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 16px !important;
+	margin: 0 0 var(--evently-space-3) !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .related_title h3 {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: 26px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+	text-align: left !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .related_navigation {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	margin: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .related_navigation button,
+body.single-mep_events .default_theme .mpwem_related_area .related_prev,
+body.single-mep_events .default_theme .mpwem_related_area .related_next {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 40px !important;
+	height: 40px !important;
+	min-width: 40px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 50% !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-size: 13px !important;
+	line-height: 1 !important;
+	box-shadow: none !important;
+	cursor: pointer !important;
+	transition:
+		background 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease,
+		transform 0.15s ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .related_navigation button:hover,
+body.single-mep_events .default_theme .mpwem_related_area .related_prev:hover,
+body.single-mep_events .default_theme .mpwem_related_area .related_next:hover {
+	background: var(--evently-dark) !important;
+	border-color: var(--evently-dark) !important;
+	color: #fff !important;
+	transform: translateY(-1px);
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .related_item,
+body.single-mep_events .default_theme .mpwem_related_area .related_item.mep_event_list {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .slick-list {
+	margin: 0 -7px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .slick-track {
+	display: flex !important;
+	align-items: stretch !important;
+	gap: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep-event-list-loop,
+body.single-mep_events .default_theme .mpwem_related_area .filter_item,
+body.single-mep_events .default_theme .mpwem_related_area .mep_event_grid_item,
+body.single-mep_events .default_theme .mpwem_related_area .column_style {
+	display: flex !important;
+	flex-direction: column !important;
+	height: auto !important;
+	min-height: 0 !important;
+	margin: 0 7px !important;
+	padding: 0 !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 16px !important;
+	box-shadow: none !important;
+	overflow: hidden !important;
+	box-sizing: border-box !important;
+	transition:
+		border-color 0.18s var(--evently-ease),
+		box-shadow 0.18s var(--evently-ease),
+		transform 0.18s var(--evently-ease) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep-event-list-loop:hover,
+body.single-mep_events .default_theme .mpwem_related_area .filter_item:hover {
+	border-color: rgba(108, 92, 231, 0.28) !important;
+	box-shadow: 0 12px 28px rgba(11, 11, 13, 0.08) !important;
+	transform: translateY(-3px);
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb,
+body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb.mpwem_style {
+	position: relative !important;
+	width: 100% !important;
+	min-height: 180px !important;
+	height: 180px !important;
+	margin: 0 !important;
+	overflow: hidden !important;
+	background: var(--evently-surface) !important;
+	flex-shrink: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb > div[data-bg-image],
+body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb > div[style*="background-image"] {
+	position: absolute !important;
+	inset: 0 !important;
+	width: 100% !important;
+	min-height: 100% !important;
+	height: 100% !important;
+	background-size: cover !important;
+	background-position: center !important;
+	transition: transform 0.35s var(--evently-ease) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep-event-list-loop:hover .mep_list_thumb > div[data-bg-image],
+body.single-mep_events .default_theme .mpwem_related_area .filter_item:hover .mep_list_thumb > div[style*="background-image"] {
+	transform: scale(1.04);
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep-ev-start-date {
+	position: absolute !important;
+	top: 12px !important;
+	left: 12px !important;
+	z-index: 3 !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	min-width: 52px !important;
+	padding: 8px 10px !important;
+	border-radius: 12px !important;
+	background: rgba(255, 255, 255, 0.96) !important;
+	backdrop-filter: blur(8px) !important;
+	-webkit-backdrop-filter: blur(8px) !important;
+	box-shadow: 0 6px 16px rgba(11, 11, 13, 0.1) !important;
+	color: var(--evently-text) !important;
+	line-height: 1 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep-ev-start-date .mep-month {
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border-radius: 0 !important;
+	color: var(--evently-primary) !important;
+	font-size: 10px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.1em !important;
+	text-transform: uppercase !important;
+	line-height: 1 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep-ev-start-date .mep-day {
+	margin-top: 4px !important;
+	font-size: 20px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.03em !important;
+	line-height: 1 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mepev-ribbons {
+	position: absolute !important;
+	top: 12px !important;
+	right: 12px !important;
+	z-index: 3 !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: flex-end !important;
+	gap: 6px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mepev-ribbon {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 5px !important;
+	margin: 0 !important;
+	padding: 5px 10px !important;
+	border-radius: 8px !important;
+	background: rgba(255, 255, 255, 0.95) !important;
+	color: var(--evently-text) !important;
+	font-size: 10px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.06em !important;
+	text-transform: uppercase !important;
+	line-height: 1.2 !important;
+	box-shadow: 0 4px 12px rgba(11, 11, 13, 0.08) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep_list_event_details {
+	display: flex !important;
+	flex-direction: column !important;
+	flex: 1 1 auto !important;
+	gap: 0 !important;
+	padding: 16px 18px 18px !important;
+	background: transparent !important;
+	border: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .event_details_link {
+	display: flex !important;
+	flex-direction: column !important;
+	min-height: 0 !important;
+	gap: 6px !important;
+	margin: 0 0 14px !important;
+	padding: 0 !important;
+	color: inherit !important;
+	text-decoration: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mep_list_title {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 17px !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.3 !important;
+	color: var(--evently-text) !important;
+	display: -webkit-box !important;
+	-webkit-box-orient: vertical !important;
+	-webkit-line-clamp: 2 !important;
+	line-clamp: 2 !important;
+	overflow: hidden !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .event_details_link:hover .mep_list_title {
+	color: var(--evently-primary) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .list_content {
+	display: flex !important;
+	align-items: flex-start !important;
+	gap: 6px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 13px !important;
+	font-weight: 500 !important;
+	line-height: 1.4 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .list_content .mi,
+body.single-mep_events .default_theme .mpwem_related_area .list_content .fa,
+body.single-mep_events .default_theme .mpwem_related_area .list_content .fas,
+body.single-mep_events .default_theme .mpwem_related_area .list_content .far {
+	margin-top: 2px !important;
+	flex-shrink: 0 !important;
+	opacity: 0.75 !important;
+	font-size: 12px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .upcomming_date_only_only {
+	color: var(--evently-primary) !important;
+	font-size: 12px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.02em !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .upcomming_organizer,
+body.single-mep_events .default_theme .mpwem_related_area .mpwem_status_area,
+body.single-mep_events .default_theme .mpwem_related_area .list_calender,
+body.single-mep_events .default_theme .mpwem_related_area .mpwem_list_date_list,
+body.single-mep_events .default_theme .mpwem_related_area .mpwem_get_date_list,
+body.single-mep_events .default_theme .mpwem_related_area .calendar-list-area,
+body.single-mep_events .default_theme .mpwem_related_area .date_list_area {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .mpwem-price-area {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 12px !important;
+	margin: auto 0 0 !important;
+	padding: 14px 0 0 !important;
+	border-top: 1px solid var(--evently-border) !important;
+	background: transparent !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .list_price {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 2px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .list_price_label {
+	margin: 0 !important;
+	font-size: 11px !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.06em !important;
+	text-transform: uppercase !important;
+	color: var(--evently-muted) !important;
+	line-height: 1.2 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .list_price_value,
+body.single-mep_events .default_theme .mpwem_related_area .list_price_value .amount,
+body.single-mep_events .default_theme .mpwem_related_area .list_price_value .woocommerce-Price-amount {
+	margin: 0 !important;
+	font-size: 18px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.2 !important;
+	color: var(--evently-text) !important;
+}
+
+@media (max-width: 1000px) {
+	body.single-mep_events .default_theme .mep-default-sidebar {
+		position: static;
+	}
+}
+
+@media (max-width: 640px) {
+	body.single-mep_events .default_theme .mep-default-sidebar .mpwem_organizer,
+	body.single-mep_events .default_theme .mep-default-sidebar .mpwem_seat_status,
+	body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area,
+	body.single-mep_events .default_theme .mep-default-sidebar .mpwem_location_sidebar,
+	body.single-mep_events .default_theme .mep-default-sidebar .share_widgets,
+	body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area {
+		padding: 16px !important;
+		border-radius: 16px !important;
+	}
+
+	body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] > div,
+	body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area ._mt_xs_fdColumn {
+		grid-template-columns: 1fr !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area {
+		padding-left: 24px !important;
+		gap: 12px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area::before {
+		left: 6px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item .timeline_counter {
+		left: -24px !important;
+		top: 20px !important;
+		width: 14px !important;
+		height: 14px !important;
+		min-width: 14px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content {
+		padding: 14px 16px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header h2 {
+		font-size: 22px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_related_area {
+		margin-top: var(--evently-space-4) !important;
+		padding-top: var(--evently-space-4) !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_related_area .related_title h3 {
+		font-size: 22px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb,
+	body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb.mpwem_style {
+		min-height: 160px !important;
+		height: 160px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_related_area .mep-event-list-loop:hover,
+	body.single-mep_events .default_theme .mpwem_related_area .filter_item:hover {
+		transform: none;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Reviews (Pro addon) — modern Evently panel
+   Hook: after-single-events (outside .default_theme, inside .mpwem_wrapper)
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events .mep-event-review-list-wrapper {
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) auto !important;
+	grid-template-areas:
+		"title action"
+		"list list" !important;
+	align-items: center !important;
+	column-gap: 16px !important;
+	row-gap: 20px !important;
+	max-width: 100% !important;
+	width: 100% !important;
+	margin: var(--evently-space-5) 0 0 !important;
+	padding: 22px 24px 24px !important;
+	background:
+		radial-gradient(120% 90% at 0% 0%, var(--evently-primary-soft), transparent 55%),
+		var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 20px !important;
+	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.05) !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper::before {
+	content: "Reviews" !important;
+	grid-area: title !important;
+	margin: 0 !important;
+	font-family: inherit !important;
+	font-size: 26px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn {
+	grid-area: action !important;
+	justify-self: end !important;
+	align-self: center !important;
+	appearance: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	gap: 8px !important;
+	margin: 0 !important;
+	padding: 12px 18px !important;
+	min-height: 44px !important;
+	border: 0 !important;
+	border-radius: var(--evently-radius-pill) !important;
+	background: var(--evently-dark) !important;
+	color: var(--evently-white) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	text-transform: none !important;
+	cursor: pointer !important;
+	box-shadow: 0 6px 16px rgba(11, 11, 13, 0.12) !important;
+	transition:
+		background var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn:hover {
+	background: var(--evently-primary) !important;
+	transform: translateY(-1px) !important;
+	text-decoration: none !important;
+	box-shadow: 0 10px 22px rgba(108, 92, 231, 0.28) !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn:focus-visible {
+	outline: 2px solid var(--evently-primary) !important;
+	outline-offset: 2px !important;
+}
+
+body.single-mep_events .mep-event-review-list {
+	grid-area: list !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	width: 100% !important;
+}
+
+/* Empty list: soft dashed placeholder under the header */
+body.single-mep_events .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item)) {
+	min-height: 120px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	padding: 28px 20px !important;
+	background: var(--evently-surface) !important;
+	border: 1px dashed var(--evently-border) !important;
+	border-radius: 16px !important;
+}
+
+body.single-mep_events .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item))::before {
+	content: "No reviews yet — be the first to share your experience." !important;
+	max-width: 32ch !important;
+	text-align: center !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	line-height: 1.5 !important;
+	color: var(--evently-muted) !important;
+}
+
+/* Average rating breakdown */
+body.single-mep_events .mep-event-review-avg {
+	margin: 0 !important;
+	padding: 18px 20px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 16px !important;
+	box-shadow: 0 4px 16px rgba(11, 11, 13, 0.03) !important;
+}
+
+/* Section title comes from wrapper ::before — hide addon duplicate */
+body.single-mep_events .mep-avg-review-header {
+	display: none !important;
+}
+
+body.single-mep_events .mep-avg-review-item {
+	display: grid !important;
+	grid-template-columns: 5.5rem minmax(0, 1fr) 2.75rem !important;
+	gap: 12px !important;
+	align-items: center !important;
+	margin: 0 0 8px !important;
+}
+
+body.single-mep_events .mep-avg-review-item:last-child {
+	margin-bottom: 0 !important;
+}
+
+body.single-mep_events .mep-avg-review-item .rating-text {
+	flex: none !important;
+	font-size: 13px !important;
+	font-weight: 600 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .mep-avg-review-item .rating-bar {
+	flex: none !important;
+	height: 8px !important;
+	background: rgba(11, 11, 13, 0.08) !important;
+	border-radius: var(--evently-radius-pill) !important;
+	overflow: hidden !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .mep-avg-review-item .rating-bar span,
+body.single-mep_events .mep-avg-review-item.r-4 .rating-bar span,
+body.single-mep_events .mep-avg-review-item.r-3 .rating-bar span,
+body.single-mep_events .mep-avg-review-item.r-2 .rating-bar span,
+body.single-mep_events .mep-avg-review-item.r-1 .rating-bar span {
+	display: block !important;
+	height: 100% !important;
+	background: linear-gradient(90deg, var(--evently-primary), #8b7cf0) !important;
+	border-radius: inherit !important;
+}
+
+body.single-mep_events .mep-avg-review-item .rating-percent {
+	flex: none !important;
+	font-size: 12px !important;
+	font-weight: 600 !important;
+	font-variant-numeric: tabular-nums !important;
+	color: var(--evently-muted) !important;
+	text-align: right !important;
+}
+
+/* Individual review cards */
+body.single-mep_events .mep-event-review-item {
+	display: flex !important;
+	gap: 16px !important;
+	margin: 0 !important;
+	padding: 18px 20px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 16px !important;
+	box-shadow: 0 4px 16px rgba(11, 11, 13, 0.03) !important;
+}
+
+body.single-mep_events .mep-event-review-img {
+	flex: 0 0 auto !important;
+	width: 52px !important;
+	margin: 0 !important;
+	text-align: center !important;
+	align-self: flex-start !important;
+}
+
+body.single-mep_events .mep-event-review-img img {
+	display: block !important;
+	width: 52px !important;
+	height: 52px !important;
+	max-width: 52px !important;
+	margin: 0 auto !important;
+	border: 0 !important;
+	border-radius: 50% !important;
+	object-fit: cover !important;
+	background: var(--evently-surface) !important;
+}
+
+body.single-mep_events .mep-event-review-name {
+	margin-top: 8px !important;
+	font-size: 12px !important;
+	font-weight: 700 !important;
+	line-height: 1.3 !important;
+	color: var(--evently-text) !important;
+	text-transform: none !important;
+	word-break: break-word !important;
+}
+
+body.single-mep_events .mep-event-review-info {
+	flex: 1 1 auto !important;
+	min-width: 0 !important;
+}
+
+body.single-mep_events .mep-event-review-rating {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: center !important;
+	gap: 8px 12px !important;
+	margin: 0 0 6px !important;
+}
+
+body.single-mep_events .mep-event-review-rating img {
+	width: 88px !important;
+	height: auto !important;
+}
+
+body.single-mep_events .mep-event-review-date {
+	display: inline-block !important;
+	margin: 0 !important;
+	font-size: 13px !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .mep-review-title {
+	margin: 0 0 6px !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+	line-height: 1.35 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .mep-event-review-content {
+	margin: 0 !important;
+	font-size: 15px !important;
+	line-height: 1.6 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .mep-event-review-content p {
+	margin: 0 0 8px !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .mep-event-review-content p:last-child {
+	margin-bottom: 0 !important;
+}
+
+/* Review modal */
+body.single-mep_events #mageModal.mage-modal {
+	z-index: 10050 !important;
+	padding: var(--evently-space-4) var(--evently-space-2) !important;
+	background: rgba(11, 11, 13, 0.55) !important;
+	backdrop-filter: blur(4px) !important;
+	-webkit-backdrop-filter: blur(4px) !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+body.single-mep_events #mageModal.mage-modal[style*="display: block"],
+body.single-mep_events #mageModal.mage-modal[style*="display:block"] {
+	display: flex !important;
+}
+
+body.single-mep_events #mageModal .mage-modal-content {
+	position: relative !important;
+	width: min(100%, 560px) !important;
+	max-width: 560px !important;
+	max-height: min(90vh, 760px) !important;
+	margin: 0 auto !important;
+	padding: 0 !important;
+	overflow: auto !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 20px !important;
+	box-shadow: var(--evently-shadow-deep) !important;
+	animation: none !important;
+}
+
+body.single-mep_events #mageModal .mage-modal-header {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: flex-start !important;
+	gap: 8px 16px !important;
+	padding: 18px 20px 16px !important;
+	background: var(--evently-surface) !important;
+	border-bottom: 1px solid var(--evently-border) !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #mageModal .mage-modal-header h3 {
+	flex: 1 1 auto !important;
+	margin: 0 !important;
+	font-size: 1.25rem !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.02em !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #mageModal .mage-modal-header .close {
+	appearance: none !important;
+	float: none !important;
+	margin-left: auto !important;
+	width: 32px !important;
+	height: 32px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	border: 0 !important;
+	border-radius: 50% !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-muted) !important;
+	font-size: 20px !important;
+	line-height: 1 !important;
+	cursor: pointer !important;
+}
+
+body.single-mep_events #mageModal .mage-modal-header .close:hover,
+body.single-mep_events #mageModal .mage-modal-header .close:focus {
+	background: var(--evently-dark) !important;
+	color: var(--evently-white) !important;
+}
+
+body.single-mep_events #mageModal .mage-modal-body {
+	padding: 20px !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form {
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form .group {
+	margin-bottom: 16px !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form .label {
+	display: block !important;
+	margin-bottom: 6px !important;
+	font-size: 13px !important;
+	font-weight: 700 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form input[type="text"],
+body.single-mep_events #mageModal .mep-event-review-form input[type="email"] {
+	width: 100% !important;
+	padding: 12px 14px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form input[type="text"]:focus,
+body.single-mep_events #mageModal .mep-event-review-form input[type="email"]:focus {
+	outline: none !important;
+	border-color: var(--evently-primary) !important;
+	box-shadow: 0 0 0 3px var(--evently-primary-soft) !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form .group.col-tow {
+	display: grid !important;
+	grid-template-columns: 1fr 1fr !important;
+	gap: 12px !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form input[type="submit"],
+body.single-mep_events #mageModal .mep-event-review-form button[type="submit"] {
+	appearance: none !important;
+	width: 100% !important;
+	min-height: 48px !important;
+	margin: 8px 0 0 !important;
+	padding: 12px 18px !important;
+	border: 0 !important;
+	border-radius: 14px !important;
+	background: var(--evently-primary) !important;
+	color: #fff !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	cursor: pointer !important;
+	box-shadow: 0 8px 20px rgba(108, 92, 231, 0.28) !important;
+}
+
+body.single-mep_events #mageModal .mep-event-review-form input[type="submit"]:hover,
+body.single-mep_events #mageModal .mep-event-review-form button[type="submit"]:hover {
+	background: #5a4bd6 !important;
+	text-decoration: none !important;
+}
+
+body.single-mep_events #mageModal .mage-modal-footer {
+	display: none !important;
+}
+
+@media (max-width: 640px) {
+	body.single-mep_events .mep-event-review-list-wrapper {
+		grid-template-columns: 1fr !important;
+		grid-template-areas:
+			"title"
+			"action"
+			"list" !important;
+		padding: 18px 16px 18px !important;
+		row-gap: 14px !important;
+	}
+
+	body.single-mep_events .mep-event-review-list-wrapper::before {
+		font-size: 22px !important;
+	}
+
+	body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn {
+		justify-self: stretch !important;
+		width: 100% !important;
+	}
+
+	body.single-mep_events .mep-avg-review-item {
+		grid-template-columns: 4.5rem minmax(0, 1fr) 2.5rem !important;
+		gap: 8px !important;
+	}
+
+	body.single-mep_events .mep-event-review-item {
+		padding: 14px 16px !important;
+		gap: 12px !important;
+	}
+
+	body.single-mep_events .mep-event-review-img,
+	body.single-mep_events .mep-event-review-img img {
+		width: 44px !important;
+		height: 44px !important;
+		max-width: 44px !important;
+	}
+
+	body.single-mep_events #mageModal .mep-event-review-form .group.col-tow {
+		grid-template-columns: 1fr !important;
+	}
+}
+
