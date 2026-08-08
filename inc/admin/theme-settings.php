@@ -29,17 +29,12 @@ function evently_get_settings_fields() {
 		'create_event_url'        => array( 'label' => __( 'Create Event URL', 'evently' ), 'section' => 'general', 'type' => 'url', 'default' => '', 'description' => __( 'Where the header/footer "Create Event" buttons link. Leave empty to use the admin new-event screen.', 'evently' ), 'placeholder' => admin_url( 'post-new.php?post_type=mep_events' ) ),
 		'events_page_id'          => array( 'label' => __( 'Events Page', 'evently' ), 'section' => 'general', 'type' => 'page', 'default' => 0, 'description' => __( 'The page using the "Evently — Event Archive" template. Auto-detected if left unset.', 'evently' ) ),
 
-		// Branding / Header.
-		'hero_image'              => array( 'label' => __( 'Hero Image URL', 'evently' ), 'section' => 'header', 'type' => 'url', 'default' => '', 'description' => __( 'Homepage hero photograph.', 'evently' ), 'placeholder' => evently_demo_image_url( array( 'image_file' => 'hero-concert-crowd.jpg' ) ) ),
-		'hero_live_note'          => array( 'label' => __( 'Hero Live Note', 'evently' ), 'section' => 'header', 'type' => 'text', 'default' => '', 'description' => __( 'e.g. "2,840 tickets sold today".', 'evently' ), 'placeholder' => __( '2,840 tickets sold today', 'evently' ) ),
-
 		// Colors.
 		'color_primary'           => array( 'label' => __( 'Primary Accent', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#6C5CE7' ),
 		'color_orange'            => array( 'label' => __( 'Secondary Accent', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#FF7657' ),
 		'color_dark'              => array( 'label' => __( 'Dark', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#0B0B0D' ),
 
 		// Events / Archive.
-		'default_city'            => array( 'label' => __( 'Default City', 'evently' ), 'section' => 'events', 'type' => 'text', 'default' => __( 'Dhaka', 'evently' ) ),
 		'archive_columns_per_page' => array( 'label' => __( 'Events per page', 'evently' ), 'section' => 'archive', 'type' => 'number', 'default' => 12 ),
 		'archive_default_view'    => array( 'label' => __( 'Default archive view', 'evently' ), 'section' => 'archive', 'type' => 'select', 'default' => 'grid', 'options' => array( 'grid' => __( 'Grid', 'evently' ), 'list' => __( 'List', 'evently' ) ) ),
 		'show_price'              => array( 'label' => __( 'Show price on cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
@@ -61,20 +56,18 @@ function evently_get_settings_fields() {
 		),
 		'show_related_events'     => array( 'label' => __( 'Show related events', 'evently' ), 'section' => 'single_event', 'type' => 'checkbox', 'default' => 1, 'description' => __( 'Only applies when Event details page is set to Theme.', 'evently' ) ),
 
-		// Featured event (homepage).
-		'featured_event_title'    => array( 'label' => __( 'Featured Event Title', 'evently' ), 'section' => 'events', 'type' => 'text', 'default' => '', 'placeholder' => __( 'Future Music Festival', 'evently' ) ),
-		'featured_event_image'   => array( 'label' => __( 'Featured Event Image URL', 'evently' ), 'section' => 'events', 'type' => 'url', 'default' => '', 'placeholder' => evently_demo_image_url( array( 'image_file' => 'featured-music-festival.jpg' ) ) ),
-		'featured_event_date'     => array( 'label' => __( 'Featured Event Date', 'evently' ), 'section' => 'events', 'type' => 'text', 'default' => '', 'placeholder' => __( 'August 24–26, 2026', 'evently' ) ),
-		'featured_event_location' => array( 'label' => __( 'Featured Event Location', 'evently' ), 'section' => 'events', 'type' => 'text', 'default' => '', 'placeholder' => __( 'Dhaka, Bangladesh', 'evently' ) ),
-		'featured_event_note'     => array( 'label' => __( 'Featured Event Note', 'evently' ), 'section' => 'events', 'type' => 'text', 'default' => '', 'placeholder' => __( '20,000+ attendees expected', 'evently' ) ),
-
-		// Categories, Calendar, How It Works, Stats, Testimonials, Digital
-		// Ticket, Organizer Dashboard and Final CTA no longer have Theme
-		// Settings fields — Elementor is required now and the demo importer
-		// builds a real, pre-designed Elementor homepage (see
-		// Evently_Demo_Importer::import_homepage()), so that content is
+		// Hero (image/live-note), Featured Event (title/image/date/location/
+		// note), Near You (default city), Categories, Calendar, How It Works,
+		// Stats, Testimonials, Digital Ticket, Organizer Dashboard and Final
+		// CTA no longer have Theme Settings fields — Elementor is required
+		// now, every one of those sections has its own real Elementor widget
+		// controls (inc/integrations/elementor/class-widget-*.php), and the
+		// demo importer builds a real, pre-designed Elementor homepage (see
+		// Evently_Demo_Importer::import_homepage()) — so that content is
 		// edited directly in the Elementor editor, not through a separate
-		// wp-admin form.
+		// wp-admin form. `create_event_url` is the one exception that stays
+		// above: the site header/footer's own "Create Event" button isn't
+		// part of any homepage widget, so it still needs a global setting.
 
 		// Footer.
 		'footer_tagline'          => array( 'label' => __( 'Footer Tagline', 'evently' ), 'section' => 'footer', 'type' => 'textarea', 'default' => '', 'placeholder' => __( 'Discover experiences. Create memories.', 'evently' ) ),
@@ -96,7 +89,6 @@ function evently_get_settings_fields() {
 function evently_get_settings_sections() {
 	return array(
 		'general'      => __( 'General', 'evently' ),
-		'header'       => __( 'Header', 'evently' ),
 		'colors'       => __( 'Colors', 'evently' ),
 		'events'       => __( 'Events', 'evently' ),
 		'archive'      => __( 'Archive', 'evently' ),
@@ -113,20 +105,20 @@ function evently_get_settings_sections() {
  * (General, Archive, Single Event, Colors, Performance) either aren't a
  * single visual block or — Colors — get a lightweight client-side swatch
  * instead (see assets/js/admin-live-preview.js), not a rendered-template
- * iframe. The former homepage-section previews (Categories, Calendar, How
- * It Works, Stats, Testimonials, Digital Ticket, Organizer Dashboard, Final
- * CTA) are gone along with their settings fields above — that content now
- * lives directly in the real Elementor homepage the demo importer builds.
+ * iframe. Every former homepage-section preview (Header/Hero, Featured
+ * Event, Categories, Calendar, How It Works, Stats, Testimonials, Digital
+ * Ticket, Organizer Dashboard, Final CTA) is gone along with its settings
+ * fields above — that content now lives directly in the real Elementor
+ * homepage the demo importer builds, and Elementor's own canvas is the
+ * live preview. `events` no longer gets a preview here either: the fields
+ * still left in that section (show_price/location/favorite/rating) are
+ * global card-display toggles spanning several different sections of the
+ * homepage at once, not a single block one template-part could represent.
  *
  * @return array<string,array{template:string,note?:string}>
  */
 function evently_get_preview_section_map() {
 	return array(
-		'header'              => array( 'template' => 'template-parts/home/hero' ),
-		'events'              => array(
-			'template' => 'template-parts/home/featured-event',
-			'note'     => __( 'Shows the Featured Event banner. "Default City" and the card-display toggles above apply to the Trending Events / Near You sections elsewhere on the homepage, not shown here.', 'evently' ),
-		),
 		'footer'              => array( 'template' => 'template-parts/footer/site-footer' ),
 		'social'              => array(
 			'template' => 'template-parts/footer/site-footer',
