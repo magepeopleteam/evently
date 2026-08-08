@@ -241,7 +241,7 @@
 }
 
 .evently-booking-card__head {
-	padding: 22px 22px 18px;
+	padding: 20px 20px 16px;
 	background: linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.03) 100%);
 	border-bottom: 1px solid rgba(108, 92, 231, 0.12);
 }
@@ -287,14 +287,14 @@
 }
 
 .evently-booking-card__body {
-	padding: 18px 22px 8px;
+	padding: 18px 20px 16px;
 }
 
 .evently-booking-card__foot {
 	display: flex;
 	flex-direction: column;
 	gap: 14px;
-	padding: 18px 22px 20px;
+	padding: 16px 20px 20px;
 	border-top: 1px solid var(--evently-border);
 	background: linear-gradient(180deg, #fbfbfd 0%, #fff 100%);
 }
@@ -397,12 +397,16 @@
 	color: #fff !important;
 }
 
+/* ── Add Calendar (modern restyle of plugin mpwem_calender_area) ─── */
+
 .evently-booking-card__calendar {
 	width: 100%;
 	margin-top: 0;
 }
 
 .evently-booking-card__calendar .mpwem_calender_area {
+	position: relative;
+	width: 100%;
 	margin: 0 !important;
 	padding: 0 !important;
 	background: transparent !important;
@@ -410,34 +414,175 @@
 	box-shadow: none !important;
 }
 
-.evently-booking-card__calendar a,
-.evently-booking-card__calendar button,
+.evently-booking-card__calendar .evently-cal-btn,
 .evently-booking-card__calendar .mpwem_calender_area > button {
-	width: 100%;
+	position: relative;
+	width: 100% !important;
+	min-width: 0 !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 13px 42px 13px 14px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	gap: 12px !important;
+	border: 1px solid rgba(108, 92, 231, 0.22) !important;
+	border-radius: 14px !important;
+	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	line-height: 1.2 !important;
+	text-align: left !important;
+	box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08) !important;
+	cursor: pointer !important;
+	transition: background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease !important;
+}
+
+.evently-booking-card__calendar .evently-cal-btn:hover,
+.evently-booking-card__calendar .mpwem_calender_area > button:hover {
+	background: var(--evently-primary-soft) !important;
+	border-color: rgba(108, 92, 231, 0.4) !important;
+	box-shadow: 0 8px 18px rgba(108, 92, 231, 0.12) !important;
+	transform: translateY(-1px);
+	color: var(--evently-text) !important;
+}
+
+.evently-booking-card__calendar .evently-cal-btn span,
+.evently-booking-card__calendar .evently-cal-btn [data-text],
+.evently-booking-card__calendar .mpwem_calender_area > button span,
+.evently-booking-card__calendar .mpwem_calender_area > button [data-text] {
+	color: var(--evently-text) !important;
+}
+
+.evently-cal-btn__icon {
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	color: var(--evently-primary);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 8px;
-	border: 1px solid rgba(108, 92, 231, 0.22);
-	border-radius: 14px;
-	padding: 13px 18px;
-	font-size: 14px;
-	font-weight: 600;
-	font-family: inherit;
-	color: var(--evently-text);
-	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%);
-	cursor: pointer;
-	transition: background var(--evently-transition-fast) ease,
-		border-color var(--evently-transition-fast) ease,
-		transform var(--evently-transition-fast) ease;
+	flex-shrink: 0;
 }
 
-.evently-booking-card__calendar a:hover,
-.evently-booking-card__calendar button:hover,
-.evently-booking-card__calendar .mpwem_calender_area > button:hover {
-	background: var(--evently-primary-soft);
-	border-color: rgba(108, 92, 231, 0.35);
+.evently-cal-btn__icon svg {
+	display: block;
+}
+
+.evently-cal-btn__chevron {
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	color: var(--evently-muted);
+	transition: transform var(--evently-transition-fast) ease;
+}
+
+.evently-cal-btn.is-open .evently-cal-btn__chevron {
+	transform: translateY(-50%) rotate(180deg);
+	color: var(--evently-primary);
+}
+
+.evently-booking-card__calendar .evently-cal-panel,
+.evently-booking-card__calendar [data-collapse] {
+	display: none;
+	margin-top: 10px !important;
+	padding: 12px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 14px !important;
+	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.06) !important;
+}
+
+.evently-booking-card__calendar .evently-cal-panel.mActive,
+.evently-booking-card__calendar [data-collapse].mActive {
+	display: block;
+}
+
+.evently-booking-card__calendar .evently-cal-providers,
+.evently-booking-card__calendar [data-collapse] > div,
+.evently-booking-card__calendar [data-collapse] ._mt_xs_fdColumn {
+	display: grid !important;
+	grid-template-columns: 1fr 1fr !important;
+	gap: 8px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	flex-direction: unset !important;
+}
+
+.evently-booking-card__calendar .evently-cal-provider,
+.evently-booking-card__calendar [data-collapse] a,
+.evently-booking-card__calendar [data-collapse] a._button_general_mt_xs {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	gap: 10px !important;
+	width: 100% !important;
+	min-height: 0 !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 11px 12px !important;
+	border-radius: 12px !important;
+	border: 1px solid var(--evently-border) !important;
+	background: var(--evently-surface) !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 13px !important;
+	font-weight: 600 !important;
+	line-height: 1.2 !important;
+	text-decoration: none !important;
+	text-align: left !important;
+	box-shadow: none !important;
+	transition: background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease !important;
+}
+
+.evently-booking-card__calendar .evently-cal-provider:hover,
+.evently-booking-card__calendar [data-collapse] a:hover {
+	background: var(--evently-white) !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	color: var(--evently-text) !important;
 	transform: translateY(-1px);
+}
+
+.evently-cal-provider__icon {
+	width: 28px;
+	height: 28px;
+	border-radius: 8px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	font-size: 13px;
+	line-height: 1;
+	color: var(--evently-text);
+}
+
+.evently-cal-google .evently-cal-provider__icon {
+	color: #ea4335;
+}
+
+.evently-cal-yahoo .evently-cal-provider__icon {
+	color: #6001d2;
+}
+
+.evently-cal-outlook .evently-cal-provider__icon {
+	color: #0078d4;
+}
+
+.evently-cal-apple .evently-cal-provider__icon {
+	color: #111;
 }
 
 /* Organizer card — Horizon organizer.php parity (identity + seat stats) */
@@ -610,7 +755,7 @@
 .evently-booking-card .mpwem_booking_panel {
 	display: flex;
 	flex-direction: column;
-	gap: var(--evently-space-3);
+	gap: 16px;
 }
 
 /* The plugin's own date-selection header (shown even for single-date
@@ -621,75 +766,138 @@
 	border: none !important;
 	box-shadow: none !important;
 	padding: 0 !important;
-	margin-bottom: var(--evently-space-2);
+	margin: 0 0 4px !important;
 }
 
-.evently-booking-card .ticket-title {
+.evently-booking-card .ticket-title,
+.evently-booking-card .card-header {
 	background: none !important;
 	border: none !important;
 	outline: none !important;
 	box-shadow: none !important;
 	color: var(--evently-muted) !important;
-	font-size: 12px !important;
+	font-size: 11px !important;
 	font-weight: 700 !important;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
+	text-transform: uppercase !important;
+	letter-spacing: 0.1em !important;
 	padding: 0 !important;
-	display: inline-block;
+	margin: 0 0 12px !important;
+	display: block !important;
+	line-height: 1.2 !important;
 }
 
 .evently-booking-card .mpwem_ticket_type .card-body {
 	display: flex;
 	flex-direction: column;
-	gap: var(--evently-space-3);
+	gap: 12px;
 }
 
 .evently-booking-card .mep_ticket_item {
-	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-md);
-	padding: var(--evently-space-3);
+	border: 1px solid #e4e2ec !important;
+	border-radius: 16px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	background: #f8f7fc !important;
+	overflow: hidden;
+	box-sizing: border-box;
+	transition: border-color var(--evently-transition-fast) ease,
+		background var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease;
 }
 
+.evently-booking-card .mep_ticket_item:hover {
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	background: #f5f3fb !important;
+}
+
+/* Plugin order: .ticket-info → .quantity-control → .ticket-price */
 .evently-booking-card .ticket-data {
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	gap: var(--evently-space-2);
-	flex-wrap: wrap;
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) auto;
+	grid-template-areas:
+		'info info'
+		'price qty';
+	align-items: center;
+	column-gap: 12px;
+	row-gap: 14px;
+	width: 100%;
+	padding: 16px 18px !important;
+	margin: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-sizing: border-box;
+}
+
+.evently-booking-card .ticket-info {
+	grid-area: info;
+	min-width: 0;
+	width: 100% !important;
+	max-width: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
 }
 
 .evently-booking-card .ticket-name {
 	font-weight: 700;
 	font-size: 16px;
+	line-height: 1.3;
 	color: var(--evently-text);
+	margin: 0 0 4px;
 }
 
 .evently-booking-card .ticket-description {
-	font-size: var(--evently-fs-small);
+	font-size: 13px;
+	line-height: 1.45;
 	color: var(--evently-muted);
-	margin-top: 2px;
-	max-width: 220px;
+	margin: 0 0 8px;
+	max-width: none;
 }
 
 .evently-booking-card .ticket-remaining {
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	max-width: 100%;
 	font-size: 11px;
 	font-weight: 600;
-	margin-top: 6px;
+	line-height: 1.2;
+	margin: 0;
+	padding: 4px 10px;
+	border-radius: var(--evently-radius-pill);
+	background: rgba(22, 163, 74, 0.12);
+	color: #15803d;
 }
 
 .evently-booking-card .ticket-remaining.remaining-low {
-	color: var(--evently-warning);
+	background: rgba(245, 158, 11, 0.14);
+	color: #b45309;
 }
 
 .evently-booking-card .ticket-remaining.remaining-high {
-	color: var(--evently-muted);
+	background: rgba(22, 163, 74, 0.12);
+	color: #15803d;
 }
 
 .evently-booking-card .ticket-price {
+	grid-area: price;
+	justify-self: start;
+	align-self: center;
 	font-weight: 800;
-	font-size: 17px;
+	font-size: 20px;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
 	color: var(--evently-text);
 	white-space: nowrap;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.evently-booking-card .ticket-price .amount,
+.evently-booking-card .ticket-price .woocommerce-Price-amount,
+.evently-booking-card .ticket-price bdi {
+	font-weight: 800;
+	font-size: 20px;
+	color: var(--evently-text);
 }
 
 .evently-booking-card .mep-ticket-mode-badge {
@@ -701,66 +909,105 @@
 	border-radius: var(--evently-radius-pill);
 	padding: 2px 8px;
 	margin-left: 6px;
-	background: var(--evently-surface);
+	background: var(--evently-white);
 	color: var(--evently-muted);
+	border: 1px solid var(--evently-border);
 }
 
 .evently-booking-card .mep-ticket-mode-badge--online {
 	background: var(--evently-primary-soft);
 	color: var(--evently-primary);
+	border-color: transparent;
 }
 
 /* Quantity stepper — plugin markup: .qtyIncDec > .decQty / label input.inputIncDec / .incQty */
 
 .evently-booking-card .quantity-control {
-	margin-top: var(--evently-space-2);
+	grid-area: qty;
+	justify-self: end;
+	align-self: center;
+	margin: 0 !important;
+	padding: 0 !important;
+	width: auto !important;
 }
 
 .evently-booking-card .qtyIncDec {
 	display: inline-flex;
 	align-items: center;
-	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-pill);
+	gap: 2px;
+	border: 1px solid #ddd9e8;
+	border-radius: 12px;
 	overflow: hidden;
+	background: var(--evently-white);
+	padding: 3px;
+	height: auto;
 }
 
 .evently-booking-card .decQty,
 .evently-booking-card .incQty {
-	width: 32px;
-	height: 32px;
-	display: flex;
+	width: 30px;
+	height: 30px;
+	min-width: 30px;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-	color: var(--evently-text);
-	background: var(--evently-surface);
-	font-size: 12px;
+	color: var(--evently-primary);
+	background: var(--evently-primary-soft);
+	border-radius: 9px;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1;
+	border: 0;
+	transition: background var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease;
 }
 
 .evently-booking-card .decQty:hover,
 .evently-booking-card .incQty:hover {
-	background: var(--evently-border);
+	background: var(--evently-primary);
+	color: var(--evently-white);
 }
 
-.evently-booking-card .inputIncDec {
-	width: 40px;
-	height: 32px;
+.evently-booking-card .decQty.mpDisabled,
+.evently-booking-card .incQty.mpDisabled {
+	opacity: 0.4;
+	cursor: default;
+	pointer-events: none;
+}
+
+.evently-booking-card .qtyIncDec label {
+	margin: 0;
+	padding: 0;
+	display: inline-flex;
+}
+
+.evently-booking-card .inputIncDec,
+.evently-booking-card .qtyIncDec .formControl,
+.evently-booking-card .qtyIncDec input {
+	width: 28px;
+	min-width: 28px;
+	height: 30px;
 	border: none;
 	text-align: center;
 	font-weight: 700;
+	font-size: 15px;
 	font-family: inherit;
 	background: transparent;
+	color: var(--evently-text);
+	padding: 0;
+	box-shadow: none;
 }
 
 /* Total + submit — plugin markup: .mpwem_summery > .total > .mpwem_total, .mpwem_book_now */
 
 .evently-booking-card .mpwem_summery {
 	border-top: 1px solid var(--evently-border);
-	padding-top: var(--evently-space-3);
-	margin-top: var(--evently-space-2);
+	padding-top: 16px;
+	margin-top: 4px;
 	display: flex;
 	flex-direction: column;
-	gap: var(--evently-space-2);
+	gap: 12px;
 }
 
 .evently-booking-card .total {
@@ -1089,90 +1336,142 @@
 	}
 }
 
-/* ── Timeline ─────────────────────────────────────────────────────────
- * Restyling of the plugin's real agenda markup
- * (do_action('mpwem_timeline', ...) → templates/layout/timeline.php,
- * meta key mep_event_day). The template prints its own "Event Timelines"
- * heading inside timeline_section_header — hidden here since Evently
- * already prints a matching <h2> for the section, and a duplicate heading
- * would look like a bug rather than a design choice.
- * ────────────────────────────────────────────────────────────────── */
+/* ── Timeline (Evently design — vertical rail + cards) ────────────── */
 
-.evently-event-timeline .timeline_section_header {
-	display: none;
-}
-
-.evently-event-timeline .timeline_area {
+.evently-timeline {
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 28px;
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	gap: var(--evently-space-3);
+	gap: 14px;
 }
 
-.evently-event-timeline .timeline_item {
-	display: flex;
-	gap: var(--evently-space-3);
-	padding: var(--evently-space-3) var(--evently-space-4);
-	background: var(--evently-surface);
+.evently-timeline::before {
+	content: '';
+	position: absolute;
+	left: 7px;
+	top: 12px;
+	bottom: 12px;
+	width: 2px;
+	background: var(--evently-border);
+}
+
+.evently-timeline__item {
+	position: relative;
+}
+
+.evently-timeline__dot {
+	position: absolute;
+	left: -28px;
+	top: 22px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: var(--evently-white);
+	border: 3px solid #c8c8d2;
+	box-sizing: border-box;
+	z-index: 1;
+}
+
+.evently-timeline__item.is-active .evently-timeline__dot {
+	background: var(--evently-primary);
+	border-color: var(--evently-primary);
+	box-shadow: 0 0 0 4px var(--evently-primary-soft);
+}
+
+.evently-timeline__card {
+	background: var(--evently-white);
 	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-lg);
+	border-radius: var(--evently-radius-md);
+	padding: 16px 18px;
+	box-shadow: var(--evently-shadow-soft);
+	transition: border-color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease;
 }
 
-.evently-event-timeline .timeline_counter {
-	flex: none;
-	width: 32px;
-	height: 32px;
+.evently-timeline__item.is-active .evently-timeline__card,
+.evently-timeline__item:hover .evently-timeline__card {
+	border-color: rgba(108, 92, 231, 0.28);
+	box-shadow: 0 8px 24px rgba(11, 11, 13, 0.06);
+}
+
+.evently-timeline__meta {
 	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.evently-timeline__step {
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 50%;
-	background: var(--evently-primary);
-	color: var(--evently-white);
+	min-width: 24px;
+	height: 24px;
+	padding: 0 7px;
+	border-radius: var(--evently-radius-pill);
+	background: var(--evently-surface);
+	color: var(--evently-muted);
+	font-size: 11px;
 	font-weight: 700;
-	font-size: var(--evently-fs-small);
 }
 
-.evently-event-timeline .timeline_content {
-	flex: 1;
-	min-width: 0;
+.evently-timeline__item.is-active .evently-timeline__step {
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
 }
 
-.evently-event-timeline .timeline_header {
-	display: flex;
-	flex-wrap: wrap;
+.evently-timeline__time {
+	display: inline-flex;
 	align-items: center;
-	justify-content: space-between;
-	gap: var(--evently-space-2);
-	cursor: pointer;
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+	font-size: 12px;
+	font-weight: 700;
+	padding: 4px 10px;
+	border-radius: var(--evently-radius-pill);
+	letter-spacing: 0.02em;
 }
 
-.evently-event-timeline .tl_title {
-	font-weight: 600;
+.evently-timeline__title {
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.35;
+	margin: 0 0 6px;
+	color: var(--evently-text);
 }
 
-.evently-event-timeline .timeline_connector {
-	display: none;
-}
-
-.evently-event-timeline .timeline_time {
-	display: flex;
-	align-items: center;
-	gap: 6px;
+.evently-timeline__desc {
+	font-size: 14px;
+	line-height: 1.6;
 	color: var(--evently-muted);
-	font-size: var(--evently-fs-small);
-	white-space: nowrap;
 }
 
-.evently-event-timeline .timeline_time .fa {
-	display: none; /* Font Awesome icon font not bundled with the theme — the text label alone is enough. */
+.evently-timeline__desc p {
+	margin: 0 0 0.5em;
 }
 
-.evently-event-timeline .mp_wp_editor {
-	margin-top: var(--evently-space-2);
-	color: var(--evently-muted);
+.evently-timeline__desc p:last-child {
+	margin-bottom: 0;
 }
 
 @media (max-width: 640px) {
-	.evently-event-timeline .timeline_item {
-		flex-direction: column;
+	.evently-timeline {
+		padding-left: 24px;
+		gap: 12px;
+	}
+
+	.evently-timeline__dot {
+		left: -24px;
+		top: 20px;
+		width: 14px;
+		height: 14px;
+	}
+
+	.evently-timeline__card {
+		padding: 14px 16px;
 	}
 }

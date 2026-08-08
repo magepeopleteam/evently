@@ -48,6 +48,7 @@ $evently_min_price      = Evently_Booking_Adapter::get_min_price( $evently_event
 $evently_availability   = Evently_Booking_Adapter::get_availability_status( $evently_event_id );
 $evently_speaker_ids    = Evently_Booking_Adapter::get_speaker_ids( $evently_event_id );
 $evently_gallery_ids    = Evently_Booking_Adapter::get_gallery_ids( $evently_event_id );
+$evently_timeline_items = Evently_Booking_Adapter::get_timeline_items( $evently_event_id );
 $evently_seat_stats     = Evently_Booking_Adapter::get_seat_stats( $evently_event_id );
 $evently_share_html     = Evently_Booking_Adapter::render_hook_widget( 'mpwem_social', $evently_event_id );
 $evently_calendar_html  = Evently_Booking_Adapter::render_hook_widget( 'mpwem_add_calender', $evently_event_id );
@@ -114,17 +115,39 @@ do_action( 'evently_before_event_content' );
 				</section>
 			<?php endif; ?>
 
-			<?php if ( Evently_Booking_Adapter::has_timeline( $evently_event_id ) ) : ?>
+			<?php if ( ! empty( $evently_timeline_items ) ) : ?>
 				<section class="evently-event-section evently-event-timeline">
 					<h2><?php esc_html_e( 'Event timeline', 'evently' ); ?></h2>
-					<?php
-					// mpwem_style wrapper: the plugin's collapse/expand accordion CSS
-					// (only the first entry open by default) is scoped to a
-					// .mpwem_style ancestor.
-					?>
-					<div class="mpwem_style">
-						<?php echo Evently_Booking_Adapter::render_hook_widget( 'mpwem_timeline', $evently_event_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted plugin-rendered markup, see render_booking_form() docblock. ?>
-					</div>
+					<ol class="evently-timeline">
+						<?php foreach ( $evently_timeline_items as $evently_tl_index => $evently_tl_item ) : ?>
+							<li class="evently-timeline__item<?php echo 0 === $evently_tl_index ? ' is-active' : ''; ?>">
+								<span class="evently-timeline__dot" aria-hidden="true"></span>
+								<div class="evently-timeline__card">
+									<div class="evently-timeline__meta">
+										<span class="evently-timeline__step"><?php echo esc_html( (string) ( $evently_tl_index + 1 ) ); ?></span>
+										<?php if ( ! empty( $evently_tl_item['time'] ) ) : ?>
+											<span class="evently-timeline__time"><?php echo esc_html( $evently_tl_item['time'] ); ?></span>
+										<?php endif; ?>
+									</div>
+									<?php if ( ! empty( $evently_tl_item['title'] ) ) : ?>
+										<h3 class="evently-timeline__title"><?php echo esc_html( $evently_tl_item['title'] ); ?></h3>
+									<?php endif; ?>
+									<?php if ( ! empty( $evently_tl_item['content'] ) ) : ?>
+										<div class="evently-timeline__desc">
+											<?php
+											$evently_tl_content = $evently_tl_item['content'];
+											// Demo/plugin rows often already wrap in <p>; only autop plain text.
+											if ( false === strpos( $evently_tl_content, '<' ) ) {
+												$evently_tl_content = wpautop( $evently_tl_content );
+											}
+											echo wp_kses_post( $evently_tl_content );
+											?>
+										</div>
+									<?php endif; ?>
+								</div>
+							</li>
+						<?php endforeach; ?>
+					</ol>
 				</section>
 			<?php endif; ?>
 

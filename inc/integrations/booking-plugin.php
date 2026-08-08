@@ -342,25 +342,53 @@ class Evently_Booking_Adapter {
 	}
 
 	/**
-	 * Whether the event has real Timeline/agenda entries to show (brief §16
-	 * — gated the same way the plugin's own `mpwem_timeline` hook is:
-	 * `mep_timeline_status` off, or no `mep_event_day` entries, means
-	 * nothing would actually render, so the template can skip the section
-	 * heading entirely instead of printing an empty one.
+	 * Normalized agenda/timeline rows from `mep_event_day` (same meta the
+	 * plugin's `mpwem_timeline` hook reads). Empty when timeline is off.
+	 *
+	 * @param int $event_id
+	 * @return array[] {title:string,time:string,content:string}
+	 */
+	public static function get_timeline_items( $event_id ) {
+		if ( ! self::is_active() || ! $event_id ) {
+			return array();
+		}
+		$status = MPWEM_Global_Function::get_post_info( $event_id, 'mep_timeline_status', 'on' );
+		if ( 'off' === $status ) {
+			return array();
+		}
+		$raw = MPWEM_Global_Function::get_post_info( $event_id, 'mep_event_day', array() );
+		if ( ! is_array( $raw ) || empty( $raw ) ) {
+			return array();
+		}
+
+		$items = array();
+		foreach ( $raw as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+			$title   = isset( $row['mep_day_title'] ) ? (string) $row['mep_day_title'] : '';
+			$time    = isset( $row['mep_day_time'] ) ? (string) $row['mep_day_time'] : '';
+			$content = isset( $row['mep_day_content'] ) ? (string) $row['mep_day_content'] : '';
+			if ( ! $title && ! $time && ! $content ) {
+				continue;
+			}
+			$items[] = array(
+				'title'   => $title,
+				'time'    => $time,
+				'content' => $content,
+			);
+		}
+		return $items;
+	}
+
+	/**
+	 * Whether the event has real Timeline/agenda entries to show (brief §16).
 	 *
 	 * @param int $event_id
 	 * @return bool
 	 */
 	public static function has_timeline( $event_id ) {
-		if ( ! self::is_active() || ! $event_id ) {
-			return false;
-		}
-		$status = MPWEM_Global_Function::get_post_info( $event_id, 'mep_timeline_status', 'on' );
-		if ( 'off' === $status ) {
-			return false;
-		}
-		$days = MPWEM_Global_Function::get_post_info( $event_id, 'mep_event_day', array() );
-		return is_array( $days ) && ! empty( $days );
+		return ! empty( self::get_timeline_items( $event_id ) );
 	}
 
 	/**
