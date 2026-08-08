@@ -26,6 +26,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * untouched copy of this same pattern below). Both `elementor` and
  * `mage-eventpress` are confirmed real wordpress.org slugs.
  *
+ * If the plugin is already present under wp-content/plugins/, skip the
+ * download and only activate — otherwise Plugin_Upgrader::install() returns
+ * false when the destination folder exists (common on local AMPPS/XAMPP
+ * copies of mage-eventpress).
+ *
  * @param string $slug        wordpress.org plugin slug.
  * @param string $plugin_file Plugin file relative to wp-content/plugins/, e.g. 'elementor/elementor.php'.
  * @return true|WP_Error
@@ -33,11 +38,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 function evently_install_plugin_from_dot_org( $slug, $plugin_file ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-	$api = plugins_api( 'plugin_information', array( 'slug' => $slug ) );
+	$plugin_file = ltrim( (string) $plugin_file, '/' );
+	$plugin_path = WP_PLUGIN_DIR . '/' . $plugin_file;
+
+	// Already on disk (active or not) — activate only.
+	if ( file_exists( $plugin_path ) ) {
+		if ( is_plugin_active( $plugin_file ) ) {
+			return true;
+		}
+		$activated = activate_plugin( $plugin_file );
+		return is_wp_error( $activated ) ? $activated : true;
+	}
+
+	$api = plugins_api(
+		'plugin_information',
+		array(
+			'slug'   => $slug,
+			'fields' => array(
+				'sections' => false,
+			),
+		)
+	);
 	if ( is_wp_error( $api ) ) {
 		return $api;
+	}
+	if ( empty( $api->download_link ) ) {
+		return new WP_Error(
+			'evently_install_no_download',
+			__( 'Could not find a download URL for this plugin. You can install it manually from Plugins → Add New.', 'evently' )
+		);
 	}
 
 	$skin     = new Automatic_Upgrader_Skin();
@@ -45,13 +77,33 @@ function evently_install_plugin_from_dot_org( $slug, $plugin_file ) {
 	$result   = $upgrader->install( $api->download_link );
 
 	if ( is_wp_error( $result ) ) {
-		return $result;
-	}
-	if ( ! $result ) {
-		return new WP_Error( 'evently_install_failed', __( 'Could not install the plugin. You can install it manually from Plugins → Add New.', 'evently' ) );
+		// Destination may have appeared mid-request — fall through to activate.
+		if ( ! file_exists( $plugin_path ) ) {
+			return $result;
+		}
+	} elseif ( ! $result ) {
+		// Common when the folder already exists or filesystem write failed.
+		if ( ! file_exists( $plugin_path ) ) {
+			$messages = method_exists( $skin, 'get_upgrade_messages' ) ? $skin->get_upgrade_messages() : array();
+			$detail   = is_array( $messages ) && ! empty( $messages ) ? implode( ' ', array_map( 'wp_strip_all_tags', $messages ) ) : '';
+			return new WP_Error(
+				'evently_install_failed',
+				$detail
+					? $detail
+					: __( 'Could not install the plugin. You can install it manually from Plugins → Add New.', 'evently' )
+			);
+		}
 	}
 
-	return activate_plugin( $plugin_file );
+	if ( ! file_exists( $plugin_path ) ) {
+		return new WP_Error(
+			'evently_install_missing',
+			__( 'The plugin installed but its main file was not found. You can activate it manually from Plugins.', 'evently' )
+		);
+	}
+
+	$activated = activate_plugin( $plugin_file );
+	return is_wp_error( $activated ) ? $activated : true;
 }
 
 /**
@@ -474,26 +526,9 @@ function evently_ajax_install_woocommerce() {
 		wp_send_json_success( array( 'message' => __( 'WooCommerce is already active.', 'evently' ) ) );
 	}
 
-	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-
-	$api = plugins_api( 'plugin_information', array( 'slug' => 'woocommerce' ) );
-	if ( is_wp_error( $api ) ) {
-		wp_send_json_error( array( 'message' => $api->get_error_message() ) );
-	}
-
-	$skin     = new Automatic_Upgrader_Skin();
-	$upgrader = new Plugin_Upgrader( $skin );
-	$result   = $upgrader->install( $api->download_link );
-
-	if ( is_wp_error( $result ) || ! $result ) {
-		wp_send_json_error( array( 'message' => __( 'Could not install WooCommerce. You can install it manually from Plugins → Add New.', 'evently' ) ) );
-	}
-
-	$activated = activate_plugin( 'woocommerce/woocommerce.php' );
-	if ( is_wp_error( $activated ) ) {
-		wp_send_json_error( array( 'message' => $activated->get_error_message() ) );
+	$result = evently_install_plugin_from_dot_org( 'woocommerce', 'woocommerce/woocommerce.php' );
+	if ( is_wp_error( $result ) ) {
+		wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 	}
 
 	wp_send_json_success( array( 'message' => __( 'WooCommerce installed and activated.', 'evently' ) ) );
