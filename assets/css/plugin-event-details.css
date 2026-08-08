@@ -63,6 +63,216 @@ body.single-mep_events .horizon_theme .horizon_hero {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   Default Theme — shared title + section rhythm
+   One type scale for every main-column heading so Description / FAQ /
+   Timeline / Related / Reviews / Ticket Options feel consistent.
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.single-mep_events {
+	--evently-dt-section-title-size: 1.5rem; /* 24px */
+	--evently-dt-section-title-weight: 800;
+	--evently-dt-section-title-tracking: -0.02em;
+	--evently-dt-section-title-gap: var(--evently-space-3); /* 24px under title */
+	--evently-dt-section-stack: var(--evently-space-5); /* 40px between sections */
+}
+
+/* Page title (plugin markup: h1.mpwem_tile) */
+body.single-mep_events .default_theme h1.mpwem_tile {
+	margin: 0 0 var(--evently-space-3) !important;
+	padding: 0 !important;
+	font-family: inherit !important;
+	font-size: clamp(1.75rem, 3.2vw, 2.375rem) !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.03em !important;
+	line-height: 1.15 !important;
+	color: var(--evently-text) !important;
+	text-transform: none !important;
+}
+
+/* Main-column section titles */
+body.single-mep_events .default_theme .mpwem_details > h2,
+body.single-mep_events .default_theme .mpwem_details > h2._mb,
+body.single-mep_events .default_theme .faq_area > h2,
+body.single-mep_events .default_theme div.faq_area h2,
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header h2,
+body.single-mep_events .default_theme .mpwem_related_area .related_title h3,
+body.single-mep_events .default_theme .mpwem_registration_area .section-title,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title,
+body.single-mep_events .mep-event-review-list-wrapper::before {
+	margin: 0 0 var(--evently-dt-section-title-gap) !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	font-family: inherit !important;
+	font-size: var(--evently-dt-section-title-size) !important;
+	font-weight: var(--evently-dt-section-title-weight) !important;
+	letter-spacing: var(--evently-dt-section-title-tracking) !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+	text-align: left !important;
+	text-transform: none !important;
+}
+
+/* In-panel / flex titles keep horizontal rhythm, not bottom margin */
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title,
+body.single-mep_events .mep-event-review-list-wrapper::before {
+	margin-bottom: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area .related_title h3 {
+	margin-bottom: 0 !important;
+}
+
+/* Description block */
+body.single-mep_events .default_theme .mpwem_details {
+	margin: 0 0 0 !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content,
+body.single-mep_events .default_theme .mpwem_details_content.mp_wp_editor {
+	font-size: 16px !important;
+	line-height: 1.7 !important;
+	color: var(--evently-text) !important;
+	text-align: justify !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content__body,
+body.single-mep_events .default_theme .mpwem_details_content .mpwem_details_content__body {
+	text-align: justify !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content p,
+body.single-mep_events .default_theme .mpwem_details_content ul,
+body.single-mep_events .default_theme .mpwem_details_content ol,
+body.single-mep_events .default_theme .mpwem_details_content__body p,
+body.single-mep_events .default_theme .mpwem_details_content__body ul,
+body.single-mep_events .default_theme .mpwem_details_content__body ol {
+	margin: 0 0 1em !important;
+	color: var(--evently-muted) !important;
+	font-size: 16px !important;
+	line-height: 1.7 !important;
+	text-align: justify !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content > *:last-child,
+body.single-mep_events .default_theme .mpwem_details_content__body > *:last-child {
+	margin-bottom: 0 !important;
+}
+
+/* Read more (>200 words) — mirrors Evently theme single skin */
+body.single-mep_events .default_theme .mpwem_details_content--collapsible {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: stretch !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content--collapsible.is-collapsed .mpwem_details_content__body {
+	display: -webkit-box !important;
+	-webkit-box-orient: vertical !important;
+	-webkit-line-clamp: 10 !important;
+	line-clamp: 10 !important;
+	overflow: hidden !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content--collapsible.is-expanded .mpwem_details_content__body {
+	display: block !important;
+	-webkit-line-clamp: unset !important;
+	line-clamp: unset !important;
+	overflow: visible !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content .evently-read-more {
+	appearance: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	align-self: flex-start !important;
+	gap: 0.35rem !important;
+	margin: 10px 0 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: none !important;
+	color: var(--evently-primary) !important;
+	font-family: inherit !important;
+	font-size: 14px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.01em !important;
+	line-height: 1.2 !important;
+	cursor: pointer !important;
+	text-align: left !important;
+}
+
+/* Only one label visible — plugin/global CSS often overrides [hidden]. */
+body.single-mep_events .default_theme .mpwem_details_content .evently-read-more [data-label-more],
+body.single-mep_events .default_theme .mpwem_details_content .evently-read-more [data-label-less] {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content.is-collapsed .evently-read-more [data-label-more],
+body.single-mep_events .default_theme .mpwem_details_content:not(.is-expanded) .evently-read-more [data-label-more] {
+	display: inline !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content.is-expanded .evently-read-more [data-label-less] {
+	display: inline !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content.is-expanded .evently-read-more [data-label-more] {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content .evently-read-more:hover {
+	color: var(--evently-dark) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content .evently-read-more:focus-visible {
+	outline: 2px solid var(--evently-primary) !important;
+	outline-offset: 3px !important;
+	border-radius: 4px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content .evently-read-more::after {
+	content: "" !important;
+	width: 0.45em !important;
+	height: 0.45em !important;
+	border-right: 2px solid currentColor !important;
+	border-bottom: 2px solid currentColor !important;
+	transform: rotate(45deg) translateY(-1px) !important;
+	transition: transform 0.2s var(--evently-ease) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_details_content.is-expanded .evently-read-more::after {
+	transform: rotate(-135deg) translateY(-1px) !important;
+}
+
+/* Consistent vertical stack between main sections */
+body.single-mep_events .default_theme .mpwem_registration_area,
+body.single-mep_events .default_theme .faq_area,
+body.single-mep_events .default_theme div.faq_area,
+body.single-mep_events .default_theme .mpwem_timeline_area,
+body.single-mep_events .mep-event-review-list-wrapper {
+	margin-top: var(--evently-dt-section-stack) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_related_area {
+	margin-top: var(--evently-dt-section-stack) !important;
+	padding-top: var(--evently-dt-section-stack) !important;
+}
+
+@media (max-width: 640px) {
+	body.single-mep_events {
+		--evently-dt-section-title-size: 1.375rem; /* 22px */
+		--evently-dt-section-stack: var(--evently-space-4);
+	}
+
+	body.single-mep_events .default_theme h1.mpwem_tile {
+		font-size: 1.75rem !important;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    Default Theme — date / time / location strip
    Scope: .default_theme .date_time_location_short (plugin markup)
    ═══════════════════════════════════════════════════════════════════ */
@@ -771,50 +981,115 @@ body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area 
 	position: relative;
 }
 
-body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button {
-	position: relative;
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button.evently-cal-btn,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button._button_theme_margin_auto_min_150 {
+	position: relative !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: flex-start !important;
 	gap: 12px !important;
 	width: 100% !important;
 	min-width: 0 !important;
-	min-height: 48px !important;
+	min-height: 52px !important;
 	height: auto !important;
 	margin: 0 !important;
-	padding: 13px 42px 13px 14px !important;
-	border: 1px solid rgba(108, 92, 231, 0.22) !important;
+	padding: 12px 44px 12px 12px !important;
+	border: 1px solid rgba(108, 92, 231, 0.2) !important;
 	border-radius: 14px !important;
-	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%) !important;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 247, 252, 0.98) 100%) !important;
 	color: var(--evently-text) !important;
 	font-family: inherit !important;
 	font-size: 14px !important;
 	font-weight: 700 !important;
-	line-height: 1.2 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.25 !important;
 	text-align: left !important;
+	text-transform: none !important;
 	cursor: pointer !important;
-	box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08) !important;
-	transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease !important;
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.8) inset,
+		0 6px 16px rgba(108, 92, 231, 0.08) !important;
+	transition:
+		background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease !important;
 }
 
-body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button:hover {
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button:hover,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button.evently-cal-btn:hover {
 	background: var(--evently-primary-soft) !important;
 	border-color: rgba(108, 92, 231, 0.4) !important;
-	transform: translateY(-1px);
+	transform: translateY(-1px) !important;
 	color: var(--evently-text) !important;
+	box-shadow: 0 10px 22px rgba(108, 92, 231, 0.14) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button.is-open,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button.evently-cal-btn.is-open {
+	background: var(--evently-primary) !important;
+	border-color: var(--evently-primary) !important;
+	color: #fff !important;
+	box-shadow: 0 10px 22px rgba(108, 92, 231, 0.28) !important;
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button span,
 body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button [data-text] {
-	color: var(--evently-text) !important;
+	color: inherit !important;
+	font-weight: 700 !important;
 }
 
-body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] {
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area .evently-cal-btn__icon {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	width: 34px !important;
+	height: 34px !important;
+	border-radius: 10px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	color: var(--evently-primary) !important;
+	box-shadow: 0 1px 2px rgba(11, 11, 13, 0.04) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button.is-open .evently-cal-btn__icon {
+	background: rgba(255, 255, 255, 0.18) !important;
+	border-color: rgba(255, 255, 255, 0.28) !important;
+	color: #fff !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area .evently-cal-btn__icon svg {
+	display: block !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area .evently-cal-btn__chevron {
+	position: absolute !important;
+	right: 14px !important;
+	top: 50% !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	color: var(--evently-muted) !important;
+	transform: translateY(-50%) !important;
+	transition: transform var(--evently-transition-fast) ease, color var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area > button.is-open .evently-cal-btn__chevron {
+	transform: translateY(-50%) rotate(180deg) !important;
+	color: #fff !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse],
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area .evently-cal-panel {
 	margin-top: 10px !important;
 	padding: 12px !important;
 	background: var(--evently-surface) !important;
 	border: 1px solid var(--evently-border) !important;
 	border-radius: 14px !important;
+	box-shadow: 0 8px 20px rgba(11, 11, 13, 0.05) !important;
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] > div,
@@ -828,12 +1103,14 @@ body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area 
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] a,
-body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area a._button_general_mt_xs {
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area a._button_general_mt_xs,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area .evently-cal-provider {
 	display: inline-flex !important;
 	align-items: center !important;
-	justify-content: center !important;
+	justify-content: flex-start !important;
+	gap: 10px !important;
 	width: 100% !important;
-	min-height: 42px !important;
+	min-height: 44px !important;
 	margin: 0 !important;
 	padding: 10px 12px !important;
 	border: 1px solid var(--evently-border) !important;
@@ -844,13 +1121,31 @@ body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area 
 	font-weight: 600 !important;
 	text-decoration: none !important;
 	box-shadow: none !important;
-	transition: border-color 0.15s ease, transform 0.15s ease !important;
+	transition:
+		border-color var(--evently-transition-fast) ease,
+		background var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease !important;
 }
 
-body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] a:hover {
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area [data-collapse] a:hover,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area .evently-cal-provider:hover {
 	border-color: rgba(108, 92, 231, 0.35) !important;
+	background: var(--evently-primary-soft) !important;
 	color: var(--evently-text) !important;
-	transform: translateY(-1px);
+	transform: translateY(-1px) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area .evently-cal-provider__icon {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	width: 28px !important;
+	height: 28px !important;
+	border-radius: 8px !important;
+	background: var(--evently-surface) !important;
+	color: var(--evently-primary) !important;
+	font-size: 14px !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -859,7 +1154,7 @@ body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area 
    ═══════════════════════════════════════════════════════════════════ */
 
 body.single-mep_events .default_theme .mpwem_timeline_area {
-	margin: var(--evently-space-4) 0 0 !important;
+	/* margin-top from shared section rhythm */
 	padding: 0 !important;
 	background: transparent !important;
 	border: 0 !important;
@@ -869,21 +1164,10 @@ body.single-mep_events .default_theme .mpwem_timeline_area {
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header {
-	margin: 0 0 var(--evently-space-3) !important;
+	margin: 0 0 var(--evently-dt-section-title-gap) !important;
 	padding: 0 !important;
 	background: transparent !important;
 	border: 0 !important;
-}
-
-body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header h2 {
-	margin: 0 !important;
-	padding: 0 !important;
-	font-family: inherit !important;
-	font-size: 26px !important;
-	font-weight: 800 !important;
-	letter-spacing: -0.02em !important;
-	line-height: 1.25 !important;
-	color: var(--evently-text) !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_body {
@@ -1086,22 +1370,11 @@ body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp
    ═══════════════════════════════════════════════════════════════════ */
 
 body.single-mep_events .default_theme .mpwem_registration_area {
-	margin: var(--evently-space-5) 0 0 !important;
+	/* margin-top from shared section rhythm */
 	padding: 0 !important;
 	background: transparent !important;
 	border: 0 !important;
 	box-shadow: none !important;
-}
-
-body.single-mep_events .default_theme .mpwem_registration_area .section-title {
-	margin: 0 0 6px !important;
-	padding: 0 !important;
-	font-family: inherit !important;
-	font-size: 26px !important;
-	font-weight: 800 !important;
-	letter-spacing: -0.02em !important;
-	line-height: 1.25 !important;
-	color: var(--evently-text) !important;
 }
 
 /* Outer shell — soft surface panel, matches sidebar cards */
@@ -1142,26 +1415,12 @@ body.single-mep_events .default_theme .mpwem_registration_area .date-time-header
 	display: flex !important;
 	align-items: center !important;
 	gap: 10px !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	font-family: inherit !important;
-	font-size: 18px !important;
-	font-weight: 800 !important;
-	letter-spacing: -0.02em !important;
-	text-transform: none !important;
-	line-height: 1.25 !important;
-	color: var(--evently-text) !important;
+	/* type + color from shared section titles */
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title::before {
-	content: "" !important;
-	display: inline-block !important;
-	width: 8px !important;
-	height: 8px !important;
-	border-radius: 50% !important;
-	background: var(--evently-primary) !important;
-	box-shadow: 0 0 0 4px var(--evently-primary-soft) !important;
-	flex-shrink: 0 !important;
+	display: none !important;
+	content: none !important;
 }
 
 /* Title-only header (single date / hidden input) — tighter bottom padding */
@@ -1741,10 +2000,6 @@ body.single-mep_events .default_theme #mep-native-total-display {
 }
 
 @media (max-width: 720px) {
-	body.single-mep_events .default_theme .mpwem_registration_area .section-title {
-		font-size: 22px !important;
-	}
-
 	body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-body .mep_ticket_item .ticket-data,
 	body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ex_service .card-body .mep_ticket_item .ticket-data,
 	body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-data {
@@ -1787,29 +2042,13 @@ body.single-mep_events .default_theme #mep-native-total-display {
 
 body.single-mep_events .default_theme .faq_area,
 body.single-mep_events .default_theme div.faq_area {
-	margin: var(--evently-space-5) 0 0 !important;
+	/* margin-top from shared section rhythm */
 	padding: 0 !important;
 	background: transparent !important;
 	border: 0 !important;
 	border-radius: 0 !important;
 	box-shadow: none !important;
 	overflow: visible !important;
-}
-
-body.single-mep_events .default_theme .faq_area > h2,
-body.single-mep_events .default_theme div.faq_area h2 {
-	margin: 0 0 var(--evently-space-3) !important;
-	padding: 0 !important;
-	background: transparent !important;
-	border: 0 !important;
-	border-radius: 0 !important;
-	font-family: inherit !important;
-	font-size: 26px !important;
-	font-weight: 800 !important;
-	letter-spacing: -0.02em !important;
-	line-height: 1.25 !important;
-	color: var(--evently-text) !important;
-	text-align: left !important;
 }
 
 body.single-mep_events .default_theme .faq_area > .description:empty {
@@ -1954,11 +2193,6 @@ body.single-mep_events .default_theme .faq_area .item .content p:last-child {
 }
 
 @media (max-width: 640px) {
-	body.single-mep_events .default_theme .faq_area > h2,
-	body.single-mep_events .default_theme div.faq_area h2 {
-		font-size: 22px !important;
-	}
-
 	body.single-mep_events .default_theme .faq_area .item .title,
 	body.single-mep_events .default_theme div.faq_area .item .title {
 		padding: 16px !important;
@@ -1983,8 +2217,7 @@ body.single-mep_events .default_theme .faq_area .item .content p:last-child {
    ═══════════════════════════════════════════════════════════════════ */
 
 body.single-mep_events .default_theme .mpwem_related_area {
-	margin: var(--evently-space-6) 0 0 !important;
-	padding: var(--evently-space-6) 0 0 !important;
+	/* margin/padding-top from shared section rhythm */
 	border-top: 1px solid var(--evently-border) !important;
 	background: transparent !important;
 }
@@ -1994,20 +2227,8 @@ body.single-mep_events .default_theme .mpwem_related_area .related_title {
 	align-items: center !important;
 	justify-content: space-between !important;
 	gap: 16px !important;
-	margin: 0 0 var(--evently-space-3) !important;
+	margin: 0 0 var(--evently-dt-section-title-gap) !important;
 	padding: 0 !important;
-}
-
-body.single-mep_events .default_theme .mpwem_related_area .related_title h3 {
-	margin: 0 !important;
-	padding: 0 !important;
-	font-family: inherit !important;
-	font-size: 26px !important;
-	font-weight: 800 !important;
-	letter-spacing: -0.02em !important;
-	line-height: 1.25 !important;
-	color: var(--evently-text) !important;
-	text-align: left !important;
 }
 
 body.single-mep_events .default_theme .mpwem_related_area .related_navigation {
@@ -2358,19 +2579,6 @@ body.single-mep_events .default_theme .mpwem_related_area .list_price_value .woo
 		padding: 14px 16px !important;
 	}
 
-	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header h2 {
-		font-size: 22px !important;
-	}
-
-	body.single-mep_events .default_theme .mpwem_related_area {
-		margin-top: var(--evently-space-4) !important;
-		padding-top: var(--evently-space-4) !important;
-	}
-
-	body.single-mep_events .default_theme .mpwem_related_area .related_title h3 {
-		font-size: 22px !important;
-	}
-
 	body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb,
 	body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb.mpwem_style {
 		min-height: 160px !important;
@@ -2399,7 +2607,7 @@ body.single-mep_events .mep-event-review-list-wrapper {
 	row-gap: 20px !important;
 	max-width: 100% !important;
 	width: 100% !important;
-	margin: var(--evently-space-5) 0 0 !important;
+	/* margin-top from shared section rhythm */
 	padding: 22px 24px 24px !important;
 	background:
 		radial-gradient(120% 90% at 0% 0%, var(--evently-primary-soft), transparent 55%),
@@ -2413,13 +2621,7 @@ body.single-mep_events .mep-event-review-list-wrapper {
 body.single-mep_events .mep-event-review-list-wrapper::before {
 	content: "Reviews" !important;
 	grid-area: title !important;
-	margin: 0 !important;
-	font-family: inherit !important;
-	font-size: 26px !important;
-	font-weight: 800 !important;
-	letter-spacing: -0.02em !important;
-	line-height: 1.25 !important;
-	color: var(--evently-text) !important;
+	/* type from shared section titles */
 }
 
 body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn {
@@ -2809,10 +3011,6 @@ body.single-mep_events #mageModal .mage-modal-footer {
 			"list" !important;
 		padding: 18px 16px 18px !important;
 		row-gap: 14px !important;
-	}
-
-	body.single-mep_events .mep-event-review-list-wrapper::before {
-		font-size: 22px !important;
 	}
 
 	body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn {

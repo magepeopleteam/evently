@@ -291,6 +291,24 @@ function evently_enqueue_assets() {
 	// same max-width/pad track as .site-header / .evently-container.
 	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && evently_use_plugin_event_details() ) {
 		wp_enqueue_style( 'evently-plugin-event-details' );
+		// Read more on description + Pro review modal polish (shared with theme skin).
+		wp_enqueue_script( 'evently-single-event' );
+		wp_localize_script(
+			'evently-single-event',
+			'eventlySingleI18n',
+			array(
+				'rateEvent'    => __( 'How would you rate this event?', 'evently' ),
+				'writeReview'  => __( 'Write a review', 'evently' ),
+				'submitReview' => __( 'Submit review', 'evently' ),
+				'eventReview'  => __( 'Event review', 'evently' ),
+				'close'        => __( 'Close', 'evently' ),
+				'noReviews'    => __( 'No reviews yet', 'evently' ),
+				'beFirst'      => __( 'Be the first to share your experience.', 'evently' ),
+				'starSingular' => __( '1 star', 'evently' ),
+				/* translators: %d: star rating 2–5 */
+				'starPlural'   => __( '%d stars', 'evently' ),
+			)
+		);
 	}
 
 	if ( ( evently_has_woocommerce() && is_account_page() ) || evently_is_organizer_dashboard() ) {

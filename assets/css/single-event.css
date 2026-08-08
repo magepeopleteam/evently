@@ -275,6 +275,25 @@
 	cursor: pointer;
 }
 
+/* Only one label visible — [hidden] can be overridden by display rules. */
+.evently-read-more [data-label-more],
+.evently-read-more [data-label-less] {
+	display: none !important;
+}
+
+.evently-event-description.is-collapsed .evently-read-more [data-label-more],
+.evently-event-description:not(.is-expanded) .evently-read-more [data-label-more] {
+	display: inline !important;
+}
+
+.evently-event-description.is-expanded .evently-read-more [data-label-less] {
+	display: inline !important;
+}
+
+.evently-event-description.is-expanded .evently-read-more [data-label-more] {
+	display: none !important;
+}
+
 .evently-read-more:hover {
 	color: var(--evently-dark);
 }

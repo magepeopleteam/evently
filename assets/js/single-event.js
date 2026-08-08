@@ -13,30 +13,36 @@
 	}
 
 	function initReadMore( root ) {
-		var wrap = root.querySelector( '[data-evently-readmore]' );
-		if ( ! wrap || wrap.getAttribute( 'data-evently-readmore-ready' ) ) {
-			return;
-		}
-		wrap.setAttribute( 'data-evently-readmore-ready', '1' );
-
-		var btn = wrap.querySelector( '[data-evently-readmore-toggle]' );
-		if ( ! btn ) {
+		var wraps = root.querySelectorAll( '[data-evently-readmore]' );
+		if ( ! wraps.length ) {
 			return;
 		}
 
-		var more = btn.querySelector( '[data-label-more]' );
-		var less = btn.querySelector( '[data-label-less]' );
+		Array.prototype.forEach.call( wraps, function ( wrap ) {
+			if ( wrap.getAttribute( 'data-evently-readmore-ready' ) ) {
+				return;
+			}
+			wrap.setAttribute( 'data-evently-readmore-ready', '1' );
 
-		btn.addEventListener( 'click', function () {
-			var expanded = wrap.classList.toggle( 'is-expanded' );
-			wrap.classList.toggle( 'is-collapsed', ! expanded );
-			btn.setAttribute( 'aria-expanded', expanded ? 'true' : 'false' );
-			if ( more ) {
-				more.hidden = expanded;
+			var btn = wrap.querySelector( '[data-evently-readmore-toggle]' );
+			if ( ! btn ) {
+				return;
 			}
-			if ( less ) {
-				less.hidden = ! expanded;
-			}
+
+			var more = btn.querySelector( '[data-label-more]' );
+			var less = btn.querySelector( '[data-label-less]' );
+
+			btn.addEventListener( 'click', function () {
+				var expanded = wrap.classList.toggle( 'is-expanded' );
+				wrap.classList.toggle( 'is-collapsed', ! expanded );
+				btn.setAttribute( 'aria-expanded', expanded ? 'true' : 'false' );
+				if ( more ) {
+					more.hidden = expanded;
+				}
+				if ( less ) {
+					less.hidden = ! expanded;
+				}
+			} );
 		} );
 	}
 
@@ -238,9 +244,121 @@
 		}
 	}
 
+	var calProviders = {
+		google: { cls: 'evently-cal-google', icon: 'fab fa-google' },
+		yahoo: { cls: 'evently-cal-yahoo', icon: 'fab fa-yahoo' },
+		outlook: { cls: 'evently-cal-outlook', icon: 'fab fa-microsoft' },
+		apple: { cls: 'evently-cal-apple', icon: 'fab fa-apple' },
+	};
+
+	function setCalendarOpen( area, btn, panel, open ) {
+		if ( ! panel || ! btn ) {
+			return;
+		}
+		panel.classList.toggle( 'mActive', open );
+		btn.classList.toggle( 'is-open', open );
+		btn.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+
+		var closeText = btn.getAttribute( 'data-close-text' ) || 'Add to Calendar';
+		var openText = btn.getAttribute( 'data-open-text' ) || 'Hide Calendar';
+		var textEl = btn.querySelector( '[data-text]' );
+		if ( textEl ) {
+			textEl.textContent = open ? openText : closeText;
+		}
+	}
+
+	function enhanceCalendarArea( area ) {
+		if ( ! area || area.getAttribute( 'data-evently-cal' ) ) {
+			return;
+		}
+		area.setAttribute( 'data-evently-cal', '1' );
+
+		var btn = area.querySelector( ':scope > button, button[data-collapse-target]' );
+		var panel = area.querySelector( '[data-collapse]' );
+		if ( ! btn ) {
+			return;
+		}
+
+		if ( panel ) {
+			panel.classList.add( 'evently-cal-panel' );
+			Array.prototype.forEach.call( panel.querySelectorAll( 'a' ), function ( link ) {
+				if ( link.getAttribute( 'data-evently-cal-link' ) ) {
+					return;
+				}
+				link.setAttribute( 'data-evently-cal-link', '1' );
+				var key = ( link.textContent || '' ).replace( /\s+/g, ' ' ).trim().toLowerCase();
+				var meta = calProviders[ key ];
+				if ( ! meta ) {
+					return;
+				}
+				link.classList.add( 'evently-cal-provider', meta.cls );
+				if ( ! link.querySelector( '.evently-cal-provider__icon' ) ) {
+					var wrap = document.createElement( 'span' );
+					wrap.className = 'evently-cal-provider__icon';
+					wrap.setAttribute( 'aria-hidden', 'true' );
+					wrap.innerHTML = '<i class="' + meta.icon + '"></i>';
+					link.insertBefore( wrap, link.firstChild );
+				}
+			} );
+		}
+
+		if ( btn.getAttribute( 'data-evently-cal-btn' ) ) {
+			return;
+		}
+		btn.setAttribute( 'data-evently-cal-btn', '1' );
+		btn.classList.add( 'evently-cal-btn' );
+		btn.setAttribute( 'type', 'button' );
+		btn.setAttribute( 'aria-expanded', 'false' );
+
+		var closeText = btn.getAttribute( 'data-close-text' ) || 'Add to Calendar';
+		var openText = btn.getAttribute( 'data-open-text' ) || 'Hide Calendar';
+		if ( /add calendar/i.test( closeText ) ) {
+			closeText = 'Add to Calendar';
+		}
+		if ( /hide calender/i.test( openText ) ) {
+			openText = 'Hide Calendar';
+		}
+		btn.setAttribute( 'data-close-text', closeText );
+		btn.setAttribute( 'data-open-text', openText );
+
+		if ( ! btn.querySelector( '.evently-cal-btn__icon' ) ) {
+			var icon = document.createElement( 'span' );
+			icon.className = 'evently-cal-btn__icon';
+			icon.setAttribute( 'aria-hidden', 'true' );
+			icon.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>';
+			btn.insertBefore( icon, btn.firstChild );
+		}
+
+		var textEl = btn.querySelector( '[data-text]' );
+		if ( ! textEl ) {
+			textEl = document.createElement( 'span' );
+			textEl.setAttribute( 'data-text', '' );
+			btn.appendChild( textEl );
+		}
+		textEl.textContent = closeText;
+
+		if ( ! btn.querySelector( '.evently-cal-btn__chevron' ) ) {
+			var chevron = document.createElement( 'span' );
+			chevron.className = 'evently-cal-btn__chevron';
+			chevron.setAttribute( 'aria-hidden', 'true' );
+			chevron.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+			btn.appendChild( chevron );
+		}
+
+		setCalendarOpen( area, btn, panel, false );
+
+		btn.addEventListener( 'click', function ( event ) {
+			event.preventDefault();
+			event.stopPropagation();
+			var open = panel && panel.classList.contains( 'mActive' );
+			setCalendarOpen( area, btn, panel, ! open );
+		} );
+	}
+
 	function init() {
 		initReadMore( document );
 		document.querySelectorAll( '[data-evently-reviews]' ).forEach( enhanceReviews );
+		document.querySelectorAll( '.default_theme .mpwem_calender_area, .mep-default-sidebar .mpwem_calender_area' ).forEach( enhanceCalendarArea );
 	}
 
 	if ( document.readyState === 'loading' ) {
