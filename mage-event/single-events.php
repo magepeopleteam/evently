@@ -111,10 +111,33 @@ do_action( 'evently_before_event_content' );
 		<div class="evently-event-main">
 
 			<?php if ( get_the_content() ) : ?>
+				<?php
+				$evently_about_html  = apply_filters( 'the_content', get_the_content() );
+				$evently_about_words = str_word_count( wp_strip_all_tags( $evently_about_html ) );
+				$evently_about_more  = $evently_about_words > 200;
+				?>
 				<section class="evently-event-section">
 					<h2><?php esc_html_e( 'About this event', 'evently' ); ?></h2>
-					<div class="evently-event-description">
-						<?php the_content(); ?>
+					<div
+						class="evently-event-description<?php echo $evently_about_more ? ' evently-event-description--collapsible is-collapsed' : ''; ?>"
+						<?php if ( $evently_about_more ) : ?>
+							data-evently-readmore
+						<?php endif; ?>
+					>
+						<div class="evently-event-description__body">
+							<?php echo $evently_about_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core the_content filters. ?>
+						</div>
+						<?php if ( $evently_about_more ) : ?>
+							<button
+								type="button"
+								class="evently-read-more"
+								data-evently-readmore-toggle
+								aria-expanded="false"
+							>
+								<span data-label-more><?php esc_html_e( 'Read more', 'evently' ); ?></span>
+								<span data-label-less hidden><?php esc_html_e( 'Read less', 'evently' ); ?></span>
+							</button>
+						<?php endif; ?>
 					</div>
 				</section>
 			<?php endif; ?>
@@ -307,8 +330,14 @@ do_action( 'evently_before_event_content' );
 			$evently_reviews_html = Evently_Booking_Adapter::render_event_reviews( $evently_event_id );
 			if ( $evently_reviews_html ) :
 				?>
-				<section class="evently-event-section evently-event-reviews" aria-label="<?php esc_attr_e( 'Event reviews', 'evently' ); ?>">
-					<h2><?php esc_html_e( 'Reviews', 'evently' ); ?></h2>
+				<section class="evently-event-section evently-event-reviews" aria-label="<?php esc_attr_e( 'Event reviews', 'evently' ); ?>" data-evently-reviews>
+					<div class="evently-event-reviews__head">
+						<div class="evently-event-reviews__titles">
+							<span class="evently-event-reviews__eyebrow"><?php esc_html_e( 'Attendee feedback', 'evently' ); ?></span>
+							<h2><?php esc_html_e( 'Reviews', 'evently' ); ?></h2>
+						</div>
+						<div class="evently-event-reviews__actions" data-evently-reviews-actions></div>
+					</div>
 					<?php echo $evently_reviews_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted Pro-rendered markup, see render_event_reviews() docblock. ?>
 				</section>
 			<?php endif; ?>

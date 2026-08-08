@@ -134,6 +134,7 @@ function evently_register_assets() {
 	wp_register_script( 'evently-modal', $js_dir . 'modal.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-gallery-lightbox', $js_dir . 'gallery-lightbox.js', array( 'evently-modal', 'jquery' ), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-booking-form', $js_dir . 'booking-form.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-single-event', $js_dir . 'single-event.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	// Attendee drawer needs jQuery + plugin qty/clone scripts (mpwem_script).
 	wp_register_script(
 		'evently-attendee-drawer',
@@ -228,6 +229,23 @@ function evently_enqueue_assets() {
 
 		wp_enqueue_script( 'evently-gallery-lightbox' );
 		wp_enqueue_script( 'evently-booking-form' );
+		wp_enqueue_script( 'evently-single-event' );
+		wp_localize_script(
+			'evently-single-event',
+			'eventlySingleI18n',
+			array(
+				'rateEvent'     => __( 'How would you rate this event?', 'evently' ),
+				'writeReview'   => __( 'Write a review', 'evently' ),
+				'submitReview'  => __( 'Submit review', 'evently' ),
+				'eventReview'   => __( 'Event review', 'evently' ),
+				'close'         => __( 'Close', 'evently' ),
+				'noReviews'     => __( 'No reviews yet', 'evently' ),
+				'beFirst'       => __( 'Be the first to share your experience.', 'evently' ),
+				'starSingular'  => __( '1 star', 'evently' ),
+				/* translators: %d: star rating 2–5 */
+				'starPlural'    => __( '%d stars', 'evently' ),
+			)
+		);
 
 		// Per-ticket attendee form drawer (Horizon-parity UX for Evently template).
 		$evently_attendee_deps = array( 'jquery' );
