@@ -3,11 +3,12 @@ Theme Name: Evently
 Theme URI: https://evently.example.com
 Author: Evently Team
 Author URI: https://evently.example.com
-Description: Evently is a premium event discovery and ticket-booking WordPress theme. Built for concerts, conferences, festivals, workshops and every experience worth remembering — with a reusable event-card system, a premium event archive, single-event booking UI, WooCommerce checkout styling, Gutenberg blocks, and optional Elementor widgets. Evently is presentation-only: booking, tickets and orders are handled by a compatible event-booking plugin and WooCommerce; Evently never stores or deletes booking data.
+Description: Evently is a premium event discovery and ticket-booking WordPress theme. Built for concerts, conferences, festivals, workshops and every experience worth remembering — with a reusable event-card system, a premium event archive, single-event booking UI, WooCommerce checkout styling, and a full set of Elementor widgets (required) that also ship as Gutenberg blocks for use on any other page. Evently is presentation-only: booking, tickets and orders are handled by mage-eventpress (required) and WooCommerce; Evently never stores or deletes booking data.
 Version: 1.0.0
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
+Requires Plugins: elementor, mage-eventpress
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: evently

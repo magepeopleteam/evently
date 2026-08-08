@@ -55,55 +55,42 @@
 		} );
 	}
 
-	var installElementorBtn = document.getElementById( 'evently-install-elementor' );
-	if ( installElementorBtn ) {
-		installElementorBtn.addEventListener( 'click', function () {
-			installElementorBtn.disabled = true;
-			installElementorBtn.textContent = eventlyAdmin.strings.importing;
+	// Elementor + mage-eventpress installers: one handler wired to every
+	// button that can trigger them — the Setup screen's Requirements card
+	// (#evently-install-elementor / #evently-install-booking) and the
+	// persistent admin notice's twins (#evently-notice-install-elementor /
+	// #evently-notice-install-booking) shown on every other wp-admin screen
+	// (see evently_required_plugins_notice() in inc/admin/setup-wizard.php).
+	function wireInstallButton( id, action ) {
+		var btn = document.getElementById( id );
+		if ( ! btn ) {
+			return;
+		}
+		btn.addEventListener( 'click', function () {
+			btn.disabled = true;
+			btn.textContent = eventlyAdmin.strings.importing;
 
-			postAction( 'evently_install_elementor' )
+			postAction( action )
 				.then( function ( response ) {
 					if ( response.success ) {
 						window.location.reload();
 					} else {
-						installElementorBtn.disabled = false;
-						installElementorBtn.textContent = eventlyAdmin.strings.error;
+						btn.disabled = false;
+						btn.textContent = eventlyAdmin.strings.error;
 						window.alert( response.data && response.data.message ? response.data.message : eventlyAdmin.strings.error );
 					}
 				} )
 				.catch( function () {
-					installElementorBtn.disabled = false;
+					btn.disabled = false;
 					window.alert( eventlyAdmin.strings.error );
 				} );
 		} );
 	}
 
-	document.querySelectorAll( '[data-evently-homepage-mode]' ).forEach( function ( button ) {
-		button.addEventListener( 'click', function () {
-			var mode = button.getAttribute( 'data-evently-homepage-mode' );
-			button.disabled = true;
-
-			postAction( 'evently_setup_homepage_mode', { mode: mode } )
-				.then( function ( response ) {
-					button.disabled = false;
-
-					if ( ! response.success ) {
-						window.alert( response.data && response.data.message ? response.data.message : eventlyAdmin.strings.error );
-						return;
-					}
-
-					if ( response.data.editUrl ) {
-						window.location.href = response.data.editUrl;
-					} else {
-						window.location.reload();
-					}
-				} )
-				.catch( function () {
-					button.disabled = false;
-					window.alert( eventlyAdmin.strings.error );
-				} );
-		} );
-	} );
+	wireInstallButton( 'evently-install-elementor', 'evently_install_elementor' );
+	wireInstallButton( 'evently-install-booking', 'evently_install_booking_plugin' );
+	wireInstallButton( 'evently-notice-install-elementor', 'evently_install_elementor' );
+	wireInstallButton( 'evently-notice-install-booking', 'evently_install_booking_plugin' );
 
 	var importBtn = document.getElementById( 'evently-run-import' );
 	var progress  = document.getElementById( 'evently-import-progress' );

@@ -8,6 +8,7 @@ Tags: event, booking, events, tickets, conference, festival, block-patterns, cus
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
+Requires Plugins: elementor, mage-eventpress
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,16 +16,16 @@ Evently is a premium event discovery and ticket-booking WordPress theme for conc
 
 == Description ==
 
-Evently is a presentation-layer theme: it never stores, prices, or processes bookings itself. Event and booking data comes from a compatible event-booking plugin (built against mage-eventpress — "Event Booking Manager for WooCommerce"); payments, cart and checkout come from WooCommerce when it's installed. Deactivating or switching away from Evently never deletes event, booking, or order data, because the theme never owns that data in the first place.
+Evently is a presentation-layer theme: it never stores, prices, or processes bookings itself. Event and booking data comes from mage-eventpress ("Event Booking Manager for WooCommerce", required); payments, cart and checkout come from WooCommerce when it's installed. Deactivating or switching away from Evently never deletes event, booking, or order data, because the theme never owns that data in the first place. Elementor is required — every homepage section ships as a real Elementor widget (and, for use on any other page, a matching Gutenberg block); the demo importer builds a fully pre-designed, directly editable homepage in Elementor rather than a blank canvas.
 
 See docs/ for full documentation: installation, the demo importer, theme settings, the booking-plugin integration contract, Elementor and Gutenberg support, WooCommerce styling, child theming, and the full hook/filter reference.
 
 == Installation ==
 
-1. Install and activate Evently like any WordPress theme (Appearance → Themes → Add New → Upload, or extract to wp-content/themes/evently).
-2. Install and activate WooCommerce (optional, but required for ticket checkout) and your event-booking plugin.
-3. Go to Evently → Setup to check plugin requirements and import the "All Events" demo content.
-4. Visit Evently → Theme Settings to configure branding, colors, and defaults.
+1. Install and activate Evently like any WordPress theme (Appearance → Themes → Add New → Upload, or extract to wp-content/themes/evently). You'll be taken straight to Evently → Setup.
+2. From Evently → Setup, install and activate the two required plugins — Elementor and mage-eventpress — with one click each, plus WooCommerce if you need ticket checkout (optional).
+3. Click "Import Demo Content" — this creates realistic categories, organizers, events with real ticket types, blog posts, the Events/Organizer Dashboard pages, and a fully pre-built, directly editable Elementor homepage.
+4. Open the homepage with "Edit Homepage with Elementor" to customize the pre-built design, and visit Evently → Theme Settings for site-wide branding, colors, and defaults.
 
 Full details: docs/installation.md and docs/getting-started.md.
 

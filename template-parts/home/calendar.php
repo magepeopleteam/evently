@@ -17,7 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$evently_month_label   = evently_get_setting( 'calendar_month_label', __( 'August 2026', 'evently' ) );
+$evently_heading       = $args['heading'] ?? __( "What's happening this month", 'evently' );
+$evently_month_label   = $args['month_label'] ?? evently_get_setting( 'calendar_month_label', __( 'August 2026', 'evently' ) );
 $evently_days_in_month = 31;
 $evently_first_weekday = 6; // Saturday — matches the design's Aug 2026 layout.
 $evently_calendar_data = evently_demo_calendar_events();
@@ -27,7 +28,7 @@ $evently_day_names     = array( __( 'S', 'evently' ), __( 'M', 'evently' ), __( 
 <section class="evently-section evently-section--soft" id="evently-calendar">
 	<div class="evently-container">
 		<div class="evently-section-head evently-section-head--center">
-			<h2><?php esc_html_e( "What's happening this month", 'evently' ); ?></h2>
+			<h2><?php echo esc_html( $evently_heading ); ?></h2>
 		</div>
 
 		<div class="cal-grid" data-evently-calendar>

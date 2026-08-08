@@ -15,43 +15,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$evently_dash_stats  = evently_demo_dashboard_stats();
+$evently_eyebrow    = $args['eyebrow'] ?? __( 'For Organizers', 'evently' );
+$evently_heading    = $args['heading'] ?? __( 'Turn your event into an experience.', 'evently' );
+$evently_subhead     = $args['subhead'] ?? __( 'Create events, sell tickets, manage attendees and track your performance from one powerful dashboard.', 'evently' );
+$evently_button_text = $args['button_text'] ?? __( 'Start Selling', 'evently' );
+$evently_secondary_text = $args['secondary_button_text'] ?? __( 'Explore Organizer Tools', 'evently' );
 
-// Overlay any admin-entered values (Evently → Theme Settings → Homepage:
-// Organizer Dashboard) on top of the bundled demo numbers at the same slot.
-foreach ( $evently_dash_stats as $evently_index => &$evently_dash_stat ) {
-	$evently_n                    = $evently_index + 1;
-	$evently_dash_stat['label']  = evently_get_setting( "dash_stat_{$evently_n}_label", $evently_dash_stat['label'] );
-	$evently_dash_stat['value']  = evently_get_setting( "dash_stat_{$evently_n}_value", $evently_dash_stat['value'] );
-	$evently_dash_stat['change'] = evently_get_setting( "dash_stat_{$evently_n}_change", $evently_dash_stat['change'] );
+// The Evently Organizer CTA Elementor widget's own repeater/settings
+// (class-widget-organizer-cta.php) take priority when present; otherwise
+// fall back to the bundled demo numbers overlaid with the legacy per-index
+// evently_get_setting() overrides, exactly as this file behaved before the
+// widget had any controls.
+if ( ! empty( $args['dash_stats'] ) && is_array( $args['dash_stats'] ) ) {
+	$evently_dash_stats = $args['dash_stats'];
+} else {
+	$evently_dash_stats = evently_demo_dashboard_stats();
+	foreach ( $evently_dash_stats as $evently_index => &$evently_dash_stat ) {
+		$evently_n                    = $evently_index + 1;
+		$evently_dash_stat['label']  = evently_get_setting( "dash_stat_{$evently_n}_label", $evently_dash_stat['label'] );
+		$evently_dash_stat['value']  = evently_get_setting( "dash_stat_{$evently_n}_value", $evently_dash_stat['value'] );
+		$evently_dash_stat['change'] = evently_get_setting( "dash_stat_{$evently_n}_change", $evently_dash_stat['change'] );
+	}
+	unset( $evently_dash_stat );
 }
-unset( $evently_dash_stat );
 
-$evently_create_url  = evently_get_setting( 'create_event_url', '' );
-if ( empty( $evently_create_url ) ) {
-	$evently_create_url = evently_has_booking_plugin() ? admin_url( 'post-new.php?post_type=mep_events' ) : '#organizer';
+if ( ! empty( $args['button_url']['url'] ) ) {
+	$evently_create_url = $args['button_url']['url'];
+} else {
+	$evently_create_url = evently_get_setting( 'create_event_url', '' );
+	if ( empty( $evently_create_url ) ) {
+		$evently_create_url = evently_has_booking_plugin() ? admin_url( 'post-new.php?post_type=mep_events' ) : '#organizer';
+	}
 }
 ?>
 <section class="evently-section evently-section--dark">
 	<div class="evently-container org-grid">
 		<div>
-			<span class="evently-eyebrow"><?php esc_html_e( 'For Organizers', 'evently' ); ?></span>
-			<h2><?php esc_html_e( 'Turn your event into an experience.', 'evently' ); ?></h2>
+			<span class="evently-eyebrow"><?php echo esc_html( $evently_eyebrow ); ?></span>
+			<h2><?php echo esc_html( $evently_heading ); ?></h2>
 			<p class="org-sub">
-				<?php esc_html_e( 'Create events, sell tickets, manage attendees and track your performance from one powerful dashboard.', 'evently' ); ?>
+				<?php echo esc_html( $evently_subhead ); ?>
 			</p>
 			<div class="org-btns">
 				<?php
 				evently_button(
 					array(
-						'text'    => __( 'Start Selling', 'evently' ),
+						'text'    => $evently_button_text,
 						'url'     => $evently_create_url,
 						'variant' => 'white',
 					)
 				);
 				?>
 				<a href="<?php echo esc_url( home_url( '/organizer-tools' ) ); ?>" class="btn btn--outline-white">
-					<?php esc_html_e( 'Explore Organizer Tools', 'evently' ); ?>
+					<?php echo esc_html( $evently_secondary_text ); ?>
 				</a>
 			</div>
 		</div>

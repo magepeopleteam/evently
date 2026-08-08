@@ -9,23 +9,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$evently_categories = evently_demo_categories();
 $evently_archive_url = evently_get_events_page_url();
+$evently_heading     = $args['heading'] ?? __( 'Explore by experience', 'evently' );
+$evently_subhead     = $args['subhead'] ?? __( "Find something you'll love.", 'evently' );
 
-// Overlay any admin-entered label/image (Evently → Theme Settings → Homepage:
-// Categories) on top of the bundled demo item at the same grid position.
-foreach ( $evently_categories as $evently_index => &$evently_cat ) {
-	$evently_n            = $evently_index + 1;
-	$evently_cat['label'] = evently_get_setting( "category_{$evently_n}_label", $evently_cat['label'] );
-	$evently_cat['image_override'] = evently_get_setting( "category_{$evently_n}_image", '' );
+// The Evently Categories Elementor widget's own repeater (class-widget-categories.php)
+// takes priority when present; otherwise fall back to the bundled demo items
+// overlaid with the legacy per-index evently_get_setting() overrides, exactly
+// as this file behaved before the widget had any controls.
+if ( ! empty( $args['items'] ) && is_array( $args['items'] ) ) {
+	$evently_categories = array();
+	foreach ( $args['items'] as $evently_item ) {
+		$evently_categories[] = array(
+			'label'          => $evently_item['label'],
+			'wide'           => ! empty( $evently_item['wide'] ),
+			'image_override' => ! empty( $evently_item['image']['url'] ) ? $evently_item['image']['url'] : '',
+		);
+	}
+} else {
+	$evently_categories = evently_demo_categories();
+	foreach ( $evently_categories as $evently_index => &$evently_cat ) {
+		$evently_n            = $evently_index + 1;
+		$evently_cat['label'] = evently_get_setting( "category_{$evently_n}_label", $evently_cat['label'] );
+		$evently_cat['image_override'] = evently_get_setting( "category_{$evently_n}_image", '' );
+	}
+	unset( $evently_cat );
 }
-unset( $evently_cat );
 ?>
 <section class="evently-section" id="evently-categories">
 	<div class="evently-container">
 		<div class="evently-section-head">
-			<h2><?php esc_html_e( 'Explore by experience', 'evently' ); ?></h2>
-			<p><?php esc_html_e( "Find something you'll love.", 'evently' ); ?></p>
+			<h2><?php echo esc_html( $evently_heading ); ?></h2>
+			<p><?php echo esc_html( $evently_subhead ); ?></p>
 		</div>
 
 		<div class="cat-grid">

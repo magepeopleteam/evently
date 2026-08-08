@@ -14,16 +14,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$evently_vibes = array(
-	__( 'Music', 'evently' ),
-	__( 'Learn', 'evently' ),
-	__( 'Business', 'evently' ),
-	__( 'Creative', 'evently' ),
-	__( 'Sports', 'evently' ),
-	__( 'Family', 'evently' ),
-	__( 'Food', 'evently' ),
-	__( 'Travel', 'evently' ),
-);
+// The Evently Choose Your Vibe Elementor widget's own repeater
+// (class-widget-choose-vibe.php) takes priority when present; otherwise
+// fall back to the hardcoded 8-vibe list this file always used before the
+// widget had any controls.
+if ( ! empty( $args['vibes'] ) && is_array( $args['vibes'] ) ) {
+	$evently_vibes = wp_list_pluck( $args['vibes'], 'label' );
+} else {
+	$evently_vibes = array(
+		__( 'Music', 'evently' ),
+		__( 'Learn', 'evently' ),
+		__( 'Business', 'evently' ),
+		__( 'Creative', 'evently' ),
+		__( 'Sports', 'evently' ),
+		__( 'Family', 'evently' ),
+		__( 'Food', 'evently' ),
+		__( 'Travel', 'evently' ),
+	);
+}
+$evently_heading = $args['heading'] ?? __( 'Choose your vibe', 'evently' );
+$evently_subhead = $args['subhead'] ?? __( 'Find an experience that matches your mood.', 'evently' );
+$evently_count   = isset( $args['count'] ) ? (int) $args['count'] : 4;
 
 $evently_demo_pool = evently_demo_events();
 $evently_panels     = array();
@@ -34,7 +45,7 @@ foreach ( $evently_vibes as $evently_vibe ) {
 	if ( evently_has_booking_plugin() && class_exists( 'Evently_Booking_Adapter' ) && taxonomy_exists( 'mep_tag' ) ) {
 		$evently_tag_term = get_term_by( 'slug', sanitize_title( $evently_vibe ), 'mep_tag' );
 		if ( $evently_tag_term ) {
-			$evently_events = Evently_Booking_Adapter::get_events_for_cards( 4, 'tag', array( 'tag' => $evently_tag_term->slug ) );
+			$evently_events = Evently_Booking_Adapter::get_events_for_cards( $evently_count, 'tag', array( 'tag' => $evently_tag_term->slug ) );
 		}
 	}
 
@@ -47,7 +58,7 @@ foreach ( $evently_vibes as $evently_vibe ) {
 				}
 			)
 		);
-		$evently_events = array_map( 'evently_demo_event_to_card', array_slice( $evently_matching_demo, 0, 4 ) );
+		$evently_events = array_map( 'evently_demo_event_to_card', array_slice( $evently_matching_demo, 0, $evently_count ) );
 	}
 
 	$evently_panels[ $evently_vibe ] = $evently_events;
@@ -58,8 +69,8 @@ $evently_active_vibe = $evently_vibes[0];
 <section class="evently-section evently-section--soft" data-evently-vibe-filter>
 	<div class="evently-container">
 		<div class="evently-section-head evently-section-head--center">
-			<h2><?php esc_html_e( 'Choose your vibe', 'evently' ); ?></h2>
-			<p><?php esc_html_e( 'Find an experience that matches your mood.', 'evently' ); ?></p>
+			<h2><?php echo esc_html( $evently_heading ); ?></h2>
+			<p><?php echo esc_html( $evently_subhead ); ?></p>
 		</div>
 
 		<div class="vibe-filters" role="tablist" aria-label="<?php esc_attr_e( 'Filter events by vibe', 'evently' ); ?>">

@@ -4,10 +4,13 @@
  *
  * Implemented as one guided screen (Requirements → Import → Finish)
  * rather than a multi-page SPA: every step is still real and functional
- * (live plugin detection, a genuine one-click WooCommerce install via
- * WordPress's own plugin API, and a real AJAX-driven import with progress
- * and error feedback) — just without inventing extra client-side routing
- * for what is, underneath, a single linear action.
+ * (live plugin detection, genuine one-click installs of Elementor and
+ * mage-eventpress — both required — plus WooCommerce (optional) via
+ * WordPress's own plugin API, and a real AJAX-driven import that now also
+ * builds a fully pre-designed, directly editable Elementor homepage rather
+ * than a blank canvas — see inc/demo-import/importer.php's import_homepage())
+ * — just without inventing extra client-side routing for what is,
+ * underneath, a single linear action.
  *
  * @package Evently
  */
@@ -17,169 +20,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Which homepage editor is currently active: the theme's built-in
- * 14-section demo layout, or an admin-built page (Gutenberg/Elementor) set
- * up via the "Homepage Editor" step below.
+ * Install + activate a wordpress.org-hosted plugin by slug — the one shared
+ * implementation behind every "Install & Activate" button on this screen
+ * (Elementor, mage-eventpress; WooCommerce keeps its own pre-existing,
+ * untouched copy of this same pattern below). Both `elementor` and
+ * `mage-eventpress` are confirmed real wordpress.org slugs.
  *
- * @return string 'builtin' | 'gutenberg' | 'elementor' | 'custom' (a static
- *                front page exists but wasn't created by this wizard step —
- *                e.g. the site owner picked one manually in Settings → Reading).
+ * @param string $slug        wordpress.org plugin slug.
+ * @param string $plugin_file Plugin file relative to wp-content/plugins/, e.g. 'elementor/elementor.php'.
+ * @return true|WP_Error
  */
-function evently_get_homepage_editor_mode() {
-	if ( 'page' !== get_option( 'show_on_front' ) ) {
-		return 'builtin';
+function evently_install_plugin_from_dot_org( $slug, $plugin_file ) {
+	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+	$api = plugins_api( 'plugin_information', array( 'slug' => $slug ) );
+	if ( is_wp_error( $api ) ) {
+		return $api;
 	}
 
-	$front_id = (int) get_option( 'page_on_front' );
-	if ( ! $front_id ) {
-		return 'builtin';
+	$skin     = new Automatic_Upgrader_Skin();
+	$upgrader = new Plugin_Upgrader( $skin );
+	$result   = $upgrader->install( $api->download_link );
+
+	if ( is_wp_error( $result ) ) {
+		return $result;
+	}
+	if ( ! $result ) {
+		return new WP_Error( 'evently_install_failed', __( 'Could not install the plugin. You can install it manually from Plugins → Add New.', 'evently' ) );
 	}
 
-	$mode = get_post_meta( $front_id, '_evently_homepage_builder', true );
-	if ( in_array( $mode, array( 'gutenberg', 'elementor' ), true ) ) {
-		return $mode;
-	}
-
-	return evently_homepage_uses_custom_builder() ? 'custom' : 'builtin';
+	return activate_plugin( $plugin_file );
 }
 
 /**
- * The built-in homepage's default section order, serialized as real
- * Gutenberg block markup — used to pre-populate a new Gutenberg homepage
- * page so switching to it isn't a blank canvas. Uses serialize_block()
- * (WordPress's own block serializer) rather than hand-written HTML comments,
- * so the markup is guaranteed valid regardless of block.json/core changes.
- *
- * @return string
- */
-function evently_get_default_gutenberg_homepage_content() {
-	$sections = array(
-		'hero',
-		'categories',
-		'trending-events',
-		'featured-event',
-		'choose-vibe',
-		'near-you',
-		'calendar',
-		'how-it-works',
-		'digital-ticket',
-		'organizer-cta',
-		'stats',
-		'testimonials',
-		'event-journal',
-		'final-cta',
-	);
-
-	$content = '';
-	foreach ( $sections as $slug ) {
-		$content .= serialize_block(
-			array(
-				'blockName'    => 'evently/' . $slug,
-				'attrs'        => array(),
-				'innerBlocks'  => array(),
-				'innerHTML'    => '',
-				'innerContent' => array(),
-			)
-		) . "\n\n";
-	}
-
-	return $content;
-}
-
-/**
- * Find (idempotent — safe to call repeatedly) or create the page Evently
- * Setup uses as the site's front page for a given homepage editor mode.
- *
- * For Gutenberg, the page is pre-populated with all 14 sections in the
- * built-in homepage's default order (real dynamic blocks — still reflects
- * Theme Settings afterward, see blocks/{slug}/render.php). For Elementor,
- * the page is deliberately left blank: Elementor's own builder data
- * (`_elementor_data`) has an internal, version-dependent schema that isn't
- * safe to hand-fabricate here — the admin drags in the 12 Evently widgets
- * themselves once, which is a one-time cost and guaranteed to always be
- * valid, versus a fragile "looks right today, breaks after an Elementor
- * update" shortcut.
- *
- * @param string $mode 'gutenberg' | 'elementor'.
- * @return int Post ID, or 0 on failure.
- */
-function evently_get_or_create_homepage_builder_page( $mode ) {
-	$option_key  = 'evently_' . $mode . '_home_page_id';
-	$existing_id = (int) get_option( $option_key );
-
-	if ( $existing_id && get_post( $existing_id ) ) {
-		return $existing_id;
-	}
-
-	$post_id = wp_insert_post(
-		array(
-			'post_title'   => __( 'Home', 'evently' ),
-			'post_type'    => 'page',
-			'post_status'  => 'publish',
-			'post_content' => 'gutenberg' === $mode ? evently_get_default_gutenberg_homepage_content() : '',
-		),
-		true
-	);
-
-	if ( is_wp_error( $post_id ) ) {
-		return 0;
-	}
-
-	update_post_meta( $post_id, '_evently_homepage_builder', $mode );
-	update_option( $option_key, $post_id );
-
-	return $post_id;
-}
-
-/**
- * AJAX: apply the site owner's "Homepage Editor" choice — built-in demo,
- * Gutenberg, or Elementor.
- *
- * @return void
- */
-function evently_ajax_setup_homepage_mode() {
-	check_ajax_referer( 'evently_admin_nonce', 'nonce' );
-
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'evently' ) ), 403 );
-	}
-
-	$mode = isset( $_POST['mode'] ) ? sanitize_key( wp_unslash( $_POST['mode'] ) ) : '';
-
-	if ( 'builtin' === $mode ) {
-		// Reversible, non-destructive: un-assigns the front page without
-		// deleting whatever Gutenberg/Elementor page was built.
-		update_option( 'show_on_front', 'posts' );
-		wp_send_json_success( array( 'mode' => 'builtin', 'editUrl' => '' ) );
-	}
-
-	if ( ! in_array( $mode, array( 'gutenberg', 'elementor' ), true ) ) {
-		wp_send_json_error( array( 'message' => __( 'Unknown homepage editor.', 'evently' ) ) );
-	}
-
-	if ( 'elementor' === $mode && ! evently_has_elementor() ) {
-		wp_send_json_error( array( 'message' => __( 'Install and activate Elementor first.', 'evently' ) ) );
-	}
-
-	$page_id = evently_get_or_create_homepage_builder_page( $mode );
-	if ( ! $page_id ) {
-		wp_send_json_error( array( 'message' => __( 'Could not create the homepage.', 'evently' ) ) );
-	}
-
-	update_option( 'show_on_front', 'page' );
-	update_option( 'page_on_front', $page_id );
-
-	$edit_url = 'elementor' === $mode
-		? admin_url( 'post.php?post=' . $page_id . '&action=elementor' )
-		: admin_url( 'post.php?post=' . $page_id . '&action=edit' );
-
-	wp_send_json_success( array( 'mode' => $mode, 'editUrl' => $edit_url ) );
-}
-add_action( 'wp_ajax_evently_setup_homepage_mode', 'evently_ajax_setup_homepage_mode' );
-
-/**
- * AJAX: install + activate Elementor (wordpress.org-hosted, so a real,
- * ordinary plugin install) — same mechanism as evently_ajax_install_woocommerce().
+ * AJAX: install + activate Elementor (required, wordpress.org-hosted).
  *
  * @return void
  */
@@ -194,31 +70,127 @@ function evently_ajax_install_elementor() {
 		wp_send_json_success( array( 'message' => __( 'Elementor is already active.', 'evently' ) ) );
 	}
 
-	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-
-	$api = plugins_api( 'plugin_information', array( 'slug' => 'elementor' ) );
-	if ( is_wp_error( $api ) ) {
-		wp_send_json_error( array( 'message' => $api->get_error_message() ) );
-	}
-
-	$skin     = new Automatic_Upgrader_Skin();
-	$upgrader = new Plugin_Upgrader( $skin );
-	$result   = $upgrader->install( $api->download_link );
-
-	if ( is_wp_error( $result ) || ! $result ) {
-		wp_send_json_error( array( 'message' => __( 'Could not install Elementor. You can install it manually from Plugins → Add New.', 'evently' ) ) );
-	}
-
-	$activated = activate_plugin( 'elementor/elementor.php' );
-	if ( is_wp_error( $activated ) ) {
-		wp_send_json_error( array( 'message' => $activated->get_error_message() ) );
+	$result = evently_install_plugin_from_dot_org( 'elementor', 'elementor/elementor.php' );
+	if ( is_wp_error( $result ) ) {
+		wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 	}
 
 	wp_send_json_success( array( 'message' => __( 'Elementor installed and activated.', 'evently' ) ) );
 }
 add_action( 'wp_ajax_evently_install_elementor', 'evently_ajax_install_elementor' );
+
+/**
+ * AJAX: install + activate mage-eventpress (required, wordpress.org-hosted —
+ * confirmed live against the .org plugins API at the exact slug/version this
+ * theme targets).
+ *
+ * @return void
+ */
+function evently_ajax_install_booking_plugin() {
+	check_ajax_referer( 'evently_admin_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		wp_send_json_error( array( 'message' => __( 'You do not have permission to install plugins.', 'evently' ) ), 403 );
+	}
+
+	if ( evently_has_booking_plugin() ) {
+		wp_send_json_success( array( 'message' => __( 'mage-eventpress is already active.', 'evently' ) ) );
+	}
+
+	$result = evently_install_plugin_from_dot_org( 'mage-eventpress', 'mage-eventpress/woocommerce-event-press.php' );
+	if ( is_wp_error( $result ) ) {
+		wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+	}
+
+	wp_send_json_success( array( 'message' => __( 'mage-eventpress installed and activated.', 'evently' ) ) );
+}
+add_action( 'wp_ajax_evently_install_booking_plugin', 'evently_ajax_install_booking_plugin' );
+
+/**
+ * Redirect the admin to Evently Setup right after activating the theme —
+ * standard theme onboarding UX, and the first chance to install the two
+ * required plugins.
+ *
+ * @return void
+ */
+function evently_redirect_to_setup_on_activation() {
+	if ( ! current_user_can( 'manage_options' ) || wp_doing_ajax() || is_network_admin() ) {
+		return;
+	}
+	set_transient( 'evently_activation_redirect', 1, 30 );
+}
+add_action( 'after_switch_theme', 'evently_redirect_to_setup_on_activation' );
+
+/**
+ * Fires the actual redirect on the next admin page load — after_switch_theme
+ * runs too early in the request to safely wp_safe_redirect() from directly.
+ *
+ * @return void
+ */
+function evently_maybe_redirect_to_setup() {
+	if ( ! get_transient( 'evently_activation_redirect' ) || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	delete_transient( 'evently_activation_redirect' );
+
+	wp_safe_redirect( admin_url( 'admin.php?page=evently' ) );
+	exit;
+}
+add_action( 'admin_init', 'evently_maybe_redirect_to_setup' );
+
+/**
+ * Persistent admin notice — shown on every wp-admin screen while Evently is
+ * active and either required plugin (Elementor, mage-eventpress) is missing.
+ * This is the theme's actual enforcement mechanism: WordPress core has no
+ * built-in way to block a theme's activation or auto-prompt plugin installs
+ * from a `Requires Plugins` header (verified against this exact WP core
+ * install — that header only affects plugin-to-plugin dependencies and
+ * wordpress.org's own theme-directory install page), so Evently enforces
+ * this itself, admin-side, via the two installers above.
+ *
+ * @return void
+ */
+function evently_required_plugins_notice() {
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		return;
+	}
+
+	$missing = array();
+	if ( ! evently_has_elementor() ) {
+		$missing['elementor'] = __( 'Elementor', 'evently' );
+	}
+	if ( ! evently_has_booking_plugin() ) {
+		$missing['mage-eventpress'] = __( 'mage-eventpress', 'evently' );
+	}
+
+	if ( empty( $missing ) ) {
+		return;
+	}
+
+	$screen = get_current_screen();
+	if ( $screen && 'toplevel_page_evently' === $screen->id ) {
+		return; // The Setup screen's own Requirements card already covers this.
+	}
+
+	?>
+	<div class="notice notice-error evently-required-plugins-notice">
+		<p>
+			<strong><?php esc_html_e( 'Evently requires the following plugin(s):', 'evently' ); ?></strong>
+			<?php echo esc_html( implode( ', ', $missing ) ); ?>
+		</p>
+		<p>
+			<?php if ( isset( $missing['elementor'] ) ) : ?>
+				<button type="button" class="button button-primary" id="evently-notice-install-elementor"><?php esc_html_e( 'Install & Activate Elementor', 'evently' ); ?></button>
+			<?php endif; ?>
+			<?php if ( isset( $missing['mage-eventpress'] ) ) : ?>
+				<button type="button" class="button button-primary" id="evently-notice-install-booking"><?php esc_html_e( 'Install & Activate mage-eventpress', 'evently' ); ?></button>
+			<?php endif; ?>
+			<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'admin.php?page=evently' ) ); ?>"><?php esc_html_e( 'Go to Evently Setup', 'evently' ); ?></a>
+		</p>
+	</div>
+	<?php
+}
+add_action( 'admin_notices', 'evently_required_plugins_notice' );
 
 /**
  * Render the Evently Setup admin page.
@@ -230,25 +202,26 @@ function evently_render_setup_wizard_page() {
 		return;
 	}
 
-	$has_woocommerce = evently_has_woocommerce();
-	$has_booking     = evently_has_booking_plugin();
-	$is_imported     = class_exists( 'Evently_Demo_Importer' ) && Evently_Demo_Importer::is_imported();
-	$homepage_mode   = evently_get_homepage_editor_mode();
+	$has_elementor    = evently_has_elementor();
+	$has_booking      = evently_has_booking_plugin();
+	$has_woocommerce  = evently_has_woocommerce();
+	$is_imported      = class_exists( 'Evently_Demo_Importer' ) && Evently_Demo_Importer::is_imported();
+	$can_import       = $has_elementor && $has_booking;
 	?>
 	<div class="wrap evently-setup-wrap">
 		<h1><?php esc_html_e( 'Evently Setup', 'evently' ); ?></h1>
 		<p class="evently-setup-intro">
-			<?php esc_html_e( 'Get Evently ready in a few steps: confirm the required plugins are active, then import the "All Events" demo — realistic categories, organizers, events with real ticket types, blog posts and the Events/Organizer Dashboard pages.', 'evently' ); ?>
+			<?php esc_html_e( 'Get Evently ready in a few steps: install the required plugins, then import the "All Events" demo — realistic categories, organizers, events with real ticket types, blog posts, the Events/Organizer Dashboard pages, and a fully pre-built, directly editable Elementor homepage.', 'evently' ); ?>
 		</p>
 
 		<div class="evently-setup-card">
 			<h2><?php esc_html_e( '1. Required plugins', 'evently' ); ?></h2>
 			<ul class="evently-setup-requirements">
-				<li class="evently-setup-requirement <?php echo $has_woocommerce ? 'is-ok' : 'is-missing'; ?>">
-					<span class="evently-setup-requirement__status"><?php echo $has_woocommerce ? '✓' : '!'; ?></span>
-					<span class="evently-setup-requirement__label"><?php esc_html_e( 'WooCommerce', 'evently' ); ?></span>
-					<?php if ( ! $has_woocommerce ) : ?>
-						<button type="button" class="button button-secondary" id="evently-install-woocommerce">
+				<li class="evently-setup-requirement <?php echo $has_elementor ? 'is-ok' : 'is-missing'; ?>">
+					<span class="evently-setup-requirement__status"><?php echo $has_elementor ? '✓' : '!'; ?></span>
+					<span class="evently-setup-requirement__label"><?php esc_html_e( 'Elementor (required)', 'evently' ); ?></span>
+					<?php if ( ! $has_elementor ) : ?>
+						<button type="button" class="button button-primary" id="evently-install-elementor">
 							<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
 						</button>
 					<?php else : ?>
@@ -257,11 +230,22 @@ function evently_render_setup_wizard_page() {
 				</li>
 				<li class="evently-setup-requirement <?php echo $has_booking ? 'is-ok' : 'is-missing'; ?>">
 					<span class="evently-setup-requirement__status"><?php echo $has_booking ? '✓' : '!'; ?></span>
-					<span class="evently-setup-requirement__label"><?php esc_html_e( 'Evently Booking plugin (mage-eventpress)', 'evently' ); ?></span>
+					<span class="evently-setup-requirement__label"><?php esc_html_e( 'mage-eventpress (required)', 'evently' ); ?></span>
 					<?php if ( ! $has_booking ) : ?>
-						<a class="button button-secondary" href="https://mage-people.com/product/mage-woo-event-booking-manager-pro/" target="_blank" rel="noopener noreferrer">
-							<?php esc_html_e( 'Get the plugin', 'evently' ); ?>
-						</a>
+						<button type="button" class="button button-primary" id="evently-install-booking">
+							<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
+						</button>
+					<?php else : ?>
+						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Active', 'evently' ); ?></span>
+					<?php endif; ?>
+				</li>
+				<li class="evently-setup-requirement <?php echo $has_woocommerce ? 'is-ok' : 'is-missing'; ?>">
+					<span class="evently-setup-requirement__status"><?php echo $has_woocommerce ? '✓' : '!'; ?></span>
+					<span class="evently-setup-requirement__label"><?php esc_html_e( 'WooCommerce (optional — needed for ticket checkout)', 'evently' ); ?></span>
+					<?php if ( ! $has_woocommerce ) : ?>
+						<button type="button" class="button button-secondary" id="evently-install-woocommerce">
+							<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
+						</button>
 					<?php else : ?>
 						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Active', 'evently' ); ?></span>
 					<?php endif; ?>
@@ -297,13 +281,13 @@ function evently_render_setup_wizard_page() {
 			</select>
 
 			<p>
-				<button type="button" class="button button-primary button-hero" id="evently-run-import" <?php disabled( ! $has_booking ); ?>>
+				<button type="button" class="button button-primary button-hero" id="evently-run-import" <?php disabled( ! $can_import ); ?>>
 					<?php esc_html_e( 'Import Demo Content', 'evently' ); ?>
 				</button>
 			</p>
 
-			<?php if ( ! $has_booking ) : ?>
-				<p class="description"><?php esc_html_e( 'Activate the Evently Booking plugin above before importing — events cannot be created without it.', 'evently' ); ?></p>
+			<?php if ( ! $can_import ) : ?>
+				<p class="description"><?php esc_html_e( 'Install and activate both Elementor and mage-eventpress above before importing — the homepage and events cannot be created without them.', 'evently' ); ?></p>
 			<?php endif; ?>
 
 			<div id="evently-import-progress" class="evently-setup-progress" hidden>
@@ -313,67 +297,11 @@ function evently_render_setup_wizard_page() {
 		</div>
 
 		<div class="evently-setup-card">
-			<h2><?php esc_html_e( '3. Homepage editor', 'evently' ); ?></h2>
-			<p><?php esc_html_e( 'Choose how you want to build and edit your homepage. You can change this anytime — nothing here is permanent.', 'evently' ); ?></p>
-
-			<div class="evently-setup-editor-choice">
-				<div class="evently-setup-editor-option<?php echo 'builtin' === $homepage_mode ? ' is-active' : ''; ?>">
-					<h3><?php esc_html_e( 'Built-in demo homepage', 'evently' ); ?></h3>
-					<p><?php esc_html_e( "The theme's own 14-section homepage — content editable from Evently → Theme Settings, no page builder involved.", 'evently' ); ?></p>
-					<?php if ( 'builtin' === $homepage_mode ) : ?>
-						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Currently active', 'evently' ); ?></span>
-					<?php else : ?>
-						<button type="button" class="button button-secondary" data-evently-homepage-mode="builtin">
-							<?php esc_html_e( 'Switch back to built-in', 'evently' ); ?>
-						</button>
-					<?php endif; ?>
-				</div>
-
-				<div class="evently-setup-editor-option<?php echo 'gutenberg' === $homepage_mode ? ' is-active' : ''; ?>">
-					<h3><?php esc_html_e( 'Block Editor (Gutenberg)', 'evently' ); ?></h3>
-					<p><?php esc_html_e( 'Native to WordPress. Creates a "Home" page pre-filled with all 14 sections as real blocks — drag, delete, reorder, or add any block. Each section still reflects Theme Settings.', 'evently' ); ?></p>
-					<?php if ( 'gutenberg' === $homepage_mode ) : ?>
-						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Currently active', 'evently' ); ?></span>
-						<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'post.php?post=' . (int) get_option( 'evently_gutenberg_home_page_id' ) . '&action=edit' ) ); ?>">
-							<?php esc_html_e( 'Edit homepage →', 'evently' ); ?>
-						</a>
-					<?php else : ?>
-						<button type="button" class="button button-primary" data-evently-homepage-mode="gutenberg">
-							<?php esc_html_e( 'Set up & Edit →', 'evently' ); ?>
-						</button>
-					<?php endif; ?>
-				</div>
-
-				<div class="evently-setup-editor-option<?php echo 'elementor' === $homepage_mode ? ' is-active' : ''; ?>">
-					<h3><?php esc_html_e( 'Elementor', 'evently' ); ?></h3>
-					<p><?php esc_html_e( 'Creates an empty "Home" page and opens it in Elementor. Drag in the 12 Evently widgets (Hero, Categories, Testimonials…) yourself — each pulls from Theme Settings automatically.', 'evently' ); ?></p>
-					<?php if ( 'elementor' === $homepage_mode ) : ?>
-						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Currently active', 'evently' ); ?></span>
-						<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'post.php?post=' . (int) get_option( 'evently_elementor_home_page_id' ) . '&action=elementor' ) ); ?>">
-							<?php esc_html_e( 'Edit homepage →', 'evently' ); ?>
-						</a>
-					<?php elseif ( evently_has_elementor() ) : ?>
-						<button type="button" class="button button-primary" data-evently-homepage-mode="elementor">
-							<?php esc_html_e( 'Set up & Edit →', 'evently' ); ?>
-						</button>
-					<?php else : ?>
-						<button type="button" class="button button-secondary" id="evently-install-elementor">
-							<?php esc_html_e( 'Install & Activate Elementor', 'evently' ); ?>
-						</button>
-					<?php endif; ?>
-				</div>
-			</div>
-
-			<?php if ( 'custom' === $homepage_mode ) : ?>
-				<div class="notice notice-warning inline">
-					<p><?php esc_html_e( 'Settings → Reading currently points your homepage at a page this wizard didn\'t create. Choosing one of the options above will take over that setting.', 'evently' ); ?></p>
-				</div>
-			<?php endif; ?>
-		</div>
-
-		<div class="evently-setup-card">
-			<h2><?php esc_html_e( '4. Next steps', 'evently' ); ?></h2>
+			<h2><?php esc_html_e( '3. Next steps', 'evently' ); ?></h2>
 			<ul class="evently-setup-links">
+				<?php if ( $is_imported ) : ?>
+					<li><a href="<?php echo esc_url( admin_url( 'post.php?post=' . (int) get_option( 'page_on_front' ) . '&action=elementor' ) ); ?>"><?php esc_html_e( 'Edit Homepage with Elementor →', 'evently' ); ?></a></li>
+				<?php endif; ?>
 				<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=evently-settings' ) ); ?>"><?php esc_html_e( 'Configure Evently Theme Settings →', 'evently' ); ?></a></li>
 				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php esc_html_e( 'View your homepage →', 'evently' ); ?></a></li>
 				<li><a href="<?php echo esc_url( evently_get_events_page_url() ); ?>" target="_blank"><?php esc_html_e( 'View the Events page →', 'evently' ); ?></a></li>

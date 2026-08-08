@@ -12,14 +12,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$evently_default_city = evently_get_setting( 'default_city', __( 'Dhaka', 'evently' ) );
-$evently_events        = evently_get_home_events( 4, 'near-you' );
+$evently_heading       = $args['heading'] ?? __( 'Events happening near you', 'evently' );
+$evently_default_city  = $args['default_city'] ?? evently_get_setting( 'default_city', __( 'Dhaka', 'evently' ) );
+$evently_view_all_text = $args['view_all_text'] ?? __( 'View all events', 'evently' );
+$evently_count         = isset( $args['count'] ) ? (int) $args['count'] : 4;
+$evently_events        = evently_get_home_events( $evently_count, 'near-you' );
 ?>
 <section class="evently-section">
 	<div class="evently-container">
 		<div class="evently-section-head evently-section-head--row">
 			<div>
-				<h2><?php esc_html_e( 'Events happening near you', 'evently' ); ?></h2>
+				<h2><?php echo esc_html( $evently_heading ); ?></h2>
 				<div class="near-loc">
 					<span data-evently-location-label><?php evently_icon( 'pin' ); ?> <?php echo esc_html( $evently_default_city ); ?></span>
 					<button type="button" class="btn--pill-outline" data-evently-use-location>
@@ -28,7 +31,7 @@ $evently_events        = evently_get_home_events( 4, 'near-you' );
 				</div>
 			</div>
 			<a class="evently-section-head__link" href="<?php echo esc_url( evently_get_events_page_url() ); ?>">
-				<?php esc_html_e( 'View all events', 'evently' ); ?> <span class="arrow" aria-hidden="true">→</span>
+				<?php echo esc_html( $evently_view_all_text ); ?> <span class="arrow" aria-hidden="true">→</span>
 			</a>
 		</div>
 

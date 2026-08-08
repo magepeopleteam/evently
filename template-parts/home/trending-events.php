@@ -10,14 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$evently_events = evently_get_home_events( 8, 'trending' );
+$evently_heading       = $args['heading'] ?? __( 'Trending right now', 'evently' );
+$evently_view_all_text = $args['view_all_text'] ?? __( 'View all', 'evently' );
+$evently_view_all_url  = ! empty( $args['view_all_url']['url'] ) ? $args['view_all_url']['url'] : evently_get_events_page_url();
+$evently_count         = isset( $args['count'] ) ? (int) $args['count'] : 8;
+$evently_events        = evently_get_home_events( $evently_count, 'trending' );
 ?>
 <section class="evently-section">
 	<div class="evently-container">
 		<div class="evently-section-head evently-section-head--row">
-			<h2 class="evently-mb-0"><?php esc_html_e( 'Trending right now', 'evently' ); ?></h2>
-			<a class="evently-section-head__link" href="<?php echo esc_url( evently_get_events_page_url() ); ?>">
-				<?php esc_html_e( 'View all', 'evently' ); ?> <span class="arrow" aria-hidden="true">→</span>
+			<h2 class="evently-mb-0"><?php echo esc_html( $evently_heading ); ?></h2>
+			<a class="evently-section-head__link" href="<?php echo esc_url( $evently_view_all_url ); ?>">
+				<?php echo esc_html( $evently_view_all_text ); ?> <span class="arrow" aria-hidden="true">→</span>
 			</a>
 		</div>
 

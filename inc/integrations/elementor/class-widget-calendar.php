@@ -42,7 +42,37 @@ class Evently_Elementor_Widget_Calendar extends Evently_Elementor_Widget_Base {
 	/**
 	 * @return void
 	 */
+	protected function register_controls() {
+		$this->start_controls_section(
+			'section_content',
+			array( 'label' => __( 'Content', 'evently' ) )
+		);
+
+		$this->add_control(
+			'heading',
+			array(
+				'label'   => __( 'Heading', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => __( "What's happening this month", 'evently' ),
+			)
+		);
+		$this->add_control(
+			'month_label',
+			array(
+				'label'       => __( 'Month label', 'evently' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'default'     => evently_get_setting( 'calendar_month_label', __( 'August 2026', 'evently' ) ),
+				'description' => __( 'Only the month label is editable here — the day-by-day event list shown is curated demo data.', 'evently' ),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * @return void
+	 */
 	protected function render() {
-		evently_template_part( 'template-parts/home/calendar' );
+		evently_template_part( 'template-parts/home/calendar', '', $this->get_settings_for_display() );
 	}
 }

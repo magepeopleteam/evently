@@ -7,6 +7,13 @@
  * already created (no duplicates) and so nothing here is ever mistaken for
  * — or silently deletes — real user content (brief §30).
  *
+ * Also builds the homepage itself (see import_homepage() below) as real,
+ * directly-editable Elementor content — Elementor is a required plugin for
+ * this theme, and every homepage section already ships as a genuine
+ * registered Elementor widget (inc/integrations/elementor/), so importing
+ * means dragging nothing in manually: the site owner opens "Edit with
+ * Elementor" and finds the actual design already there.
+ *
  * @package Evently
  */
 
@@ -50,12 +57,20 @@ class Evently_Demo_Importer {
 	 */
 	public static function run() {
 		$log     = array();
-		$created = array( 'categories' => 0, 'organizers' => 0, 'events' => 0, 'posts' => 0, 'pages' => 0 );
+		$created = array( 'categories' => 0, 'organizers' => 0, 'events' => 0, 'posts' => 0, 'pages' => 0, 'homepage' => 0 );
 
 		if ( ! evently_has_booking_plugin() ) {
 			return array(
 				'success' => false,
-				'log'     => array( __( 'The Evently Booking plugin is not active — install/activate it before importing demo events.', 'evently' ) ),
+				'log'     => array( __( 'mage-eventpress is not active — install/activate it before importing demo events.', 'evently' ) ),
+				'created' => $created,
+			);
+		}
+
+		if ( ! evently_has_elementor() ) {
+			return array(
+				'success' => false,
+				'log'     => array( __( 'Elementor is not active — install/activate it before importing; the homepage is built as real Elementor content.', 'evently' ) ),
 				'created' => $created,
 			);
 		}
@@ -98,6 +113,14 @@ class Evently_Demo_Importer {
 
 		self::import_nav_menu( ! empty( $pages[0] ) ? $pages[0] : 0 );
 		$log[] = __( 'Primary navigation menu created.', 'evently' );
+
+		$home_page_id = self::import_homepage();
+		if ( $home_page_id ) {
+			$created['homepage'] = 1;
+			$log[]                = __( 'Homepage built in Elementor with all 14 sections and set as the site\'s front page.', 'evently' );
+		} else {
+			$log[] = __( 'Could not build the Elementor homepage — see the debug log. Events, pages and everything else above still imported normally.', 'evently' );
+		}
 
 		if ( self::$image_failures > 0 ) {
 			$log[] = sprintf(
@@ -762,6 +785,201 @@ class Evently_Demo_Importer {
 		}
 
 		return $ids;
+	}
+
+	/**
+	 * The homepage's canonical 14-section order — the theme's own real,
+	 * registered Elementor widgets (inc/integrations/elementor/class-widget-*.php),
+	 * one per section, same order/set as the Gutenberg block homepage
+	 * (blocks/{slug}/) and the "builtin" fallback in front-page.php.
+	 *
+	 * @return string[] Elementor `widgetType` values, in display order.
+	 */
+	private static function homepage_widget_types() {
+		return array(
+			'evently-hero',
+			'evently-categories',
+			'evently-trending-events',
+			'evently-featured-event',
+			'evently-choose-vibe',
+			'evently-near-you',
+			'evently-calendar',
+			'evently-how-it-works',
+			'evently-digital-ticket',
+			'evently-organizer-cta',
+			'evently-stats',
+			'evently-testimonials',
+			'evently-event-journal',
+			'evently-final-cta',
+		);
+	}
+
+	/**
+	 * Builds a real, valid Elementor element tree — one top-level element per
+	 * widget, each wrapping exactly one of this theme's own widgets.
+	 *
+	 * Branches on Elementor's own `container` experiment rather than
+	 * hardcoding one shape, because that experiment's "active by default"
+	 * behavior only applies to a *fresh* Elementor install — an existing
+	 * Elementor install on a customer's site (this theme's real distribution
+	 * target) can have it switched off, in which case new content still needs
+	 * the legacy section → column → widget shape or it never renders.
+	 *
+	 * Every element gets `elType` (and widgets get `widgetType`) explicitly —
+	 * confirmed against Elementor's own element manager that a *top-level*
+	 * element missing `elType` is a hard PHP crash inside Document::save(),
+	 * not just a bad render, so this is never left to a default.
+	 *
+	 * IDs use \Elementor\Utils::generate_random_string() — the exact function
+	 * Elementor itself uses for every element ID it creates.
+	 *
+	 * @param string[] $widget_types Elementor `widgetType` values, in order.
+	 * @return array[] Elements array, ready for Document::save(['elements' => ...]).
+	 */
+	private static function build_elementor_elements( $widget_types ) {
+		$use_container = \Elementor\Plugin::$instance->experiments->is_feature_active( 'container' );
+		$elements      = array();
+
+		foreach ( $widget_types as $widget_type ) {
+			$widget = array(
+				'id'         => \Elementor\Utils::generate_random_string(),
+				'elType'     => 'widget',
+				'widgetType' => $widget_type,
+				'settings'   => array(),
+				'elements'   => array(),
+			);
+
+			if ( $use_container ) {
+				$elements[] = array(
+					'id'       => \Elementor\Utils::generate_random_string(),
+					'elType'   => 'container',
+					// 'content_width' => 'full' (confirmed control name/values in
+					// includes/elements/container.php) — Elementor's own default
+					// is 'boxed', which caps the inner content to a centered
+					// max-width and skips rendering full-bleed. Every Evently
+					// section already manages its own inner max-width/padding
+					// via its own CSS (the same way it does with zero Elementor
+					// wrapper at all, e.g. the Gutenberg block/builtin homepage
+					// paths), so the container itself must be told to go edge-to-edge.
+					'settings' => array( 'content_width' => 'full' ),
+					'elements' => array( $widget ),
+					'isInner'  => false,
+				);
+				continue;
+			}
+
+			$column = array(
+				'id'       => \Elementor\Utils::generate_random_string(),
+				'elType'   => 'column',
+				'settings' => array( '_column_size' => 100 ),
+				'elements' => array( $widget ),
+				'isInner'  => false,
+			);
+			$elements[] = array(
+				'id'       => \Elementor\Utils::generate_random_string(),
+				'elType'   => 'section',
+				// Legacy equivalent of the container fix above: 'layout' =>
+				// 'full_width' (includes/elements/section.php) — the legacy
+				// section element's default is also 'boxed'.
+				'settings' => array( 'layout' => 'full_width' ),
+				'elements' => array( $column ),
+				'isInner'  => false,
+			);
+		}
+
+		return $elements;
+	}
+
+	/**
+	 * Finds the page to build the homepage on: whatever `page_on_front`
+	 * already points to (so on this and any site that already has a real
+	 * "Home" page, that page is converted in place rather than orphaned),
+	 * else a page titled "Home", else a freshly created one. Never creates a
+	 * second "Home" page once either of the first two checks finds one.
+	 *
+	 * @return int Post ID, or 0 on failure.
+	 */
+	private static function get_or_create_home_page() {
+		$front_id = (int) get_option( 'page_on_front' );
+		if ( $front_id && 'page' === get_post_type( $front_id ) ) {
+			return $front_id;
+		}
+
+		$existing = get_posts(
+			array(
+				'post_type'      => 'page',
+				'title'          => __( 'Home', 'evently' ),
+				'posts_per_page' => 1,
+				'post_status'    => 'any',
+			)
+		);
+		if ( ! empty( $existing ) ) {
+			return $existing[0]->ID;
+		}
+
+		$post_id = wp_insert_post(
+			array(
+				'post_title'  => __( 'Home', 'evently' ),
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			),
+			true
+		);
+
+		return is_wp_error( $post_id ) ? 0 : $post_id;
+	}
+
+	/**
+	 * Builds (or rebuilds — every import run re-applies the canonical tree,
+	 * same "re-import always refreshes our own generated content" philosophy
+	 * as sync_event_content() above) the real, pre-designed Elementor
+	 * homepage and sets it as the site's front page.
+	 *
+	 * Uses \Elementor\Plugin::$instance->documents->get($id)->save() — the
+	 * same public, officially-supported API Elementor's own first-party MCP
+	 * module uses for programmatic saves — rather than writing `_elementor_data`
+	 * postmeta directly, so version-specific normalization/CSS-cache-busting
+	 * inside Document::save() always runs.
+	 *
+	 * @return int The homepage's post ID, or 0 if Elementor couldn't save it.
+	 */
+	private static function import_homepage() {
+		if ( ! class_exists( '\Elementor\Plugin' ) ) {
+			return 0;
+		}
+
+		$post_id = self::get_or_create_home_page();
+		if ( ! $post_id ) {
+			return 0;
+		}
+
+		$document = \Elementor\Plugin::$instance->documents->get( $post_id );
+		if ( ! $document ) {
+			return 0;
+		}
+
+		// Document::save() never sets this itself (confirmed against
+		// core/base/document.php) — without it the frontend never renders
+		// this page's content as Elementor content at all, silently.
+		$document->set_is_built_with_elementor( true );
+
+		$elements = self::build_elementor_elements( self::homepage_widget_types() );
+		$saved    = $document->save( array( 'elements' => $elements ) );
+
+		if ( ! $saved ) {
+			return 0;
+		}
+
+		// save() only deletes the stale CSS cache; regenerate it eagerly now
+		// rather than leaving it to the first frontend visitor's lazy enqueue.
+		if ( class_exists( '\Elementor\Core\Files\CSS\Post' ) ) {
+			\Elementor\Core\Files\CSS\Post::create( $post_id )->update();
+		}
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $post_id );
+
+		return $post_id;
 	}
 
 	/**

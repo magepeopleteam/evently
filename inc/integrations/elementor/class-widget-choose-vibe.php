@@ -42,7 +42,76 @@ class Evently_Elementor_Widget_Choose_Vibe extends Evently_Elementor_Widget_Base
 	/**
 	 * @return void
 	 */
+	protected function register_controls() {
+		$this->start_controls_section(
+			'section_content',
+			array( 'label' => __( 'Content', 'evently' ) )
+		);
+
+		$this->add_control(
+			'heading',
+			array(
+				'label'   => __( 'Heading', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'Choose your vibe', 'evently' ),
+			)
+		);
+		$this->add_control(
+			'subhead',
+			array(
+				'label'   => __( 'Subheading', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'Find an experience that matches your mood.', 'evently' ),
+			)
+		);
+		$this->add_control(
+			'count',
+			array(
+				'label'   => __( 'Events per vibe', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::NUMBER,
+				'min'     => 1,
+				'max'     => 8,
+				'default' => 4,
+			)
+		);
+
+		$evently_repeater = new \Elementor\Repeater();
+		$evently_repeater->add_control(
+			'label',
+			array(
+				'label'   => __( 'Label', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => '',
+			)
+		);
+
+		$this->add_control(
+			'vibes',
+			array(
+				'label'       => __( 'Vibes', 'evently' ),
+				'type'        => \Elementor\Controls_Manager::REPEATER,
+				'fields'      => $evently_repeater->get_controls(),
+				'default'     => array(
+					array( 'label' => __( 'Music', 'evently' ) ),
+					array( 'label' => __( 'Learn', 'evently' ) ),
+					array( 'label' => __( 'Business', 'evently' ) ),
+					array( 'label' => __( 'Creative', 'evently' ) ),
+					array( 'label' => __( 'Sports', 'evently' ) ),
+					array( 'label' => __( 'Family', 'evently' ) ),
+					array( 'label' => __( 'Food', 'evently' ) ),
+					array( 'label' => __( 'Travel', 'evently' ) ),
+				),
+				'title_field' => '{{{ label }}}',
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * @return void
+	 */
 	protected function render() {
-		evently_template_part( 'template-parts/home/choose-vibe' );
+		evently_template_part( 'template-parts/home/choose-vibe', '', $this->get_settings_for_display() );
 	}
 }

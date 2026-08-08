@@ -12,7 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$evently_articles = evently_demo_journal_articles();
+$evently_heading       = $args['heading'] ?? __( 'Event Journal', 'evently' );
+$evently_subhead       = $args['subhead'] ?? __( 'Ideas, inspiration and stories from the world of events.', 'evently' );
+$evently_view_all_text = $args['view_all_text'] ?? __( 'View all', 'evently' );
+$evently_count         = isset( $args['count'] ) ? (int) $args['count'] : 3;
+
+$evently_articles = array_slice( evently_demo_journal_articles(), 0, $evently_count );
 
 foreach ( $evently_articles as &$evently_article ) {
 	$evently_matching_posts = get_posts(
@@ -31,11 +36,11 @@ unset( $evently_article );
 	<div class="evently-container">
 		<div class="evently-section-head evently-section-head--row">
 			<div>
-				<h2><?php esc_html_e( 'Event Journal', 'evently' ); ?></h2>
-				<p><?php esc_html_e( 'Ideas, inspiration and stories from the world of events.', 'evently' ); ?></p>
+				<h2><?php echo esc_html( $evently_heading ); ?></h2>
+				<p><?php echo esc_html( $evently_subhead ); ?></p>
 			</div>
 			<a class="evently-section-head__link" href="<?php echo esc_url( get_post_type_archive_link( 'post' ) ); ?>">
-				<?php esc_html_e( 'View all', 'evently' ); ?> <span class="arrow" aria-hidden="true">→</span>
+				<?php echo esc_html( $evently_view_all_text ); ?> <span class="arrow" aria-hidden="true">→</span>
 			</a>
 		</div>
 
