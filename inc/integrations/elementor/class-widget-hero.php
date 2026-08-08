@@ -95,38 +95,113 @@ class Evently_Elementor_Widget_Hero extends Evently_Elementor_Widget_Base {
 			)
 		);
 
-		$this->add_control(
-			'primary_button_text',
+		// A repeater rather than fixed primary/secondary fields — so an admin
+		// can add, remove or reorder however many buttons they want from the
+		// panel itself ("+ Add Item"), not just edit the text of two fixed
+		// slots. Defaults to today's exact 2 buttons (Explore Events primary,
+		// Browse Categories secondary) so nothing changes until edited.
+		$evently_buttons_repeater = new \Elementor\Repeater();
+		$evently_buttons_repeater->add_control(
+			'text',
 			array(
-				'label'   => __( 'Primary button — text', 'evently' ),
+				'label'   => __( 'Button text', 'evently' ),
 				'type'    => \Elementor\Controls_Manager::TEXT,
-				'default' => __( 'Explore Events', 'evently' ),
+				'default' => '',
 			)
 		);
-		$this->add_control(
-			'primary_button_url',
+		$evently_buttons_repeater->add_control(
+			'url',
 			array(
-				'label'       => __( 'Primary button — link', 'evently' ),
+				'label'       => __( 'Button link', 'evently' ),
 				'type'        => \Elementor\Controls_Manager::URL,
 				'default'     => array( 'url' => '' ),
 				'placeholder' => __( 'Leave empty to link to the Events page', 'evently' ),
 			)
 		);
-		$this->add_control(
-			'secondary_button_text',
+		$evently_buttons_repeater->add_control(
+			'variant',
 			array(
-				'label'   => __( 'Secondary button — text', 'evently' ),
-				'type'    => \Elementor\Controls_Manager::TEXT,
-				'default' => __( 'Browse Categories', 'evently' ),
+				'label'   => __( 'Style', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'default' => 'primary',
+				'options' => array(
+					'primary'   => __( 'Primary (solid)', 'evently' ),
+					'secondary' => __( 'Secondary (outline)', 'evently' ),
+				),
 			)
 		);
+
 		$this->add_control(
-			'secondary_button_url',
+			'buttons',
 			array(
-				'label'       => __( 'Secondary button — link', 'evently' ),
-				'type'        => \Elementor\Controls_Manager::URL,
-				'default'     => array( 'url' => '#evently-categories' ),
-				'placeholder' => '#evently-categories',
+				'label'       => __( 'Buttons', 'evently' ),
+				'type'        => \Elementor\Controls_Manager::REPEATER,
+				'fields'      => $evently_buttons_repeater->get_controls(),
+				'default'     => array(
+					array(
+						'text'    => __( 'Explore Events', 'evently' ),
+						'url'     => array( 'url' => '' ),
+						'variant' => 'primary',
+					),
+					array(
+						'text'    => __( 'Browse Categories', 'evently' ),
+						'url'     => array( 'url' => '#evently-categories' ),
+						'variant' => 'secondary',
+					),
+				),
+				'title_field' => '{{{ text }}}',
+			)
+		);
+
+		// Stat tiles (10K+ Events / 250K+ Tickets Sold / 50+ Cities) — a
+		// repeater for the same reason as Buttons above: add/remove/reorder
+		// freely instead of fixed slots. Defaults match the 3 of 4
+		// evently_home_stats() entries the hero has always shown (it skips
+		// index 2 — "Customer Satisfaction" — which is reserved for the
+		// full Stats section further down the page).
+		$evently_stats_repeater = new \Elementor\Repeater();
+		$evently_stats_repeater->add_control(
+			'value',
+			array(
+				'label'   => __( 'Value', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => '',
+			)
+		);
+		$evently_stats_repeater->add_control(
+			'label',
+			array(
+				'label'   => __( 'Label', 'evently' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => '',
+			)
+		);
+		$evently_demo_stats_all = evently_demo_stats();
+		$this->add_control(
+			'stats',
+			array(
+				'label'       => __( 'Stat tiles', 'evently' ),
+				'type'        => \Elementor\Controls_Manager::REPEATER,
+				'fields'      => $evently_stats_repeater->get_controls(),
+				'default'     => array(
+					$evently_demo_stats_all[0],
+					$evently_demo_stats_all[1],
+					$evently_demo_stats_all[3],
+				),
+				'title_field' => '{{{ label }}}',
+			)
+		);
+
+		$this->add_control(
+			'show_search',
+			array(
+				'label'        => __( 'Show search bar', 'evently' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'evently' ),
+				'label_off'    => __( 'Hide', 'evently' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'separator'    => 'before',
 			)
 		);
 

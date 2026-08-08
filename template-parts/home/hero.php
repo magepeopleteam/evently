@@ -24,10 +24,34 @@ $evently_subhead        = $args['subhead'] ?? __( 'Find concerts, conferences, f
 $evently_hero_image     = ! empty( $args['hero_image']['url'] ) ? $args['hero_image']['url'] : evently_get_setting( 'hero_image', evently_demo_image_url( array( 'image_file' => 'hero-concert-crowd.jpg' ) ) );
 $evently_tickets_today  = $args['live_note'] ?? evently_get_setting( 'hero_live_note', __( '2,840 tickets sold today', 'evently' ) );
 
-$evently_primary_text    = $args['primary_button_text'] ?? __( 'Explore Events', 'evently' );
-$evently_primary_url     = ! empty( $args['primary_button_url']['url'] ) ? $args['primary_button_url']['url'] : evently_get_events_page_url();
-$evently_secondary_text  = $args['secondary_button_text'] ?? __( 'Browse Categories', 'evently' );
-$evently_secondary_url   = ! empty( $args['secondary_button_url']['url'] ) ? $args['secondary_button_url']['url'] : '#evently-categories';
+// The Evently Hero Elementor widget's own "Buttons" repeater
+// (class-widget-hero.php) takes priority when present — any number of
+// buttons, in whatever order they were added/reordered in the panel;
+// otherwise fall back to the original fixed Explore Events + Browse
+// Categories pair, exactly as this file behaved before the repeater existed.
+if ( ! empty( $args['buttons'] ) && is_array( $args['buttons'] ) ) {
+	$evently_hero_buttons = array();
+	foreach ( $args['buttons'] as $evently_btn ) {
+		$evently_hero_buttons[] = array(
+			'text'    => $evently_btn['text'],
+			'url'     => ! empty( $evently_btn['url']['url'] ) ? $evently_btn['url']['url'] : evently_get_events_page_url(),
+			'variant' => ! empty( $evently_btn['variant'] ) ? $evently_btn['variant'] : 'primary',
+		);
+	}
+} else {
+	$evently_hero_buttons = array(
+		array(
+			'text'    => __( 'Explore Events', 'evently' ),
+			'url'     => evently_get_events_page_url(),
+			'variant' => 'primary',
+		),
+		array(
+			'text'    => __( 'Browse Categories', 'evently' ),
+			'url'     => '#evently-categories',
+			'variant' => 'secondary',
+		),
+	);
+}
 
 $evently_spotlight_title    = $args['spotlight_title'] ?? $evently_spotlight['title'];
 $evently_spotlight_date     = $args['spotlight_date'] ?? $evently_spotlight['date_full'];
@@ -35,6 +59,7 @@ $evently_spotlight_location = $args['spotlight_location'] ?? $evently_spotlight[
 $evently_spotlight_price    = $args['spotlight_price'] ?? $evently_spotlight['price_label'];
 $evently_spotlight_btn_text = $args['spotlight_button_text'] ?? __( 'Book Now', 'evently' );
 $evently_spotlight_btn_url  = ! empty( $args['spotlight_button_url']['url'] ) ? $args['spotlight_button_url']['url'] : evently_get_events_page_url();
+$evently_show_search        = ! isset( $args['show_search'] ) || 'yes' === $args['show_search'];
 ?>
 <section class="hero">
 	<div class="evently-container hero-inner">
@@ -44,32 +69,30 @@ $evently_spotlight_btn_url  = ! empty( $args['spotlight_button_url']['url'] ) ? 
 			<p class="hero-sub"><?php echo esc_html( $evently_subhead ); ?></p>
 
 			<div class="hero-btns">
-				<?php
-				evently_button(
-					array(
-						'text'    => $evently_primary_text,
-						'url'     => $evently_primary_url,
-						'variant' => 'primary',
-					)
-				);
-				evently_button(
-					array(
-						'text'    => $evently_secondary_text,
-						'url'     => $evently_secondary_url,
-						'variant' => 'secondary',
-					)
-				);
-				?>
+				<?php foreach ( $evently_hero_buttons as $evently_hero_btn ) : ?>
+					<?php evently_button( $evently_hero_btn ); ?>
+				<?php endforeach; ?>
 			</div>
 
 			<div class="hero-stats">
 				<?php
-				// Hero shows only 3 of the 4 stats; the 3rd (index 2) is reserved
-				// for the full Stats section further down the page.
-				foreach ( evently_home_stats() as $evently_stat_index => $evently_stat ) :
-					if ( 2 === $evently_stat_index ) {
-						continue;
+				// The Evently Hero Elementor widget's own "Stat tiles" repeater
+				// (class-widget-hero.php) takes priority when present; otherwise
+				// fall back to evently_home_stats() minus its 3rd entry (reserved
+				// for the full Stats section further down the page), exactly as
+				// this file behaved before the repeater existed.
+				if ( ! empty( $args['stats'] ) && is_array( $args['stats'] ) ) {
+					$evently_hero_stats = $args['stats'];
+				} else {
+					$evently_hero_stats = array();
+					foreach ( evently_home_stats() as $evently_stat_index => $evently_stat ) {
+						if ( 2 === $evently_stat_index ) {
+							continue;
+						}
+						$evently_hero_stats[] = $evently_stat;
 					}
+				}
+				foreach ( $evently_hero_stats as $evently_stat ) :
 					?>
 					<div>
 						<div class="hero-stat-num"><?php echo esc_html( $evently_stat['value'] ); ?></div>
@@ -110,5 +133,7 @@ $evently_spotlight_btn_url  = ! empty( $args['spotlight_button_url']['url'] ) ? 
 		</div>
 	</div>
 
-	<?php evently_template_part( 'template-parts/home/search-bar' ); ?>
+	<?php if ( $evently_show_search ) : ?>
+		<?php evently_template_part( 'template-parts/home/search-bar' ); ?>
+	<?php endif; ?>
 </section>
