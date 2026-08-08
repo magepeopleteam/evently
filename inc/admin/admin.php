@@ -62,12 +62,12 @@ function evently_register_admin_menu() {
 add_action( 'admin_menu', 'evently_register_admin_menu' );
 
 /**
- * Admin-only CSS/JS. Full Evently admin CSS + the live-preview script load
- * only on Evently's own screens, but admin-setup.js (and its localized
- * eventlyAdmin nonce/strings) also has to load on *every* wp-admin screen
- * whenever evently_required_plugins_notice() (inc/admin/setup-wizard.php)
- * is showing there — otherwise its Install & Activate buttons render with
- * no click handler wired up anywhere outside Evently's own pages.
+ * Admin-only CSS/JS. Full Evently admin CSS only on Evently's own screens,
+ * but admin-setup.js (and its localized eventlyAdmin nonce/strings) also
+ * has to load on *every* wp-admin screen whenever
+ * evently_required_plugins_notice() (inc/admin/setup-wizard.php) is showing
+ * there — otherwise its Install & Activate buttons render with no click
+ * handler wired up anywhere outside Evently's own pages.
  *
  * @param string $hook
  * @return void
@@ -100,9 +100,5 @@ function evently_admin_enqueue( $hook ) {
 	}
 
 	wp_enqueue_style( 'evently-admin', EVENTLY_URI . 'assets/css/admin.css', array(), EVENTLY_VERSION );
-	// Depends on evently-admin so eventlyAdmin (localized above) is guaranteed
-	// to exist before this runs — this script only touches the Theme Settings
-	// screen's live-preview panels, admin-setup.js only the Setup wizard's.
-	wp_enqueue_script( 'evently-admin-live-preview', EVENTLY_URI . 'assets/js/admin-live-preview.js', array( 'evently-admin' ), EVENTLY_VERSION, true );
 }
 add_action( 'admin_enqueue_scripts', 'evently_admin_enqueue' );

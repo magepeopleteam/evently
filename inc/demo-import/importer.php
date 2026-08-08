@@ -850,6 +850,32 @@ class Evently_Demo_Importer {
 			);
 
 			if ( $use_container ) {
+				$container_settings = array( 'content_width' => 'full' );
+
+				// evently-final-cta's own root element (.cta-section) sits
+				// directly against this container's edges with the container's
+				// own padding control left completely unset (Elementor's
+				// container.php has no explicit 'default' for it, and an unset
+				// DIMENSIONS control renders no --padding-* CSS variables at
+				// all). Confirmed directly in a real browser: a 20px top-only
+				// padding on the container itself (Elementor's own "Padding"
+				// control, includes/elements/container.php) is what's needed —
+				// right/bottom/left stay 0 so the section still sits full-bleed
+				// against the footer and the viewport edges. Every other
+				// section's widget already carries enough of its own internal
+				// padding that the container's own padding staying at its
+				// implicit zero never mattered there.
+				if ( 'evently-final-cta' === $widget_type ) {
+					$container_settings['padding'] = array(
+						'unit'     => 'px',
+						'top'      => '20',
+						'right'    => '0',
+						'bottom'   => '0',
+						'left'     => '0',
+						'isLinked' => false,
+					);
+				}
+
 				$elements[] = array(
 					'id'       => \Elementor\Utils::generate_random_string(),
 					'elType'   => 'container',
@@ -861,7 +887,7 @@ class Evently_Demo_Importer {
 					// via its own CSS (the same way it does with zero Elementor
 					// wrapper at all, e.g. the Gutenberg block/builtin homepage
 					// paths), so the container itself must be told to go edge-to-edge.
-					'settings' => array( 'content_width' => 'full' ),
+					'settings' => $container_settings,
 					'elements' => array( $widget ),
 					'isInner'  => false,
 				);

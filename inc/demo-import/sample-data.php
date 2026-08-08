@@ -474,12 +474,6 @@ function evently_demo_categories() {
 			'image_file' => 'category-food-dining.jpg',
 			'wide'       => false,
 		),
-		array(
-			'label'      => __( 'Workshops', 'evently' ),
-			'image'      => 'https://images.unsplash.com/photo-1560831340-b9679dc9e9f0?w=600&h=500&fit=crop&auto=format',
-			'image_file' => 'category-workshops.jpg',
-			'wide'       => false,
-		),
 	);
 }
 
