@@ -5,9 +5,11 @@
  */
 
 .evently-container {
+	width: 100%;
 	max-width: var(--evently-max);
 	margin: 0 auto;
 	padding: 0 var(--evently-pad);
+	box-sizing: border-box;
 }
 
 .evently-container--wide {

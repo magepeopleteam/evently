@@ -114,6 +114,11 @@ function evently_body_classes( $classes ) {
 	if ( is_front_page() ) {
 		$classes[] = 'evently-front-page';
 	}
+	// Theme (Evently design) single event sits the fixed header over a dark
+	// media hero — flag it so header.css can switch to light logo/nav until scroll.
+	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && ! evently_use_plugin_event_details() ) {
+		$classes[] = 'evently-header-on-media';
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'evently_body_classes' );

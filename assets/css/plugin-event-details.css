@@ -1,0 +1,58 @@
+/**
+ * Align Event Booking Manager single-event templates (Default / Smart /
+ * Virtual / Horizon) with Evently's fixed header and content width.
+ *
+ * Loaded only when Theme Settings → Event details page = Plugin.
+ * Plugin wrappers use ~1320px / 20px top margin; Evently's header is fixed
+ * at 76px with a 1240px (.evently-container) content track — without these
+ * overrides the title sits under the nav and edges don't line up.
+ */
+
+/* Clear the fixed site-header, then add a small breathing gap. */
+body.single-mep_events .evently-main {
+	padding-top: calc(var(--evently-header-height) + var(--evently-space-4));
+}
+
+/* Default / Smart / Virtual wrappers share .mpwem_wrapper / .mep-events-wrapper. */
+body.single-mep_events .evently-main .mpwem_wrapper,
+body.single-mep_events .evently-main .mep-events-wrapper {
+	max-width: var(--evently-max) !important;
+	width: 100% !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	margin-top: 0 !important;
+	padding-left: var(--evently-pad) !important;
+	padding-right: var(--evently-pad) !important;
+	box-sizing: border-box;
+}
+
+body.single-mep_events .evently-main .mpwem_container {
+	max-width: 100% !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* Horizon uses its own shell (and zeros the parent wrappers). */
+body.single-mep_events .horizon_theme {
+	padding-bottom: var(--evently-space-7);
+}
+
+body.single-mep_events .horizon_theme .horizon_shell {
+	max-width: var(--evently-max) !important;
+	margin-top: 0 !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding-left: var(--evently-pad) !important;
+	padding-right: var(--evently-pad) !important;
+	box-sizing: border-box;
+}
+
+/* Horizon hero sits above the shell — match the same content track. */
+body.single-mep_events .horizon_theme .horizon_hero {
+	width: calc(100% - (var(--evently-pad) * 2));
+	max-width: var(--evently-max);
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+}

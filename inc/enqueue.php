@@ -118,6 +118,7 @@ function evently_register_assets() {
 	wp_register_style( 'evently-home', $css_dir . 'home.css', array_merge( $core_deps, array( 'evently-events' ) ), $ver );
 	wp_register_style( 'evently-archive', $css_dir . 'archive.css', $core_deps, $ver );
 	wp_register_style( 'evently-single-event', $css_dir . 'single-event.css', $core_deps, $ver );
+	wp_register_style( 'evently-plugin-event-details', $css_dir . 'plugin-event-details.css', $core_deps, $ver );
 	wp_register_style( 'evently-booking', $css_dir . 'booking.css', $core_deps, $ver );
 	wp_register_style( 'evently-dashboard', $css_dir . 'dashboard.css', $core_deps, $ver );
 	wp_register_style( 'evently-blog', $css_dir . 'blog.css', $core_deps, $ver );
@@ -131,6 +132,7 @@ function evently_register_assets() {
 	wp_register_script( 'evently-calendar', $js_dir . 'calendar.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-carousel', $js_dir . 'carousel.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-modal', $js_dir . 'modal.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-gallery-lightbox', $js_dir . 'gallery-lightbox.js', array( 'evently-modal', 'jquery' ), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-booking-form', $js_dir . 'booking-form.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 }
 add_action( 'init', 'evently_register_assets' );
@@ -181,7 +183,31 @@ function evently_enqueue_assets() {
 		wp_enqueue_style( 'evently-single-event' );
 		wp_enqueue_style( 'evently-booking' );
 		wp_enqueue_script( 'evently-modal' );
+
+		// Gallery strip uses the booking plugin's Owl Carousel (already
+		// registered as mp_owl_carousel). Re-register as a fallback if the
+		// site opted out of the plugin's own enqueue.
+		if ( defined( 'MPWEM_PLUGIN_URL' ) && ! wp_script_is( 'mp_owl_carousel', 'registered' ) ) {
+			wp_register_style( 'mp_owl_carousel', MPWEM_PLUGIN_URL . '/assets/helper/owl_carousel/owl.carousel.min.css', array(), '2.3.4' );
+			wp_register_script( 'mp_owl_carousel', MPWEM_PLUGIN_URL . '/assets/helper/owl_carousel/owl.carousel.min.js', array( 'jquery' ), '2.3.4', true );
+		}
+		if ( wp_script_is( 'mp_owl_carousel', 'registered' ) ) {
+			wp_enqueue_style( 'mp_owl_carousel' );
+			wp_enqueue_script( 'mp_owl_carousel' );
+			$evently_scripts = wp_scripts();
+			if ( isset( $evently_scripts->registered['evently-gallery-lightbox'] ) ) {
+				$evently_scripts->registered['evently-gallery-lightbox']->deps[] = 'mp_owl_carousel';
+			}
+		}
+
+		wp_enqueue_script( 'evently-gallery-lightbox' );
 		wp_enqueue_script( 'evently-booking-form' );
+	}
+
+	// Plugin details templates need Evently's fixed-header clearance + the
+	// same max-width/pad track as .site-header / .evently-container.
+	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && evently_use_plugin_event_details() ) {
+		wp_enqueue_style( 'evently-plugin-event-details' );
 	}
 
 	if ( ( evently_has_woocommerce() && is_account_page() ) || evently_is_organizer_dashboard() ) {

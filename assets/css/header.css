@@ -14,8 +14,13 @@
 	height: var(--evently-header-height);
 	display: flex;
 	align-items: center;
+	justify-content: center; /* Keep .evently-container on the same centered track as page content */
 	border-bottom: 1px solid transparent;
 	background: transparent;
+	/* Avoid classic fixed-vs-scrollbar misalignment with in-flow .evently-container */
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
 	transition: background var(--evently-transition-base) ease, border-color var(--evently-transition-base) ease,
 		backdrop-filter var(--evently-transition-base) ease;
 }
@@ -49,11 +54,66 @@ body.admin-bar .site-header {
 	border-color: var(--evently-border);
 }
 
+/*
+ * Single-event (Evently design) hero is a dark full-bleed image. Default
+ * header chrome uses dark logo/nav colors meant for light pages — invert
+ * to light until `.is-scrolled` solidifies the bar (navigation.js).
+ */
+body.evently-header-on-media .site-header:not(.is-scrolled) {
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 70%, transparent 100%);
+}
+
+body.evently-header-on-media .site-header:not(.is-scrolled) .site-logo {
+	color: var(--evently-white);
+}
+
+/* Custom logo uploads are often dark PNGs — force them light over the hero. */
+body.evently-header-on-media .site-header:not(.is-scrolled) .site-logo img {
+	filter: brightness(0) invert(1);
+}
+
+body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav a {
+	color: rgba(255, 255, 255, 0.82);
+}
+
+body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav a:hover {
+	color: var(--evently-white);
+}
+
+body.evently-header-on-media .site-header:not(.is-scrolled) .header-search-btn,
+body.evently-header-on-media .site-header:not(.is-scrolled) .header-login,
+body.evently-header-on-media .site-header:not(.is-scrolled) .mobile-menu-btn {
+	color: rgba(255, 255, 255, 0.85);
+}
+
+body.evently-header-on-media .site-header:not(.is-scrolled) .header-search-btn:hover,
+body.evently-header-on-media .site-header:not(.is-scrolled) .header-login:hover {
+	color: var(--evently-white);
+}
+
+body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn--primary {
+	background: transparent;
+	color: var(--evently-white);
+	border: 1.5px solid rgba(255, 255, 255, 0.65);
+	box-shadow: none;
+}
+
+body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn--primary:hover {
+	background: rgba(255, 255, 255, 0.12);
+	border-color: var(--evently-white);
+	transform: none;
+	box-shadow: none;
+}
+
 .site-header__inner {
 	display: flex;
 	align-items: center;
 	gap: var(--evently-space-5);
+	/* Same content track as .evently-container elsewhere (max + pad from layout.css) */
 	width: 100%;
+	max-width: var(--evently-max);
+	box-sizing: border-box;
+	flex: 0 1 var(--evently-max);
 }
 
 .site-logo {

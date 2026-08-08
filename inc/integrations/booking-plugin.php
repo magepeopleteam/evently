@@ -223,13 +223,73 @@ class Evently_Booking_Adapter {
 	 * @return int
 	 */
 	public static function get_total_available_seats( $event_id ) {
-		if ( ! self::is_active() ) {
-			return 0;
+		$stats = self::get_seat_stats( $event_id );
+		return isset( $stats['available'] ) ? (int) $stats['available'] : 0;
+	}
+
+	/**
+	 * Seat totals matching Horizon's organizer card (Total / Available / Sold).
+	 * Uses the same plugin helpers as templates/layout/horizon/organizer.php.
+	 *
+	 * @param int $event_id
+	 * @return array{total:int,available:int,sold:int}
+	 */
+	public static function get_seat_stats( $event_id ) {
+		$empty = array(
+			'total'     => 0,
+			'available' => 0,
+			'sold'      => 0,
+		);
+		if ( ! self::is_active() || ! $event_id ) {
+			return $empty;
 		}
+
 		$meta = self::get_event_meta( $event_id );
-		$ts   = self::get_upcoming_timestamp( $event_id, $meta );
-		$date = $ts ? gmdate( 'Y-m-d', $ts ) : '';
-		return (int) MPWEM_Functions::get_total_available_seat( $event_id, $date );
+		$date = '';
+		if ( ! empty( $meta['upcoming_date'] ) ) {
+			$date = $meta['upcoming_date'];
+		} elseif ( ! empty( $meta['event_start_datetime'] ) ) {
+			$date = $meta['event_start_datetime'];
+		}
+
+		$total_sold  = function_exists( 'mep_ticket_type_sold' ) ? (int) mep_ticket_type_sold( $event_id, '', $date ) : 0;
+		$total_seats = method_exists( 'MPWEM_Functions', 'get_total_ticket' ) ? (int) MPWEM_Functions::get_total_ticket( $event_id, $date ) : 0;
+		$available   = method_exists( 'MPWEM_Functions', 'get_total_available_seat' )
+			? (int) MPWEM_Functions::get_total_available_seat( $event_id, $date )
+			: max( $total_seats - $total_sold, 0 );
+
+		return array(
+			'total'     => max( $total_seats, 0 ),
+			'available' => max( $available, 0 ),
+			'sold'      => max( $total_sold, 0 ),
+		);
+	}
+
+	/**
+	 * Horizon-style "venue · city" line for the sticky ticket card head.
+	 *
+	 * @param int   $event_id
+	 * @param array $meta Optional pre-fetched meta.
+	 * @return string
+	 */
+	public static function get_ticket_location_line( $event_id, $meta = null ) {
+		if ( ! self::is_active() ) {
+			return '';
+		}
+		$meta  = null !== $meta ? $meta : self::get_event_meta( $event_id );
+		$venue = ! empty( $meta['mep_location_venue'] ) ? (string) $meta['mep_location_venue'] : '';
+		$city  = ! empty( $meta['mep_city'] ) ? (string) $meta['mep_city'] : '';
+		$line  = $venue;
+		if ( $city && ( ! $venue || false === stripos( $venue, $city ) ) ) {
+			$line = trim( $venue . ( $venue ? ' · ' : '' ) . $city );
+		}
+		if ( $line ) {
+			return $line;
+		}
+		if ( ! empty( $meta['full_address'] ) && is_array( $meta['full_address'] ) ) {
+			return implode( ' · ', array_filter( array_slice( $meta['full_address'], 0, 2 ) ) );
+		}
+		return self::get_location_string( $event_id, $meta );
 	}
 
 	/**
@@ -304,25 +364,35 @@ class Evently_Booking_Adapter {
 	}
 
 	/**
-	 * Whether the event has real Gallery images to show — deliberately
-	 * `mep_gallery_images` only, not the plugin hook's own "fall back to
-	 * the featured image" behavior, since Evently already shows that same
-	 * photo in the page's hero; a "Gallery" section repeating just the hero
-	 * image would be a redundant, empty-looking heading rather than a
-	 * useful section.
+	 * Attachment IDs for the event Gallery (`mep_gallery_images` only —
+	 * deliberately not the plugin slider's "fall back to featured image"
+	 * behavior, since Evently already shows that photo in the hero).
+	 *
+	 * @param int $event_id
+	 * @return int[]
+	 */
+	public static function get_gallery_ids( $event_id ) {
+		if ( ! self::is_active() || ! $event_id ) {
+			return array();
+		}
+		if ( 'off' === MPWEM_Global_Function::get_post_info( $event_id, 'mep_display_slider', 'on' ) ) {
+			return array();
+		}
+		$images = MPWEM_Global_Function::get_post_info( $event_id, 'mep_gallery_images', array() );
+		if ( ! is_array( $images ) ) {
+			return array();
+		}
+		return array_values( array_filter( array_map( 'absint', $images ) ) );
+	}
+
+	/**
+	 * Whether the event has real Gallery images to show.
 	 *
 	 * @param int $event_id
 	 * @return bool
 	 */
 	public static function has_gallery( $event_id ) {
-		if ( ! self::is_active() || ! $event_id ) {
-			return false;
-		}
-		if ( 'off' === MPWEM_Global_Function::get_post_info( $event_id, 'mep_display_slider', 'on' ) ) {
-			return false;
-		}
-		$images = MPWEM_Global_Function::get_post_info( $event_id, 'mep_gallery_images', array() );
-		return is_array( $images ) && ! empty( array_filter( $images ) );
+		return ! empty( self::get_gallery_ids( $event_id ) );
 	}
 
 	/**
@@ -377,14 +447,14 @@ class Evently_Booking_Adapter {
 	/**
 	 * Same real-hook pattern as render_booking_form(), for the smaller
 	 * plugin-rendered widgets Evently reuses instead of re-deriving from
-	 * raw meta: live seat-status pill and "Add to calendar" button.
+	 * raw meta: seat status, calendar, share, timeline, gallery slider.
 	 *
-	 * @param string $hook 'mpwem_seat_status'|'mpwem_add_calender'|'mpwem_timeline'|'mpwem_custom_slider'.
+	 * @param string $hook 'mpwem_seat_status'|'mpwem_add_calender'|'mpwem_social'|'mpwem_timeline'|'mpwem_custom_slider'.
 	 * @param int    $event_id
 	 * @return string HTML.
 	 */
 	public static function render_hook_widget( $hook, $event_id ) {
-		$allowed = array( 'mpwem_seat_status', 'mpwem_add_calender', 'mpwem_timeline', 'mpwem_custom_slider' );
+		$allowed = array( 'mpwem_seat_status', 'mpwem_add_calender', 'mpwem_social', 'mpwem_timeline', 'mpwem_custom_slider' );
 		if ( ! self::is_active() || ! $event_id || ! in_array( $hook, $allowed, true ) ) {
 			return '';
 		}

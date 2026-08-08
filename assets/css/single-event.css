@@ -29,7 +29,12 @@
 
 .evently-event-hero__content {
 	position: relative;
-	padding: var(--evently-space-6) var(--evently-pad) var(--evently-space-8);
+	/*
+	 * Vertical only — use longhands so we don't zero out
+	 * .evently-container's horizontal pad (padding shorthand would).
+	 */
+	padding-top: var(--evently-space-6);
+	padding-bottom: var(--evently-space-8);
 	color: var(--evently-white);
 }
 
@@ -84,10 +89,14 @@
 
 .evently-event-layout {
 	display: grid;
-	grid-template-columns: 1fr 360px;
+	grid-template-columns: minmax(0, 1fr) 400px;
 	gap: var(--evently-space-6);
-	padding: var(--evently-space-6) var(--evently-pad) var(--evently-space-9);
+	/* Vertical only — longhands preserve .evently-container horizontal pad. */
+	padding-top: var(--evently-space-6);
+	padding-bottom: var(--evently-space-9);
 	align-items: start;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .evently-event-section {
@@ -210,7 +219,7 @@
 	padding-top: var(--evently-space-6);
 }
 
-/* ── Sidebar / booking card ──────────────────────────────────────── */
+/* ── Sidebar / booking card (Horizon-parity layout) ──────────────── */
 
 .evently-event-sidebar {
 	position: sticky;
@@ -218,57 +227,364 @@
 	display: flex;
 	flex-direction: column;
 	gap: var(--evently-space-3);
+	align-self: start;
+	z-index: 5;
 }
 
 .evently-booking-card {
 	background: var(--evently-white);
 	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-lg);
-	padding: var(--evently-space-4);
-	box-shadow: var(--evently-shadow-card);
+	border-radius: 22px;
+	padding: 0;
+	overflow: hidden;
+	box-shadow: 0 18px 48px rgba(11, 11, 13, 0.1);
+}
+
+.evently-booking-card__head {
+	padding: 22px 22px 18px;
+	background: linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.03) 100%);
+	border-bottom: 1px solid rgba(108, 92, 231, 0.12);
+}
+
+.evently-booking-card__eyebrow {
+	display: block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--evently-primary);
+	margin-bottom: 8px;
 }
 
 .evently-booking-card__title {
+	font-size: 1.35rem;
+	font-weight: 800;
+	line-height: 1.25;
+	color: var(--evently-text);
+	margin: 0 0 10px;
+	letter-spacing: -0.02em;
+	text-transform: none;
+}
+
+.evently-booking-card__location {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 0;
 	font-size: 13px;
+	line-height: 1.4;
+	color: var(--evently-muted);
+}
+
+.evently-booking-card__location svg {
+	flex-shrink: 0;
+	margin-top: 2px;
+	color: var(--evently-primary);
+}
+
+.evently-booking-card__badge {
+	margin-top: 12px;
+}
+
+.evently-booking-card__body {
+	padding: 18px 22px 8px;
+}
+
+.evently-booking-card__foot {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	padding: 18px 22px 20px;
+	border-top: 1px solid var(--evently-border);
+	background: linear-gradient(180deg, #fbfbfd 0%, #fff 100%);
+}
+
+.evently-booking-card__share {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.evently-booking-card__share-label {
+	font-size: 11px;
 	font-weight: 700;
-	letter-spacing: 0.1em;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	color: var(--evently-muted);
-	margin-bottom: var(--evently-space-3);
+	line-height: 1;
 }
+
+.evently-booking-card__share .share_widgets {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.evently-booking-card__share .share_widgets_title {
+	display: none !important;
+}
+
+.evently-booking-card__share .share_widgets_list {
+	display: flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	list-style: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	flex-wrap: wrap;
+}
+
+.evently-booking-card__share .share_widgets_list li {
+	margin: 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+.evently-booking-card__share .share_widgets_list li a {
+	width: 36px !important;
+	height: 36px !important;
+	border-radius: 12px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	color: var(--evently-text) !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	transition: transform var(--evently-transition-fast) ease,
+		background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease;
+}
+
+.evently-booking-card__share .share_widgets_list li a:hover {
+	transform: translateY(-1px);
+}
+
+.evently-booking-card__share .share_widgets_list li a.facebook:hover {
+	background: #1877f2 !important;
+	border-color: #1877f2 !important;
+	color: #fff !important;
+}
+
+.evently-booking-card__share .share_widgets_list li a.twitter:hover {
+	background: #111 !important;
+	border-color: #111 !important;
+	color: #fff !important;
+}
+
+.evently-booking-card__share .share_widgets_list li a.linkedin:hover {
+	background: #0a66c2 !important;
+	border-color: #0a66c2 !important;
+	color: #fff !important;
+}
+
+.evently-booking-card__share .share_widgets_list li a.whatsapp:hover {
+	background: #25d366 !important;
+	border-color: #25d366 !important;
+	color: #fff !important;
+}
+
+.evently-booking-card__share .share_widgets_list li a.email:hover {
+	background: var(--evently-primary) !important;
+	border-color: var(--evently-primary) !important;
+	color: #fff !important;
+}
+
+.evently-booking-card__calendar {
+	width: 100%;
+	margin-top: 0;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area {
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+.evently-booking-card__calendar a,
+.evently-booking-card__calendar button,
+.evently-booking-card__calendar .mpwem_calender_area > button {
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	border: 1px solid rgba(108, 92, 231, 0.22);
+	border-radius: 14px;
+	padding: 13px 18px;
+	font-size: 14px;
+	font-weight: 600;
+	font-family: inherit;
+	color: var(--evently-text);
+	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%);
+	cursor: pointer;
+	transition: background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease;
+}
+
+.evently-booking-card__calendar a:hover,
+.evently-booking-card__calendar button:hover,
+.evently-booking-card__calendar .mpwem_calender_area > button:hover {
+	background: var(--evently-primary-soft);
+	border-color: rgba(108, 92, 231, 0.35);
+	transform: translateY(-1px);
+}
+
+/* Organizer card — Horizon organizer.php parity (identity + seat stats) */
 
 .evently-organizer-card {
 	background: var(--evently-white);
 	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-lg);
-	padding: var(--evently-space-4);
+	border-radius: 22px;
+	padding: 22px 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	box-shadow: 0 8px 28px rgba(11, 11, 13, 0.05);
+}
+
+.evently-organizer-card__info {
 	display: flex;
 	align-items: center;
-	gap: var(--evently-space-3);
+	justify-content: space-between;
+	gap: 16px;
+	width: 100%;
+}
+
+.evently-organizer-card__identity {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-width: 0;
 }
 
 .evently-organizer-card__avatar {
-	width: 48px;
-	height: 48px;
-	font-size: 18px;
+	width: 56px;
+	height: 56px;
+	border-radius: 16px;
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+	font-size: 20px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	flex-shrink: 0;
 }
 
+.evently-organizer-card__meta {
+	min-width: 0;
+}
+
 .evently-organizer-card__label {
+	display: block;
 	font-size: 11px;
+	font-weight: 600;
 	text-transform: uppercase;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.1em;
 	color: var(--evently-muted);
-	margin-bottom: 2px;
+	margin-bottom: 4px;
+	line-height: 1;
 }
 
 .evently-organizer-card__name {
+	display: block;
 	font-weight: 700;
+	font-size: 18px;
+	line-height: 1.25;
 	color: var(--evently-text);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .evently-organizer-card__name:hover {
 	color: var(--evently-primary);
+}
+
+.evently-organizer-card__follow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	background: var(--evently-surface);
+	color: var(--evently-text);
+	font-size: 14px;
+	font-weight: 600;
+	padding: 10px 22px;
+	border-radius: 12px;
+	transition: background var(--evently-transition-fast) ease,
+		transform var(--evently-transition-fast) ease;
+}
+
+.evently-organizer-card__follow:hover {
+	background: var(--evently-border);
+	transform: translateY(-1px);
+}
+
+.evently-organizer-card__stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+	width: 100%;
+}
+
+.evently-seat-stat {
+	min-width: 0;
+	padding: 16px 14px;
+	border-radius: 14px;
+	text-align: left;
+}
+
+.evently-seat-stat strong {
+	display: block;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.1;
+	margin-bottom: 6px;
+	letter-spacing: -0.02em;
+}
+
+.evently-seat-stat span {
+	display: block;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--evently-muted);
+	line-height: 1.2;
+}
+
+.evently-seat-stat--total {
+	background: var(--evently-primary-soft);
+}
+
+.evently-seat-stat--total strong {
+	color: var(--evently-primary);
+}
+
+.evently-seat-stat--available {
+	background: rgba(22, 163, 74, 0.1);
+}
+
+.evently-seat-stat--available strong {
+	color: var(--evently-success);
+}
+
+.evently-seat-stat--sold {
+	background: rgba(245, 158, 11, 0.12);
+}
+
+.evently-seat-stat--sold strong {
+	color: #c9891a;
 }
 
 /* ── Restyling the plugin's REAL ticket-selection form ───────────── */
@@ -276,9 +592,19 @@
    its templates/layout/{registration,ticket_type,add_to_cart}.php) —
    nothing here is a class Evently invented. */
 
-.evently-booking-card .mpwem_style,
-.evently-booking-card .mpwem_registration_area {
+.evently-booking-card__body .mpwem_style,
+.evently-booking-card__body .mpwem_registration_area,
+.evently-booking-card__body .mpwem_booking_panel,
+.evently-booking-card__body .mpwem_ticket_type,
+.evently-booking-card__body .card-body,
+.evently-booking-card__body .mpwem_ex_service {
 	display: block;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	border-radius: 0 !important;
 }
 
 .evently-booking-card .mpwem_booking_panel {
@@ -532,26 +858,6 @@
 	font-size: 13px;
 }
 
-.evently-booking-card__calendar {
-	margin-top: var(--evently-space-3);
-}
-
-.evently-booking-card__calendar a,
-.evently-booking-card__calendar button {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 6px;
-	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-pill);
-	padding: 10px 16px;
-	font-size: var(--evently-fs-small);
-	font-weight: 600;
-	color: var(--evently-text);
-	background: transparent;
-}
-
 @media (max-width: 1000px) {
 	.evently-event-layout {
 		grid-template-columns: 1fr;
@@ -564,7 +870,8 @@
 
 @media (max-width: 640px) {
 	.evently-event-hero__content {
-		padding: var(--evently-space-4) var(--evently-pad) var(--evently-space-6);
+		padding-top: var(--evently-space-4);
+		padding-bottom: var(--evently-space-6);
 	}
 
 	.evently-venue-card {
@@ -573,36 +880,213 @@
 	}
 }
 
-/* ── Gallery ──────────────────────────────────────────────────────────
- * Light restyling of the booking plugin's REAL slider markup
- * (Evently_Booking_Adapter::render_hook_widget('mpwem_custom_slider', ...),
- * i.e. mpwem_custom_slider → MPWEM_Custom_Slider::super_slider()) — same
- * "don't touch the logic/JS, just the skin" approach as the booking form
- * above. The plugin's own frontend CSS/JS still drives the actual slide
- * navigation and lightbox popup; this only rounds corners and fits it to
- * Evently's spacing so it doesn't look like an unstyled plugin default.
- * ────────────────────────────────────────────────────────────────── */
+/* ── Gallery (Owl carousel thumbs + zoom lightbox) ────────────────── */
 
-.evently-event-gallery .mpwem_slider_area {
-	border-radius: var(--evently-radius-lg);
+.evently-event-gallery__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--evently-space-2);
+	margin-bottom: var(--evently-space-3);
+}
+
+.evently-event-gallery__head h2 {
+	margin-bottom: 0;
+}
+
+.evently-gallery-carousel__nav {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-shrink: 0;
+	margin-left: auto;
+}
+
+.evently-gallery-carousel__nav:empty {
+	display: none;
+}
+
+.evently-gallery-carousel {
+	position: relative;
+	width: 100%;
+	padding: 0;
+}
+
+.evently-gallery-carousel .owl-stage-outer {
 	overflow: hidden;
+	width: 100%;
 }
 
-.evently-event-gallery img,
-.evently-event-gallery .post_thumb {
-	border-radius: var(--evently-radius-lg);
+.evently-gallery-carousel__item {
+	width: 100%;
 }
 
-.evently-event-gallery .sliderItem,
-.evently-event-gallery .sliderShowcaseItem {
+.evently-gallery-thumb {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: none;
 	border-radius: var(--evently-radius-md);
 	overflow: hidden;
+	background: var(--evently-surface);
+	cursor: zoom-in;
+	aspect-ratio: 1;
+	transition: transform var(--evently-transition-fast) var(--evently-ease),
+		box-shadow var(--evently-transition-fast) ease;
 }
 
-.evently-event-gallery .post_thumb img {
+.evently-gallery-thumb:hover,
+.evently-gallery-thumb:focus-visible {
+	transform: translateY(-2px);
+	box-shadow: var(--evently-shadow-soft);
+	outline: 2px solid var(--evently-primary);
+	outline-offset: 2px;
+}
+
+.evently-gallery-thumb img,
+.evently-gallery-carousel .owl-item img {
 	width: 100%;
-	max-height: 480px;
+	height: 100%;
 	object-fit: cover;
+	display: block;
+}
+
+/* Arrows live in the section head (top-right), via Owl navContainer */
+.evently-gallery-carousel__nav .owl-nav,
+.evently-gallery-carousel .owl-nav {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+}
+
+.evently-gallery-carousel__nav button.owl-prev,
+.evently-gallery-carousel__nav button.owl-next,
+.evently-gallery-carousel .owl-nav button.owl-prev,
+.evently-gallery-carousel .owl-nav button.owl-next {
+	position: static;
+	transform: none;
+	width: 36px;
+	height: 36px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid var(--evently-border);
+	border-radius: 50%;
+	background: var(--evently-white);
+	color: var(--evently-text);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: none;
+	transition: background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease;
+}
+
+.evently-gallery-carousel__nav button.owl-prev:hover,
+.evently-gallery-carousel__nav button.owl-next:hover,
+.evently-gallery-carousel .owl-nav button.owl-prev:hover,
+.evently-gallery-carousel .owl-nav button.owl-next:hover {
+	background: var(--evently-dark);
+	border-color: var(--evently-dark);
+	color: var(--evently-white);
+}
+
+.evently-gallery-carousel__nav button.disabled,
+.evently-gallery-carousel .owl-nav button.disabled {
+	opacity: 0.35;
+	cursor: default;
+	pointer-events: none;
+}
+
+.evently-gallery-carousel__nav button span,
+.evently-gallery-carousel .owl-nav button span {
+	display: flex;
+	line-height: 0;
+}
+
+.evently-gallery-carousel .owl-dots {
+	display: none;
+}
+
+.evently-modal--lightbox {
+	align-items: center;
+	padding: var(--evently-space-4);
+	background: rgba(11, 11, 13, 0.88);
+	backdrop-filter: blur(6px);
+}
+
+.evently-lightbox__figure {
+	margin: 0;
+	max-width: min(1100px, 100%);
+	max-height: calc(100vh - 80px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.evently-lightbox__img {
+	max-width: 100%;
+	max-height: calc(100vh - 80px);
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	border-radius: var(--evently-radius-md);
+	box-shadow: var(--evently-shadow-deep);
+}
+
+.evently-lightbox__close,
+.evently-lightbox__nav {
+	position: absolute;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 50%;
+	background: rgba(11, 11, 13, 0.55);
+	color: var(--evently-white);
+	cursor: pointer;
+	transition: background var(--evently-transition-fast) ease;
+}
+
+.evently-lightbox__close:hover,
+.evently-lightbox__nav:hover {
+	background: rgba(11, 11, 13, 0.8);
+}
+
+.evently-lightbox__close {
+	top: var(--evently-space-3);
+	right: var(--evently-space-3);
+}
+
+.evently-lightbox__nav--prev {
+	left: var(--evently-space-3);
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.evently-lightbox__nav--next {
+	right: var(--evently-space-3);
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.evently-lightbox__nav[hidden] {
+	display: none;
+}
+
+@media (max-width: 640px) {
+	.evently-lightbox__nav--prev {
+		left: 8px;
+	}
+
+	.evently-lightbox__nav--next {
+		right: 8px;
+	}
 }
 
 /* ── Timeline ─────────────────────────────────────────────────────────
