@@ -132,7 +132,7 @@ body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_hea
 body.single-mep_events .default_theme .mpwem_related_area .related_title h3,
 body.single-mep_events .default_theme .mpwem_registration_area .section-title,
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title,
-body.single-mep_events .mep-event-review-list-wrapper::before {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel)::before {
 	margin: 0 0 var(--evently-dt-section-title-gap) !important;
 	padding: 0 !important;
 	border: 0 !important;
@@ -151,7 +151,7 @@ body.single-mep_events .mep-event-review-list-wrapper::before {
 
 /* In-panel / flex titles keep horizontal rhythm, not bottom margin */
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title,
-body.single-mep_events .mep-event-review-list-wrapper::before {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel)::before {
 	margin-bottom: 0 !important;
 }
 
@@ -286,7 +286,7 @@ body.single-mep_events .default_theme .mpwem_registration_area,
 body.single-mep_events .default_theme .faq_area,
 body.single-mep_events .default_theme div.faq_area,
 body.single-mep_events .default_theme .mpwem_timeline_area,
-body.single-mep_events .mep-event-review-list-wrapper {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
 	margin-top: var(--evently-dt-section-stack) !important;
 }
 
@@ -3000,9 +3000,10 @@ body.single-mep_events .default_theme .mpwem_related_area .list_price_value .woo
 /* ═══════════════════════════════════════════════════════════════════
    Reviews (Pro addon) — modern Evently panel
    Hook: after-single-events (outside .default_theme, inside .mpwem_wrapper)
+   Horizon uses its own .horizon_reviews_panel skin — excluded here.
    ═══════════════════════════════════════════════════════════════════ */
 
-body.single-mep_events .mep-event-review-list-wrapper {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
 	display: grid !important;
 	grid-template-columns: minmax(0, 1fr) auto !important;
 	grid-template-areas:
@@ -3024,13 +3025,13 @@ body.single-mep_events .mep-event-review-list-wrapper {
 	box-sizing: border-box !important;
 }
 
-body.single-mep_events .mep-event-review-list-wrapper::before {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel)::before {
 	content: "Reviews" !important;
 	grid-area: title !important;
 	/* type from shared section titles */
 }
 
-body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn {
 	grid-area: action !important;
 	justify-self: end !important;
 	align-self: center !important;
@@ -3059,19 +3060,19 @@ body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn {
 		box-shadow var(--evently-transition-fast) ease !important;
 }
 
-body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn:hover {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn:hover {
 	background: var(--evently-primary) !important;
 	transform: translateY(-1px) !important;
 	text-decoration: none !important;
 	box-shadow: 0 10px 22px rgba(108, 92, 231, 0.28) !important;
 }
 
-body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn:focus-visible {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn:focus-visible {
 	outline: 2px solid var(--evently-primary) !important;
 	outline-offset: 2px !important;
 }
 
-body.single-mep_events .mep-event-review-list {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-list {
 	grid-area: list !important;
 	display: flex !important;
 	flex-direction: column !important;
@@ -3082,7 +3083,7 @@ body.single-mep_events .mep-event-review-list {
 }
 
 /* Empty list: soft dashed placeholder under the header */
-body.single-mep_events .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item)) {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item)) {
 	min-height: 120px !important;
 	display: flex !important;
 	align-items: center !important;
@@ -3093,7 +3094,7 @@ body.single-mep_events .mep-event-review-list:not(:has(.mep-event-review-avg)):n
 	border-radius: 16px !important;
 }
 
-body.single-mep_events .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item))::before {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item))::before {
 	content: "No reviews yet — be the first to share your experience." !important;
 	max-width: 32ch !important;
 	text-align: center !important;
@@ -3104,7 +3105,7 @@ body.single-mep_events .mep-event-review-list:not(:has(.mep-event-review-avg)):n
 }
 
 /* Average rating breakdown */
-body.single-mep_events .mep-event-review-avg {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-avg {
 	margin: 0 !important;
 	padding: 18px 20px !important;
 	background: var(--evently-white) !important;
@@ -3114,11 +3115,11 @@ body.single-mep_events .mep-event-review-avg {
 }
 
 /* Section title comes from wrapper ::before — hide addon duplicate */
-body.single-mep_events .mep-avg-review-header {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-header {
 	display: none !important;
 }
 
-body.single-mep_events .mep-avg-review-item {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item {
 	display: grid !important;
 	grid-template-columns: 5.5rem minmax(0, 1fr) 2.75rem !important;
 	gap: 12px !important;
@@ -3126,18 +3127,18 @@ body.single-mep_events .mep-avg-review-item {
 	margin: 0 0 8px !important;
 }
 
-body.single-mep_events .mep-avg-review-item:last-child {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item:last-child {
 	margin-bottom: 0 !important;
 }
 
-body.single-mep_events .mep-avg-review-item .rating-text {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item .rating-text {
 	flex: none !important;
 	font-size: 13px !important;
 	font-weight: 600 !important;
 	color: var(--evently-text) !important;
 }
 
-body.single-mep_events .mep-avg-review-item .rating-bar {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item .rating-bar {
 	flex: none !important;
 	height: 8px !important;
 	background: rgba(11, 11, 13, 0.08) !important;
@@ -3146,18 +3147,18 @@ body.single-mep_events .mep-avg-review-item .rating-bar {
 	box-shadow: none !important;
 }
 
-body.single-mep_events .mep-avg-review-item .rating-bar span,
-body.single-mep_events .mep-avg-review-item.r-4 .rating-bar span,
-body.single-mep_events .mep-avg-review-item.r-3 .rating-bar span,
-body.single-mep_events .mep-avg-review-item.r-2 .rating-bar span,
-body.single-mep_events .mep-avg-review-item.r-1 .rating-bar span {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item .rating-bar span,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item.r-4 .rating-bar span,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item.r-3 .rating-bar span,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item.r-2 .rating-bar span,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item.r-1 .rating-bar span {
 	display: block !important;
 	height: 100% !important;
 	background: linear-gradient(90deg, var(--evently-primary), #8b7cf0) !important;
 	border-radius: inherit !important;
 }
 
-body.single-mep_events .mep-avg-review-item .rating-percent {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item .rating-percent {
 	flex: none !important;
 	font-size: 12px !important;
 	font-weight: 600 !important;
@@ -3167,7 +3168,7 @@ body.single-mep_events .mep-avg-review-item .rating-percent {
 }
 
 /* Individual review cards */
-body.single-mep_events .mep-event-review-item {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-item {
 	display: flex !important;
 	gap: 16px !important;
 	margin: 0 !important;
@@ -3178,7 +3179,7 @@ body.single-mep_events .mep-event-review-item {
 	box-shadow: 0 4px 16px rgba(11, 11, 13, 0.03) !important;
 }
 
-body.single-mep_events .mep-event-review-img {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-img {
 	flex: 0 0 auto !important;
 	width: 52px !important;
 	margin: 0 !important;
@@ -3186,7 +3187,7 @@ body.single-mep_events .mep-event-review-img {
 	align-self: flex-start !important;
 }
 
-body.single-mep_events .mep-event-review-img img {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-img img {
 	display: block !important;
 	width: 52px !important;
 	height: 52px !important;
@@ -3198,7 +3199,7 @@ body.single-mep_events .mep-event-review-img img {
 	background: var(--evently-surface) !important;
 }
 
-body.single-mep_events .mep-event-review-name {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-name {
 	margin-top: 8px !important;
 	font-size: 12px !important;
 	font-weight: 700 !important;
@@ -3208,12 +3209,12 @@ body.single-mep_events .mep-event-review-name {
 	word-break: break-word !important;
 }
 
-body.single-mep_events .mep-event-review-info {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-info {
 	flex: 1 1 auto !important;
 	min-width: 0 !important;
 }
 
-body.single-mep_events .mep-event-review-rating {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-rating {
 	display: flex !important;
 	flex-wrap: wrap !important;
 	align-items: center !important;
@@ -3221,19 +3222,19 @@ body.single-mep_events .mep-event-review-rating {
 	margin: 0 0 6px !important;
 }
 
-body.single-mep_events .mep-event-review-rating img {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-rating img {
 	width: 88px !important;
 	height: auto !important;
 }
 
-body.single-mep_events .mep-event-review-date {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-date {
 	display: inline-block !important;
 	margin: 0 !important;
 	font-size: 13px !important;
 	color: var(--evently-muted) !important;
 }
 
-body.single-mep_events .mep-review-title {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-review-title {
 	margin: 0 0 6px !important;
 	font-size: 16px !important;
 	font-weight: 700 !important;
@@ -3241,19 +3242,19 @@ body.single-mep_events .mep-review-title {
 	color: var(--evently-text) !important;
 }
 
-body.single-mep_events .mep-event-review-content {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-content {
 	margin: 0 !important;
 	font-size: 15px !important;
 	line-height: 1.6 !important;
 	color: var(--evently-muted) !important;
 }
 
-body.single-mep_events .mep-event-review-content p {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-content p {
 	margin: 0 0 8px !important;
 	color: var(--evently-muted) !important;
 }
 
-body.single-mep_events .mep-event-review-content p:last-child {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-content p:last-child {
 	margin-bottom: 0 !important;
 }
 
@@ -3409,7 +3410,7 @@ body.single-mep_events #mageModal .mage-modal-footer {
 }
 
 @media (max-width: 640px) {
-	body.single-mep_events .mep-event-review-list-wrapper {
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
 		grid-template-columns: 1fr !important;
 		grid-template-areas:
 			"title"
@@ -3419,23 +3420,23 @@ body.single-mep_events #mageModal .mage-modal-footer {
 		row-gap: 14px !important;
 	}
 
-	body.single-mep_events .mep-event-review-list-wrapper > #give-review-btn {
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn {
 		justify-self: stretch !important;
 		width: 100% !important;
 	}
 
-	body.single-mep_events .mep-avg-review-item {
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-avg-review-item {
 		grid-template-columns: 4.5rem minmax(0, 1fr) 2.5rem !important;
 		gap: 8px !important;
 	}
 
-	body.single-mep_events .mep-event-review-item {
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-item {
 		padding: 14px 16px !important;
 		gap: 12px !important;
 	}
 
-	body.single-mep_events .mep-event-review-img,
-	body.single-mep_events .mep-event-review-img img {
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-img,
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-img img {
 		width: 44px !important;
 		height: 44px !important;
 		max-width: 44px !important;
