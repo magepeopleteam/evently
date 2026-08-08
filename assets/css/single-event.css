@@ -1,88 +1,183 @@
 /**
- * Single Event page: hero, description, schedule, venue, FAQ, sidebar,
- * and — the important part — restyling the booking plugin's REAL
+ * Single Event page: hero, description, schedule, venue, FAQ, reviews (Pro),
+ * sidebar, and — the important part — restyling the booking plugin's REAL
  * ticket-selection/add-to-cart markup (rendered by
  * Evently_Booking_Adapter::render_booking_form(), i.e. the plugin's own
  * `mpwem_registration` hook output) to match Evently's sticky booking-card
- * design without touching a single line of its logic.
+ * design without touching a single line of its logic. Reviews reuse the Pro
+ * addon's real hooks via Evently_Booking_Adapter::render_event_reviews().
  */
 
 /* ── Hero ─────────────────────────────────────────────────────────── */
 
 .evently-event-hero {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	/* Header clearance + cinematic content height */
+	min-height: calc(var(--evently-header-height) + clamp(360px, 46vw, 520px));
 	padding-top: var(--evently-header-height);
-	background: var(--evently-dark);
+	overflow: hidden;
+	background: #0b1020;
+	isolation: isolate;
 }
 
 .evently-event-hero__media {
 	position: absolute;
 	inset: 0;
+	z-index: 0;
 }
 
 .evently-event-hero__media img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	opacity: 0.55;
+	object-position: center;
+	transform: scale(1.02);
+}
+
+/* Even gradient veil — replaces flat opacity that left a mid-band look */
+.evently-event-hero__media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(
+			180deg,
+			rgba(8, 12, 28, 0.72) 0%,
+			rgba(8, 12, 28, 0.38) 38%,
+			rgba(8, 12, 28, 0.55) 62%,
+			rgba(8, 12, 28, 0.88) 100%
+		),
+		linear-gradient(
+			90deg,
+			rgba(8, 12, 28, 0.45) 0%,
+			rgba(8, 12, 28, 0.12) 52%,
+			rgba(8, 12, 28, 0.2) 100%
+		);
+	pointer-events: none;
+}
+
+.evently-event-hero:not(.evently-event-hero--has-media) {
+	background:
+		radial-gradient(120% 80% at 12% 20%, rgba(99, 102, 241, 0.35), transparent 55%),
+		linear-gradient(160deg, #12182b 0%, #0b1020 55%, #151028 100%);
 }
 
 .evently-event-hero__content {
 	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	flex: 1 1 auto;
+	width: 100%;
+	box-sizing: border-box;
 	/*
 	 * Vertical only — use longhands so we don't zero out
 	 * .evently-container's horizontal pad (padding shorthand would).
 	 */
-	padding-top: var(--evently-space-6);
-	padding-bottom: var(--evently-space-8);
+	padding-top: var(--evently-space-5);
+	padding-bottom: clamp(2.5rem, 5vw, 4rem);
 	color: var(--evently-white);
+	gap: var(--evently-space-6);
 }
 
-.evently-event-hero__media ~ .evently-event-hero__content {
-	min-height: 320px;
+.evently-event-hero__intro {
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-end;
+	align-items: flex-start;
+	max-width: 46rem;
+	gap: var(--evently-space-3);
+	padding-bottom: var(--evently-space-1);
 }
 
-.evently-breadcrumb--on-media {
-	color: rgba(255, 255, 255, 0.6);
+.evently-event-hero .evently-breadcrumb--on-media {
+	align-items: center;
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.4;
+	letter-spacing: 0.01em;
+	color: rgba(255, 255, 255, 0.62);
 }
 
 .evently-breadcrumb--on-media a {
-	color: rgba(255, 255, 255, 0.6);
+	color: rgba(255, 255, 255, 0.72);
+	transition: color var(--evently-transition-fast) ease;
 }
 
 .evently-breadcrumb--on-media a:hover {
 	color: var(--evently-white);
 }
 
+.evently-breadcrumb--on-media .evently-breadcrumb__sep {
+	opacity: 0.45;
+	font-weight: 400;
+}
+
 .evently-breadcrumb--on-media span:last-child {
-	color: var(--evently-white);
+	color: rgba(255, 255, 255, 0.95);
+	font-weight: 600;
 }
 
 .evently-event-hero__cat {
-	margin: var(--evently-space-2) 0 var(--evently-space-2);
+	margin: 0;
+	display: inline-flex;
+	align-items: center;
+	padding: 7px 14px;
+	border-radius: var(--evently-radius-pill);
+	background: rgba(255, 255, 255, 0.14);
+	border: 1px solid rgba(255, 255, 255, 0.28);
+	color: #fff;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	line-height: 1.2;
 }
 
 .evently-event-hero__title {
 	color: var(--evently-white);
-	margin-bottom: var(--evently-space-3);
-	font-size: clamp(2rem, 4.5vw, 3.25rem);
+	margin: 0;
+	font-size: clamp(2.15rem, 5vw, 3.5rem);
+	line-height: 1.12;
+	letter-spacing: -0.02em;
+	text-wrap: balance;
+	text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
 }
 
 .evently-event-hero__meta {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--evently-space-4);
+	align-items: center;
+	gap: 10px;
+	margin-top: 2px;
 }
 
 .evently-event-hero__meta-item {
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	color: rgba(255, 255, 255, 0.85);
-	font-size: var(--evently-fs-small);
+	padding: 8px 12px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	color: rgba(255, 255, 255, 0.92);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.2;
+}
+
+.evently-event-hero__meta-item svg {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	opacity: 0.9;
 }
 
 /* ── Layout ───────────────────────────────────────────────────────── */
@@ -210,6 +305,204 @@
 .evently-faq-item__answer {
 	margin-top: var(--evently-space-2);
 	color: var(--evently-muted);
+}
+
+/* ── Reviews (Pro addon markup, restyled) ─────────────────────────── */
+
+.evently-event-reviews .mep-event-review-list-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-4);
+}
+
+.evently-event-reviews #give-review-btn {
+	align-self: flex-start;
+	appearance: none;
+	cursor: pointer;
+	border: 0;
+	border-radius: var(--evently-radius-sm);
+	padding: 0.7rem 1.15rem;
+	background: var(--evently-dark);
+	color: var(--evently-white);
+	font-family: inherit;
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	line-height: 1.2;
+	transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.evently-event-reviews #give-review-btn:hover {
+	background: var(--evently-primary);
+}
+
+.evently-event-reviews #give-review-btn:focus-visible {
+	outline: 2px solid var(--evently-primary);
+	outline-offset: 2px;
+}
+
+/* Section already has an h2 — hide the addon's duplicate "Reviews" label. */
+.evently-event-reviews .mep-avg-review-header {
+	display: none;
+}
+
+.evently-event-reviews .mep-event-review-avg {
+	margin: 0 0 var(--evently-space-4);
+	padding: var(--evently-space-4);
+	background: var(--evently-surface, #f6f7f9);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md, 12px);
+}
+
+.evently-event-reviews .mep-avg-review-item {
+	display: grid;
+	grid-template-columns: 5.5rem 1fr 2.75rem;
+	gap: var(--evently-space-2);
+	align-items: center;
+	margin-bottom: 0.45rem;
+}
+
+.evently-event-reviews .mep-avg-review-item:last-child {
+	margin-bottom: 0;
+}
+
+.evently-event-reviews .mep-avg-review-item .rating-text {
+	font-size: var(--evently-fs-small);
+	color: var(--evently-muted);
+}
+
+.evently-event-reviews .mep-avg-review-item .rating-bar {
+	height: 6px;
+	background: rgba(11, 11, 13, 0.08);
+	border-radius: 999px;
+	overflow: hidden;
+}
+
+.evently-event-reviews .mep-avg-review-item .rating-bar span {
+	display: block;
+	height: 100%;
+	background: var(--evently-primary);
+	border-radius: inherit;
+}
+
+.evently-event-reviews .mep-avg-review-item .rating-percent {
+	font-size: var(--evently-fs-small);
+	color: var(--evently-muted);
+	text-align: right;
+}
+
+.evently-event-reviews .mep-event-review-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--evently-space-4);
+}
+
+.evently-event-reviews .mep-event-review-item {
+	display: flex;
+	gap: var(--evently-space-3);
+	padding-bottom: var(--evently-space-4);
+	border-bottom: 1px solid var(--evently-border);
+}
+
+.evently-event-reviews .mep-event-review-item:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.evently-event-reviews .mep-event-review-img {
+	flex: 0 0 auto;
+	width: 3.25rem;
+	text-align: center;
+}
+
+.evently-event-reviews .mep-event-review-img img {
+	width: 3.25rem;
+	height: 3.25rem;
+	border-radius: 50%;
+	object-fit: cover;
+	display: block;
+}
+
+.evently-event-reviews .mep-event-review-name {
+	margin-top: 0.35rem;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--evently-text);
+	word-break: break-word;
+}
+
+.evently-event-reviews .mep-event-review-info {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.evently-event-reviews .mep-event-review-rating {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 0.75rem;
+	margin-bottom: 0.35rem;
+}
+
+.evently-event-reviews .mep-event-review-rating img {
+	width: 88px;
+	height: auto;
+}
+
+.evently-event-reviews .mep-event-review-date {
+	font-size: var(--evently-fs-small);
+	color: var(--evently-muted);
+}
+
+.evently-event-reviews .mep-review-title {
+	margin: 0 0 0.35rem;
+	font-weight: 700;
+	color: var(--evently-text);
+}
+
+.evently-event-reviews .mep-event-review-content {
+	color: var(--evently-muted);
+	line-height: 1.55;
+}
+
+.evently-event-reviews .mep-event-review-content p {
+	margin: 0 0 0.5rem;
+}
+
+.evently-event-reviews .mep-event-review-content p:last-child {
+	margin-bottom: 0;
+}
+
+/* Review modal — sit above sticky booking card / header */
+.evently-single-event ~ #mageModal,
+.evently-event-reviews ~ #mageModal,
+#mageModal.mage-modal {
+	z-index: 10050;
+}
+
+.evently-single-event + #mageModal .mage-modal-content,
+body.single-mep_events #mageModal .mage-modal-content {
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md, 12px);
+	overflow: hidden;
+	box-shadow: 0 24px 64px rgba(11, 11, 13, 0.22);
+}
+
+@media (max-width: 640px) {
+	.evently-event-reviews .mep-event-review-item {
+		flex-direction: column;
+	}
+
+	.evently-event-reviews .mep-event-review-img {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		width: auto;
+		text-align: left;
+	}
+
+	.evently-event-reviews .mep-event-review-name {
+		margin-top: 0;
+	}
 }
 
 /* Related events */
@@ -1110,41 +1403,130 @@
 	margin-top: 4px;
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 14px;
 }
 
 .evently-booking-card .total {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	font-size: var(--evently-fs-small);
+	gap: 12px;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
 	color: var(--evently-muted);
 }
 
 .evently-booking-card .mpwem_total {
-	font-size: 20px;
+	font-size: 1.35rem;
 	font-weight: 800;
+	letter-spacing: -0.02em;
 	color: var(--evently-text);
+	line-height: 1.2;
 }
 
 .evently-booking-card .mpwem_book_now,
 .evently-booking-card ._button_theme {
+	position: relative;
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
 	width: 100%;
-	background: var(--evently-dark);
-	color: var(--evently-white);
-	border: none;
-	border-radius: var(--evently-radius-pill);
-	padding: 14px 28px;
-	font-size: var(--evently-fs-button);
-	font-weight: 700;
-	font-family: inherit;
+	min-height: 52px;
+	padding: 14px 22px !important;
+	margin: 0 !important;
+	border: 0 !important;
+	border-radius: 14px !important;
+	background: linear-gradient(135deg, #7a6bf0 0%, var(--evently-primary) 48%, #5a4bd6 100%) !important;
+	color: #fff !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.01em;
+	line-height: 1.2 !important;
+	text-align: center;
+	text-decoration: none !important;
 	cursor: pointer;
-	transition: opacity var(--evently-transition-fast) ease;
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.22) inset,
+		0 10px 24px rgba(108, 92, 231, 0.35) !important;
+	transition:
+		transform var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease,
+		filter var(--evently-transition-fast) ease !important;
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.evently-booking-card .mpwem_book_now::before,
+.evently-booking-card ._button_theme::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 48%);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.evently-booking-card .mpwem_book_now > *,
+.evently-booking-card ._button_theme > * {
+	position: relative;
+	z-index: 1;
+}
+
+.evently-booking-card .mpwem_book_now i,
+.evently-booking-card ._button_theme i {
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	margin: 0 !important;
+	border-radius: 9px;
+	background: rgba(255, 255, 255, 0.18);
+	font-size: 13px !important;
+	line-height: 1 !important;
+	flex-shrink: 0;
 }
 
 .evently-booking-card .mpwem_book_now:hover,
 .evently-booking-card ._button_theme:hover {
-	opacity: 0.88;
+	transform: translateY(-1px);
+	filter: brightness(1.04);
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.22) inset,
+		0 14px 28px rgba(108, 92, 231, 0.42) !important;
+	opacity: 1;
+}
+
+.evently-booking-card .mpwem_book_now:active,
+.evently-booking-card ._button_theme:active {
+	transform: translateY(0);
+	filter: brightness(0.98);
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.16) inset,
+		0 6px 16px rgba(108, 92, 231, 0.28) !important;
+}
+
+.evently-booking-card .mpwem_book_now:focus-visible,
+.evently-booking-card ._button_theme:focus-visible {
+	outline: none;
+	box-shadow:
+		0 0 0 3px var(--evently-white),
+		0 0 0 6px rgba(108, 92, 231, 0.45),
+		0 10px 24px rgba(108, 92, 231, 0.35) !important;
+}
+
+.evently-booking-card .mpwem_book_now:disabled,
+.evently-booking-card ._button_theme:disabled,
+.evently-booking-card .mpwem_book_now.mpDisabled,
+.evently-booking-card ._button_theme.mpDisabled {
+	opacity: 0.55 !important;
+	cursor: not-allowed;
+	transform: none !important;
+	filter: none !important;
+	box-shadow: none !important;
 }
 
 .evently-booking-card .dNone {
@@ -1219,9 +1601,27 @@
 }
 
 @media (max-width: 640px) {
+	.evently-event-hero {
+		min-height: calc(var(--evently-header-height) + 320px);
+	}
+
 	.evently-event-hero__content {
 		padding-top: var(--evently-space-4);
 		padding-bottom: var(--evently-space-6);
+		gap: var(--evently-space-5);
+	}
+
+	.evently-event-hero__intro {
+		gap: var(--evently-space-2);
+	}
+
+	.evently-event-hero__meta {
+		gap: 8px;
+	}
+
+	.evently-event-hero__meta-item {
+		padding: 7px 10px;
+		font-size: 13px;
 	}
 
 	.evently-venue-card {
@@ -1576,5 +1976,475 @@
 
 	.evently-timeline__card {
 		padding: 14px 16px;
+	}
+}
+
+/* ── Attendee form drawer (Horizon-parity, Evently skin) ──────────── */
+
+.evently-booking-card--attendee-drawer .ev-attendee-home {
+	display: none !important;
+}
+
+/* Keep card compact while forms sit under ticket rows briefly for qty cloning */
+.evently-booking-card--attendee-drawer .mep_ticket_item > .mep_attendee_info,
+.evently-booking-card--attendee-drawer .mpwem_booking_panel > .mep_attendee_info {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	border: 0 !important;
+	visibility: hidden !important;
+}
+
+.evently-booking-card--attendee-drawer .mep_ticket_item {
+	overflow: visible !important;
+}
+
+.evently-attendee-status {
+	display: none;
+	align-items: center;
+	gap: 8px;
+	width: calc(100% - 20px);
+	max-width: calc(100% - 20px);
+	margin: 10px;
+	padding: 6px 10px;
+	min-height: 0;
+	border-radius: 10px;
+	border: 1px solid var(--evently-border);
+	background: var(--evently-surface, #f7f7fb);
+	box-sizing: border-box;
+	grid-column: 1 / -1;
+}
+
+.evently-attendee-status.is-visible {
+	display: flex;
+}
+
+.evently-attendee-status.is-incomplete {
+	background: #fff8f8;
+	border: 1px solid #fff8f8;
+	cursor: pointer;
+}
+
+.evently-attendee-status.is-complete {
+	background: #f3fbf6;
+	border: 1px solid #f3fbf6;
+}
+
+.evently-attendee-status__icon {
+	width: 22px;
+	height: 22px;
+	border-radius: 6px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.85);
+	color: var(--evently-primary);
+	border: 1px solid transparent;
+	flex-shrink: 0;
+	font-size: 11px;
+}
+
+.evently-attendee-status.is-complete .evently-attendee-status__icon {
+	color: #1f7a45;
+	border-color: #f3fbf6;
+	background: #fff;
+}
+
+.evently-attendee-status.is-incomplete .evently-attendee-status__icon {
+	color: #c24141;
+	border-color: #fff8f8;
+	background: #fff;
+}
+
+.evently-attendee-status__text {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--evently-text);
+	line-height: 1.25;
+}
+
+.evently-attendee-status__edit {
+	flex-shrink: 0;
+	border: 0;
+	background: transparent;
+	color: var(--evently-primary);
+	font-size: 11px;
+	font-weight: 700;
+	font-family: inherit;
+	cursor: pointer;
+	padding: 0;
+	line-height: 1.2;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.evently-attendee-status.is-incomplete .evently-attendee-status__edit {
+	color: #c24141;
+	text-decoration: none;
+}
+
+.evently-booking-card .mpwem_form_submit_area > .evently-attendee-status,
+.evently-booking-card .mpwem_booking_panel > .evently-attendee-status {
+	margin: 10px;
+	width: calc(100% - 20px);
+}
+
+.evently-booking-card .mep_ticket_item > .evently-attendee-status {
+	position: relative;
+	visibility: visible;
+	width: calc(100% - 20px);
+	height: auto;
+	clip: auto;
+	overflow: visible;
+	margin: 10px;
+	padding: 6px 10px;
+	border-radius: 10px;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.evently-booking-card .mep_ticket_item > .evently-attendee-status.is-incomplete {
+	background: #fff8f8;
+	border-color: #fff8f8;
+}
+
+.evently-booking-card .mep_ticket_item > .evently-attendee-status.is-complete {
+	background: #f3fbf6;
+	border-color: #f3fbf6;
+}
+
+.evently-attendee-drawer[hidden] {
+	display: none !important;
+}
+
+.evently-attendee-drawer {
+	position: fixed;
+	inset: 0;
+	z-index: 100060;
+	display: flex;
+	justify-content: flex-end;
+	align-items: stretch;
+	width: 100%;
+	height: 100%;
+	max-height: 100dvh;
+	margin: 0;
+	padding: 0;
+	pointer-events: none;
+}
+
+.evently-attendee-drawer:not([hidden]) {
+	pointer-events: auto;
+}
+
+.evently-attendee-drawer__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(11, 11, 13, 0.48);
+	backdrop-filter: blur(2px);
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.evently-attendee-drawer__panel {
+	position: relative;
+	z-index: 1;
+	width: min(480px, 100%);
+	height: 100%;
+	max-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	background: var(--evently-white);
+	box-shadow: -18px 0 48px rgba(11, 11, 13, 0.18);
+	animation: eventlyAttendeeDrawerIn 220ms var(--evently-ease, ease) both;
+}
+
+@keyframes eventlyAttendeeDrawerIn {
+	from {
+		transform: translateX(18px);
+		opacity: 0.6;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+.evently-attendee-drawer__head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 22px 22px 16px;
+	border-bottom: 1px solid var(--evently-border);
+	background: linear-gradient(180deg, rgba(108, 92, 231, 0.08) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.evently-attendee-drawer__eyebrow {
+	display: block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--evently-primary);
+	margin-bottom: 6px;
+}
+
+.evently-attendee-drawer__title {
+	margin: 0 0 6px;
+	font-size: 1.25rem;
+	font-weight: 800;
+	line-height: 1.25;
+	color: var(--evently-text);
+}
+
+.evently-attendee-drawer__help {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.45;
+	color: var(--evently-muted);
+}
+
+.evently-attendee-drawer__close {
+	width: 36px;
+	height: 36px;
+	border-radius: 10px;
+	border: 1px solid var(--evently-border);
+	background: var(--evently-white);
+	color: var(--evently-text);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: background var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease;
+}
+
+.evently-attendee-drawer__close:hover {
+	background: var(--evently-primary-soft);
+	border-color: transparent;
+	color: var(--evently-primary);
+}
+
+.evently-attendee-drawer__body {
+	flex: 1 1 auto;
+	overflow: auto;
+	padding: 18px 22px 8px;
+	-webkit-overflow-scrolling: touch;
+}
+
+.evently-attendee-drawer__body .mep_attendee_info,
+.evently-attendee-drawer__body .mep_attendee_info_hidden {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+}
+
+.evently-attendee-drawer__body .mep_attendee_info:empty,
+.evently-attendee-drawer__body .mep_attendee_info_hidden:empty {
+	display: none;
+}
+
+.evently-attendee-drawer__body .mep_attendee_info > .mep_form_item,
+.evently-attendee-drawer__body .mep_attendee_info > .evently-attendee-block.mep_form_item {
+	margin: 0;
+	padding: 16px;
+	border: 1px solid var(--evently-border);
+	border-radius: 16px;
+	background: var(--evently-white);
+	box-shadow: 0 8px 24px rgba(11, 11, 13, 0.04);
+}
+
+.evently-attendee-drawer__body .evently-attendee-card__head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 0 0 14px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--evently-border);
+}
+
+.evently-attendee-drawer__body .evently-attendee-card__index {
+	width: 36px;
+	height: 36px;
+	border-radius: 12px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+	font-size: 14px;
+	font-weight: 800;
+	flex-shrink: 0;
+}
+
+.evently-attendee-drawer__body .evently-attendee-card__meta {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.evently-attendee-drawer__body .evently-attendee-card__label {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--evently-muted);
+}
+
+.evently-attendee-drawer__body .evently-attendee-card__ticket {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.evently-attendee-drawer__body .evently-attendee-card__ticket-name {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--evently-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.evently-attendee-drawer__body .evently-attendee-card__pill {
+	flex-shrink: 0;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.evently-attendee-drawer__body .mp_form_item {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 6px;
+	margin: 0 0 12px;
+}
+
+.evently-attendee-drawer__body .mp_form_item:last-child {
+	margin-bottom: 0;
+}
+
+.evently-attendee-drawer__body .mp_form_item label {
+	display: block;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--evently-text);
+	margin: 0;
+}
+
+.evently-attendee-drawer__body .mp_form_item label > span .textRequired,
+.evently-attendee-drawer__body .mp_form_item .textRequired {
+	color: #c24141;
+}
+
+.evently-attendee-drawer__body .mp_form_item .formControl,
+.evently-attendee-drawer__body .mp_form_item input,
+.evently-attendee-drawer__body .mp_form_item select,
+.evently-attendee-drawer__body .mp_form_item textarea {
+	width: 100%;
+	min-height: 44px;
+	padding: 10px 12px;
+	border: 1px solid var(--evently-border);
+	border-radius: 12px;
+	background: #fff;
+	color: var(--evently-text);
+	font: inherit;
+	font-size: 14px;
+	box-sizing: border-box;
+	transition: border-color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease;
+}
+
+.evently-attendee-drawer__body .mp_form_item textarea {
+	min-height: 96px;
+	resize: vertical;
+}
+
+.evently-attendee-drawer__body .mp_form_item .formControl:focus,
+.evently-attendee-drawer__body .mp_form_item input:focus,
+.evently-attendee-drawer__body .mp_form_item select:focus,
+.evently-attendee-drawer__body .mp_form_item textarea:focus {
+	outline: none;
+	border-color: var(--evently-primary);
+	box-shadow: 0 0 0 4px var(--evently-primary-soft);
+}
+
+.evently-attendee-drawer__body .mp_form_item .formControl.is-ev-invalid,
+.evently-attendee-drawer__body .mp_form_item input.is-ev-invalid,
+.evently-attendee-drawer__body .mp_form_item select.is-ev-invalid,
+.evently-attendee-drawer__body .mp_form_item textarea.is-ev-invalid {
+	border-color: #c24141;
+	box-shadow: 0 0 0 4px rgba(194, 65, 65, 0.12);
+}
+
+.evently-attendee-drawer__body .mep_checkbox_item,
+.evently-attendee-drawer__body .mep_radio_item {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.evently-attendee-drawer__foot {
+	padding: 16px 22px 22px;
+	border-top: 1px solid var(--evently-border);
+	background: var(--evently-white);
+}
+
+.evently-attendee-drawer__continue {
+	width: 100%;
+	min-height: 48px;
+	border: 0;
+	border-radius: 14px;
+	background: var(--evently-primary);
+	color: #fff;
+	font: inherit;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: transform var(--evently-transition-fast) ease,
+		background var(--evently-transition-fast) ease;
+}
+
+.evently-attendee-drawer__continue:hover {
+	filter: brightness(1.05);
+	transform: translateY(-1px);
+}
+
+.evently-attendee-drawer__continue:active {
+	transform: none;
+}
+
+body.evently-attendee-drawer-open {
+	overflow: hidden;
+}
+
+@media (max-width: 640px) {
+	.evently-attendee-drawer__panel {
+		width: 100%;
+	}
+
+	.evently-attendee-drawer__head,
+	.evently-attendee-drawer__body,
+	.evently-attendee-drawer__foot {
+		padding-left: 16px;
+		padding-right: 16px;
 	}
 }

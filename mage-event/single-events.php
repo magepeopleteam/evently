@@ -4,15 +4,17 @@
  *
  * Overrides the plugin's templates/single-events.php — same override
  * mechanism as mage-event/event-archive.php (see that file's header).
- * Presentational sections (hero, meta, description, FAQ, related events,
- * organizer card) are built fresh with Evently's design system, reading
- * data only through Evently_Booking_Adapter. The ticket-selection/
- * add-to-cart form is different: it's real transactional business logic
- * (early-bird windows, member gating, cart state, WooCommerce vs. native
- * checkout), so it is NOT rebuilt — Evently_Booking_Adapter::render_booking_form()
- * outputs the plugin's own real form via its public `mpwem_registration`
- * hook, and assets/css/single-event.css restyles that real markup to match
- * the sticky "BOOK THIS EVENT" card design.
+ * Presentational sections (hero, meta, description, FAQ, reviews when Pro
+ * is active, related events, organizer card) are built fresh with Evently's
+ * design system, reading data only through Evently_Booking_Adapter. The
+ * ticket-selection/add-to-cart form is different: it's real transactional
+ * business logic (early-bird windows, member gating, cart state, WooCommerce
+ * vs. native checkout), so it is NOT rebuilt —
+ * Evently_Booking_Adapter::render_booking_form() outputs the plugin's own
+ * real form via its public `mpwem_registration` hook, and
+ * assets/css/single-event.css restyles that real markup to match the sticky
+ * "BOOK THIS EVENT" card design. Reviews likewise reuse the Pro addon's
+ * public hooks via Evently_Booking_Adapter::render_event_reviews().
  *
  * @package Evently
  */
@@ -62,43 +64,45 @@ do_action( 'evently_before_event_content' );
 
 <article class="evently-single-event">
 
-	<div class="evently-event-hero">
+	<div class="evently-event-hero<?php echo has_post_thumbnail() ? ' evently-event-hero--has-media' : ''; ?>">
 		<?php if ( has_post_thumbnail() ) : ?>
-			<div class="evently-event-hero__media">
-				<?php the_post_thumbnail( 'evently-hero', array( 'loading' => 'eager' ) ); ?>
+			<div class="evently-event-hero__media" aria-hidden="true">
+				<?php the_post_thumbnail( 'evently-hero', array( 'loading' => 'eager', 'alt' => '' ) ); ?>
 			</div>
 		<?php endif; ?>
 
 		<div class="evently-container evently-event-hero__content">
 			<p class="evently-breadcrumb evently-breadcrumb--on-media">
 				<a href="<?php echo esc_url( evently_get_events_page_url() ); ?>"><?php esc_html_e( 'All Events', 'evently' ); ?></a>
-				<span aria-hidden="true">/</span>
+				<span class="evently-breadcrumb__sep" aria-hidden="true">/</span>
 				<span><?php the_title(); ?></span>
 			</p>
 
-			<?php if ( $evently_category ) : ?>
-				<span class="evently-badge evently-badge--accent evently-event-hero__cat"><?php echo esc_html( $evently_category ); ?></span>
-			<?php endif; ?>
-
-			<h1 class="evently-event-hero__title"><?php the_title(); ?></h1>
-
-			<div class="evently-event-hero__meta">
-				<?php if ( $evently_timestamp ) : ?>
-					<span class="evently-event-hero__meta-item">
-						<?php evently_icon( 'calendar' ); ?>
-						<?php echo esc_html( wp_date( 'M j, Y', $evently_timestamp ) ); ?>
-					</span>
-					<span class="evently-event-hero__meta-item">
-						<?php evently_icon( 'ticket' ); ?>
-						<?php echo esc_html( wp_date( get_option( 'time_format' ), $evently_timestamp ) ); ?>
-					</span>
+			<div class="evently-event-hero__intro">
+				<?php if ( $evently_category ) : ?>
+					<span class="evently-badge evently-event-hero__cat"><?php echo esc_html( $evently_category ); ?></span>
 				<?php endif; ?>
-				<?php if ( $evently_location ) : ?>
-					<span class="evently-event-hero__meta-item">
-						<?php evently_icon( 'pin' ); ?>
-						<?php echo esc_html( $evently_location ); ?>
-					</span>
-				<?php endif; ?>
+
+				<h1 class="evently-event-hero__title"><?php the_title(); ?></h1>
+
+				<div class="evently-event-hero__meta">
+					<?php if ( $evently_timestamp ) : ?>
+						<span class="evently-event-hero__meta-item">
+							<?php evently_icon( 'calendar' ); ?>
+							<?php echo esc_html( wp_date( 'M j, Y', $evently_timestamp ) ); ?>
+						</span>
+						<span class="evently-event-hero__meta-item">
+							<?php evently_icon( 'clock' ); ?>
+							<?php echo esc_html( wp_date( get_option( 'time_format' ), $evently_timestamp ) ); ?>
+						</span>
+					<?php endif; ?>
+					<?php if ( $evently_location ) : ?>
+						<span class="evently-event-hero__meta-item">
+							<?php evently_icon( 'pin' ); ?>
+							<?php echo esc_html( $evently_location ); ?>
+						</span>
+					<?php endif; ?>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -290,6 +294,22 @@ do_action( 'evently_before_event_content' );
 							</details>
 						<?php endforeach; ?>
 					</div>
+				</section>
+			<?php endif; ?>
+
+			<?php
+			/*
+			 * Pro review addon (list + write/edit modal). Same public hooks the
+			 * plugin's Horizon/default templates use — only rendered when Pro
+			 * has loaded mep_event_review_list. Placement matches Horizon:
+			 * after the main content blocks, before related events.
+			 */
+			$evently_reviews_html = Evently_Booking_Adapter::render_event_reviews( $evently_event_id );
+			if ( $evently_reviews_html ) :
+				?>
+				<section class="evently-event-section evently-event-reviews" aria-label="<?php esc_attr_e( 'Event reviews', 'evently' ); ?>">
+					<h2><?php esc_html_e( 'Reviews', 'evently' ); ?></h2>
+					<?php echo $evently_reviews_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted Pro-rendered markup, see render_event_reviews() docblock. ?>
 				</section>
 			<?php endif; ?>
 

@@ -134,6 +134,14 @@ function evently_register_assets() {
 	wp_register_script( 'evently-modal', $js_dir . 'modal.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-gallery-lightbox', $js_dir . 'gallery-lightbox.js', array( 'evently-modal', 'jquery' ), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-booking-form', $js_dir . 'booking-form.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	// Attendee drawer needs jQuery + plugin qty/clone scripts (mpwem_script).
+	wp_register_script(
+		'evently-attendee-drawer',
+		$js_dir . 'attendee-drawer.js',
+		array( 'jquery' ),
+		$ver,
+		array( 'in_footer' => true )
+	);
 }
 add_action( 'init', 'evently_register_assets' );
 
@@ -220,6 +228,45 @@ function evently_enqueue_assets() {
 
 		wp_enqueue_script( 'evently-gallery-lightbox' );
 		wp_enqueue_script( 'evently-booking-form' );
+
+		// Per-ticket attendee form drawer (Horizon-parity UX for Evently template).
+		$evently_attendee_deps = array( 'jquery' );
+		if ( wp_script_is( 'mpwem_script', 'registered' ) || wp_script_is( 'mpwem_script', 'enqueued' ) ) {
+			$evently_attendee_deps[] = 'mpwem_script';
+		}
+		$evently_scripts = wp_scripts();
+		if ( isset( $evently_scripts->registered['evently-attendee-drawer'] ) ) {
+			$evently_scripts->registered['evently-attendee-drawer']->deps = array_values(
+				array_unique(
+					array_merge(
+						$evently_scripts->registered['evently-attendee-drawer']->deps,
+						$evently_attendee_deps
+					)
+				)
+			);
+		}
+		wp_enqueue_script( 'evently-attendee-drawer' );
+		$evently_same_attendee = 'no';
+		if ( class_exists( 'MPWEM_Global_Function' ) && method_exists( 'MPWEM_Global_Function', 'get_settings' ) ) {
+			$evently_same_attendee = (string) MPWEM_Global_Function::get_settings( 'general_setting_sec', 'mep_enable_same_attendee', 'no' );
+		}
+		wp_localize_script(
+			'evently-attendee-drawer',
+			'eventlyAttendeeI18n',
+			array(
+				'attendeeDetails'     => __( 'Enter attendee details', 'evently' ),
+				'attendeeEdit'        => __( 'Edit', 'evently' ),
+				'attendeeDrawerTitle' => __( 'Attendee details', 'evently' ),
+				'attendeeDrawerHelp'  => __( 'Complete the required fields for this ticket, then save.', 'evently' ),
+				'attendeeContinue'    => __( 'Save attendee details', 'evently' ),
+				'attendeeIncomplete'  => __( 'Required', 'evently' ),
+				'attendeeAdded'       => __( 'Attendee details added', 'evently' ),
+				'attendeeForTicket'   => __( 'Attendees for %s', 'evently' ),
+				'attendeeCardLabel'   => __( 'Attendee', 'evently' ),
+				'close'               => __( 'Close', 'evently' ),
+				'sameAttendee'        => $evently_same_attendee,
+			)
+		);
 	}
 
 	// Plugin details templates need Evently's fixed-header clearance + the

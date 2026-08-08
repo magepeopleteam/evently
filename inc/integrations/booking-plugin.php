@@ -499,6 +499,43 @@ class Evently_Booking_Adapter {
 	}
 
 	/**
+	 * Whether the Pro event-review addon is loaded (review list/form callbacks exist).
+	 *
+	 * Free mage-eventpress has no reviews UI; Pro bundles
+	 * woocommerce-event-manager-addon-review-rating, which registers
+	 * mep_event_review_list / mep_event_review_form on after-single-events
+	 * and mpwem_horizon_reviews.
+	 *
+	 * @return bool
+	 */
+	public static function has_event_reviews() {
+		return self::is_active() && function_exists( 'mep_event_review_list' );
+	}
+
+	/**
+	 * Real Pro review list + write/edit modal for the Evently single template.
+	 *
+	 * Mirrors the plugin's single-events.php / Horizon placement: fire
+	 * after-single-events (form, success notice, and list when the event's
+	 * details template is not horizon.php) then mpwem_horizon_reviews (list
+	 * only when the event template setting is horizon.php). The addon itself
+	 * skips the wrong hook so the list is never double-printed.
+	 *
+	 * @param int $event_id
+	 * @return string HTML. Trusted Pro-rendered markup — echo directly.
+	 */
+	public static function render_event_reviews( $event_id ) {
+		if ( ! self::has_event_reviews() || ! $event_id ) {
+			return '';
+		}
+
+		ob_start();
+		do_action( 'after-single-events' );
+		do_action( 'mpwem_horizon_reviews', $event_id );
+		return (string) ob_get_clean();
+	}
+
+	/**
 	 * Where "Book this event" should actually happen. This plugin puts the
 	 * whole ticket-selection + add-to-cart form on the event's own single
 	 * page (there's no separate booking-flow URL), so this is just the
