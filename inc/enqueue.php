@@ -163,6 +163,7 @@ function evently_enqueue_assets() {
 		wp_enqueue_script( 'evently-favorites' );
 		wp_enqueue_script( 'evently-calendar' );
 		wp_enqueue_script( 'evently-carousel' );
+		wp_enqueue_script( 'evently-filters' ); // Backs Choose Your Vibe's tab switching (template-parts/home/choose-vibe.php) — homepage-only section, so it needs its own enqueue here too, not just the Event Archive's.
 	}
 
 	if ( $is_event_context || is_page_template( 'page-templates/event-archive.php' ) ) {
