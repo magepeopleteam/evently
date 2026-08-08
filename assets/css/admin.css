@@ -1,82 +1,504 @@
 /**
- * Evently Setup + Theme Settings admin screens. Self-contained (doesn't
- * depend on the front-end design tokens) since it must render correctly
- * inside wp-admin regardless of the active theme's own styles.
+ * Evently Setup + Theme Settings — modern admin UI.
+ * Self-contained tokens so wp-admin stays correct regardless of front-end CSS.
+ * Plus Jakarta Sans is enqueued from inc/admin/admin.php.
  */
 
-/* No max-width here on purpose — WordPress's own .wrap (common.css) is
-   unconstrained on every native settings screen (Settings → General,
-   Reading, etc.), confirmed directly against core; narrowing it would read
-   as a custom-branded page again instead of a native one. */
-.evently-setup-intro {
-	font-size: 15px;
-	color: #50575e;
-	max-width: 640px;
+.evently-admin {
+	--ea-bg: #f4f4f1;
+	--ea-surface: #ffffff;
+	--ea-ink: #111113;
+	--ea-muted: #6f6f6a;
+	--ea-border: #e4e4df;
+	--ea-primary: #6c5ce7;
+	--ea-primary-soft: rgba(108, 92, 231, 0.12);
+	--ea-orange: #ff7657;
+	--ea-dark: #0b0b0d;
+	--ea-success: #15803d;
+	--ea-success-soft: #dcfce7;
+	--ea-warn: #b45309;
+	--ea-warn-soft: #fef3c7;
+	--ea-radius: 18px;
+	--ea-radius-sm: 12px;
+	--ea-shadow: 0 10px 40px rgba(11, 11, 13, 0.06);
+	--ea-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--ea-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+	margin: 20px 20px 20px 0;
+	max-width: 1080px;
+	font-family: var(--ea-font);
+	color: var(--ea-ink);
 }
 
-/* Both the Setup wizard and Theme Settings render their sections as plain
-   "<h2>{title}</h2><table class='form-table'>" now — the exact pattern
-   WordPress core's own do_settings_sections() uses on every native
-   settings screen (wp-admin/includes/template.php) — so no card/box
-   wrapper and no extra CSS needed for section chrome; common.css (loaded
-   on every admin screen already) covers .form-table/h2 typography. */
+.evently-admin *,
+.evently-admin *::before,
+.evently-admin *::after {
+	box-sizing: border-box;
+}
 
-.evently-setup-requirements {
+.evently-admin h1,
+.evently-admin h2,
+.evently-admin h3 {
+	font-family: var(--ea-font);
+	color: var(--ea-ink);
 	margin: 0;
 }
 
-.evently-setup-requirement {
+/* Hide default WP wrap h1 if any leftover — we use our hero. */
+.evently-admin > h1 {
+	display: none;
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────── */
+
+.evently-admin-hero {
+	position: relative;
+	overflow: hidden;
+	border-radius: 24px;
+	background:
+		radial-gradient(120% 140% at 100% 0%, rgba(255, 118, 87, 0.22) 0%, transparent 45%),
+		radial-gradient(90% 120% at 0% 100%, rgba(108, 92, 231, 0.35) 0%, transparent 50%),
+		linear-gradient(145deg, #141418 0%, #1c1b28 48%, #0f0f12 100%);
+	color: #fff;
+	margin-bottom: 28px;
+	box-shadow: 0 24px 60px rgba(11, 11, 13, 0.18);
+}
+
+.evently-admin-hero__glow {
+	position: absolute;
+	inset: auto -20% -40% auto;
+	width: 420px;
+	height: 420px;
+	background: radial-gradient(circle, rgba(108, 92, 231, 0.35) 0%, transparent 70%);
+	pointer-events: none;
+}
+
+.evently-admin-hero__inner {
+	position: relative;
+	padding: 28px 32px 32px;
+	display: grid;
+	gap: 22px;
+}
+
+.evently-admin-hero__brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.evently-admin-logo {
+	display: inline-flex;
+	color: var(--ea-primary);
+	filter: drop-shadow(0 6px 16px rgba(108, 92, 231, 0.45));
+}
+
+.evently-admin-logo-text {
+	font-size: 1.25rem;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+}
+
+.evently-admin-tabs {
+	display: inline-flex;
+	gap: 6px;
+	padding: 5px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	width: fit-content;
+}
+
+.evently-admin-tabs__link {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 16px;
+	border-radius: 999px;
+	color: rgba(255, 255, 255, 0.72) !important;
+	text-decoration: none !important;
+	font-size: 13px;
+	font-weight: 600;
+	transition: background 0.2s var(--ea-ease), color 0.2s var(--ea-ease);
+}
+
+.evently-admin-tabs__link:hover {
+	color: #fff !important;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.evently-admin-tabs__link.is-active {
+	background: #fff;
+	color: var(--ea-dark) !important;
+}
+
+.evently-admin-hero__copy h1 {
+	font-size: clamp(1.75rem, 3vw, 2.35rem);
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	line-height: 1.15;
+	color: #fff;
+	margin-bottom: 10px;
+}
+
+.evently-admin-hero__copy p {
+	margin: 0;
+	max-width: 560px;
+	font-size: 15px;
+	line-height: 1.55;
+	color: rgba(255, 255, 255, 0.72);
+}
+
+/* ── Setup steps ───────────────────────────────────────────────────── */
+
+.evently-setup-steps {
+	list-style: none;
+	margin: 0 0 24px;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+}
+
+.evently-setup-steps__item {
 	display: flex;
 	align-items: center;
 	gap: 12px;
-	padding: 12px 0;
-	border-bottom: 1px solid #f0f0f1;
+	padding: 14px 16px;
+	border-radius: var(--ea-radius-sm);
+	background: var(--ea-surface);
+	border: 1px solid var(--ea-border);
+	color: var(--ea-muted);
+	font-weight: 600;
+	font-size: 14px;
 }
 
-.evently-setup-requirement:last-child {
-	border-bottom: none;
-}
-
-.evently-setup-requirement__status {
+.evently-setup-steps__num {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	font-weight: 700;
-	font-size: 13px;
+	background: #eee;
+	color: var(--ea-muted);
+	font-size: 12px;
+	font-weight: 800;
 	flex-shrink: 0;
 }
 
-.evently-setup-requirement.is-ok .evently-setup-requirement__status {
-	background: #d1fae5;
-	color: #065f46;
+.evently-setup-steps__item.is-current {
+	border-color: rgba(108, 92, 231, 0.35);
+	box-shadow: 0 0 0 3px var(--ea-primary-soft);
+	color: var(--ea-ink);
 }
 
-.evently-setup-requirement.is-missing .evently-setup-requirement__status {
-	background: #fef3c7;
-	color: #92400e;
+.evently-setup-steps__item.is-current .evently-setup-steps__num,
+.evently-setup-steps__item.is-done .evently-setup-steps__num {
+	background: var(--ea-primary);
+	color: #fff;
 }
 
-.evently-setup-requirement__label {
-	flex: 1;
-	font-weight: 600;
+.evently-setup-steps__item.is-done {
+	color: var(--ea-ink);
 }
 
-.evently-setup-requirement__note {
-	color: #646970;
+/* ── Cards / stack ─────────────────────────────────────────────────── */
+
+.evently-admin-stack {
+	display: grid;
+	gap: 20px;
+}
+
+.evently-admin-card {
+	background: var(--ea-surface);
+	border: 1px solid var(--ea-border);
+	border-radius: var(--ea-radius);
+	padding: 28px;
+	box-shadow: var(--ea-shadow);
+	transition: border-color 0.25s var(--ea-ease), box-shadow 0.25s var(--ea-ease);
+}
+
+.evently-admin-card.is-spotlight {
+	border-color: rgba(108, 92, 231, 0.35);
+	box-shadow: 0 16px 48px rgba(108, 92, 231, 0.1);
+}
+
+.evently-admin-card__head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 22px;
+}
+
+.evently-admin-card__eyebrow {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ea-primary);
+	margin-bottom: 8px;
+}
+
+.evently-admin-card__head h2 {
+	font-size: 1.35rem;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	margin-bottom: 8px;
+}
+
+.evently-admin-card__head p {
+	margin: 0;
+	color: var(--ea-muted);
+	font-size: 14px;
+	line-height: 1.5;
+	max-width: 560px;
+}
+
+.evently-admin-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 6px 12px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.evently-admin-badge.is-success {
+	background: var(--ea-success-soft);
+	color: var(--ea-success);
+}
+
+.evently-admin-badge.is-warn {
+	background: var(--ea-warn-soft);
+	color: var(--ea-warn);
+}
+
+.evently-admin-callout {
+	border-radius: var(--ea-radius-sm);
+	padding: 14px 16px;
+	margin-bottom: 20px;
+}
+
+.evently-admin-callout.is-success {
+	background: var(--ea-success-soft);
+	color: var(--ea-success);
+}
+
+.evently-admin-callout strong {
+	display: block;
+	margin-bottom: 4px;
+}
+
+.evently-admin-callout p {
+	margin: 0;
 	font-size: 13px;
+	opacity: 0.9;
+}
+
+.evently-admin-hint {
+	margin: 10px 0 0;
+	font-size: 13px;
+	color: var(--ea-warn);
+}
+
+/* ── Plugin cards ──────────────────────────────────────────────────── */
+
+.evently-plugin-grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 12px;
+}
+
+.evently-plugin-card {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 16px;
+	padding: 16px 18px;
+	border-radius: var(--ea-radius-sm);
+	border: 1px solid var(--ea-border);
+	background: #fafaf7;
+	transition: transform 0.2s var(--ea-ease), border-color 0.2s var(--ea-ease);
+}
+
+.evently-plugin-card.is-ok {
+	border-color: rgba(21, 128, 61, 0.25);
+	background: linear-gradient(90deg, #f3faf5 0%, #fafaf7 40%);
+}
+
+.evently-plugin-card.is-missing {
+	border-color: rgba(180, 83, 9, 0.22);
+}
+
+.evently-plugin-card__icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	border: 1px solid var(--ea-border);
+	color: var(--ea-primary);
+}
+
+.evently-plugin-card.is-ok .evently-plugin-card__icon {
+	color: var(--ea-success);
+	border-color: rgba(21, 128, 61, 0.2);
+}
+
+.evently-plugin-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.evently-plugin-card__body strong {
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.evently-plugin-card__body span {
+	font-size: 13px;
+	color: var(--ea-muted);
+}
+
+.evently-plugin-card__status {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--ea-success);
+	background: var(--ea-success-soft);
+	padding: 6px 12px;
+	border-radius: 999px;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────── */
+
+.evently-btn {
+	appearance: none;
+	border: none;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 10px 16px;
+	border-radius: 999px;
+	font-family: var(--ea-font);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: transform 0.15s var(--ea-ease), box-shadow 0.2s var(--ea-ease), background 0.2s var(--ea-ease), opacity 0.2s;
+}
+
+.evently-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.evently-btn--primary {
+	background: var(--ea-primary);
+	color: #fff !important;
+	box-shadow: 0 8px 20px rgba(108, 92, 231, 0.28);
+}
+
+.evently-btn--primary:hover:not(:disabled) {
+	background: #5a4bd6;
+	transform: translateY(-1px);
+}
+
+.evently-btn--ghost {
+	background: #fff;
+	color: var(--ea-ink) !important;
+	border: 1px solid var(--ea-border);
+}
+
+.evently-btn--ghost:hover:not(:disabled) {
+	border-color: #ccc;
+	background: #fff;
+}
+
+.evently-btn--lg {
+	padding: 13px 22px;
+	font-size: 14px;
+}
+
+/* ── Demo picker / progress ────────────────────────────────────────── */
+
+.evently-demo-picker__label {
+	display: block;
+	font-size: 13px;
+	font-weight: 700;
+	margin-bottom: 8px;
+}
+
+.evently-demo-picker__row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+}
+
+.evently-select,
+.evently-input {
+	font-family: var(--ea-font);
+	font-size: 14px;
+	color: var(--ea-ink);
+	background: #fff;
+	border: 1px solid var(--ea-border);
+	border-radius: 12px;
+	padding: 11px 14px;
+	min-height: 44px;
+	max-width: 100%;
+	box-shadow: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.evently-select:focus,
+.evently-input:focus {
+	outline: none;
+	border-color: var(--ea-primary);
+	box-shadow: 0 0 0 3px var(--ea-primary-soft);
+}
+
+.evently-input {
+	width: 100%;
+	max-width: 420px;
+}
+
+.evently-input--sm {
+	max-width: 120px;
+}
+
+.evently-input--area {
+	max-width: 520px;
+	min-height: 96px;
+	resize: vertical;
+}
+
+.evently-demo-picker .evently-select {
+	min-width: min(100%, 340px);
+	flex: 1;
 }
 
 .evently-setup-progress {
-	margin-top: 16px;
+	margin-top: 20px;
+	padding: 16px;
+	border-radius: var(--ea-radius-sm);
+	background: #fafaf7;
+	border: 1px solid var(--ea-border);
 }
 
 .evently-setup-progress__bar {
 	height: 8px;
-	border-radius: 4px;
-	background: #f0f0f1;
+	border-radius: 999px;
+	background: #ebebe6;
 	overflow: hidden;
 	margin-bottom: 12px;
 }
@@ -84,14 +506,16 @@
 .evently-setup-progress__fill {
 	height: 100%;
 	width: 0%;
-	background: #6c5ce7;
-	transition: width 0.3s ease;
+	background: linear-gradient(90deg, var(--ea-primary), var(--ea-orange));
+	transition: width 0.35s var(--ea-ease);
 }
 
 .evently-setup-log {
 	margin: 0;
+	padding: 0;
+	list-style: none;
 	font-size: 13px;
-	color: #50575e;
+	color: var(--ea-muted);
 }
 
 .evently-setup-log li {
@@ -102,49 +526,331 @@
 	color: #b32d2e;
 }
 
-.evently-setup-links {
-	margin: 0;
-}
+/* ── Next steps ────────────────────────────────────────────────────── */
 
-.evently-setup-links li {
-	padding: 4px 0;
-}
-
-.evently-setup-editor-choice {
+.evently-next-grid {
 	display: grid;
-	grid-template-columns: repeat( 3, 1fr );
-	gap: 16px;
-	margin-top: 16px;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 12px;
 }
 
-@media ( max-width: 900px ) {
-	.evently-setup-editor-choice {
-		grid-template-columns: 1fr;
+.evently-next-card {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 18px;
+	border-radius: var(--ea-radius-sm);
+	border: 1px solid var(--ea-border);
+	background: #fafaf7;
+	text-decoration: none !important;
+	color: var(--ea-ink) !important;
+	transition: transform 0.2s var(--ea-ease), border-color 0.2s var(--ea-ease), background 0.2s var(--ea-ease);
+}
+
+.evently-next-card:hover {
+	transform: translateY(-2px);
+	border-color: rgba(108, 92, 231, 0.4);
+	background: #fff;
+}
+
+.evently-next-card__icon {
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--ea-primary-soft);
+	color: var(--ea-primary);
+	font-size: 14px;
+	margin-bottom: 4px;
+}
+
+.evently-next-card strong {
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.evently-next-card span:last-child {
+	font-size: 13px;
+	color: var(--ea-muted);
+	line-height: 1.4;
+}
+
+/* ── Settings layout ───────────────────────────────────────────────── */
+
+.evently-settings-layout {
+	display: grid;
+	grid-template-columns: 220px 1fr;
+	gap: 20px;
+	align-items: start;
+}
+
+.evently-settings-nav {
+	position: sticky;
+	top: 46px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 10px;
+	border-radius: var(--ea-radius);
+	background: var(--ea-surface);
+	border: 1px solid var(--ea-border);
+	box-shadow: var(--ea-shadow);
+}
+
+/* Radios are detached from the settings form via form="evently-tab-ui". */
+.evently-tab-radio {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.evently-settings-nav__btn {
+	appearance: none;
+	border: none;
+	background: transparent;
+	text-align: left;
+	padding: 11px 14px;
+	border-radius: 12px;
+	font-family: var(--ea-font);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--ea-muted);
+	cursor: pointer;
+	display: block;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.evently-settings-nav__btn:hover {
+	background: #f5f5f1;
+	color: var(--ea-ink);
+}
+
+.evently-settings-nav__btn.is-active {
+	background: var(--ea-primary-soft);
+	color: var(--ea-primary);
+}
+
+.evently-settings-panel {
+	display: none !important;
+}
+
+/* Pure CSS tab switching via radio labels — works even if admin JS fails. */
+.evently-settings-form:has(#evently-tab-general:checked) #evently-panel-general,
+.evently-settings-form:has(#evently-tab-colors:checked) #evently-panel-colors,
+.evently-settings-form:has(#evently-tab-events:checked) #evently-panel-events,
+.evently-settings-form:has(#evently-tab-archive:checked) #evently-panel-archive,
+.evently-settings-form:has(#evently-tab-single_event:checked) #evently-panel-single_event,
+.evently-settings-form:has(#evently-tab-footer:checked) #evently-panel-footer,
+.evently-settings-form:has(#evently-tab-social:checked) #evently-panel-social,
+.evently-settings-form:has(#evently-tab-performance:checked) #evently-panel-performance {
+	display: block !important;
+	animation: evently-panel-in 0.28s var(--ea-ease);
+}
+
+.evently-settings-form:has(#evently-tab-general:checked) label[for="evently-tab-general"],
+.evently-settings-form:has(#evently-tab-colors:checked) label[for="evently-tab-colors"],
+.evently-settings-form:has(#evently-tab-events:checked) label[for="evently-tab-events"],
+.evently-settings-form:has(#evently-tab-archive:checked) label[for="evently-tab-archive"],
+.evently-settings-form:has(#evently-tab-single_event:checked) label[for="evently-tab-single_event"],
+.evently-settings-form:has(#evently-tab-footer:checked) label[for="evently-tab-footer"],
+.evently-settings-form:has(#evently-tab-social:checked) label[for="evently-tab-social"],
+.evently-settings-form:has(#evently-tab-performance:checked) label[for="evently-tab-performance"] {
+	background: var(--ea-primary-soft);
+	color: var(--ea-primary);
+}
+
+/* Fallback when :has() is unavailable — JS toggles .is-active. */
+@supports not selector(:has(*)) {
+	.evently-settings-panel.is-active {
+		display: block !important;
+		animation: evently-panel-in 0.28s var(--ea-ease);
 	}
 }
 
-.evently-setup-editor-option {
-	border: 1px solid #dcdcde;
-	border-radius: 6px;
-	padding: 16px;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+@keyframes evently-panel-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
 }
 
-.evently-setup-editor-option.is-active {
-	border-color: #6c5ce7;
-	background: #f7f5ff;
+.evently-field-list {
+	display: grid;
+	gap: 4px;
 }
 
-.evently-setup-editor-option h3 {
-	margin: 0;
+.evently-field {
+	display: grid;
+	grid-template-columns: minmax(160px, 240px) 1fr;
+	gap: 16px 24px;
+	padding: 18px 4px;
+	border-top: 1px solid #f0f0ec;
+}
+
+.evently-field:first-child {
+	border-top: none;
+	padding-top: 4px;
+}
+
+.evently-field__label {
 	font-size: 14px;
+	font-weight: 700;
+	color: var(--ea-ink);
 }
 
-.evently-setup-editor-option p {
-	margin: 0;
+.evently-field__help {
+	margin: 8px 0 0;
+	font-size: 12px;
+	line-height: 1.45;
+	color: var(--ea-muted);
+	max-width: 480px;
+}
+
+.evently-field--toggle {
+	align-items: center;
+}
+
+/* Toggle switch */
+.evently-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.evently-toggle input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.evently-toggle__track {
+	width: 44px;
+	height: 26px;
+	border-radius: 999px;
+	background: #d9d9d3;
+	position: relative;
+	transition: background 0.2s ease;
+	flex-shrink: 0;
+}
+
+.evently-toggle__track::after {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	transition: transform 0.2s var(--ea-ease);
+}
+
+.evently-toggle input:checked + .evently-toggle__track {
+	background: var(--ea-primary);
+}
+
+.evently-toggle input:checked + .evently-toggle__track::after {
+	transform: translateX(18px);
+}
+
+.evently-toggle input:focus-visible + .evently-toggle__track {
+	box-shadow: 0 0 0 3px var(--ea-primary-soft);
+}
+
+.evently-toggle__text {
 	font-size: 13px;
-	color: #50575e;
-	flex: 1;
+	font-weight: 600;
+	color: var(--ea-muted);
+}
+
+.evently-settings-footer {
+	position: sticky;
+	bottom: 16px;
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 16px 20px;
+	border-radius: var(--ea-radius);
+	background: rgba(255, 255, 255, 0.92);
+	border: 1px solid var(--ea-border);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 12px 40px rgba(11, 11, 13, 0.1);
+	z-index: 5;
+}
+
+.evently-settings-footer__note {
+	font-size: 13px;
+	color: var(--ea-muted);
+}
+
+/* Color picker polish inside our panels */
+.evently-settings-panel .wp-picker-container {
+	display: inline-block;
+}
+
+.evently-theme-settings-wrap .notice,
+.evently-theme-settings-wrap .updated {
+	margin: 0 0 20px;
+	border-radius: 12px;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+	.evently-admin {
+		margin-right: 10px;
+	}
+
+	.evently-setup-steps {
+		grid-template-columns: 1fr;
+	}
+
+	.evently-settings-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.evently-settings-nav {
+		position: static;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.evently-next-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.evently-field {
+		grid-template-columns: 1fr;
+		gap: 8px;
+	}
+
+	.evently-plugin-card {
+		grid-template-columns: auto 1fr;
+	}
+
+	.evently-plugin-card .evently-btn,
+	.evently-plugin-card__status {
+		grid-column: 1 / -1;
+		justify-self: start;
+	}
+
+	.evently-admin-hero__inner {
+		padding: 22px;
+	}
 }

@@ -1,6 +1,5 @@
 /**
- * Evently Setup admin screen — real AJAX calls (import + WooCommerce
- * install), no simulated progress. Vanilla JS.
+ * Evently Setup + Theme Settings admin screens.
  *
  * @package Evently
  */
@@ -55,12 +54,6 @@
 		} );
 	}
 
-	// Elementor + mage-eventpress installers: one handler wired to every
-	// button that can trigger them — the Setup screen's Requirements card
-	// (#evently-install-elementor / #evently-install-booking) and the
-	// persistent admin notice's twins (#evently-notice-install-elementor /
-	// #evently-notice-install-booking) shown on every other wp-admin screen
-	// (see evently_required_plugins_notice() in inc/admin/setup-wizard.php).
 	function wireInstallButton( id, action ) {
 		var btn = document.getElementById( id );
 		if ( ! btn ) {
@@ -127,5 +120,62 @@
 					importBtn.disabled = false;
 				} );
 		} );
+	}
+
+	/* Theme Settings: sync label/panel classes + remember last tab.
+	   Primary switching is CSS (:has + radio labels) and works without JS. */
+	function initSettingsTabs() {
+		var form = document.getElementById( 'evently-settings-form' );
+		if ( ! form ) {
+			return;
+		}
+
+		var radios = form.querySelectorAll( '.evently-tab-radio' );
+		var labels = form.querySelectorAll( '.evently-settings-nav__btn' );
+		var panels = form.querySelectorAll( '[data-evently-panel]' );
+
+		function syncTab( id ) {
+			labels.forEach( function ( label ) {
+				label.classList.toggle( 'is-active', label.getAttribute( 'data-evently-tab' ) === id );
+			} );
+			panels.forEach( function ( panel ) {
+				panel.classList.toggle( 'is-active', panel.getAttribute( 'data-evently-panel' ) === id );
+			} );
+			try {
+				window.sessionStorage.setItem( 'eventlySettingsTab', id );
+			} catch ( e ) { /* ignore */ }
+		}
+
+		radios.forEach( function ( radio ) {
+			radio.addEventListener( 'change', function () {
+				if ( radio.checked ) {
+					syncTab( radio.value );
+				}
+			} );
+		} );
+
+		var saved = null;
+		try {
+			saved = window.sessionStorage.getItem( 'eventlySettingsTab' );
+		} catch ( e ) { /* ignore */ }
+
+		if ( saved ) {
+			var match = form.querySelector( '#evently-tab-' + saved );
+			if ( match ) {
+				match.checked = true;
+				syncTab( saved );
+			}
+		}
+	}
+
+	if ( document.readyState === 'loading' ) {
+		document.addEventListener( 'DOMContentLoaded', initSettingsTabs );
+	} else {
+		initSettingsTabs();
+	}
+
+	/* Color pickers */
+	if ( window.jQuery && jQuery.fn.wpColorPicker ) {
+		jQuery( '.evently-color-field' ).wpColorPicker();
 	}
 } )();

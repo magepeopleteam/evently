@@ -26,24 +26,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 function evently_get_settings_fields() {
 	return array(
 		// General.
-		'create_event_url'        => array( 'label' => __( 'Create Event URL', 'evently' ), 'section' => 'general', 'type' => 'url', 'default' => '', 'description' => __( 'Where the header/footer "Create Event" buttons link. Leave empty to use the admin new-event screen.', 'evently' ), 'placeholder' => admin_url( 'post-new.php?post_type=mep_events' ) ),
-		'events_page_id'          => array( 'label' => __( 'Events Page', 'evently' ), 'section' => 'general', 'type' => 'page', 'default' => 0, 'description' => __( 'The page using the "Evently — Event Archive" template. Auto-detected if left unset.', 'evently' ) ),
+		'create_event_url'         => array( 'label' => __( 'Create Event URL', 'evently' ), 'section' => 'general', 'type' => 'url', 'default' => '', 'description' => __( 'Where the header/footer "Create Event" buttons link. Leave empty to use the admin new-event screen.', 'evently' ), 'placeholder' => admin_url( 'post-new.php?post_type=mep_events' ) ),
+		'events_page_id'           => array( 'label' => __( 'Events Page', 'evently' ), 'section' => 'general', 'type' => 'page', 'default' => 0, 'description' => __( 'The page using the "Evently — Event Archive" template. Auto-detected if left unset.', 'evently' ) ),
 
 		// Colors.
-		'color_primary'           => array( 'label' => __( 'Primary Accent', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#6C5CE7' ),
-		'color_orange'            => array( 'label' => __( 'Secondary Accent', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#FF7657' ),
-		'color_dark'              => array( 'label' => __( 'Dark', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#0B0B0D' ),
+		'color_primary'            => array( 'label' => __( 'Primary Accent', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#6C5CE7' ),
+		'color_orange'             => array( 'label' => __( 'Secondary Accent', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#FF7657' ),
+		'color_dark'               => array( 'label' => __( 'Dark', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#0B0B0D' ),
 
 		// Events / Archive.
 		'archive_columns_per_page' => array( 'label' => __( 'Events per page', 'evently' ), 'section' => 'archive', 'type' => 'number', 'default' => 12 ),
-		'archive_default_view'    => array( 'label' => __( 'Default archive view', 'evently' ), 'section' => 'archive', 'type' => 'select', 'default' => 'grid', 'options' => array( 'grid' => __( 'Grid', 'evently' ), 'list' => __( 'List', 'evently' ) ) ),
-		'show_price'              => array( 'label' => __( 'Show price on cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
-		'show_location'           => array( 'label' => __( 'Show location on cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
-		'show_favorite'           => array( 'label' => __( 'Show favorite button on cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
-		'show_rating'             => array( 'label' => __( 'Show rating on featured cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
+		'archive_default_view'     => array( 'label' => __( 'Default archive view', 'evently' ), 'section' => 'archive', 'type' => 'select', 'default' => 'grid', 'options' => array( 'grid' => __( 'Grid', 'evently' ), 'list' => __( 'List', 'evently' ) ) ),
+		'show_price'               => array( 'label' => __( 'Show price on cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
+		'show_location'            => array( 'label' => __( 'Show location on cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
+		'show_favorite'            => array( 'label' => __( 'Show favorite button on cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
+		'show_rating'              => array( 'label' => __( 'Show rating on featured cards', 'evently' ), 'section' => 'events', 'type' => 'checkbox', 'default' => 1 ),
 
 		// Single event.
-		'single_event_template'   => array(
+		'single_event_template'    => array(
 			'label'       => __( 'Event details page', 'evently' ),
 			'section'     => 'single_event',
 			'type'        => 'select',
@@ -54,32 +54,19 @@ function evently_get_settings_fields() {
 			),
 			'description' => __( 'Choose whether single event pages use Evently\'s design or the Event Booking Manager plugin\'s own details templates (including the layout selected in plugin settings).', 'evently' ),
 		),
-		'show_related_events'     => array( 'label' => __( 'Show related events', 'evently' ), 'section' => 'single_event', 'type' => 'checkbox', 'default' => 1, 'description' => __( 'Only applies when Event details page is set to Theme.', 'evently' ) ),
-
-		// Hero (image/live-note), Featured Event (title/image/date/location/
-		// note), Near You (default city), Categories, Calendar, How It Works,
-		// Stats, Testimonials, Digital Ticket, Organizer Dashboard and Final
-		// CTA no longer have Theme Settings fields — Elementor is required
-		// now, every one of those sections has its own real Elementor widget
-		// controls (inc/integrations/elementor/class-widget-*.php), and the
-		// demo importer builds a real, pre-designed Elementor homepage (see
-		// Evently_Demo_Importer::import_homepage()) — so that content is
-		// edited directly in the Elementor editor, not through a separate
-		// wp-admin form. `create_event_url` is the one exception that stays
-		// above: the site header/footer's own "Create Event" button isn't
-		// part of any homepage widget, so it still needs a global setting.
+		'show_related_events'      => array( 'label' => __( 'Show related events', 'evently' ), 'section' => 'single_event', 'type' => 'checkbox', 'default' => 1, 'description' => __( 'Only applies when Event details page is set to Theme.', 'evently' ) ),
 
 		// Footer.
-		'footer_tagline'          => array( 'label' => __( 'Footer Tagline', 'evently' ), 'section' => 'footer', 'type' => 'textarea', 'default' => '', 'placeholder' => __( 'Discover experiences. Create memories.', 'evently' ) ),
+		'footer_tagline'           => array( 'label' => __( 'Footer Tagline', 'evently' ), 'section' => 'footer', 'type' => 'textarea', 'default' => '', 'placeholder' => __( 'Discover experiences. Create memories.', 'evently' ) ),
 
 		// Social.
-		'social_instagram'        => array( 'label' => __( 'Instagram URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://instagram.com/yourhandle' ),
-		'social_facebook'         => array( 'label' => __( 'Facebook URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://facebook.com/yourpage' ),
-		'social_x'                => array( 'label' => __( 'X (Twitter) URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://x.com/yourhandle' ),
-		'social_youtube'          => array( 'label' => __( 'YouTube URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://youtube.com/@yourchannel' ),
+		'social_instagram'         => array( 'label' => __( 'Instagram URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://instagram.com/yourhandle' ),
+		'social_facebook'          => array( 'label' => __( 'Facebook URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://facebook.com/yourpage' ),
+		'social_x'                 => array( 'label' => __( 'X (Twitter) URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://x.com/yourhandle' ),
+		'social_youtube'           => array( 'label' => __( 'YouTube URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://youtube.com/@yourchannel' ),
 
 		// Performance.
-		'lazy_load_images'        => array( 'label' => __( 'Lazy-load images', 'evently' ), 'section' => 'performance', 'type' => 'checkbox', 'default' => 1 ),
+		'lazy_load_images'         => array( 'label' => __( 'Lazy-load images', 'evently' ), 'section' => 'performance', 'type' => 'checkbox', 'default' => 1 ),
 	);
 }
 
@@ -99,6 +86,23 @@ function evently_get_settings_sections() {
 	);
 }
 
+/**
+ * Short descriptions shown under each settings tab heading.
+ *
+ * @return array<string,string>
+ */
+function evently_get_settings_section_intros() {
+	return array(
+		'general'      => __( 'Global links and the Events archive page used across the theme.', 'evently' ),
+		'colors'       => __( 'Brand accents used by buttons, highlights, and key UI surfaces.', 'evently' ),
+		'events'       => __( 'What appears on event cards across archives and grids.', 'evently' ),
+		'archive'      => __( 'Listing density and the default events archive layout.', 'evently' ),
+		'single_event' => __( 'How individual event detail pages are rendered.', 'evently' ),
+		'footer'       => __( 'Sitewide footer copy that sits under the Evently logo.', 'evently' ),
+		'social'       => __( 'Profile links shown in the footer social row.', 'evently' ),
+		'performance'  => __( 'Front-end performance toggles that keep pages light.', 'evently' ),
+	);
+}
 
 /**
  * Sanitize the whole `evently_settings` array on save.
@@ -180,7 +184,7 @@ function evently_register_settings() {
 add_action( 'admin_init', 'evently_register_settings' );
 
 /**
- * Render one settings field.
+ * Render one settings field control (without the outer row chrome).
  *
  * @param array $args {key, field}
  * @return void
@@ -191,24 +195,37 @@ function evently_render_settings_field( $args ) {
 	$value       = evently_get_setting( $key, $field['default'] );
 	$name        = "evently_settings[{$key}]";
 	$placeholder = isset( $field['placeholder'] ) ? $field['placeholder'] : '';
+	$id          = 'evently_field_' . $key;
 
 	switch ( $field['type'] ) {
 		case 'checkbox':
 			printf(
-				'<label><input type="checkbox" name="%1$s" value="1" %2$s /> %3$s</label>',
+				'<label class="evently-toggle" for="%1$s"><input type="checkbox" id="%1$s" name="%2$s" value="1" %3$s /><span class="evently-toggle__track" aria-hidden="true"></span><span class="evently-toggle__text">%4$s</span></label>',
+				esc_attr( $id ),
 				esc_attr( $name ),
 				checked( $value, 1, false ),
 				esc_html__( 'Enabled', 'evently' )
 			);
 			break;
 		case 'color':
-			printf( '<input type="text" class="evently-color-field" name="%1$s" value="%2$s" />', esc_attr( $name ), esc_attr( $value ) );
+			printf(
+				'<input type="text" class="evently-color-field" id="%1$s" name="%2$s" value="%3$s" data-default-color="%4$s" />',
+				esc_attr( $id ),
+				esc_attr( $name ),
+				esc_attr( $value ),
+				esc_attr( $field['default'] )
+			);
 			break;
 		case 'number':
-			printf( '<input type="number" min="1" max="48" name="%1$s" value="%2$s" class="small-text" />', esc_attr( $name ), esc_attr( $value ) );
+			printf(
+				'<input type="number" min="1" max="48" id="%1$s" name="%2$s" value="%3$s" class="evently-input evently-input--sm" />',
+				esc_attr( $id ),
+				esc_attr( $name ),
+				esc_attr( $value )
+			);
 			break;
 		case 'select':
-			echo '<select name="' . esc_attr( $name ) . '">';
+			echo '<select class="evently-select" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '">';
 			foreach ( $field['options'] as $option_value => $option_label ) {
 				printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $option_value ), selected( $value, $option_value, false ), esc_html( $option_label ) );
 			}
@@ -216,7 +233,8 @@ function evently_render_settings_field( $args ) {
 			break;
 		case 'textarea':
 			printf(
-				'<textarea name="%1$s" rows="3" class="large-text" placeholder="%2$s">%3$s</textarea>',
+				'<textarea id="%1$s" name="%2$s" rows="3" class="evently-input evently-input--area" placeholder="%3$s">%4$s</textarea>',
+				esc_attr( $id ),
 				esc_attr( $name ),
 				esc_attr( $placeholder ),
 				esc_textarea( $value )
@@ -226,15 +244,18 @@ function evently_render_settings_field( $args ) {
 			wp_dropdown_pages(
 				array(
 					'name'              => $name,
+					'id'                => $id,
 					'selected'          => $value,
 					'show_option_none'  => __( '— Auto-detect —', 'evently' ),
 					'option_none_value' => 0,
+					'class'             => 'evently-select',
 				)
 			);
 			break;
 		case 'url':
 			printf(
-				'<input type="url" name="%1$s" value="%2$s" class="regular-text" placeholder="%3$s" />',
+				'<input type="url" id="%1$s" name="%2$s" value="%3$s" class="evently-input" placeholder="%4$s" />',
+				esc_attr( $id ),
 				esc_attr( $name ),
 				esc_attr( $value ),
 				esc_attr( $placeholder ? $placeholder : 'https://' )
@@ -242,7 +263,8 @@ function evently_render_settings_field( $args ) {
 			break;
 		default:
 			printf(
-				'<input type="text" name="%1$s" value="%2$s" class="regular-text" placeholder="%3$s" />',
+				'<input type="text" id="%1$s" name="%2$s" value="%3$s" class="evently-input" placeholder="%4$s" />',
+				esc_attr( $id ),
 				esc_attr( $name ),
 				esc_attr( $value ),
 				esc_attr( $placeholder )
@@ -251,8 +273,24 @@ function evently_render_settings_field( $args ) {
 	}
 
 	if ( ! empty( $field['description'] ) ) {
-		printf( '<p class="description">%s</p>', esc_html( $field['description'] ) );
+		printf( '<p class="evently-field__help">%s</p>', esc_html( $field['description'] ) );
 	}
+}
+
+/**
+ * Fields belonging to a settings section.
+ *
+ * @param string $section_id Section slug.
+ * @return array
+ */
+function evently_get_fields_for_section( $section_id ) {
+	$fields = array();
+	foreach ( evently_get_settings_fields() as $key => $field ) {
+		if ( $field['section'] === $section_id ) {
+			$fields[ $key ] = $field;
+		}
+	}
+	return $fields;
 }
 
 /**
@@ -264,23 +302,92 @@ function evently_render_theme_settings_page() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
+
+	$sections = evently_get_settings_sections();
+	$intros   = evently_get_settings_section_intros();
+	$first    = array_key_first( $sections );
 	?>
-	<div class="wrap evently-setup-wrap evently-theme-settings-wrap">
-		<h1><?php esc_html_e( 'Evently Theme Settings', 'evently' ); ?></h1>
-		<form method="post" action="options.php">
-			<?php
-			// The exact same call every native WordPress settings screen
-			// (Settings → General, Reading, Discussion…) uses to render its
-			// sections — plain "<h2>{title}</h2><table class='form-table'>",
-			// no card/box wrapper at all (confirmed directly against
-			// wp-admin/includes/template.php's own do_settings_sections()).
-			// Each section here was already registered with add_settings_section()
-			// against the 'evently-settings' page in evently_register_settings()
-			// below, so this needs no per-section loop of our own anymore.
-			settings_fields( 'evently_settings_group' );
-			do_settings_sections( 'evently-settings' );
-			submit_button( __( 'Save Settings', 'evently' ) );
-			?>
+	<div class="wrap evently-admin evently-theme-settings-wrap">
+		<?php
+		evently_admin_page_header(
+			__( 'Theme Settings', 'evently' ),
+			__( 'Tune Evently brand colors, event cards, archive behavior, footer, and social links — without touching templates.', 'evently' ),
+			'settings'
+		);
+		?>
+
+		<?php settings_errors(); ?>
+
+		<form method="post" action="options.php" class="evently-settings-form" id="evently-settings-form">
+			<?php settings_fields( 'evently_settings_group' ); ?>
+
+			<?php foreach ( $sections as $section_id => $section_label ) : ?>
+				<input
+					type="radio"
+					name="evently_settings_ui_tab"
+					id="evently-tab-<?php echo esc_attr( $section_id ); ?>"
+					class="evently-tab-radio"
+					value="<?php echo esc_attr( $section_id ); ?>"
+					form="evently-tab-ui"
+					<?php checked( $section_id, $first ); ?>
+				>
+			<?php endforeach; ?>
+
+			<div class="evently-settings-layout">
+				<nav class="evently-settings-nav" aria-label="<?php esc_attr_e( 'Settings sections', 'evently' ); ?>">
+					<?php foreach ( $sections as $section_id => $section_label ) : ?>
+						<label
+							class="evently-settings-nav__btn<?php echo $section_id === $first ? ' is-active' : ''; ?>"
+							for="evently-tab-<?php echo esc_attr( $section_id ); ?>"
+							data-evently-tab="<?php echo esc_attr( $section_id ); ?>"
+						>
+							<?php echo esc_html( $section_label ); ?>
+						</label>
+					<?php endforeach; ?>
+				</nav>
+
+				<div class="evently-settings-panels">
+					<?php foreach ( $sections as $section_id => $section_label ) : ?>
+						<section
+							class="evently-admin-card evently-settings-panel<?php echo $section_id === $first ? ' is-active' : ''; ?>"
+							id="evently-panel-<?php echo esc_attr( $section_id ); ?>"
+							data-evently-panel="<?php echo esc_attr( $section_id ); ?>"
+						>
+							<div class="evently-admin-card__head">
+								<div>
+									<span class="evently-admin-card__eyebrow"><?php esc_html_e( 'Settings', 'evently' ); ?></span>
+									<h2><?php echo esc_html( $section_label ); ?></h2>
+									<?php if ( ! empty( $intros[ $section_id ] ) ) : ?>
+										<p><?php echo esc_html( $intros[ $section_id ] ); ?></p>
+									<?php endif; ?>
+								</div>
+							</div>
+
+							<div class="evently-field-list">
+								<?php foreach ( evently_get_fields_for_section( $section_id ) as $key => $field ) : ?>
+									<div class="evently-field<?php echo 'checkbox' === $field['type'] ? ' evently-field--toggle' : ''; ?>">
+										<div class="evently-field__meta">
+											<label class="evently-field__label" for="evently_field_<?php echo esc_attr( $key ); ?>">
+												<?php echo esc_html( $field['label'] ); ?>
+											</label>
+										</div>
+										<div class="evently-field__control">
+											<?php evently_render_settings_field( array( 'key' => $key, 'field' => $field ) ); ?>
+										</div>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						</section>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+			<div class="evently-settings-footer">
+				<button type="submit" class="evently-btn evently-btn--primary evently-btn--lg">
+					<?php esc_html_e( 'Save Settings', 'evently' ); ?>
+				</button>
+				<span class="evently-settings-footer__note"><?php esc_html_e( 'Changes apply sitewide after save.', 'evently' ); ?></span>
+			</div>
 		</form>
 	</div>
 	<?php

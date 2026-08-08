@@ -141,12 +141,6 @@ add_action( 'admin_init', 'evently_maybe_redirect_to_setup' );
 /**
  * Persistent admin notice — shown on every wp-admin screen while Evently is
  * active and either required plugin (Elementor, mage-eventpress) is missing.
- * This is the theme's actual enforcement mechanism: WordPress core has no
- * built-in way to block a theme's activation or auto-prompt plugin installs
- * from a `Requires Plugins` header (verified against this exact WP core
- * install — that header only affects plugin-to-plugin dependencies and
- * wordpress.org's own theme-directory install page), so Evently enforces
- * this itself, admin-side, via the two installers above.
  *
  * @return void
  */
@@ -193,6 +187,46 @@ function evently_required_plugins_notice() {
 add_action( 'admin_notices', 'evently_required_plugins_notice' );
 
 /**
+ * Shared admin page header used by Setup and Theme Settings.
+ *
+ * @param string $title   Page title.
+ * @param string $intro   Supporting sentence.
+ * @param string $active  Active nav slug: setup|settings.
+ * @return void
+ */
+function evently_admin_page_header( $title, $intro, $active = 'setup' ) {
+	?>
+	<header class="evently-admin-hero">
+		<div class="evently-admin-hero__glow" aria-hidden="true"></div>
+		<div class="evently-admin-hero__inner">
+			<div class="evently-admin-hero__brand">
+				<span class="evently-admin-logo" aria-hidden="true">
+					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<rect width="28" height="28" rx="8" fill="currentColor"/>
+						<path d="M8 10.5h12M8 14h8M8 17.5h10" stroke="#fff" stroke-width="1.75" stroke-linecap="round"/>
+						<circle cx="19.5" cy="9.5" r="2.25" fill="#FF7657"/>
+					</svg>
+				</span>
+				<span class="evently-admin-logo-text"><?php esc_html_e( 'Evently', 'evently' ); ?></span>
+			</div>
+			<nav class="evently-admin-tabs" aria-label="<?php esc_attr_e( 'Evently admin', 'evently' ); ?>">
+				<a class="evently-admin-tabs__link<?php echo 'setup' === $active ? ' is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=evently' ) ); ?>">
+					<?php esc_html_e( 'Setup', 'evently' ); ?>
+				</a>
+				<a class="evently-admin-tabs__link<?php echo 'settings' === $active ? ' is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=evently-settings' ) ); ?>">
+					<?php esc_html_e( 'Theme Settings', 'evently' ); ?>
+				</a>
+			</nav>
+			<div class="evently-admin-hero__copy">
+				<h1><?php echo esc_html( $title ); ?></h1>
+				<p><?php echo esc_html( $intro ); ?></p>
+			</div>
+		</div>
+	</header>
+	<?php
+}
+
+/**
  * Render the Evently Setup admin page.
  *
  * @return void
@@ -202,105 +236,197 @@ function evently_render_setup_wizard_page() {
 		return;
 	}
 
-	$has_elementor    = evently_has_elementor();
-	$has_booking      = evently_has_booking_plugin();
-	$has_woocommerce  = evently_has_woocommerce();
-	$is_imported      = class_exists( 'Evently_Demo_Importer' ) && Evently_Demo_Importer::is_imported();
-	$can_import       = $has_elementor && $has_booking;
+	$has_elementor   = evently_has_elementor();
+	$has_booking     = evently_has_booking_plugin();
+	$has_woocommerce = evently_has_woocommerce();
+	$is_imported     = class_exists( 'Evently_Demo_Importer' ) && Evently_Demo_Importer::is_imported();
+	$can_import      = $has_elementor && $has_booking;
+
+	$step1_done = $has_elementor && $has_booking;
+	$step2_done = $is_imported;
+	$active_step = ! $step1_done ? 1 : ( ! $step2_done ? 2 : 3 );
 	?>
-	<div class="wrap evently-setup-wrap">
-		<h1><?php esc_html_e( 'Evently Setup', 'evently' ); ?></h1>
-		<p class="evently-setup-intro">
-			<?php esc_html_e( 'Get Evently ready in a few steps: install the required plugins, then import the "All Events" demo — realistic categories, organizers, events with real ticket types, blog posts, the Events/Organizer Dashboard pages, and a fully pre-built, directly editable Elementor homepage.', 'evently' ); ?>
-		</p>
+	<div class="wrap evently-admin evently-setup-wrap">
+		<?php
+		evently_admin_page_header(
+			__( 'Get Evently ready', 'evently' ),
+			__( 'Install the required plugins, import the All Events demo, then jump into your live site — homepage, events, and booking wired up.', 'evently' ),
+			'setup'
+		);
+		?>
 
-		<h2><?php esc_html_e( '1. Required plugins', 'evently' ); ?></h2>
-			<ul class="evently-setup-requirements">
-				<li class="evently-setup-requirement <?php echo $has_elementor ? 'is-ok' : 'is-missing'; ?>">
-					<span class="evently-setup-requirement__status"><?php echo $has_elementor ? '✓' : '!'; ?></span>
-					<span class="evently-setup-requirement__label"><?php esc_html_e( 'Elementor (required)', 'evently' ); ?></span>
-					<?php if ( ! $has_elementor ) : ?>
-						<button type="button" class="button button-primary" id="evently-install-elementor">
-							<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
-						</button>
-					<?php else : ?>
-						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Active', 'evently' ); ?></span>
-					<?php endif; ?>
-				</li>
-				<li class="evently-setup-requirement <?php echo $has_booking ? 'is-ok' : 'is-missing'; ?>">
-					<span class="evently-setup-requirement__status"><?php echo $has_booking ? '✓' : '!'; ?></span>
-					<span class="evently-setup-requirement__label"><?php esc_html_e( 'mage-eventpress (required)', 'evently' ); ?></span>
-					<?php if ( ! $has_booking ) : ?>
-						<button type="button" class="button button-primary" id="evently-install-booking">
-							<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
-						</button>
-					<?php else : ?>
-						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Active', 'evently' ); ?></span>
-					<?php endif; ?>
-				</li>
-				<li class="evently-setup-requirement <?php echo $has_woocommerce ? 'is-ok' : 'is-missing'; ?>">
-					<span class="evently-setup-requirement__status"><?php echo $has_woocommerce ? '✓' : '!'; ?></span>
-					<span class="evently-setup-requirement__label"><?php esc_html_e( 'WooCommerce (optional — needed for ticket checkout)', 'evently' ); ?></span>
-					<?php if ( ! $has_woocommerce ) : ?>
-						<button type="button" class="button button-secondary" id="evently-install-woocommerce">
-							<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
-						</button>
-					<?php else : ?>
-						<span class="evently-setup-requirement__note"><?php esc_html_e( 'Active', 'evently' ); ?></span>
-					<?php endif; ?>
-				</li>
-			</ul>
+		<ol class="evently-setup-steps" aria-label="<?php esc_attr_e( 'Setup progress', 'evently' ); ?>">
+			<li class="evently-setup-steps__item<?php echo $step1_done ? ' is-done' : ''; ?><?php echo 1 === $active_step ? ' is-current' : ''; ?>">
+				<span class="evently-setup-steps__num"><?php echo $step1_done ? '✓' : '1'; ?></span>
+				<span class="evently-setup-steps__label"><?php esc_html_e( 'Plugins', 'evently' ); ?></span>
+			</li>
+			<li class="evently-setup-steps__item<?php echo $step2_done ? ' is-done' : ''; ?><?php echo 2 === $active_step ? ' is-current' : ''; ?>">
+				<span class="evently-setup-steps__num"><?php echo $step2_done ? '✓' : '2'; ?></span>
+				<span class="evently-setup-steps__label"><?php esc_html_e( 'Import', 'evently' ); ?></span>
+			</li>
+			<li class="evently-setup-steps__item<?php echo 3 === $active_step ? ' is-current is-done' : ''; ?>">
+				<span class="evently-setup-steps__num"><?php echo 3 === $active_step ? '✓' : '3'; ?></span>
+				<span class="evently-setup-steps__label"><?php esc_html_e( 'Explore', 'evently' ); ?></span>
+			</li>
+		</ol>
 
-		<h2><?php esc_html_e( '2. Import demo content', 'evently' ); ?></h2>
-
-			<?php if ( $is_imported ) : ?>
-				<div class="notice notice-success inline">
-					<p>
-						<?php
-						printf(
-							/* translators: %s: date/time of import. */
-							esc_html__( 'Demo content was already imported on %s. Running it again will not duplicate existing demo events/pages.', 'evently' ),
-							esc_html( get_option( 'evently_demo_imported_at', '' ) )
-						);
-						?>
-					</p>
+		<div class="evently-admin-stack">
+			<section class="evently-admin-card<?php echo 1 === $active_step ? ' is-spotlight' : ''; ?>" id="evently-step-plugins">
+				<div class="evently-admin-card__head">
+					<div>
+						<span class="evently-admin-card__eyebrow"><?php esc_html_e( 'Step 1', 'evently' ); ?></span>
+						<h2><?php esc_html_e( 'Required plugins', 'evently' ); ?></h2>
+						<p><?php esc_html_e( 'Elementor and Event Booking Manager power the homepage builder and ticket sales. WooCommerce is optional for checkout.', 'evently' ); ?></p>
+					</div>
+					<?php if ( $step1_done ) : ?>
+						<span class="evently-admin-badge is-success"><?php esc_html_e( 'Ready', 'evently' ); ?></span>
+					<?php else : ?>
+						<span class="evently-admin-badge is-warn"><?php esc_html_e( 'Action needed', 'evently' ); ?></span>
+					<?php endif; ?>
 				</div>
-			<?php endif; ?>
 
-			<p><?php esc_html_e( 'Choose a demo:', 'evently' ); ?></p>
-			<select id="evently-demo-select" disabled>
-				<option value="all-events"><?php esc_html_e( 'Evently — All Events (available now)', 'evently' ); ?></option>
-				<option value="concert" disabled><?php esc_html_e( 'Evently — Concert (coming soon)', 'evently' ); ?></option>
-				<option value="conference" disabled><?php esc_html_e( 'Evently — Conference (coming soon)', 'evently' ); ?></option>
-				<option value="wedding" disabled><?php esc_html_e( 'Evently — Wedding (coming soon)', 'evently' ); ?></option>
-				<option value="sports" disabled><?php esc_html_e( 'Evently — Sports (coming soon)', 'evently' ); ?></option>
-				<option value="workshop" disabled><?php esc_html_e( 'Evently — Workshop (coming soon)', 'evently' ); ?></option>
-			</select>
+				<ul class="evently-plugin-grid">
+					<li class="evently-plugin-card <?php echo $has_elementor ? 'is-ok' : 'is-missing'; ?>">
+						<div class="evently-plugin-card__icon" aria-hidden="true">
+							<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.75"/><path d="M8 8h8v3H8V8zm0 5h5v3H8v-3z" fill="currentColor"/></svg>
+						</div>
+						<div class="evently-plugin-card__body">
+							<strong><?php esc_html_e( 'Elementor', 'evently' ); ?></strong>
+							<span><?php esc_html_e( 'Required — homepage & page builder', 'evently' ); ?></span>
+						</div>
+						<?php if ( ! $has_elementor ) : ?>
+							<button type="button" class="evently-btn evently-btn--primary" id="evently-install-elementor">
+								<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
+							</button>
+						<?php else : ?>
+							<span class="evently-plugin-card__status"><?php esc_html_e( 'Active', 'evently' ); ?></span>
+						<?php endif; ?>
+					</li>
 
-			<p>
-				<button type="button" class="button button-primary button-hero" id="evently-run-import" <?php disabled( ! $can_import ); ?>>
-					<?php esc_html_e( 'Import Demo Content', 'evently' ); ?>
-				</button>
-			</p>
+					<li class="evently-plugin-card <?php echo $has_booking ? 'is-ok' : 'is-missing'; ?>">
+						<div class="evently-plugin-card__icon" aria-hidden="true">
+							<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z" stroke="currentColor" stroke-width="1.75"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M8 12h8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>
+						</div>
+						<div class="evently-plugin-card__body">
+							<strong><?php esc_html_e( 'Event Booking Manager', 'evently' ); ?></strong>
+							<span><?php esc_html_e( 'Required — events, tickets & booking', 'evently' ); ?></span>
+						</div>
+						<?php if ( ! $has_booking ) : ?>
+							<button type="button" class="evently-btn evently-btn--primary" id="evently-install-booking">
+								<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
+							</button>
+						<?php else : ?>
+							<span class="evently-plugin-card__status"><?php esc_html_e( 'Active', 'evently' ); ?></span>
+						<?php endif; ?>
+					</li>
 
-			<?php if ( ! $can_import ) : ?>
-				<p class="description"><?php esc_html_e( 'Install and activate both Elementor and mage-eventpress above before importing — the homepage and events cannot be created without them.', 'evently' ); ?></p>
-			<?php endif; ?>
+					<li class="evently-plugin-card <?php echo $has_woocommerce ? 'is-ok' : 'is-missing'; ?>">
+						<div class="evently-plugin-card__icon" aria-hidden="true">
+							<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 7h15l-1.5 9H8L6 7zm0 0L5 4H2" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="18" cy="20" r="1.5" fill="currentColor"/></svg>
+						</div>
+						<div class="evently-plugin-card__body">
+							<strong><?php esc_html_e( 'WooCommerce', 'evently' ); ?></strong>
+							<span><?php esc_html_e( 'Optional — ticket checkout', 'evently' ); ?></span>
+						</div>
+						<?php if ( ! $has_woocommerce ) : ?>
+							<button type="button" class="evently-btn evently-btn--ghost" id="evently-install-woocommerce">
+								<?php esc_html_e( 'Install & Activate', 'evently' ); ?>
+							</button>
+						<?php else : ?>
+							<span class="evently-plugin-card__status"><?php esc_html_e( 'Active', 'evently' ); ?></span>
+						<?php endif; ?>
+					</li>
+				</ul>
+			</section>
 
-			<div id="evently-import-progress" class="evently-setup-progress" hidden>
-				<div class="evently-setup-progress__bar"><div class="evently-setup-progress__fill"></div></div>
-				<ul id="evently-import-log" class="evently-setup-log"></ul>
-			</div>
+			<section class="evently-admin-card<?php echo 2 === $active_step ? ' is-spotlight' : ''; ?>" id="evently-step-import">
+				<div class="evently-admin-card__head">
+					<div>
+						<span class="evently-admin-card__eyebrow"><?php esc_html_e( 'Step 2', 'evently' ); ?></span>
+						<h2><?php esc_html_e( 'Import demo content', 'evently' ); ?></h2>
+						<p><?php esc_html_e( 'Categories, organizers, ticketed events, blog posts, dashboard pages, and a fully built Elementor homepage.', 'evently' ); ?></p>
+					</div>
+					<?php if ( $is_imported ) : ?>
+						<span class="evently-admin-badge is-success"><?php esc_html_e( 'Imported', 'evently' ); ?></span>
+					<?php endif; ?>
+				</div>
 
-		<h2><?php esc_html_e( '3. Next steps', 'evently' ); ?></h2>
-			<ul class="evently-setup-links">
 				<?php if ( $is_imported ) : ?>
-					<li><a href="<?php echo esc_url( admin_url( 'post.php?post=' . (int) get_option( 'page_on_front' ) . '&action=elementor' ) ); ?>"><?php esc_html_e( 'Edit Homepage with Elementor →', 'evently' ); ?></a></li>
+					<div class="evently-admin-callout is-success">
+						<strong><?php esc_html_e( 'Demo already imported', 'evently' ); ?></strong>
+						<p>
+							<?php
+							printf(
+								/* translators: %s: date/time of import. */
+								esc_html__( 'Imported on %s. Running again will not duplicate existing demo events or pages.', 'evently' ),
+								esc_html( get_option( 'evently_demo_imported_at', '' ) )
+							);
+							?>
+						</p>
+					</div>
 				<?php endif; ?>
-				<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=evently-settings' ) ); ?>"><?php esc_html_e( 'Configure Evently Theme Settings →', 'evently' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php esc_html_e( 'View your homepage →', 'evently' ); ?></a></li>
-				<li><a href="<?php echo esc_url( evently_get_events_page_url() ); ?>" target="_blank"><?php esc_html_e( 'View the Events page →', 'evently' ); ?></a></li>
-			</ul>
+
+				<div class="evently-demo-picker">
+					<label class="evently-demo-picker__label" for="evently-demo-select"><?php esc_html_e( 'Choose a demo', 'evently' ); ?></label>
+					<div class="evently-demo-picker__row">
+						<select id="evently-demo-select" class="evently-select" disabled>
+							<option value="all-events"><?php esc_html_e( 'Evently — All Events (available now)', 'evently' ); ?></option>
+							<option value="concert" disabled><?php esc_html_e( 'Evently — Concert (coming soon)', 'evently' ); ?></option>
+							<option value="conference" disabled><?php esc_html_e( 'Evently — Conference (coming soon)', 'evently' ); ?></option>
+							<option value="wedding" disabled><?php esc_html_e( 'Evently — Wedding (coming soon)', 'evently' ); ?></option>
+							<option value="sports" disabled><?php esc_html_e( 'Evently — Sports (coming soon)', 'evently' ); ?></option>
+							<option value="workshop" disabled><?php esc_html_e( 'Evently — Workshop (coming soon)', 'evently' ); ?></option>
+						</select>
+						<button type="button" class="evently-btn evently-btn--primary evently-btn--lg" id="evently-run-import" <?php disabled( ! $can_import ); ?>>
+							<?php esc_html_e( 'Import Demo Content', 'evently' ); ?>
+						</button>
+					</div>
+					<?php if ( ! $can_import ) : ?>
+						<p class="evently-admin-hint"><?php esc_html_e( 'Install and activate Elementor and Event Booking Manager before importing.', 'evently' ); ?></p>
+					<?php endif; ?>
+				</div>
+
+				<div id="evently-import-progress" class="evently-setup-progress" hidden>
+					<div class="evently-setup-progress__bar"><div class="evently-setup-progress__fill"></div></div>
+					<ul id="evently-import-log" class="evently-setup-log"></ul>
+				</div>
+			</section>
+
+			<section class="evently-admin-card<?php echo 3 === $active_step ? ' is-spotlight' : ''; ?>" id="evently-step-next">
+				<div class="evently-admin-card__head">
+					<div>
+						<span class="evently-admin-card__eyebrow"><?php esc_html_e( 'Step 3', 'evently' ); ?></span>
+						<h2><?php esc_html_e( 'Next steps', 'evently' ); ?></h2>
+						<p><?php esc_html_e( 'Polish your brand, edit the homepage, and open the site your visitors will see.', 'evently' ); ?></p>
+					</div>
+				</div>
+
+				<div class="evently-next-grid">
+					<?php if ( $is_imported ) : ?>
+						<a class="evently-next-card" href="<?php echo esc_url( admin_url( 'post.php?post=' . (int) get_option( 'page_on_front' ) . '&action=elementor' ) ); ?>">
+							<span class="evently-next-card__icon" aria-hidden="true">✎</span>
+							<strong><?php esc_html_e( 'Edit Homepage', 'evently' ); ?></strong>
+							<span><?php esc_html_e( 'Open the Elementor editor on your front page.', 'evently' ); ?></span>
+						</a>
+					<?php endif; ?>
+					<a class="evently-next-card" href="<?php echo esc_url( admin_url( 'admin.php?page=evently-settings' ) ); ?>">
+						<span class="evently-next-card__icon" aria-hidden="true">◆</span>
+						<strong><?php esc_html_e( 'Theme Settings', 'evently' ); ?></strong>
+						<span><?php esc_html_e( 'Colors, archive layout, footer, and social links.', 'evently' ); ?></span>
+					</a>
+					<a class="evently-next-card" href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" rel="noopener noreferrer">
+						<span class="evently-next-card__icon" aria-hidden="true">↗</span>
+						<strong><?php esc_html_e( 'View Homepage', 'evently' ); ?></strong>
+						<span><?php esc_html_e( 'Preview the live front-end experience.', 'evently' ); ?></span>
+					</a>
+					<a class="evently-next-card" href="<?php echo esc_url( evently_get_events_page_url() ); ?>" target="_blank" rel="noopener noreferrer">
+						<span class="evently-next-card__icon" aria-hidden="true">▣</span>
+						<strong><?php esc_html_e( 'View Events', 'evently' ); ?></strong>
+						<span><?php esc_html_e( 'Browse the events archive page.', 'evently' ); ?></span>
+					</a>
+				</div>
+			</section>
+		</div>
 	</div>
 	<?php
 }
@@ -332,11 +458,7 @@ function evently_ajax_run_import() {
 add_action( 'wp_ajax_evently_run_import', 'evently_ajax_run_import' );
 
 /**
- * AJAX: install + activate WooCommerce via WordPress's own plugin API
- * (WooCommerce is a wordpress.org-hosted plugin, so this is a real,
- * ordinary plugin install — not a fabricated action). The booking plugin
- * itself is NOT wordpress.org-hosted, so it's never "installed" this way;
- * the setup screen only links out to it (see evently_render_setup_wizard_page()).
+ * AJAX: install + activate WooCommerce via WordPress's own plugin API.
  *
  * @return void
  */
