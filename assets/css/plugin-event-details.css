@@ -40,7 +40,39 @@ body.single-mep_events .evently-main .mpwem_container {
 
 /* Horizon uses its own shell (and zeros the parent wrappers). */
 body.single-mep_events .horizon_theme {
+	/* Match Evently typography — Horizon ships Outfit + Playfair by default. */
+	--hz-sans: var(--evently-font-sans);
+	--hz-serif: var(--evently-font-sans);
+	font-family: var(--evently-font-sans) !important;
 	padding-bottom: var(--evently-space-7);
+}
+
+body.single-mep_events.mep-horizon-active {
+	--hz-sans: var(--evently-font-sans);
+	--hz-serif: var(--evently-font-sans);
+}
+
+body.single-mep_events .horizon_theme h1,
+body.single-mep_events .horizon_theme h2,
+body.single-mep_events .horizon_theme h3,
+body.single-mep_events .horizon_theme .horizon_section_title,
+body.single-mep_events .horizon_theme .horizon_hero_title,
+body.single-mep_events .horizon_theme .horizon_hero_badge,
+body.single-mep_events .horizon_theme .horizon_hero_desc,
+body.single-mep_events .horizon_theme .horizon_hero_desc_more,
+body.single-mep_events .horizon_theme button,
+body.single-mep_events .horizon_theme input,
+body.single-mep_events .horizon_theme select,
+body.single-mep_events .horizon_theme textarea {
+	font-family: var(--evently-font-sans) !important;
+}
+
+body.single-mep_events.mep-horizon-active .mage-modal,
+body.single-mep_events.mep-horizon-active .mage-modal h3,
+body.single-mep_events.mep-horizon-active .mage-modal button,
+body.single-mep_events.mep-horizon-active .mage-modal input,
+body.single-mep_events.mep-horizon-active .mage-modal textarea {
+	font-family: var(--evently-font-sans) !important;
 }
 
 body.single-mep_events .horizon_theme .horizon_shell {
@@ -53,10 +85,12 @@ body.single-mep_events .horizon_theme .horizon_shell {
 	box-sizing: border-box;
 }
 
-/* Horizon hero sits above the shell — match the same content track. */
+/* Horizon hero sits above the shell — same top clearance as Default/Smart/Virtual
+   (no extra 24px margin that makes the fixed header feel taller). */
 body.single-mep_events .horizon_theme .horizon_hero {
 	width: calc(100% - (var(--evently-pad) * 2));
 	max-width: var(--evently-max);
+	margin-top: 0 !important;
 	margin-left: auto;
 	margin-right: auto;
 	box-sizing: border-box;

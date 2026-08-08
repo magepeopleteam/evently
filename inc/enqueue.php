@@ -295,6 +295,21 @@ function evently_enqueue_assets() {
 	// Plugin details templates need Evently's fixed-header clearance + the
 	// same max-width/pad track as .site-header / .evently-container.
 	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && evently_use_plugin_event_details() ) {
+		// Load after Horizon CSS when that template is active so Evently font /
+		// spacing overrides win over Outfit + Playfair and the extra hero top margin.
+		if ( wp_style_is( 'mpwem_horizon_theme', 'registered' ) ) {
+			$evently_styles = wp_styles();
+			if ( isset( $evently_styles->registered['evently-plugin-event-details'] ) ) {
+				$evently_styles->registered['evently-plugin-event-details']->deps = array_values(
+					array_unique(
+						array_merge(
+							$evently_styles->registered['evently-plugin-event-details']->deps,
+							array( 'mpwem_horizon_theme' )
+						)
+					)
+				);
+			}
+		}
 		wp_enqueue_style( 'evently-plugin-event-details' );
 		// Read more on description + Pro review modal polish (shared with theme skin).
 		wp_enqueue_script( 'evently-single-event' );
