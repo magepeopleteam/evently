@@ -1204,25 +1204,25 @@ body.single-mep_events .default_theme .mpwem_related_area {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Default Theme — gallery hero (full-bleed single image)
-   Plugin markup: .mpwem_slider_area > .superSlider (+ right showcase).
-   Showcase is hidden; arrows + zoom sit in a right rail; zoom opens
-   the existing .sliderPopup lightbox for the full gallery.
+   Default Theme — Slider Style Two gallery hero
+   Scope: .mpwem_slider_area:has(.mpwem-slider--style-2)
+   Full-bleed image, View All (top-left), photo count (bottom-left),
+   arrows (bottom-right). Click image opens .sliderPopup zoom/slide.
    ═══════════════════════════════════════════════════════════════════ */
 
-body.single-mep_events .default_theme .mpwem_slider_area {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) {
 	margin: 0 0 var(--evently-space-4) !important;
 	padding: 0 !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area > .superSlider.placeholder_area {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .superSlider.placeholder_area {
 	display: block !important;
 	overflow: visible !important;
 	background: transparent !important;
 	border-radius: 0 !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .superSlider > .dFlex {
 	display: block !important;
 	position: relative !important;
 	width: 100% !important;
@@ -1231,12 +1231,12 @@ body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex
 }
 
 /* Hide thumbnail rail — hero is one image at a time */
-body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex > .sliderShowcase {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .superSlider > .dFlex > .sliderShowcase {
 	display: none !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex > .sliderAllItem,
-body.single-mep_events .default_theme .mpwem_slider_area.evently-slider-hero .sliderAllItem.evently-slider-hero__stage {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .superSlider > .dFlex > .sliderAllItem,
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2).evently-slider-hero .sliderAllItem.evently-slider-hero__stage {
 	position: relative !important;
 	float: none !important;
 	width: 100% !important;
@@ -1252,7 +1252,7 @@ body.single-mep_events .default_theme .mpwem_slider_area.evently-slider-hero .sl
 	box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderAllItem > .sliderItem {
 	position: absolute !important;
 	inset: 0 !important;
 	float: none !important;
@@ -1270,22 +1270,22 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .slide
 	backface-visibility: hidden !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem.activeSlide {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderAllItem > .sliderItem.activeSlide {
 	z-index: 2 !important;
 	transform: translateX(0) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem.prevSlider {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderAllItem > .sliderItem.prevSlider {
 	z-index: 1 !important;
 	transform: translateX(-100%) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem.nextSlider {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderAllItem > .sliderItem.nextSlider {
 	z-index: 1 !important;
 	transform: translateX(100%) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem [data-bg-image] {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderAllItem > .sliderItem [data-bg-image] {
 	position: absolute !important;
 	inset: 0 !important;
 	width: 100% !important;
@@ -1299,12 +1299,12 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .slide
 	cursor: zoom-in !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderAllItem > .sliderItem [data-bg-image]:hover {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderAllItem > .sliderItem [data-bg-image]:hover {
 	transform: none !important;
 }
 
 /* Single featured image (no gallery) */
-body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .post_thumb {
 	position: relative !important;
 	overflow: hidden !important;
 	border-radius: 18px !important;
@@ -1313,7 +1313,7 @@ body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb {
 	background: var(--evently-surface-2, #eceff3) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb img {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .post_thumb img {
 	display: block !important;
 	width: 100% !important;
 	height: 100% !important;
@@ -1323,7 +1323,7 @@ body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb img {
 }
 
 /* Bottom-right prev / next in one horizontal row */
-body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail {
 	position: absolute !important;
 	z-index: 20 !important;
 	top: auto !important;
@@ -1340,11 +1340,11 @@ body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail {
 	pointer-events: none;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail > * {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail > * {
 	pointer-events: auto;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail .iconIndicator {
 	position: static !important;
 	top: auto !important;
 	left: auto !important;
@@ -1367,28 +1367,29 @@ body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .i
 	transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator:hover {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail .iconIndicator:hover {
 	background: var(--evently-primary) !important;
 	color: #fff !important;
 	transform: scale(1.04) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator:focus-visible {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail .iconIndicator:focus-visible {
 	outline: 2px solid var(--evently-primary) !important;
 	outline-offset: 3px !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator span {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail .iconIndicator span {
 	display: block !important;
 	line-height: 1 !important;
 }
 
 /* Hide stray plugin indicators still outside the rail (safety) */
-body.single-mep_events .default_theme .mpwem_slider_area.evently-slider-hero .sliderAllItem > .iconIndicator {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2).evently-slider-hero .sliderAllItem > .iconIndicator {
 	display: none !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-count {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-count,
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .mpwem-slider-style2__count {
 	position: absolute !important;
 	z-index: 15 !important;
 	left: 14px !important;
@@ -1407,14 +1408,46 @@ body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-count {
 	pointer-events: none;
 }
 
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .mpwem-slider-style2__view-all {
+	position: absolute !important;
+	z-index: 25 !important;
+	top: 14px !important;
+	left: 14px !important;
+	right: auto !important;
+	bottom: auto !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .mpwem-slider-style2__view-all-btn {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	margin: 0 !important;
+	padding: 10px 16px !important;
+	border: 0 !important;
+	border-radius: 10px !important;
+	background: #fff !important;
+	color: #374151 !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	line-height: 1.2 !important;
+	cursor: pointer !important;
+	box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16) !important;
+	transition: color 0.2s ease, transform 0.2s ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .mpwem-slider-style2__view-all-btn:hover {
+	color: #111827 !important;
+	transform: translateY(-1px) !important;
+}
+
 /* Lightbox popup */
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup {
 	background: rgba(8, 12, 20, 0.92) !important;
 	backdrop-filter: blur(8px);
 	-webkit-backdrop-filter: blur(8px);
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupHeader {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupHeader {
 	position: relative !important;
 	border-bottom: 0 !important;
 	background: transparent !important;
@@ -1422,7 +1455,7 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupHead
 	overflow: visible !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupHeader h2 {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupHeader h2 {
 	margin: 0 !important;
 	font-size: 1.125rem !important;
 	font-weight: 700 !important;
@@ -1431,8 +1464,8 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupHead
 }
 
 /* Always-visible close (plugin default places it off-screen at top: 100%) */
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup.in .popup_close,
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popup_close {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup.in .popup_close,
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popup_close {
 	position: fixed !important;
 	z-index: 111111120 !important;
 	top: 20px !important;
@@ -1454,31 +1487,31 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popup_clo
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popup_close:hover {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popup_close:hover {
 	background: #fff !important;
 	color: var(--evently-text) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody {
 	width: min(920px, 92vw) !important;
 	max-width: 92vw !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .sliderAllItem {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody .sliderAllItem {
 	height: min(68vh, 640px) !important;
 	max-height: 68vh !important;
 	border-radius: 14px !important;
 	background: #0b1220 !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .sliderItem [data-bg-image] {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody .sliderItem [data-bg-image] {
 	background-size: contain !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
 	transform: none !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .iconIndicator {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody .iconIndicator {
 	width: 48px !important;
 	height: 48px !important;
 	display: inline-flex !important;
@@ -1492,28 +1525,28 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody
 	transform: translateY(-50%) !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .iconIndicator.prevItem {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody .iconIndicator.prevItem {
 	left: 12px !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .iconIndicator.nextItem {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody .iconIndicator.nextItem {
 	right: 12px !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupFooter {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupFooter {
 	border-top: 0 !important;
 	background: transparent !important;
 	padding: 12px 16px 20px !important;
 	max-height: none !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicator {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .slideIndicator {
 	justify-content: center !important;
 	gap: 8px !important;
 	margin: 0 !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicatorItem {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .slideIndicatorItem {
 	width: 64px !important;
 	height: 48px !important;
 	margin: 0 !important;
@@ -1525,12 +1558,12 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndi
 	cursor: pointer !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicatorItem.activeSlide {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .slideIndicatorItem.activeSlide {
 	border-color: var(--evently-primary) !important;
 	opacity: 1 !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndicatorItem [data-bg-image] {
+body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .slideIndicatorItem [data-bg-image] {
 	width: 100% !important;
 	height: 100% !important;
 	min-height: 48px !important;
@@ -1540,37 +1573,37 @@ body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .slideIndi
 }
 
 @media (max-width: 767px) {
-	body.single-mep_events .default_theme .mpwem_slider_area > .superSlider > .dFlex > .sliderAllItem,
-	body.single-mep_events .default_theme .mpwem_slider_area.evently-slider-hero .sliderAllItem.evently-slider-hero__stage,
-	body.single-mep_events .default_theme .mpwem_slider_area > .post_thumb {
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .superSlider > .dFlex > .sliderAllItem,
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2).evently-slider-hero .sliderAllItem.evently-slider-hero__stage,
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) > .post_thumb {
 		aspect-ratio: 4 / 3;
 		border-radius: 14px !important;
 		max-height: min(420px, 58vh) !important;
 	}
 
-	body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail {
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail {
 		right: 10px !important;
 		bottom: 10px !important;
 		gap: 6px !important;
 	}
 
-	body.single-mep_events .default_theme .mpwem_slider_area .evently-slider-rail .iconIndicator {
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-rail .iconIndicator {
 		width: 40px !important;
 		height: 40px !important;
 	}
 
-	body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popup_close {
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popup_close {
 		top: 12px !important;
 		right: 12px !important;
 		width: 44px !important;
 		height: 44px !important;
 	}
 
-	body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody {
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody {
 		width: 96vw !important;
 	}
 
-	body.single-mep_events .default_theme .mpwem_slider_area .sliderPopup .popupBody .sliderAllItem {
+	body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .sliderPopup .popupBody .sliderAllItem {
 		height: min(52vh, 420px) !important;
 	}
 }

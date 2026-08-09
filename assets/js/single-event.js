@@ -47,8 +47,8 @@
 	}
 
 	/**
-	 * Plugin Default Theme gallery → full-bleed hero + right rail (arrows + zoom).
-	 * Zoom opens the existing .sliderPopup modal; main slides no longer open it.
+	 * Plugin Default Theme Style Two gallery → full-bleed hero + bottom-right arrows.
+	 * Click image / View All opens .sliderPopup (zoom + slide).
 	 */
 	function clearInlineSliderHeights( stage ) {
 		if ( ! stage ) {
@@ -133,7 +133,7 @@
 
 	function openGalleryPopup( shell, slideIndex ) {
 		var $ = window.jQuery;
-		if ( ! $ ) {
+		if ( ! $ || ! shell ) {
 			return;
 		}
 		var idx = slideIndex > 0 ? slideIndex : 1;
@@ -149,6 +149,143 @@
 		if ( proxy.parentNode ) {
 			proxy.parentNode.removeChild( proxy );
 		}
+	}
+
+	function initPluginGallery( root ) {
+		var areas = root.querySelectorAll( '.default_theme .mpwem_slider_area' );
+		if ( ! areas.length ) {
+			return;
+		}
+
+		Array.prototype.forEach.call( areas, function ( area ) {
+			if ( area.getAttribute( 'data-evently-slider-ready' ) ) {
+				return;
+			}
+
+			var shell = null;
+			var children = area.children;
+			var i;
+			for ( i = 0; i < children.length; i++ ) {
+				if ( children[ i ].classList && children[ i ].classList.contains( 'superSlider' ) && children[ i ].classList.contains( 'placeholder_area' ) ) {
+					shell = children[ i ];
+					break;
+				}
+			}
+			if ( ! shell || ! shell.classList.contains( 'mpwem-slider--style-2' ) ) {
+				return;
+			}
+
+			var stage = shell.querySelector( '.dFlex > .sliderAllItem' );
+			if ( ! stage ) {
+				return;
+			}
+
+			area.setAttribute( 'data-evently-slider-ready', '1' );
+			area.classList.add( 'evently-slider-hero' );
+			stage.classList.add( 'evently-slider-hero__stage' );
+			clearInlineSliderHeights( stage );
+
+			var slides = getHeroSlides( stage );
+			var total = slides.length;
+
+			// Click image → open lightbox with zoom/slide.
+			Array.prototype.forEach.call( slides, function ( item ) {
+				item.removeAttribute( 'data-target-popup' );
+				item.style.cursor = 'zoom-in';
+				item.setAttribute( 'role', 'button' );
+				item.setAttribute( 'tabindex', '0' );
+				item.setAttribute( 'aria-label', t( 'zoomGallery', 'View gallery' ) );
+				item.addEventListener( 'click', function ( event ) {
+					if ( event.target.closest && event.target.closest( '.iconIndicator, .evently-slider-rail, .mpwem-slider-style2__view-all' ) ) {
+						return;
+					}
+					event.preventDefault();
+					event.stopPropagation();
+					openGalleryPopup( shell, currentSlideIndex( stage ) );
+				} );
+				item.addEventListener( 'keydown', function ( event ) {
+					if ( event.key !== 'Enter' && event.key !== ' ' ) {
+						return;
+					}
+					event.preventDefault();
+					openGalleryPopup( shell, currentSlideIndex( stage ) );
+				} );
+			} );
+
+			ensurePopupClose( shell );
+
+			if ( total < 2 ) {
+				window.setTimeout( function () {
+					clearInlineSliderHeights( stage );
+				}, 50 );
+				return;
+			}
+
+			var rail = document.createElement( 'div' );
+			rail.className = 'evently-slider-rail';
+			rail.setAttribute( 'data-evently-slider-rail', '' );
+
+			var prev = null;
+			var next = null;
+			Array.prototype.forEach.call( stage.children, function ( child ) {
+				if ( ! child.classList || ! child.classList.contains( 'iconIndicator' ) ) {
+					return;
+				}
+				if ( child.classList.contains( 'prevItem' ) ) {
+					prev = child;
+				}
+				if ( child.classList.contains( 'nextItem' ) ) {
+					next = child;
+				}
+			} );
+
+			function bindArrow( el, delta ) {
+				if ( ! el ) {
+					return;
+				}
+				el.setAttribute( 'role', 'button' );
+				el.setAttribute( 'tabindex', '0' );
+				el.setAttribute( 'aria-label', delta < 0 ? t( 'prevImage', 'Previous image' ) : t( 'nextImage', 'Next image' ) );
+				el.addEventListener( 'click', function ( event ) {
+					event.preventDefault();
+					event.stopPropagation();
+					advanceHeroSlide( stage, delta );
+				} );
+				el.addEventListener( 'keydown', function ( event ) {
+					if ( event.key !== 'Enter' && event.key !== ' ' ) {
+						return;
+					}
+					event.preventDefault();
+					event.stopPropagation();
+					advanceHeroSlide( stage, delta );
+				} );
+				rail.appendChild( el );
+			}
+
+			bindArrow( prev, -1 );
+			bindArrow( next, 1 );
+			stage.appendChild( rail );
+
+			// Prefer plugin-rendered count badge; only add one if missing.
+			if ( ! shell.querySelector( '.mpwem-slider-style2__count' ) && ! stage.querySelector( '.evently-slider-count' ) ) {
+				var count = document.createElement( 'div' );
+				count.className = 'evently-slider-count';
+				count.setAttribute( 'aria-hidden', 'true' );
+				count.textContent = t( 'galleryCount', '%d photos' ).replace( '%d', String( total ) );
+				stage.appendChild( count );
+			}
+
+			// Plugin resize may re-apply inline heights after images load.
+			window.setTimeout( function () {
+				clearInlineSliderHeights( stage );
+			}, 50 );
+			window.setTimeout( function () {
+				clearInlineSliderHeights( stage );
+			}, 400 );
+			window.addEventListener( 'resize', function () {
+				clearInlineSliderHeights( stage );
+			} );
+		} );
 	}
 
 	function closeGalleryPopup( popup ) {
@@ -203,136 +340,6 @@
 			if ( event.key === 'Escape' && popup.classList.contains( 'in' ) ) {
 				closeGalleryPopup( popup );
 			}
-		} );
-	}
-
-	function initPluginGallery( root ) {
-		var areas = root.querySelectorAll( '.default_theme .mpwem_slider_area' );
-		if ( ! areas.length ) {
-			return;
-		}
-
-		Array.prototype.forEach.call( areas, function ( area ) {
-			if ( area.getAttribute( 'data-evently-slider-ready' ) ) {
-				return;
-			}
-
-			var shell = null;
-			var children = area.children;
-			var i;
-			for ( i = 0; i < children.length; i++ ) {
-				if ( children[ i ].classList && children[ i ].classList.contains( 'superSlider' ) && children[ i ].classList.contains( 'placeholder_area' ) ) {
-					shell = children[ i ];
-					break;
-				}
-			}
-			if ( ! shell ) {
-				return;
-			}
-
-			var stage = shell.querySelector( '.dFlex > .sliderAllItem' );
-			if ( ! stage ) {
-				return;
-			}
-
-			area.setAttribute( 'data-evently-slider-ready', '1' );
-			area.classList.add( 'evently-slider-hero' );
-			stage.classList.add( 'evently-slider-hero__stage' );
-			clearInlineSliderHeights( stage );
-
-			var slides = getHeroSlides( stage );
-			var total = slides.length;
-			if ( total < 2 ) {
-				return;
-			}
-
-			// Click image → open lightbox; arrows stay for prev/next only.
-			Array.prototype.forEach.call( slides, function ( item ) {
-				item.removeAttribute( 'data-target-popup' );
-				item.style.cursor = 'zoom-in';
-				item.setAttribute( 'role', 'button' );
-				item.setAttribute( 'tabindex', '0' );
-				item.setAttribute( 'aria-label', t( 'zoomGallery', 'View gallery' ) );
-				item.addEventListener( 'click', function ( event ) {
-					if ( event.target.closest && event.target.closest( '.iconIndicator, .evently-slider-rail' ) ) {
-						return;
-					}
-					event.preventDefault();
-					event.stopPropagation();
-					openGalleryPopup( shell, currentSlideIndex( stage ) );
-				} );
-				item.addEventListener( 'keydown', function ( event ) {
-					if ( event.key !== 'Enter' && event.key !== ' ' ) {
-						return;
-					}
-					event.preventDefault();
-					openGalleryPopup( shell, currentSlideIndex( stage ) );
-				} );
-			} );
-
-			var rail = document.createElement( 'div' );
-			rail.className = 'evently-slider-rail';
-			rail.setAttribute( 'data-evently-slider-rail', '' );
-
-			var prev = null;
-			var next = null;
-			Array.prototype.forEach.call( stage.children, function ( child ) {
-				if ( ! child.classList || ! child.classList.contains( 'iconIndicator' ) ) {
-					return;
-				}
-				if ( child.classList.contains( 'prevItem' ) ) {
-					prev = child;
-				}
-				if ( child.classList.contains( 'nextItem' ) ) {
-					next = child;
-				}
-			} );
-
-			function bindArrow( el, delta ) {
-				if ( ! el ) {
-					return;
-				}
-				el.setAttribute( 'role', 'button' );
-				el.setAttribute( 'tabindex', '0' );
-				el.setAttribute( 'aria-label', delta < 0 ? t( 'prevImage', 'Previous image' ) : t( 'nextImage', 'Next image' ) );
-				el.addEventListener( 'click', function ( event ) {
-					event.preventDefault();
-					event.stopPropagation();
-					advanceHeroSlide( stage, delta );
-				} );
-				el.addEventListener( 'keydown', function ( event ) {
-					if ( event.key !== 'Enter' && event.key !== ' ' ) {
-						return;
-					}
-					event.preventDefault();
-					event.stopPropagation();
-					advanceHeroSlide( stage, delta );
-				} );
-				rail.appendChild( el );
-			}
-
-			bindArrow( prev, -1 );
-			bindArrow( next, 1 );
-			stage.appendChild( rail );
-
-			ensurePopupClose( shell );
-
-			var count = document.createElement( 'div' );
-			count.className = 'evently-slider-count';
-			count.setAttribute( 'aria-hidden', 'true' );
-			count.textContent = t( 'galleryCount', '%d photos' ).replace( '%d', String( total ) );
-			stage.appendChild( count );
-
-			// Plugin resize may re-apply inline heights after images load.
-			window.setTimeout( function () {
-				clearInlineSliderHeights( stage );
-			}, 50 );
-			window.setTimeout( function () {
-				clearInlineSliderHeights( stage );
-			}, 400 );
-			window.addEventListener( 'resize', function () {
-				clearInlineSliderHeights( stage );
-			} );
 		} );
 	}
 
