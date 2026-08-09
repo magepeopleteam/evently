@@ -334,7 +334,7 @@ body.single-mep_events .mep_smart_theme .mpwem_sidebar_content {
 	display: flex !important;
 	flex-direction: column !important;
 	gap: 14px !important;
-	margin: 0 !important;
+	margin: 10px !important;
 	padding: 0 !important;
 	background: transparent !important;
 	border: 0 !important;
@@ -937,7 +937,6 @@ body.single-mep_events .default_theme .mpwem_registration_area,
 body.single-mep_events .default_theme .faq_area,
 body.single-mep_events .default_theme div.faq_area,
 body.single-mep_events .default_theme .mpwem_timeline_area,
-body.single-mep_events .default_theme .mep-event-tags-widget,
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
 	margin-top: var(--evently-dt-section-stack) !important;
 }
@@ -947,6 +946,7 @@ body.single-mep_events .default_theme .mep-event-tags-widget,
 body.single-mep_events .mep_smart_theme .mep-event-tags-widget {
 	margin-bottom: 0 !important;
 	padding: 0 !important;
+	margin-top: 0 !important;
 	border: 0 !important;
 	background: transparent !important;
 	box-shadow: none !important;
