@@ -57,6 +57,8 @@
 				}
 			?>
 			<?php do_action( 'mpwem_template_footer', $event_id ); ?>
+			<?php do_action( 'mpwem_default_reviews', $event_id ); ?>
+			<?php do_action( 'mpwem_related', $event_id, $event_infos ); ?>
         </div>
         <div class="mep-default-sidebar">
             <div class="df-sidebar-part">
@@ -86,6 +88,5 @@
             </div>
         </div>
     </div>
-	<?php do_action( 'mpwem_related', $event_id,$event_infos ); ?>
 	<?php do_action( 'mpwem_template_footer', $event_id ); ?>
 </div>
