@@ -783,7 +783,7 @@ body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_hea
 body.single-mep_events .default_theme .mpwem_related_area .related_title h3,
 body.single-mep_events .default_theme .mpwem_registration_area .section-title,
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title,
-body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel)::before {
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-title {
 	margin: 0 0 var(--evently-dt-section-title-gap) !important;
 	padding: 0 !important;
 	border: 0 !important;
@@ -801,12 +801,15 @@ body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel
 }
 
 /* In-panel / flex titles keep horizontal rhythm, not bottom margin */
-body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title,
-body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel)::before {
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title {
 	margin-bottom: 0 !important;
 }
 
 body.single-mep_events .default_theme .mpwem_related_area .related_title h3 {
+	margin-bottom: 0 !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-title {
 	margin-bottom: 0 !important;
 }
 
@@ -2476,12 +2479,11 @@ body.single-mep_events .default_theme .mep-default-sidebar .mpwem_calender_area 
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Default Theme — Event Timelines (modern rail + cards)
+   Default Theme — Event Timelines (panel + rail, matches FAQ)
    Scope: .default_theme .mpwem_timeline_area (plugin markup)
    ═══════════════════════════════════════════════════════════════════ */
 
 body.single-mep_events .default_theme .mpwem_timeline_area {
-	/* margin-top from shared section rhythm */
 	padding: 0 !important;
 	background: transparent !important;
 	border: 0 !important;
@@ -2506,100 +2508,121 @@ body.single-mep_events .default_theme .mpwem_timeline_area .timeline_body {
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area {
 	position: relative !important;
-	display: flex !important;
-	flex-direction: column !important;
-	gap: 14px !important;
+	display: block !important;
+	flex-direction: unset !important;
+	gap: 0 !important;
 	margin: 0 !important;
-	padding: 0 0 0 28px !important;
+	padding: 0 !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 14px !important;
+	background: var(--evently-white) !important;
+	overflow: hidden !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area::before {
 	content: "" !important;
 	position: absolute !important;
-	left: 7px !important;
-	top: 18px !important;
-	bottom: 18px !important;
-	width: 2px !important;
+	left: 27px !important;
+	top: 2rem !important;
+	bottom: 2rem !important;
+	width: 1px !important;
 	height: auto !important;
 	background: var(--evently-border) !important;
 	opacity: 1 !important;
 	z-index: 0 !important;
-	border-radius: 999px !important;
+	border-radius: 0 !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item {
 	position: relative !important;
 	margin: 0 !important;
-	padding: 0 !important;
+	padding: 18px 20px 18px 60px !important;
+	border: 0 !important;
+	border-bottom: 1px solid var(--evently-border) !important;
+	background: transparent !important;
+	transition: background var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:last-child {
+	border-bottom: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:hover,
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:has(.mp_wp_editor.mActive) {
+	background: rgba(11, 11, 13, 0.02) !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item .timeline_counter {
 	position: absolute !important;
-	left: -28px !important;
-	top: 22px !important;
+	left: 12px !important;
+	top: 18px !important;
 	z-index: 2 !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	width: 16px !important;
-	height: 16px !important;
-	min-width: 16px !important;
+	width: 28px !important;
+	height: 28px !important;
+	min-width: 28px !important;
 	padding: 0 !important;
-	border: 3px solid #c8c8d2 !important;
-	border-radius: 50% !important;
-	background: var(--evently-white) !important;
-	color: transparent !important;
-	font-size: 0 !important;
-	font-weight: 700 !important;
+	border: 0 !important;
+	border-radius: 999px !important;
+	background: rgba(11, 11, 13, 0.05) !important;
+	color: var(--evently-text) !important;
+	font-size: 12px !important;
+	font-weight: 600 !important;
 	line-height: 1 !important;
-	box-shadow: none !important;
+	box-shadow: 0 0 0 4px var(--evently-white) !important;
 	box-sizing: border-box !important;
+	transition:
+		background var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:first-child .timeline_counter,
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:has(.mp_wp_editor.mActive) .timeline_counter,
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:hover .timeline_counter {
-	background: var(--evently-primary) !important;
-	border-color: var(--evently-primary) !important;
-	box-shadow: 0 0 0 4px var(--evently-primary-soft) !important;
+	background: var(--evently-text) !important;
+	border-color: transparent !important;
+	color: var(--evently-white) !important;
+	box-shadow: 0 0 0 4px var(--evently-white) !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content {
 	margin: 0 !important;
-	padding: 16px 18px !important;
-	background: var(--evently-white) !important;
-	border: 1px solid var(--evently-border) !important;
-	border-radius: var(--evently-radius-md) !important;
-	box-shadow: var(--evently-shadow-soft) !important;
-	transition:
-		border-color 0.18s var(--evently-ease),
-		box-shadow 0.18s var(--evently-ease) !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	transition: none !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:first-child .timeline_content,
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:has(.mp_wp_editor.mActive) .timeline_content,
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:hover .timeline_content {
-	border-color: rgba(108, 92, 231, 0.28) !important;
-	box-shadow: 0 8px 24px rgba(11, 11, 13, 0.06) !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_header {
 	display: flex !important;
-	flex-wrap: wrap !important;
+	flex-wrap: nowrap !important;
 	align-items: center !important;
-	gap: 8px 10px !important;
-	margin: 0 0 2px !important;
+	justify-content: space-between !important;
+	gap: 12px 16px !important;
+	margin: 0 !important;
 	padding: 0 !important;
 	cursor: pointer !important;
 	user-select: none !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_tag {
-	display: inline-flex !important;
-	align-items: center !important;
-	order: 3 !important;
-	flex: 1 1 100% !important;
-	max-width: 100% !important;
+	display: block !important;
+	align-items: unset !important;
+	order: 0 !important;
+	flex: 1 1 auto !important;
+	max-width: none !important;
+	min-width: 0 !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	background: transparent !important;
@@ -2617,8 +2640,8 @@ body.single-mep_events .default_theme .mpwem_timeline_area .tl_title {
 	margin: 0 !important;
 	padding: 0 !important;
 	font-size: 16px !important;
-	font-weight: 700 !important;
-	line-height: 1.35 !important;
+	font-weight: 600 !important;
+	line-height: 1.4 !important;
 	letter-spacing: -0.01em !important;
 	color: var(--evently-text) !important;
 	text-transform: none !important;
@@ -2632,26 +2655,28 @@ body.single-mep_events .default_theme .mpwem_timeline_area .timeline_connector {
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_time {
-	order: 1 !important;
+	order: 0 !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	gap: 6px !important;
+	flex: 0 0 auto !important;
 	margin: 0 !important;
-	padding: 5px 11px !important;
-	border-radius: var(--evently-radius-pill) !important;
-	background: var(--evently-primary-soft) !important;
-	color: var(--evently-primary) !important;
-	font-size: 12px !important;
-	font-weight: 700 !important;
-	letter-spacing: 0.02em !important;
+	padding: 6px 10px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 6px !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-muted) !important;
+	font-size: 13px !important;
+	font-weight: 500 !important;
+	letter-spacing: 0 !important;
 	line-height: 1.2 !important;
 	white-space: nowrap !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_time i {
-	font-size: 11px !important;
+	font-size: 12px !important;
 	line-height: 1 !important;
-	opacity: 0.9 !important;
+	opacity: 0.8 !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor {
@@ -2662,8 +2687,8 @@ body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp
 	border: 0 !important;
 	border-radius: 0 !important;
 	box-shadow: none !important;
-	font-size: 14px !important;
-	line-height: 1.6 !important;
+	font-size: 15px !important;
+	line-height: 1.65 !important;
 	color: var(--evently-muted) !important;
 }
 
@@ -2682,8 +2707,8 @@ body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor p {
 	margin: 0 0 0.5em !important;
 	color: var(--evently-muted) !important;
-	font-size: 14px !important;
-	line-height: 1.6 !important;
+	font-size: 15px !important;
+	line-height: 1.65 !important;
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content .mp_wp_editor p:last-child {
@@ -2704,7 +2729,7 @@ body.single-mep_events .default_theme .mpwem_registration_area {
 	box-shadow: none !important;
 }
 
-/* Outer shell — soft surface panel, matches sidebar cards */
+/* Outer shell — matches FAQ / timeline panels */
 body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel,
 body.single-mep_events .default_theme .mpwem_booking_panel {
 	display: flex !important;
@@ -2714,9 +2739,9 @@ body.single-mep_events .default_theme .mpwem_booking_panel {
 	padding: 0 !important;
 	background: var(--evently-white) !important;
 	border: 1px solid var(--evently-border) !important;
-	border-radius: 20px !important;
+	border-radius: 14px !important;
 	overflow: hidden !important;
-	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.05) !important;
+	box-shadow: none !important;
 	box-sizing: border-box !important;
 }
 
@@ -2927,7 +2952,7 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item:last
 }
 
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item:hover {
-	background: rgba(108, 92, 231, 0.04) !important;
+	background: rgba(11, 11, 13, 0.02) !important;
 	border-color: var(--evently-border) !important;
 	box-shadow: none !important;
 }
@@ -2974,8 +2999,9 @@ body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_pa
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-name {
 	margin: 0 !important;
 	font-size: 16px !important;
-	font-weight: 700 !important;
-	line-height: 1.3 !important;
+	font-weight: 600 !important;
+	line-height: 1.35 !important;
+	letter-spacing: -0.01em !important;
 	color: var(--evently-text) !important;
 	text-align: left !important;
 }
@@ -3030,7 +3056,7 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .tic
 	margin: 0 !important;
 	padding: 0 !important;
 	font-size: 18px !important;
-	font-weight: 800 !important;
+	font-weight: 700 !important;
 	letter-spacing: -0.02em !important;
 	line-height: 1.2 !important;
 	color: var(--evently-text) !important;
@@ -3043,7 +3069,7 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .tic
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-price bdi,
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .ticket-price .woocommerce-Price-currencySymbol {
 	font-size: 18px !important;
-	font-weight: 800 !important;
+	font-weight: 700 !important;
 	line-height: 1.2 !important;
 	color: var(--evently-text) !important;
 }
@@ -3064,19 +3090,19 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .tic
 	flex: none !important;
 }
 
-/* Quantity stepper — compact pill */
+/* Quantity stepper — compact bordered control */
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qtyIncDec {
 	display: inline-flex !important;
 	align-items: center !important;
-	gap: 2px !important;
+	gap: 0 !important;
 	margin: 0 !important;
 	padding: 3px !important;
 	height: auto !important;
-	min-width: 108px !important;
-	background: var(--evently-surface) !important;
+	min-width: 0 !important;
+	background: var(--evently-white) !important;
 	border: 1px solid var(--evently-border) !important;
-	border-radius: var(--evently-radius-pill) !important;
-	overflow: visible !important;
+	border-radius: 8px !important;
+	overflow: hidden !important;
 	box-shadow: none !important;
 }
 
@@ -3085,30 +3111,29 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .inc
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	width: 30px !important;
-	height: 30px !important;
-	min-width: 30px !important;
+	width: 32px !important;
+	height: 32px !important;
+	min-width: 32px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	border: 0 !important;
-	border-radius: 50% !important;
-	background: var(--evently-white) !important;
+	border-radius: 6px !important;
+	background: transparent !important;
 	color: var(--evently-text) !important;
 	font-size: 11px !important;
 	font-weight: 700 !important;
 	line-height: 1 !important;
 	cursor: pointer !important;
-	box-shadow: 0 1px 2px rgba(11, 11, 13, 0.06) !important;
+	box-shadow: none !important;
 	transition:
 		background var(--evently-transition-fast) ease,
-		color var(--evently-transition-fast) ease,
-		box-shadow var(--evently-transition-fast) ease;
+		color var(--evently-transition-fast) ease;
 }
 
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .decQty:hover,
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .incQty:hover {
-	background: var(--evently-primary) !important;
-	color: var(--evently-white) !important;
+	background: rgba(11, 11, 13, 0.05) !important;
+	color: var(--evently-text) !important;
 	box-shadow: none !important;
 }
 
@@ -3123,7 +3148,7 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qty
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	min-width: 32px;
+	min-width: 36px;
 	margin: 0 !important;
 	padding: 0 !important;
 }
@@ -3131,9 +3156,9 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qty
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .inputIncDec,
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qtyIncDec .formControl,
 body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qtyIncDec input {
-	width: 32px !important;
-	min-width: 32px !important;
-	height: 30px !important;
+	width: 36px !important;
+	min-width: 36px !important;
+	height: 32px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	border: none !important;
@@ -3141,7 +3166,7 @@ body.single-mep_events .default_theme .mpwem_booking_panel .mep_ticket_item .qty
 	box-shadow: none !important;
 	font-family: inherit !important;
 	font-size: 15px !important;
-	font-weight: 700 !important;
+	font-weight: 600 !important;
 	color: var(--evently-text) !important;
 	text-align: center !important;
 }
@@ -3885,24 +3910,40 @@ body.single-mep_events .default_theme .mpwem_related_area .list_price_value .woo
 	}
 
 	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area {
-		padding-left: 24px !important;
-		gap: 12px !important;
+		padding: 0 !important;
+		gap: 0 !important;
 	}
 
 	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_area::before {
-		left: 6px !important;
+		left: 23px !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item {
+		padding: 16px 16px 16px 52px !important;
 	}
 
 	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item .timeline_counter {
-		left: -24px !important;
-		top: 20px !important;
-		width: 14px !important;
-		height: 14px !important;
-		min-width: 14px !important;
+		left: 10px !important;
+		top: 16px !important;
+		width: 24px !important;
+		height: 24px !important;
+		min-width: 24px !important;
+		font-size: 11px !important;
+		box-shadow: 0 0 0 3px var(--evently-white) !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:first-child .timeline_counter,
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:has(.mp_wp_editor.mActive) .timeline_counter,
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_item:hover .timeline_counter {
+		box-shadow: 0 0 0 3px var(--evently-white) !important;
 	}
 
 	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_content {
-		padding: 14px 16px !important;
+		padding: 0 !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_timeline_area .timeline_header {
+		flex-wrap: wrap !important;
 	}
 
 	body.single-mep_events .default_theme .mpwem_related_area .mep_list_thumb,
@@ -3924,82 +3965,107 @@ body.single-mep_events .default_theme .mpwem_related_area .list_price_value .woo
    ═══════════════════════════════════════════════════════════════════ */
 
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
-	display: grid !important;
-	grid-template-columns: minmax(0, 1fr) auto !important;
-	grid-template-areas:
-		"title action"
-		"list list" !important;
-	align-items: center !important;
-	column-gap: 16px !important;
-	row-gap: 20px !important;
+	display: block !important;
 	max-width: 100% !important;
 	width: 100% !important;
-	padding: 20px !important;
-	margin: 20px 0 !important;
-	background:
-		radial-gradient(120% 90% at 0% 0%, var(--evently-primary-soft), transparent 55%),
-		var(--evently-white) !important;
-	border: 1px solid var(--evently-border) !important;
-	border-radius: 20px !important;
-	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.05) !important;
+	padding: 0 !important;
+	margin: var(--evently-dt-section-stack, 40px) 0 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
 	box-sizing: border-box !important;
 }
 
 body.single-mep_events .mep_smart_theme ~ .mep-event-review-list-wrapper,
 body.single-mep_events .mep_smart_theme .mep-event-review-list-wrapper,
 body.single-mep_events:has(.mep_smart_theme) .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
-	margin: 20px 0 !important;
+	margin: var(--evently-dt-section-stack, 40px) 0 0 !important;
 }
 
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel)::before {
-	content: "Reviews" !important;
-	grid-area: title !important;
-	/* type from shared section titles */
+	content: none !important;
+	display: none !important;
 }
 
-body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn {
-	grid-area: action !important;
-	justify-self: end !important;
-	align-self: center !important;
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-head {
+	display: flex !important;
+	align-items: flex-start !important;
+	justify-content: space-between !important;
+	gap: 16px !important;
+	flex-wrap: wrap !important;
+	margin: 0 0 var(--evently-dt-section-title-gap) !important;
+	padding: 0 !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-head__copy {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: flex-start !important;
+	gap: 8px !important;
+	min-width: 0 !important;
+	flex: 1 1 220px !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-eyebrow {
+	display: none !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-meta {
+	margin: 0 !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-head__actions {
+	flex: 0 0 auto !important;
+	display: flex !important;
+	align-items: center !important;
+	margin: 0 !important;
+}
+
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-write,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) #give-review-btn {
 	appearance: none !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
 	gap: 8px !important;
 	margin: 0 !important;
-	padding: 12px 18px !important;
-	min-height: 44px !important;
-	border: 0 !important;
-	border-radius: var(--evently-radius-pill) !important;
-	background: var(--evently-dark) !important;
-	color: var(--evently-white) !important;
+	padding: 10px 16px !important;
+	min-height: 40px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 8px !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
 	font-family: inherit !important;
 	font-size: 14px !important;
-	font-weight: 700 !important;
+	font-weight: 600 !important;
 	line-height: 1.2 !important;
 	text-transform: none !important;
 	cursor: pointer !important;
-	box-shadow: 0 6px 16px rgba(11, 11, 13, 0.12) !important;
+	box-shadow: none !important;
 	transition:
 		background var(--evently-transition-fast) ease,
-		transform var(--evently-transition-fast) ease,
-		box-shadow var(--evently-transition-fast) ease !important;
+		border-color var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease !important;
 }
 
-body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn:hover {
-	background: var(--evently-primary) !important;
-	transform: translateY(-1px) !important;
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-write:hover,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) #give-review-btn:hover {
+	background: rgba(11, 11, 13, 0.04) !important;
+	border-color: rgba(11, 11, 13, 0.2) !important;
+	color: var(--evently-text) !important;
+	transform: none !important;
 	text-decoration: none !important;
-	box-shadow: 0 10px 22px rgba(108, 92, 231, 0.28) !important;
+	box-shadow: none !important;
 }
 
-body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn:focus-visible {
-	outline: 2px solid var(--evently-primary) !important;
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-write:focus-visible,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) #give-review-btn:focus-visible {
+	outline: 2px solid var(--evently-text) !important;
 	outline-offset: 2px !important;
 }
 
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-list {
-	grid-area: list !important;
 	display: flex !important;
 	flex-direction: column !important;
 	gap: 14px !important;
@@ -4008,26 +4074,21 @@ body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel
 	width: 100% !important;
 }
 
-/* Empty list: soft dashed placeholder under the header */
+/* Empty list: rely on .mep-reviews-empty from addon */
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item)) {
-	min-height: 120px !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	padding: 28px 20px !important;
-	background: var(--evently-surface) !important;
-	border: 1px dashed var(--evently-border) !important;
-	border-radius: 16px !important;
+	min-height: 0 !important;
+	display: block !important;
+	align-items: unset !important;
+	justify-content: unset !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
 }
 
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-event-review-list:not(:has(.mep-event-review-avg)):not(:has(.mep-event-review-item))::before {
-	content: "No reviews yet — be the first to share your experience." !important;
-	max-width: 32ch !important;
-	text-align: center !important;
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	line-height: 1.5 !important;
-	color: var(--evently-muted) !important;
+	content: none !important;
+	display: none !important;
 }
 
 /* Average rating breakdown */
@@ -4337,18 +4398,17 @@ body.single-mep_events #mageModal .mage-modal-footer {
 
 @media (max-width: 640px) {
 	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
-		grid-template-columns: 1fr !important;
-		grid-template-areas:
-			"title"
-			"action"
-			"list" !important;
-		padding: 20px !important;
-		margin: 20px 0 !important;
-		row-gap: 14px !important;
+		padding: 0 !important;
+		margin: var(--evently-dt-section-stack, 40px) 0 0 !important;
 	}
 
-	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) > #give-review-btn {
-		justify-self: stretch !important;
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-head {
+		flex-direction: column !important;
+		align-items: stretch !important;
+	}
+
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-write,
+	body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) #give-review-btn {
 		width: 100% !important;
 	}
 
