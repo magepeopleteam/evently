@@ -15,6 +15,10 @@ body.single-mep_events .evently-main {
 	padding-top: calc(var(--evently-header-height) + var(--evently-space-4));
 }
 
+body.mep-horizon-active .evently-main {
+	padding-top: 40px !important;
+}
+
 /* Plugin attendee clone-template — hide when skins leave it visible inline. */
 body.single-mep_events .mep_attendee_info_hidden {
 	display: none !important;
