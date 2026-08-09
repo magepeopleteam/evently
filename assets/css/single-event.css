@@ -940,9 +940,11 @@ body.evently-review-modal-open {
 	box-shadow: none;
 }
 
-/* Show first 5 dates; hide the rest until "View More Dates" */
-.evently-event-schedule .mpwem-date-card[data-collapse]:not(.mActive),
-.evently-event-schedule .date-list-item[data-collapse]:not(.mActive) {
+.evently-event-schedule .mpwem-date-list__ajax {
+	display: contents;
+}
+
+.evently-event-schedule .mpwem-date-list__ajax[hidden] {
 	display: none !important;
 }
 

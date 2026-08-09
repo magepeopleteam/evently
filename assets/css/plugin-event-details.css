@@ -2178,11 +2178,15 @@ body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area
 	box-shadow: none !important;
 }
 
-/* Keep only the next 5 dates visible until View More is clicked */
-body.single-mep_events .evently-event-schedule .mpwem-date-card[data-collapse]:not(.mActive),
-body.single-mep_events .evently-event-schedule .date-list-item[data-collapse]:not(.mActive),
-body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-card[data-collapse]:not(.mActive),
-body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .mpwem-date-card[data-collapse]:not(.mActive) {
+body.single-mep_events .evently-event-schedule .mpwem-date-list__ajax,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__ajax,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__ajax {
+	display: contents !important;
+}
+
+body.single-mep_events .evently-event-schedule .mpwem-date-list__ajax[hidden],
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__ajax[hidden],
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__ajax[hidden] {
 	display: none !important;
 }
 
