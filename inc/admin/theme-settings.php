@@ -47,12 +47,12 @@ function evently_get_settings_fields() {
 			'label'       => __( 'Event details page', 'evently' ),
 			'section'     => 'single_event',
 			'type'        => 'select',
-			'default'     => 'theme',
+			'default'     => 'plugin',
 			'options'     => array(
 				'theme'  => __( 'Theme (Evently design)', 'evently' ),
 				'plugin' => __( 'Plugin (Event Booking Manager)', 'evently' ),
 			),
-			'description' => __( 'Choose whether single event pages use Evently\'s design or the Event Booking Manager plugin\'s own details templates (including the layout selected in plugin settings).', 'evently' ),
+			'description' => __( 'Plugin keeps Event Booking Manager\'s own templates and CSS unchanged (Default / Smart / Virtual / Horizon). Theme only applies when the theme ships a mage-event/single-events.php override; otherwise Evently never restyles plugin event details.', 'evently' ),
 		),
 		'show_related_events'      => array( 'label' => __( 'Show related events', 'evently' ), 'section' => 'single_event', 'type' => 'checkbox', 'default' => 1, 'description' => __( 'Only applies when Event details page is set to Theme.', 'evently' ) ),
 

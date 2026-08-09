@@ -48,4 +48,45 @@
 			}
 		} );
 	}
+
+	// Desktop dropdown submenus (.site-nav > .menu-item-has-children) open on
+	// `:hover`/`:focus-within` via CSS alone — that covers mouse and keyboard.
+	// Touch input has neither, so the first tap on a parent link toggles the
+	// `.is-open` class open instead of following the link; a second tap (or a
+	// tap outside) proceeds/closes as normal.
+	var dropdownParents = document.querySelectorAll( '.site-nav > .menu-item-has-children' );
+
+	dropdownParents.forEach( function ( parent ) {
+		var parentLink = parent.querySelector( ':scope > a' );
+
+		if ( ! parentLink ) {
+			return;
+		}
+
+		parentLink.addEventListener( 'click', function ( event ) {
+			if ( window.matchMedia( '(hover: hover)' ).matches ) {
+				return;
+			}
+
+			if ( ! parent.classList.contains( 'is-open' ) ) {
+				event.preventDefault();
+				dropdownParents.forEach( function ( otherParent ) {
+					if ( otherParent !== parent ) {
+						otherParent.classList.remove( 'is-open' );
+					}
+				} );
+				parent.classList.add( 'is-open' );
+			}
+		} );
+	} );
+
+	if ( dropdownParents.length ) {
+		document.addEventListener( 'click', function ( event ) {
+			if ( ! event.target.closest( '.site-nav > .menu-item-has-children' ) ) {
+				dropdownParents.forEach( function ( parent ) {
+					parent.classList.remove( 'is-open' );
+				} );
+			}
+		} );
+	}
 } )();

@@ -156,6 +156,94 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 	color: var(--evently-text);
 }
 
+/* Dropdowns — wp_nav_menu() nests child items as <ul class="sub-menu"> inside
+   an <li class="menu-item-has-children"> (core's default walker). Revealed on
+   hover for pointer input and `:focus-within` for keyboard tabbing; the
+   `.is-open` class covers the click/tap path for touch input (navigation.js). */
+.site-nav li.menu-item-has-children {
+	position: relative;
+}
+
+.site-nav li.menu-item-has-children > a {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.site-nav li.menu-item-has-children > a::after {
+	content: '';
+	width: 6px;
+	height: 6px;
+	margin-top: -3px;
+	border-right: 1.5px solid currentColor;
+	border-bottom: 1.5px solid currentColor;
+	opacity: 0.6;
+	transform: rotate(45deg);
+}
+
+.site-nav .sub-menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 110;
+	min-width: 200px;
+	margin-top: var(--evently-space-1);
+	padding: var(--evently-space-1);
+	background: var(--evently-white);
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	box-shadow: var(--evently-shadow-floating);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(4px);
+	transition: opacity var(--evently-transition-fast) ease, transform var(--evently-transition-fast) ease,
+		visibility var(--evently-transition-fast);
+}
+
+/* A sub-menu nested inside another sub-menu (3rd level) opens to the side
+   instead of stacking further down past the viewport edge. */
+.site-nav .sub-menu .sub-menu {
+	top: 0;
+	left: 100%;
+	margin-top: 0;
+	margin-left: var(--evently-space-1);
+}
+
+.site-nav li.menu-item-has-children:hover > .sub-menu,
+.site-nav li.menu-item-has-children:focus-within > .sub-menu,
+.site-nav li.menu-item-has-children.is-open > .sub-menu {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+
+.site-nav .sub-menu li {
+	list-style: none;
+}
+
+.site-nav .sub-menu a {
+	display: block;
+	padding: 10px 12px;
+	border-radius: var(--evently-radius-sm);
+	font-size: var(--evently-fs-label);
+	font-weight: 500;
+	color: var(--evently-text);
+	white-space: nowrap;
+}
+
+.site-nav .sub-menu a:hover {
+	background: var(--evently-border);
+}
+
+/* The transparent/dark header state (body.evently-header-on-media, above)
+   turns .site-nav a white for contrast over a hero image — but the dropdown
+   panel itself is always solid white, so its links must stay dark regardless
+   of header state or they'd render invisible (white text on white panel). */
+body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu a,
+body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu a:hover {
+	color: var(--evently-text);
+}
+
 .header-spacer {
 	flex: 1;
 }
@@ -229,6 +317,18 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 	padding: 14px 0;
 	border-bottom: 1px solid var(--evently-border);
 	display: block;
+}
+
+/* Sub-menu items in the mobile drawer are shown inline (indented) rather than
+   toggled — the drawer is already a simple scrollable column. */
+.mobile-nav .sub-menu {
+	padding-left: var(--evently-space-2);
+}
+
+.mobile-nav .sub-menu a {
+	font-size: var(--evently-fs-small);
+	font-weight: 500;
+	color: var(--evently-muted);
 }
 
 .mobile-nav-actions {

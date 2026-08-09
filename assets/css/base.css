@@ -30,10 +30,30 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+/*
+ * Break Evently font inheritance into plugin event details without beating
+ * plugin CSS (:where → 0 specificity so mpwem/Horizon rules always win).
+ */
+:where(body.single-mep_events #mage-container),
+:where(body.single-mep_events .mpwem_wrapper),
+:where(body.single-mep_events .mep-events-wrapper),
+:where(body.single-mep_events .horizon_theme) {
+	font-family: initial;
+	-webkit-font-smoothing: auto;
+	-moz-osx-font-smoothing: auto;
+}
+
 img,
 svg {
 	max-width: 100%;
 	display: block;
+}
+
+:where(body.single-mep_events #mage-container) img,
+:where(body.single-mep_events .mpwem_wrapper) img,
+:where(body.single-mep_events .mep-events-wrapper) img,
+:where(body.single-mep_events .horizon_theme) img {
+	display: initial;
 }
 
 img {
@@ -43,6 +63,14 @@ img {
 a {
 	color: inherit;
 	text-decoration: none;
+}
+
+:where(body.single-mep_events #mage-container) a,
+:where(body.single-mep_events .mpwem_wrapper) a,
+:where(body.single-mep_events .mep-events-wrapper) a,
+:where(body.single-mep_events .horizon_theme) a {
+	color: initial;
+	text-decoration: initial;
 }
 
 button {
@@ -58,11 +86,45 @@ textarea {
 	font-size: 100%;
 }
 
+:where(body.single-mep_events #mage-container) button,
+:where(body.single-mep_events #mage-container) input,
+:where(body.single-mep_events #mage-container) select,
+:where(body.single-mep_events #mage-container) textarea,
+:where(body.single-mep_events .mpwem_wrapper) button,
+:where(body.single-mep_events .mpwem_wrapper) input,
+:where(body.single-mep_events .mpwem_wrapper) select,
+:where(body.single-mep_events .mpwem_wrapper) textarea,
+:where(body.single-mep_events .mep-events-wrapper) button,
+:where(body.single-mep_events .mep-events-wrapper) input,
+:where(body.single-mep_events .mep-events-wrapper) select,
+:where(body.single-mep_events .mep-events-wrapper) textarea,
+:where(body.single-mep_events .horizon_theme) button,
+:where(body.single-mep_events .horizon_theme) input,
+:where(body.single-mep_events .horizon_theme) select,
+:where(body.single-mep_events .horizon_theme) textarea {
+	font-family: initial;
+	font-size: initial;
+	color: initial;
+}
+
 ul,
 ol {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+}
+
+:where(body.single-mep_events #mage-container) ul,
+:where(body.single-mep_events #mage-container) ol,
+:where(body.single-mep_events .mpwem_wrapper) ul,
+:where(body.single-mep_events .mpwem_wrapper) ol,
+:where(body.single-mep_events .mep-events-wrapper) ul,
+:where(body.single-mep_events .mep-events-wrapper) ol,
+:where(body.single-mep_events .horizon_theme) ul,
+:where(body.single-mep_events .horizon_theme) ol {
+	margin: initial;
+	padding: initial;
+	list-style: initial;
 }
 
 table {

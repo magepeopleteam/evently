@@ -163,7 +163,10 @@ function evently_enqueue_assets() {
 	wp_enqueue_script( 'evently-navigation' );
 	wp_enqueue_script( 'evently-modal' ); // Backs the header's quick-search modal on every page.
 
-	$is_event_context = evently_has_booking_plugin() && ( is_singular( 'mep_events' ) || is_post_type_archive( 'mep_events' ) || is_tax( array( 'mep_cat', 'mep_org', 'mep_tag' ) ) );
+	// Singular mep_events uses the plugin's own details UI — do not treat it as
+	// an Evently archive/card context (avoids extra theme CSS/JS on that page).
+	$is_event_listing_context = evently_has_booking_plugin() && ( is_post_type_archive( 'mep_events' ) || is_tax( array( 'mep_cat', 'mep_org', 'mep_tag' ) ) );
+	$is_event_context         = $is_event_listing_context || ( evently_has_booking_plugin() && is_singular( 'mep_events' ) );
 
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'evently-hero' );
@@ -177,7 +180,7 @@ function evently_enqueue_assets() {
 		wp_enqueue_script( 'evently-filters' ); // Backs Choose Your Vibe's tab switching (template-parts/home/choose-vibe.php) — homepage-only section, so it needs its own enqueue here too, not just the Event Archive's.
 	}
 
-	if ( $is_event_context || is_page_template( 'page-templates/event-archive.php' ) ) {
+	if ( $is_event_listing_context || is_page_template( 'page-templates/event-archive.php' ) ) {
 		wp_enqueue_style( 'evently-events' );
 		wp_enqueue_style( 'evently-archive' );
 		wp_enqueue_script( 'evently-search' );
@@ -292,48 +295,11 @@ function evently_enqueue_assets() {
 		);
 	}
 
-	// Plugin details templates need Evently's fixed-header clearance + the
-	// same max-width/pad track as .site-header / .evently-container.
+	// Plugin details mode: keep the plugin's own design. Only load a tiny
+	// layout-safety sheet (header clearance). Do not depend on plugin CSS —
+	// that would load this file after the plugin and risk overriding it.
 	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && evently_use_plugin_event_details() ) {
-		// Load after Horizon CSS when that template is active so Evently font /
-		// spacing overrides win over Outfit + Playfair and the extra hero top margin.
-		if ( wp_style_is( 'mpwem_horizon_theme', 'registered' ) ) {
-			$evently_styles = wp_styles();
-			if ( isset( $evently_styles->registered['evently-plugin-event-details'] ) ) {
-				$evently_styles->registered['evently-plugin-event-details']->deps = array_values(
-					array_unique(
-						array_merge(
-							$evently_styles->registered['evently-plugin-event-details']->deps,
-							array( 'mpwem_horizon_theme' )
-						)
-					)
-				);
-			}
-		}
 		wp_enqueue_style( 'evently-plugin-event-details' );
-		// Read more on description + Pro review modal polish (shared with theme skin).
-		wp_enqueue_script( 'evently-single-event' );
-		wp_localize_script(
-			'evently-single-event',
-			'eventlySingleI18n',
-			array(
-				'rateEvent'    => __( 'How would you rate this event?', 'evently' ),
-				'writeReview'  => __( 'Write a review', 'evently' ),
-				'submitReview' => __( 'Submit review', 'evently' ),
-				'eventReview'  => __( 'Event review', 'evently' ),
-				'close'        => __( 'Close', 'evently' ),
-				'noReviews'    => __( 'No reviews yet', 'evently' ),
-				'beFirst'      => __( 'Be the first to share your experience.', 'evently' ),
-				'starSingular' => __( '1 star', 'evently' ),
-				/* translators: %d: star rating 2–5 */
-				'starPlural'   => __( '%d stars', 'evently' ),
-				'zoomGallery'  => __( 'View gallery', 'evently' ),
-				/* translators: %d: number of gallery photos */
-				'galleryCount' => __( '%d photos', 'evently' ),
-				'prevImage'    => __( 'Previous image', 'evently' ),
-				'nextImage'    => __( 'Next image', 'evently' ),
-			)
-		);
 	}
 
 	if ( ( evently_has_woocommerce() && is_account_page() ) || evently_is_organizer_dashboard() ) {

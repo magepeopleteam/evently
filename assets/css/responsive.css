@@ -5,6 +5,20 @@
  */
 
 @media (max-width: 1000px) {
+	/* The fixed header's own nav has no wrap/shrink fallback — at the same
+	   tablet breakpoint everything else in this file reflows at, it has to
+	   switch to the mobile drawer + hamburger button too, or the full desktop
+	   nav row (especially once a dropdown item's caret adds extra width)
+	   overflows past the viewport and pushes header-actions off-screen. */
+	.site-nav,
+	.header-actions {
+		display: none;
+	}
+
+	.mobile-menu-btn {
+		display: flex;
+	}
+
 	.hero-inner {
 		grid-template-columns: 1fr;
 		gap: var(--evently-space-5);
@@ -63,15 +77,6 @@
 }
 
 @media (max-width: 640px) {
-	.site-nav,
-	.header-actions {
-		display: none;
-	}
-
-	.mobile-menu-btn {
-		display: flex;
-	}
-
 	.search-bar {
 		display: none;
 	}

@@ -47,7 +47,6 @@ if ( empty( $evently_create_event_url ) ) {
 						'container'      => false,
 						'menu_class'     => 'site-nav__list',
 						'items_wrap'     => '%3$s',
-						'depth'          => 1,
 					)
 				);
 				?>
@@ -114,7 +113,6 @@ if ( empty( $evently_create_event_url ) ) {
 					'container'      => false,
 					'menu_class'     => '',
 					'items_wrap'     => '%3$s',
-					'depth'          => 1,
 				)
 			);
 			?>

@@ -106,7 +106,6 @@
 .evently-single-post,
 .evently-page {
 	padding-top: var(--evently-header-height);
-	max-width: 760px;
 }
 
 .evently-single-post__header,

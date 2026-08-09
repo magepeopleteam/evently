@@ -145,21 +145,26 @@ function evently_get_setting( $key, $default = '' ) {
 }
 
 /**
- * Whether single `mep_events` pages should force the plugin's bundled
- * single-events.php template specifically.
+ * Whether single `mep_events` pages use the plugin's own details design
+ * (no Evently CSS/JS skin on plugin markup).
  *
- * Evently no longer ships a `mage-event/single-events.php` override (see
- * docs/booking-integration.md) — the plugin's own template resolution
- * already falls through to its bundled default regardless of this setting;
- * 'plugin' additionally pins that choice to that exact bundled file (see
- * evently_maybe_use_plugin_single_event_template() in inc/template-hooks.php).
+ * Evently retired its `mage-event/single-events.php` override — without that
+ * file, "Theme" mode can only mean restyling the plugin's HTML with
+ * single-event.css, which changes the plugin layout. Until a real
+ * mage-event override exists again, always keep the plugin design intact.
  *
- * Controlled by Evently → Theme Settings → Single Event → Event details page.
+ * When a child/theme ships `mage-event/single-events.php`, the Theme Settings
+ * → Event details page control applies again.
  *
  * @return bool
  */
 function evently_use_plugin_event_details() {
-	return 'plugin' === evently_get_setting( 'single_event_template', 'theme' );
+	$theme_override = trailingslashit( get_stylesheet_directory() ) . 'mage-event/single-events.php';
+	if ( ! is_readable( $theme_override ) ) {
+		return true;
+	}
+
+	return 'plugin' === evently_get_setting( 'single_event_template', 'plugin' );
 }
 
 /**

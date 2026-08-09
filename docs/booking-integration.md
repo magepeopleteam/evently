@@ -24,7 +24,7 @@ Two important, non-obvious facts about it that shaped this integration:
 
 ## The one thing the adapter deliberately does NOT rebuild
 
-`Evently_Booking_Adapter::render_booking_form( $event_id )` captures the output of `do_action( 'mpwem_registration', $event_id, $meta )` — the plugin's own real ticket-selection + add-to-cart form (early-bird windows, member-only gating, cart-state detection, WooCommerce-vs-native-checkout branching all live there). `assets/css/single-event.css` restyles that real markup by its real class names (`.mpwem_booking_panel`, `.mep_ticket_item`, `.qtyIncDec`, `.mpwem_summery`, …) documented inline in that stylesheet. If you need to change how tickets are selected, that's a plugin-side change, not a theme-side one.
+`Evently_Booking_Adapter::render_booking_form( $event_id )` captures the output of `do_action( 'mpwem_registration', $event_id, $meta )` — the plugin's own real ticket-selection + add-to-cart form (early-bird windows, member-only gating, cart-state detection, WooCommerce-vs-native-checkout branching all live there). Evently does **not** restyle plugin event-details markup unless a real `mage-event/single-events.php` theme override exists (retired by default). On singular `mep_events`, only `plugin-event-details.css` loads (fixed-header clearance + isolation from theme base resets). If you need to change how tickets are selected, that's a plugin-side change, not a theme-side one.
 
 ## Swapping in a different booking plugin
 
