@@ -394,22 +394,26 @@ body.single-mep_events .mep_smart_theme .mpwem_sidebar_content h5 .far {
 	margin: 0 !important;
 }
 
-/* Schedule */
+/* Schedule — clean list, no scroll / panel background */
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date_list_area,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .mpwem-date-list,
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .evently-date-list {
 	display: flex !important;
 	flex-direction: column !important;
-	gap: 10px !important;
+	gap: 0 !important;
 	max-height: none !important;
 	overflow: visible !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	border: 0 !important;
+	border-radius: 0 !important;
 	background: transparent !important;
+	box-sizing: border-box !important;
 }
 
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date-list-item,
-body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date_item {
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date_item,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .mpwem-date-card {
 	margin: 0 !important;
 	padding: 0 !important;
 	border: 0 !important;
@@ -417,8 +421,112 @@ body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_
 	box-shadow: none !important;
 }
 
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .mpwem-date-card + .mpwem-date-card {
+	border-top: 0 !important;
+}
+
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .date_item::before {
 	display: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__inner {
+	display: grid !important;
+	grid-template-columns: 48px minmax(0, 1fr) !important;
+	align-items: start !important;
+	gap: 12px !important;
+	padding: 12px 0 !important;
+	border: 0 !important;
+	border-bottom: 1px solid var(--evently-border) !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+	position: relative !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card:last-child .mpwem-date-card__inner {
+	border-bottom: 0 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card:hover .mpwem-date-card__inner,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card.is-active .mpwem-date-card__inner {
+	background: transparent !important;
+	border-color: var(--evently-border) !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card.is-active .mpwem-date-card__inner::before {
+	content: "" !important;
+	position: absolute !important;
+	left: 0 !important;
+	top: 14px !important;
+	bottom: 14px !important;
+	width: 2px !important;
+	border-radius: 2px !important;
+	background: var(--evently-text) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__badge {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 48px !important;
+	min-height: 48px !important;
+	padding: 6px 4px !important;
+	border-radius: 10px !important;
+	background: #efefeb !important;
+	color: var(--evently-text) !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card.is-active .mpwem-date-card__badge {
+	background: var(--evently-text) !important;
+	color: var(--evently-white) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__sessions {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: center !important;
+	gap: 0 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__session {
+	display: inline-flex !important;
+	flex-direction: row !important;
+	align-items: baseline !important;
+	gap: 4px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: var(--evently-muted) !important;
+	text-decoration: none !important;
+	font-size: 12px !important;
+	font-weight: 400 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__session:not(:last-child)::after {
+	content: "·" !important;
+	margin: 0 8px 0 4px !important;
+	color: #d1d5db !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__session.is-active {
+	background: transparent !important;
+	border-color: transparent !important;
+	color: var(--evently-text) !important;
+	font-weight: 600 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__session-label,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card__session-time {
+	font-size: inherit !important;
+	font-weight: inherit !important;
+	line-height: inherit !important;
+	opacity: 1 !important;
+	background: transparent !important;
 }
 
 /* Location */
@@ -755,9 +863,9 @@ body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem_calender_a
 
 body.single-mep_events {
 	--evently-dt-section-title-size: 1.5rem; /* 24px */
-	--evently-dt-section-title-weight: 800;
+	--evently-dt-section-title-weight: 700;
 	--evently-dt-section-title-tracking: -0.02em;
-	--evently-dt-section-title-gap: var(--evently-space-3); /* 24px under title */
+	--evently-dt-section-title-gap: 1.25rem;
 	--evently-dt-section-stack: var(--evently-space-5); /* 40px between sections */
 }
 
@@ -771,19 +879,23 @@ body.single-mep_events .default_theme h1.mpwem_tile {
 	letter-spacing: -0.03em !important;
 	line-height: 1.15 !important;
 	color: var(--evently-text) !important;
+	text-align: left !important;
 	text-transform: none !important;
 }
 
-/* Main-column section titles */
+/* Main-column section titles — single shared recipe */
 body.single-mep_events .default_theme .mpwem_details > h2,
 body.single-mep_events .default_theme .mpwem_details > h2._mb,
 body.single-mep_events .default_theme .faq_area > h2,
-body.single-mep_events .default_theme div.faq_area h2,
+body.single-mep_events .default_theme div.faq_area > h2,
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header h2,
 body.single-mep_events .default_theme .mpwem_related_area .related_title h3,
 body.single-mep_events .default_theme .mpwem_registration_area .section-title,
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title,
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-title {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
 	margin: 0 0 var(--evently-dt-section-title-gap) !important;
 	padding: 0 !important;
 	border: 0 !important;
@@ -800,22 +912,71 @@ body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel
 	text-transform: none !important;
 }
 
-/* In-panel / flex titles keep horizontal rhythm, not bottom margin */
+/* Flex header rows: gap lives on the row, title has no bottom margin */
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header,
+body.single-mep_events .default_theme .mpwem_related_area .related_title,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-head {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 16px !important;
+	width: 100% !important;
+	margin: 0 0 var(--evently-dt-section-title-gap) !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header h2,
+body.single-mep_events .default_theme .mpwem_related_area .related_title h3,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-title {
+	margin-bottom: 0 !important;
+	flex: 1 1 auto !important;
+	width: auto !important;
+	min-width: 0 !important;
+}
+
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title {
 	margin-bottom: 0 !important;
 }
 
-body.single-mep_events .default_theme .mpwem_related_area .related_title h3 {
-	margin-bottom: 0 !important;
+/* Ticket Options header — flat section title row, not a colored card */
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: stretch !important;
+	gap: var(--evently-dt-section-title-gap) !important;
+	margin: 0 0 var(--evently-dt-section-title-gap) !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	z-index: auto !important;
+	position: relative !important;
 }
 
-body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-title {
-	margin-bottom: 0 !important;
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header:not(:has(.date-time-area)) {
+	margin-bottom: var(--evently-dt-section-title-gap) !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title {
+	display: block !important;
+	align-items: unset !important;
+	gap: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title::before {
+	display: none !important;
+	content: none !important;
 }
 
 /* Description block */
 body.single-mep_events .default_theme .mpwem_details {
-	margin: 0 0 0 !important;
+	margin: 0 !important;
 	padding: 0 !important;
 }
 
@@ -939,7 +1100,9 @@ body.single-mep_events .default_theme .mpwem_details_content.is-expanded .eventl
 body.single-mep_events .default_theme .mpwem_registration_area,
 body.single-mep_events .default_theme .faq_area,
 body.single-mep_events .default_theme div.faq_area,
-body.single-mep_events .default_theme .mpwem_timeline_area {
+body.single-mep_events .default_theme .mpwem_timeline_area,
+body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel),
+body.single-mep_events .default_theme .mpwem_related_area {
 	margin-top: var(--evently-dt-section-stack) !important;
 }
 
@@ -1023,7 +1186,8 @@ body.single-mep_events .mep_smart_theme .mep-event-tags-list a.mep-tag-link:focu
 
 body.single-mep_events .default_theme .mpwem_related_area {
 	margin-top: var(--evently-dt-section-stack) !important;
-	padding-top: var(--evently-dt-section-stack) !important;
+	padding-top: var(--evently-dt-section-title-gap) !important;
+	border-top: 1px solid var(--evently-border) !important;
 }
 
 @media (max-width: 640px) {
@@ -1980,23 +2144,27 @@ body.single-mep_events .default_theme .mep-default-sidebar .setas-info .availabl
 	color: var(--evently-success) !important;
 }
 
-/* ── Schedule date list (modern calendar rows) ───────────────────── */
+/* ── Schedule date list (clean, no scroll / panel bg) ────────────── */
 
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_list_area,
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-list,
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .evently-date-list {
 	display: flex !important;
 	flex-direction: column !important;
-	gap: 10px !important;
+	gap: 0 !important;
 	max-height: none !important;
 	overflow: visible !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	border: 0 !important;
+	border-radius: 0 !important;
 	background: transparent !important;
+	box-sizing: border-box !important;
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date-list-item,
-body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_item {
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_item,
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-card {
 	margin: 0 !important;
 	padding: 0 !important;
 	border: 0 !important;
@@ -2004,88 +2172,217 @@ body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area
 	box-shadow: none !important;
 }
 
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-card + .mpwem-date-card {
+	border-top: 0 !important;
+}
+
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_item::before {
 	display: none !important;
 }
 
-body.single-mep_events .default_theme .mep-default-sidebar .evently-date-row__link,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__inner,
 body.single-mep_events .evently-date-row__link {
 	display: grid !important;
-	grid-template-columns: auto 1fr auto !important;
-	align-items: center !important;
+	grid-template-columns: 48px minmax(0, 1fr) !important;
+	align-items: start !important;
+	column-gap: 12px !important;
 	gap: 12px !important;
 	width: 100% !important;
 	margin: 0 !important;
-	padding: 12px !important;
-	border: 1px solid var(--evently-border) !important;
-	border-radius: 14px !important;
-	background: var(--evently-surface) !important;
+	padding: 12px 0 !important;
+	border: 0 !important;
+	border-bottom: 1px solid var(--evently-border) !important;
+	border-radius: 0 !important;
+	background: transparent !important;
 	color: var(--evently-text) !important;
 	text-decoration: none !important;
+	box-shadow: none !important;
 	box-sizing: border-box !important;
-	transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease !important;
+	transform: none !important;
+	position: relative !important;
 }
 
-body.single-mep_events .default_theme .mep-default-sidebar .evently-date-row__link:hover,
-body.single-mep_events .evently-date-row.is-active .evently-date-row__link,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card:last-child .mpwem-date-card__inner {
+	border-bottom: 0 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card--sessions .mpwem-date-card__inner {
+	grid-template-columns: 48px minmax(0, 1fr) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card:hover .mpwem-date-card__inner,
 body.single-mep_events .evently-date-row__link:hover {
-	background: var(--evently-white) !important;
-	border-color: rgba(108, 92, 231, 0.35) !important;
-	box-shadow: 0 8px 20px rgba(108, 92, 231, 0.08) !important;
-	transform: translateY(-1px);
+	border-color: var(--evently-border) !important;
+	box-shadow: none !important;
+	background: transparent !important;
+	transform: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card.is-active .mpwem-date-card__inner,
+body.single-mep_events .evently-date-row.is-active .evently-date-row__link {
+	background: transparent !important;
+	border-color: var(--evently-border) !important;
+	box-shadow: none !important;
+	transform: none !important;
 	color: var(--evently-text) !important;
 }
 
-body.single-mep_events .evently-date-row.is-active .evently-date-row__link {
-	border-color: rgba(108, 92, 231, 0.45) !important;
-	box-shadow: 0 0 0 3px var(--evently-primary-soft) !important;
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card.is-active .mpwem-date-card__inner::before {
+	content: "" !important;
+	position: absolute !important;
+	left: 0 !important;
+	top: 14px !important;
+	bottom: 14px !important;
+	width: 2px !important;
+	border-radius: 2px !important;
+	background: var(--evently-text) !important;
 }
 
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__badge,
 body.single-mep_events .evently-date-row__badge {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 52px;
-	min-height: 56px;
-	padding: 8px 6px;
-	border-radius: 12px;
-	background: linear-gradient(180deg, #7a6bf0 0%, var(--evently-primary) 100%);
-	color: #fff;
-	box-shadow: 0 6px 14px rgba(108, 92, 231, 0.28);
-	flex-shrink: 0;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 48px !important;
+	min-height: 48px !important;
+	padding: 6px 4px !important;
+	border-radius: 10px !important;
+	background: #efefeb !important;
+	color: var(--evently-text) !important;
+	box-shadow: none !important;
+	flex-shrink: 0 !important;
 }
 
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card.is-active .mpwem-date-card__badge {
+	background: var(--evently-text) !important;
+	color: var(--evently-white) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__month,
 body.single-mep_events .evently-date-row__month {
-	font-size: 10px;
-	font-weight: 700;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	line-height: 1;
-	opacity: 0.9;
+	font-size: 10px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.08em !important;
+	text-transform: uppercase !important;
+	line-height: 1 !important;
+	color: var(--evently-muted) !important;
+	opacity: 1 !important;
 }
 
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card.is-active .mpwem-date-card__month {
+	color: rgba(255, 255, 255, 0.72) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__day,
 body.single-mep_events .evently-date-row__day {
-	margin-top: 4px;
-	font-size: 22px;
-	font-weight: 800;
-	letter-spacing: -0.03em;
-	line-height: 1;
+	margin-top: 4px !important;
+	font-size: 17px !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.03em !important;
+	line-height: 1 !important;
+	color: inherit !important;
 }
 
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__content,
 body.single-mep_events .evently-date-row__body {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-	min-width: 0;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 6px !important;
+	min-width: 0 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__weekday {
+	display: block !important;
+	font-size: 11px !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.06em !important;
+	text-transform: uppercase !important;
+	line-height: 1.2 !important;
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__date {
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	color: var(--evently-text) !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	line-height: 1.3 !important;
+	text-decoration: none !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__meta {
+	color: var(--evently-muted) !important;
+	font-size: 12px !important;
+	font-weight: 400 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__sessions {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: center !important;
+	gap: 0 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__session {
+	display: inline-flex !important;
+	flex-direction: row !important;
+	align-items: baseline !important;
+	gap: 4px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: var(--evently-muted) !important;
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	line-height: 1.4 !important;
+	text-decoration: none !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__session:not(:last-child)::after {
+	content: "·" !important;
+	display: inline !important;
+	margin: 0 8px 0 4px !important;
+	color: #d1d5db !important;
+	font-weight: 400 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__session:hover {
+	background: transparent !important;
+	border-color: transparent !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__session.is-active {
+	background: transparent !important;
+	border-color: transparent !important;
+	color: var(--evently-text) !important;
+	font-weight: 600 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__session-label,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__session-time {
+	font-size: inherit !important;
+	font-weight: inherit !important;
+	line-height: inherit !important;
+	opacity: 1 !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-card__go,
+body.single-mep_events .evently-date-row__chevron {
+	display: none !important;
 }
 
 body.single-mep_events .evently-date-row__dow {
 	font-size: 11px;
-	font-weight: 700;
-	letter-spacing: 0.08em;
+	font-weight: 600;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	color: var(--evently-primary);
+	color: var(--evently-muted);
 	line-height: 1.2;
 }
 
@@ -2111,64 +2408,70 @@ body.single-mep_events .evently-date-row__time svg {
 	opacity: 0.85;
 }
 
-body.single-mep_events .evently-date-row__chevron {
-	display: inline-flex;
-	color: var(--evently-muted);
-	opacity: 0.7;
-}
-
-body.single-mep_events .evently-date-row__link:hover .evently-date-row__chevron,
-body.single-mep_events .evently-date-row.is-active .evently-date-row__chevron {
-	color: var(--evently-primary);
-	opacity: 1;
-}
-
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__more,
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more,
-body.single-mep_events .evently-date-list__more {
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__more,
+body.single-mep_events .evently-date-list__more,
+body.single-mep_events .mpwem-date-list__more {
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
 	width: 100% !important;
-	min-height: 42px !important;
+	min-height: 40px !important;
 	margin: 10px 0 0 !important;
 	padding: 10px 14px !important;
-	border: 1px dashed rgba(108, 92, 231, 0.35) !important;
+	border: 1px solid var(--evently-border) !important;
 	border-radius: 12px !important;
-	background: transparent !important;
-	color: var(--evently-primary) !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
 	font-family: inherit !important;
 	font-size: 13px !important;
-	font-weight: 700 !important;
+	font-weight: 600 !important;
 	cursor: pointer !important;
 	box-shadow: none !important;
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more span,
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more [data-text],
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__more span,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__more [data-text],
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more span,
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more [data-text],
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__more span,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__more [data-text],
 body.single-mep_events .evently-date-list__more span,
-body.single-mep_events .evently-date-list__more [data-text] {
-	color: var(--evently-primary) !important;
+body.single-mep_events .evently-date-list__more [data-text],
+body.single-mep_events .mpwem-date-list__more span,
+body.single-mep_events .mpwem-date-list__more [data-text] {
+	color: var(--evently-text) !important;
 	font-weight: 700 !important;
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more:hover,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__more:hover,
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more:hover,
-body.single-mep_events .evently-date-list__more:hover {
-	background: var(--evently-primary-soft) !important;
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__more:hover,
+body.single-mep_events .evently-date-list__more:hover,
+body.single-mep_events .mpwem-date-list__more:hover {
+	background: var(--evently-surface) !important;
 	border-style: solid !important;
-	color: var(--evently-primary) !important;
+	color: var(--evently-text) !important;
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more:hover span,
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more:hover [data-text],
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__more:hover span,
+body.single-mep_events .default_theme .mep-default-sidebar .mpwem-date-list__more:hover [data-text],
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more:hover span,
 body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more:hover [data-text],
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__more:hover span,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-list__more:hover [data-text],
 body.single-mep_events .evently-date-list__more:hover span,
-body.single-mep_events .evently-date-list__more:hover [data-text] {
-	color: var(--evently-primary) !important;
+body.single-mep_events .evently-date-list__more:hover [data-text],
+body.single-mep_events .mpwem-date-list__more:hover span,
+body.single-mep_events .mpwem-date-list__more:hover [data-text] {
+	color: var(--evently-text) !important;
 }
 
 /* ── Location ────────────────────────────────────────────────────── */
@@ -2493,8 +2796,7 @@ body.single-mep_events .default_theme .mpwem_timeline_area {
 }
 
 body.single-mep_events .default_theme .mpwem_timeline_area .timeline_section_header {
-	margin: 0 0 var(--evently-dt-section-title-gap) !important;
-	padding: 0 !important;
+	/* layout + gap from shared section title rhythm */
 	background: transparent !important;
 	border: 0 !important;
 }
@@ -2745,27 +3047,27 @@ body.single-mep_events .default_theme .mpwem_booking_panel {
 	box-sizing: border-box !important;
 }
 
-/* Ticket Options header (+ optional date/time controls) */
+/* Ticket Options header — title + modern date/time control panel */
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header {
 	display: flex !important;
 	flex-direction: column !important;
 	align-items: stretch !important;
-	gap: 14px !important;
-	margin: 10px 0 !important;
-	padding: 20px 22px 18px !important;
-	background: linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.02) 100%) !important;
-	border: 1px solid #ddd !important;
-	border-radius: 20px !important;
+	gap: var(--evently-dt-section-title-gap) !important;
+	margin: 0 0 var(--evently-dt-section-title-gap) !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
 	box-shadow: none !important;
 	z-index: auto !important;
 	position: relative !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title {
-	display: flex !important;
-	align-items: center !important;
-	gap: 10px !important;
-	/* type + color from shared section titles */
+	display: block !important;
+	align-items: unset !important;
+	gap: 0 !important;
+	margin-bottom: 0 !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header .ticket-title::before {
@@ -2773,22 +3075,31 @@ body.single-mep_events .default_theme .mpwem_registration_area .date-time-header
 	content: none !important;
 }
 
-/* Title-only header (single date / hidden input) — tighter bottom padding */
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header:not(:has(.date-time-area)) {
-	padding-bottom: 20px !important;
-	border-radius: 12px !important;
-	border: 1px solid #ddd !important;
-	margin-bottom: 5px !important;
+	margin-bottom: var(--evently-dt-section-title-gap) !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
 }
 
+/* Split control panel */
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area {
 	display: grid !important;
-	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
-	gap: 12px !important;
-	align-items: end !important;
+	grid-template-columns: 1fr !important;
+	gap: 0 !important;
+	align-items: stretch !important;
 	width: 100% !important;
 	margin: 0 !important;
 	padding: 0 !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 14px !important;
+	background: var(--evently-white) !important;
+	overflow: hidden !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area:has(.mpwem_time_area) {
+	grid-template-columns: 1fr 1fr !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area > ._dFlex {
@@ -2803,13 +3114,39 @@ body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label {
-	display: flex !important;
-	flex-direction: column !important;
-	align-items: stretch !important;
-	gap: 8px !important;
+	display: grid !important;
+	grid-template-columns: 20px minmax(0, 1fr) !important;
+	grid-template-areas:
+		"lbl lbl"
+		"ico ctl" !important;
+	align-items: center !important;
+	column-gap: 10px !important;
+	row-gap: 10px !important;
 	width: 100% !important;
 	margin: 0 !important;
+	padding: 16px 18px !important;
 	position: relative !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-sizing: border-box !important;
+	transition: background var(--evently-transition-fast) ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area > label {
+	border-right: 1px solid var(--evently-border) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area:not(:has(.mpwem_time_area)) > label,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem_time_area label {
+	border-right: 0 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label:hover {
+	background: rgba(11, 11, 13, 0.02) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label:focus-within {
+	background: rgba(11, 11, 13, 0.03) !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label::after {
@@ -2817,43 +3154,65 @@ body.single-mep_events .default_theme .mpwem_registration_area .date-time-area l
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label span {
-	display: inline-flex !important;
-	align-items: center !important;
-	gap: 6px !important;
-	font-size: 12px !important;
+	grid-area: lbl !important;
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 11px !important;
 	font-weight: 700 !important;
-	letter-spacing: 0.04em !important;
+	letter-spacing: 0.08em !important;
 	text-transform: uppercase !important;
+	line-height: 1.2 !important;
 	color: var(--evently-muted) !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label i {
-	position: absolute !important;
-	right: 14px !important;
-	bottom: 13px !important;
-	z-index: 2 !important;
+	grid-area: ico !important;
+	position: static !important;
+	right: auto !important;
+	bottom: auto !important;
+	z-index: auto !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 20px !important;
+	height: 20px !important;
 	pointer-events: none !important;
-	color: var(--evently-primary) !important;
+	color: var(--evently-text) !important;
 	font-size: 14px !important;
 	line-height: 1 !important;
+	opacity: 0.72 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label input[type="hidden"] {
+	display: none !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .formControl,
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area select.formControl,
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area input.formControl,
 body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time.formControl {
+	grid-area: ctl !important;
 	width: 100% !important;
 	max-width: 100% !important;
-	min-height: 46px !important;
-	padding: 12px 40px 12px 14px !important;
-	border: 1px solid var(--evently-border) !important;
-	border-radius: 12px !important;
-	background: var(--evently-white) !important;
+	min-height: 0 !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 0 22px 0 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background-color: transparent !important;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+	background-repeat: no-repeat !important;
+	background-position: right center !important;
+	background-size: 12px 8px !important;
 	font-family: inherit !important;
-	font-size: 14px !important;
+	font-size: 15px !important;
 	font-weight: 600 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.35 !important;
 	color: var(--evently-text) !important;
-	box-shadow: 0 1px 2px rgba(11, 11, 13, 0.04) !important;
+	box-shadow: none !important;
 	box-sizing: border-box !important;
 	appearance: none !important;
 	-webkit-appearance: none !important;
@@ -2863,18 +3222,162 @@ body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .formControl:hover,
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area select.formControl:hover,
 body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time.formControl:hover {
-	border-color: rgba(108, 92, 231, 0.35) !important;
+	border-color: transparent !important;
+	color: var(--evently-text) !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .formControl:focus,
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area select.formControl:focus,
 body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time.formControl:focus {
 	outline: none !important;
-	border-color: var(--evently-primary) !important;
-	box-shadow: 0 0 0 3px var(--evently-primary-soft) !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
 }
 
-/* Keep true hidden inputs invisible (override earlier full-width input rules) */
+/* Modern custom time dropdown */
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select {
+	grid-area: ctl !important;
+	position: relative !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	z-index: 2 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area.has-modern-select-open {
+	overflow: visible !important;
+	z-index: 30 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__native {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+	background-image: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__trigger {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 10px !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 600 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.35 !important;
+	text-align: left !important;
+	cursor: pointer !important;
+	box-shadow: none !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__trigger:focus {
+	outline: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__trigger:focus-visible {
+	outline: 2px solid var(--evently-text) !important;
+	outline-offset: 3px !important;
+	border-radius: 4px !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__value {
+	display: block !important;
+	min-width: 0 !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	white-space: nowrap !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__chevron {
+	flex: 0 0 auto !important;
+	width: 12px !important;
+	height: 8px !important;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+	background-size: 12px 8px !important;
+	transition: transform 0.18s ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select.is-open .mpwem-modern-select__chevron {
+	transform: rotate(180deg) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__menu {
+	position: absolute !important;
+	top: calc(100% + 12px) !important;
+	left: -30px !important;
+	right: -18px !important;
+	z-index: 50 !important;
+	margin: 0 !important;
+	padding: 6px !important;
+	list-style: none !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-white) !important;
+	box-shadow:
+		0 16px 40px rgba(17, 17, 19, 0.12),
+		0 2px 8px rgba(17, 17, 19, 0.05) !important;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__menu[hidden] {
+	display: none !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__option {
+	display: block !important;
+	margin: 0 !important;
+	padding: 11px 12px !important;
+	border: 0 !important;
+	border-radius: 8px !important;
+	background: transparent !important;
+	color: var(--evently-muted) !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	line-height: 1.35 !important;
+	letter-spacing: -0.01em !important;
+	cursor: pointer !important;
+	transition: background-color var(--evently-transition-fast, 0.12s) ease, color var(--evently-transition-fast, 0.12s) ease !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__option:hover,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__option:focus {
+	outline: none !important;
+	background: rgba(11, 11, 13, 0.05) !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__option.is-selected {
+	background: var(--evently-text) !important;
+	color: var(--evently-white) !important;
+	font-weight: 600 !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__option.is-selected:hover,
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem-modern-select__option.is-selected:focus {
+	background: var(--evently-text) !important;
+	color: var(--evently-white) !important;
+}
+
+/* Keep true hidden inputs invisible */
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-header input[type="hidden"],
 body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_time[type="hidden"] {
 	display: none !important;
@@ -2883,6 +3386,95 @@ body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_
 	padding: 0 !important;
 	margin: 0 !important;
 	border: 0 !important;
+}
+
+@media (max-width: 640px) {
+	body.single-mep_events .default_theme .mpwem_registration_area .date-time-area:has(.mpwem_time_area) {
+		grid-template-columns: 1fr !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_registration_area .date-time-area > label {
+		border-right: 0 !important;
+		border-bottom: 1px solid var(--evently-border) !important;
+	}
+
+	body.single-mep_events .default_theme .mpwem_registration_area .date-time-area:not(:has(.mpwem_time_area)) > label,
+	body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem_time_area label {
+		border-bottom: 0 !important;
+	}
+}
+
+/* Modern ticket datepicker — Evently tokens (popup lives on body) */
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern {
+	border-color: var(--evently-border) !important;
+	background: var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-family: var(--evently-font-sans) !important;
+	box-shadow:
+		0 16px 40px rgba(17, 17, 19, 0.12),
+		0 2px 8px rgba(17, 17, 19, 0.05) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title {
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title select,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-month,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-year {
+	border-color: var(--evently-border) !important;
+	background-color: #fafafa !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next {
+	border-color: var(--evently-border) !important;
+	background: var(--evently-white) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev:hover,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next:hover {
+	background: #f5f5f3 !important;
+	border-color: #d8d8d2 !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern th {
+	color: var(--evently-muted) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-default {
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-default:hover {
+	background: #f5f5f3 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-today .ui-state-default {
+	background: #fafafa !important;
+	box-shadow: inset 0 0 0 1px var(--evently-border) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td .ui-state-active,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-active,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-current-day .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-current-day a.ui-state-default {
+	background: var(--evently-text) !important;
+	color: var(--evently-white) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-available a.ui-state-default:not(.ui-state-active),
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td[title="Available"] a.ui-state-default:not(.ui-state-active) {
+	background: #f5f5f3 !important;
+	color: var(--evently-text) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-unavailable .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-unselectable .ui-state-default {
+	color: #cfcfca !important;
 }
 
 /* Ticket block */
@@ -3374,7 +3966,6 @@ body.single-mep_events .default_theme #mep-native-total-display {
 		padding: 16px 18px 18px !important;
 	}
 
-	body.single-mep_events .default_theme .mpwem_registration_area .date-time-header,
 	body.single-mep_events .default_theme .mpwem_registration_area .mpwem_booking_panel .mpwem_ticket_type .card-header {
 		padding-left: 18px !important;
 		padding-right: 18px !important;
@@ -3574,11 +4165,7 @@ body.single-mep_events .default_theme .mpwem_related_area {
 }
 
 body.single-mep_events .default_theme .mpwem_related_area .related_title {
-	display: flex !important;
-	align-items: center !important;
-	justify-content: space-between !important;
-	gap: 16px !important;
-	margin: 0 0 var(--evently-dt-section-title-gap) !important;
+	/* layout + gap from shared section title rhythm */
 	padding: 0 !important;
 }
 
@@ -3989,13 +4576,9 @@ body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel
 }
 
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-head {
-	display: flex !important;
-	align-items: flex-start !important;
-	justify-content: space-between !important;
-	gap: 16px !important;
+	/* layout + gap from shared section title rhythm */
 	flex-wrap: wrap !important;
-	margin: 0 0 var(--evently-dt-section-title-gap) !important;
-	padding: 0 !important;
+	align-items: flex-start !important;
 }
 
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) .mep-reviews-head__copy {
