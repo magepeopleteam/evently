@@ -1110,7 +1110,7 @@ body.evently-review-modal-open {
 	flex-direction: row;
 	align-items: baseline;
 	flex-wrap: wrap;
-	gap: 5px;
+	gap: 1px;
 	margin: 0;
 	padding: 0;
 	border: 0;

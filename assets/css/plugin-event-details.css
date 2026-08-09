@@ -498,7 +498,7 @@ body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .mpwem-date-card_
 	display: inline-flex !important;
 	flex-direction: row !important;
 	align-items: baseline !important;
-	gap: 5px !important;
+	gap: 1px !important;
 	padding: 0 !important;
 	border: 0 !important;
 	border-radius: 0 !important;
@@ -2369,7 +2369,7 @@ body.single-mep_events .evently-event-schedule .mpwem-date-card__session {
 	display: inline-flex !important;
 	flex-direction: row !important;
 	align-items: baseline !important;
-	gap: 5px !important;
+	gap: 1px !important;
 	padding: 0 !important;
 	border: 0 !important;
 	border-radius: 0 !important;
