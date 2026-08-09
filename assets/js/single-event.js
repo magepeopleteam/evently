@@ -55,11 +55,17 @@
 			return;
 		}
 		stage.style.maxHeight = '';
+		stage.style.minHeight = '';
 		stage.style.height = '';
 		Array.prototype.forEach.call( stage.querySelectorAll( '.sliderItem' ), function ( item ) {
 			item.style.minHeight = '';
 			item.style.maxHeight = '';
 			item.style.height = '';
+		} );
+		Array.prototype.forEach.call( stage.querySelectorAll( '[data-bg-image]' ), function ( bg ) {
+			bg.style.minHeight = '';
+			bg.style.maxHeight = '';
+			bg.style.height = '';
 		} );
 	}
 
