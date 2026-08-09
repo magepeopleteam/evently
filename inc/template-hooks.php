@@ -15,8 +15,6 @@
  *   do_action( 'evently_after_event_content' )
  *   do_action( 'evently_before_event_card', array $event, string $variant )
  *   do_action( 'evently_after_event_card', array $event, string $variant )
- *   do_action( 'evently_before_booking', int $event_id )
- *   do_action( 'evently_after_booking', int $event_id )
  *   do_action( 'evently_before_footer' )
  *   do_action( 'evently_after_footer' )
  *
@@ -44,11 +42,15 @@ add_action( 'evently_before_header', 'evently_output_skip_link' );
 
 /**
  * When Theme Settings → Event details page is "Plugin", force the Event
- * Booking Manager single template instead of Evently's mage-event override.
+ * Booking Manager's bundled single-events.php template specifically.
  *
- * The plugin's MPWEM_Frontend::load_events_templates() prefers
- * theme/mage-event/single-events.php whenever that file exists. Priority 20
- * runs after that filter and swaps back to the plugin file when requested.
+ * Evently no longer ships a `mage-event/single-events.php` override (retired
+ * — see docs/booking-integration.md), so MPWEM_Frontend::load_events_templates()
+ * already falls through to whatever bundled template the plugin's own
+ * settings resolve to before this filter ever runs. Priority 20 runs after
+ * that and, only when "Plugin" is explicitly selected here, pins the choice
+ * to `templates/single-events.php` regardless of what the plugin's own
+ * settings would otherwise have picked.
  *
  * @param string $template Absolute path to the single template.
  * @return string

@@ -10,8 +10,8 @@ Discover (homepage) → Search/Filter (Events page) → Explore (single event) �
 |---|---|---|
 | Homepage | `front-page.php` | 14 independent sections, each a `template-parts/home/*.php` file. Reorder/remove via the `evently_home_sections` filter. |
 | Events (browse all) | `page-templates/event-archive.php` | Assign this Page Template to any Page — the theme finds it automatically (`evently_get_events_page_url()`). Created automatically by Setup's demo import. |
-| Category / Organizer archive | `mage-event/taxonomy-category.php`, `mage-event/taxonomy-organozer.php` | Plugin template overrides — see [Event Booking Integration](booking-integration.md). |
-| Single event | `mage-event/single-events.php` | Plugin template override. The ticket-selection form is the plugin's real form, restyled — not reimplemented. |
+| Category / Organizer archive | Booking plugin's own bundled taxonomy template | Evently retired its `mage-event/` override — see [Event Booking Integration](booking-integration.md). |
+| Single event | Booking plugin's own bundled single-event template | Evently retired its `mage-event/` override. The ticket-selection form is still the plugin's real form, restyled via CSS — not reimplemented. |
 | Organizer Dashboard | `page-templates/organizer-dashboard.php` | Real stats for the logged-in user's own events — no simulated data. |
 | Blog | `index.php` / `archive.php` / `single.php` / `search.php` | Editorial "Event Journal" cards, not generic post loops. |
 | WooCommerce (shop/cart/checkout/My Account) | Styled via CSS + a light wrapper hook, no template overrides | See [WooCommerce](woocommerce.md). |
@@ -22,7 +22,6 @@ Discover (homepage) → Search/Filter (Events page) → Explore (single event) �
 assets/       Compiled-free CSS/JS/icons/fonts — one file per concern, loaded conditionally (inc/enqueue.php)
 inc/          PHP: setup, enqueue, helpers, template functions/hooks, blocks, patterns, integrations, admin, demo-import
 template-parts/  Reusable partials (header, footer, cards, home sections, archive filters, event content, modals)
-mage-event/   Overrides read by the booking plugin's own template-resolution convention
 page-templates/  Classic WordPress Page Templates (Event Archive, Organizer Dashboard)
 patterns/     Block pattern content generators (one file per pattern, registered by inc/patterns/patterns.php)
 docs/         You are here

@@ -1,14 +1,14 @@
 <?php
 /**
  * Shared Event Archive body — search hero, filter sidebar/drawer, toolbar,
- * grid/list, pagination. Used by BOTH:
- *  - page-templates/event-archive.php (the real, primary path — the
- *    booking plugin registers `mep_events` with `has_archive => false`,
- *    so this "browse all events" experience is meant to live on a regular
- *    WP Page, the same way the plugin's own [event-list]/[events_list]
- *    shortcode is normally embedded — see docs/architecture.md), and
- *  - mage-event/event-archive.php (kept for correctness in case a future
- *    plugin version, or the PRO add-on, ever enables has_archive).
+ * grid/list, pagination. Rendered by page-templates/event-archive.php — the
+ * booking plugin registers `mep_events` with `has_archive => false`, so this
+ * "browse all events" experience is meant to live on a regular WP Page, the
+ * same way the plugin's own [event-list]/[events_list] shortcode is
+ * normally embedded (see docs/architecture.md). Evently previously also had
+ * a mage-event/event-archive.php override for this; it's been retired
+ * (docs/booking-integration.md) since has_archive => false means WordPress
+ * never actually routed to it.
  *
  * Reads its own filter state from $_GET so it doesn't need any $args.
  *

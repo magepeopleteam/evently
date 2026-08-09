@@ -17,7 +17,7 @@ Evently itself hooks its skip-to-content link on `evently_before_header` (`inc/t
 Fire in `footer.php`, around the site footer template-part.
 
 ### `evently_before_event_content` / `evently_after_event_content`
-Fire around the main content of the Event Archive (`page-templates`/`mage-event/event-archive.php` via the shared `template-parts/archive/event-archive-content.php`), single event (`mage-event/single-events.php`), and both taxonomy archives (`mage-event/taxonomy-category.php`, `mage-event/taxonomy-organozer.php`).
+Fire around the main content of the Event Archive (`template-parts/archive/event-archive-content.php`, used by `page-templates/event-archive.php`). They previously also fired on the single-event and taxonomy-archive pages via the theme's `mage-event/` override templates; those files have been retired (see `docs/booking-integration.md`), so single-event and taxonomy-archive pages now render through the booking plugin's own bundled templates and no longer fire these hooks.
 
 ### `evently_before_event_card` / `evently_after_event_card`
 Fire in `evently_event_card()` (`inc/template-functions.php`), around every single card render — homepage, archive, related events, Elementor widget, all of them, since they all funnel through this one function.
@@ -27,14 +27,6 @@ add_action( 'evently_before_event_card', function ( $event, $variant ) {
         echo '<span class="my-badge">Last chance</span>';
     }
 }, 10, 2 );
-```
-
-### `evently_before_booking` / `evently_after_booking`
-Fire in `mage-event/single-events.php`, immediately around the real ticket-selection form (`Evently_Booking_Adapter::render_booking_form()`).
-```php
-add_action( 'evently_after_booking', function ( $event_id ) {
-    echo '<p class="trust-note">Secure checkout · Instant confirmation</p>';
-} );
 ```
 
 ## Filters

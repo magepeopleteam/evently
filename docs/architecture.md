@@ -25,8 +25,8 @@ Evently ships a complete `theme.json` (colors/typography/spacing/radius tokens, 
 | `/` | `front-page.php` — always wins for the site root, regardless of Settings → Reading |
 | Any Page using the "Evently — Event Archive" template | `page-templates/event-archive.php` |
 | Any Page using the "Evently — Organizer Dashboard" template | `page-templates/organizer-dashboard.php` |
-| A single `mep_events` post | `mage-event/single-events.php` — found by the **plugin's own** resolver, not WordPress's template hierarchy |
-| A `mep_cat` / `mep_org` term archive | `mage-event/taxonomy-category.php` / `mage-event/taxonomy-organozer.php` — same plugin resolver |
+| A single `mep_events` post | The booking plugin's own bundled single-event template — Evently retired its `mage-event/` override (see `docs/booking-integration.md`) |
+| A `mep_cat` / `mep_org` term archive | The booking plugin's own bundled taxonomy template — same reason |
 | Everything else (posts, pages, search, 404) | Standard classic hierarchy (`single.php`, `page.php`, `search.php`, `404.php`, `index.php`) |
 
 Full detail on the plugin's own template-override mechanism and why `mep_events` has no native archive URL: `docs/booking-integration.md`.

@@ -386,7 +386,6 @@ function evently_editor_assets() {
 			'assets/css/variables.css',
 			'assets/css/base.css',
 			'assets/css/typography.css',
-			'assets/css/editor.css',
 		)
 	);
 }

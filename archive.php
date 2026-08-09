@@ -1,8 +1,9 @@
 <?php
 /**
  * Default archive template (blog category/tag/date/author archives).
- * The mep_events post type archive is served by the booking plugin via
- * mage-event/event-archive.php instead — see docs/architecture.md.
+ * `mep_events` has `has_archive => false` (no native archive URL); its
+ * mep_cat / mep_org taxonomy archives are served by the booking plugin's
+ * own bundled templates instead — see docs/architecture.md.
  *
  * @package Evently
  */

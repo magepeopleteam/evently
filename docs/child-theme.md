@@ -5,7 +5,7 @@ Evently is a classic-hierarchy theme (see `docs/implementation-plan.md` §3 for 
 ## What you can override from a child theme
 
 - **Any template file** — `header.php`, `footer.php`, `single.php`, `archive.php`, `page.php`, `404.php`, `search.php`, `comments.php`, `front-page.php` — by creating a file at the same path in your child theme.
-- **Any template-part** — everything under `template-parts/`, `mage-event/`, `page-templates/` — same rule: same relative path, child theme wins, because every call goes through `get_template_part()` / `locate_template()` (via `evently_template_part()`) or, for `mage-event/`, the booking plugin's own `get_stylesheet_directory()`-first resolver, which already checks the child theme.
+- **Any template-part** — everything under `template-parts/`, `page-templates/` — same rule: same relative path, child theme wins, because every call goes through `get_template_part()` / `locate_template()` (via `evently_template_part()`). (Evently no longer ships a `mage-event/` override folder — see `docs/booking-integration.md` — but if you add one, the booking plugin's own `get_stylesheet_directory()`-first resolver already checks the child theme first too.)
 - **Any CSS/JS file** — enqueue your own with a later priority, or use `wp_dequeue_style()` / `wp_dequeue_script()` in a `wp_enqueue_scripts` callback hooked after Evently's (priority > 10) and enqueue a replacement.
 - **Any function** — every theme function is declared with `if ( ! function_exists( '...' ) )` guards where a child theme might reasonably want to fully replace it (e.g. `evently_get_icon()`), and hook-registered functions can always be `remove_action()`/`remove_filter()`'d and replaced.
 

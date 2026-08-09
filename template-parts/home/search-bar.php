@@ -2,9 +2,9 @@
 /**
  * Evently Smart Event Search (brief §13) — reusable on the homepage hero
  * and (in compact form) at the top of the Event Archive. Submits a real GET
- * request to the events archive; Phase 4's mage-event/event-archive.php
- * override reads these same query vars to run the actual filtered query, so
- * this isn't a decorative form — it's the front door to real search.
+ * request to the events archive; template-parts/archive/event-archive-content.php
+ * reads these same query vars to run the actual filtered query, so this
+ * isn't a decorative form — it's the front door to real search.
  *
  * @package Evently
  */

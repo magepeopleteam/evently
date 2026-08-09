@@ -9,7 +9,7 @@ mage-eventpress ("Event Booking Manager for WooCommerce" by MagePeople) — CPT 
 Two important, non-obvious facts about it that shaped this integration:
 
 1. **`mep_events` is registered with `has_archive => false`.** There is no native "browse all events" URL. The plugin's own intended pattern is a WordPress Page with its `[event-list]`/`[events_list]` shortcode — Evently's equivalent is `page-templates/event-archive.php`, a real Page Template, found automatically by `evently_get_events_page_url()`. Never call `get_post_type_archive_link( 'mep_events' )` directly in a template — it returns `false` on a default install.
-2. **The plugin has its own template-override folder convention**, unrelated to WordPress's normal template hierarchy: `MPWEM_Functions::template_path( $file )` checks `get_stylesheet_directory() . '/mage-event/' . $file` before falling back to its own bundled template. Evently's `mage-event/event-archive.php`, `mage-event/single-events.php`, `mage-event/taxonomy-category.php`, and `mage-event/taxonomy-organozer.php` (filename intentionally matches the plugin's own misspelling) are registered this way — they are not reachable via `is_page_template()` or the classic hierarchy.
+2. **The plugin has its own template-override folder convention**, unrelated to WordPress's normal template hierarchy: `MPWEM_Functions::template_path( $file )` checks `get_stylesheet_directory() . '/mage-event/' . $file` before falling back to its own bundled template. Evently **retired its `mage-event/` override files** (single-events.php, event-archive.php, taxonomy-category.php, taxonomy-organozer.php, and their layout partials) — the single-event page and the `mep_cat`/`mep_org` taxonomy archives now render through the plugin's own bundled templates unmodified. `mage-event/event-archive.php` was dead weight in practice anyway: `mep_events` has `has_archive => false`, so WordPress never routes to a post-type-archive template for it. If you need a themed single-event/taxonomy skin again, re-add the same `mage-event/{file}.php` paths — the plugin's resolver picks them up automatically, no registration needed.
 
 ## `Evently_Booking_Adapter` — the only door into plugin data
 
@@ -20,6 +20,8 @@ Two important, non-obvious facts about it that shaped this integration:
 
 **No template should call `MPWEM_*`/`mep_*` anything directly.** If you need a new piece of plugin data in a template, add a method to the adapter first.
 
+**Currently unused pending a caller:** `render_booking_form()`, `render_hook_widget()`, and `render_event_reviews()` were written for `mage-event/single-events.php`'s markup and have no caller now that file is retired (see above). They're still correct and safe to call — wire them into a new single-event template if you reintroduce a themed skin.
+
 ## The one thing the adapter deliberately does NOT rebuild
 
 `Evently_Booking_Adapter::render_booking_form( $event_id )` captures the output of `do_action( 'mpwem_registration', $event_id, $meta )` — the plugin's own real ticket-selection + add-to-cart form (early-bird windows, member-only gating, cart-state detection, WooCommerce-vs-native-checkout branching all live there). `assets/css/single-event.css` restyles that real markup by its real class names (`.mpwem_booking_panel`, `.mep_ticket_item`, `.qtyIncDec`, `.mpwem_summery`, …) documented inline in that stylesheet. If you need to change how tickets are selected, that's a plugin-side change, not a theme-side one.
@@ -28,7 +30,7 @@ Two important, non-obvious facts about it that shaped this integration:
 
 1. Rewrite `Evently_Booking_Adapter`'s method bodies to call your plugin's real API (keep the same public method signatures so every template keeps working unmodified).
 2. Update `evently_has_booking_plugin()` (`inc/helpers.php`) to detect your plugin instead of `mep_events`.
-3. If your plugin has its own template-override convention, replace the `mage-event/` files; if it uses the normal WordPress template hierarchy instead, you can delete `mage-event/` entirely and add classic `single-{post_type}.php` / `archive-{post_type}.php` files instead.
+3. If your plugin has its own template-override convention, add `mage-event/` files for it (the path is retired but the plugin resolver still checks for it automatically — see above); if it uses the normal WordPress template hierarchy instead, add classic `single-{post_type}.php` / `archive-{post_type}.php` files instead.
 4. `render_booking_form()` is the one method it's fine to actually reimplement, if your plugin's checkout form isn't hook-renderable the same way — everything else should stay a thin, faithful wrapper.
 
 ## Confirmed absent from the inspected plugin (so Evently never fakes them)
