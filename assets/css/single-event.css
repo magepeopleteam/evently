@@ -1041,9 +1041,21 @@ body.evently-review-modal-open {
 	cursor: pointer;
 }
 
+.evently-date-list__more span,
+.evently-date-list__more [data-text] {
+	color: var(--evently-primary);
+	font-weight: 700;
+}
+
 .evently-date-list__more:hover {
 	background: var(--evently-primary-soft);
 	border-style: solid;
+	color: var(--evently-primary);
+}
+
+.evently-date-list__more:hover span,
+.evently-date-list__more:hover [data-text] {
+	color: var(--evently-primary);
 }
 
 /* Related events */

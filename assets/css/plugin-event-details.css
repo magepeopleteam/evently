@@ -936,8 +936,7 @@ body.single-mep_events .default_theme .mpwem_details_content.is-expanded .eventl
 body.single-mep_events .default_theme .mpwem_registration_area,
 body.single-mep_events .default_theme .faq_area,
 body.single-mep_events .default_theme div.faq_area,
-body.single-mep_events .default_theme .mpwem_timeline_area,
-body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
+body.single-mep_events .default_theme .mpwem_timeline_area {
 	margin-top: var(--evently-dt-section-stack) !important;
 }
 
@@ -2041,6 +2040,7 @@ body.single-mep_events .evently-date-row.is-active .evently-date-row__chevron {
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more,
 body.single-mep_events .evently-date-list__more {
 	display: inline-flex !important;
 	align-items: center !important;
@@ -2060,10 +2060,31 @@ body.single-mep_events .evently-date-list__more {
 	box-shadow: none !important;
 }
 
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more span,
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more [data-text],
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more span,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more [data-text],
+body.single-mep_events .evently-date-list__more span,
+body.single-mep_events .evently-date-list__more [data-text] {
+	color: var(--evently-primary) !important;
+	font-weight: 700 !important;
+}
+
 body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more:hover,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more:hover,
 body.single-mep_events .evently-date-list__more:hover {
 	background: var(--evently-primary-soft) !important;
 	border-style: solid !important;
+	color: var(--evently-primary) !important;
+}
+
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more:hover span,
+body.single-mep_events .default_theme .mep-default-sidebar .evently-date-list__more:hover [data-text],
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more:hover span,
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .evently-date-list__more:hover [data-text],
+body.single-mep_events .evently-date-list__more:hover span,
+body.single-mep_events .evently-date-list__more:hover [data-text] {
+	color: var(--evently-primary) !important;
 }
 
 /* ── Location ────────────────────────────────────────────────────── */
@@ -3831,8 +3852,8 @@ body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel
 	row-gap: 20px !important;
 	max-width: 100% !important;
 	width: 100% !important;
-	/* margin-top from shared section rhythm */
-	padding: 22px 24px 24px !important;
+	padding: 20px !important;
+	margin: 20px 0 !important;
 	background:
 		radial-gradient(120% 90% at 0% 0%, var(--evently-primary-soft), transparent 55%),
 		var(--evently-white) !important;
@@ -3845,7 +3866,7 @@ body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel
 body.single-mep_events .mep_smart_theme ~ .mep-event-review-list-wrapper,
 body.single-mep_events .mep_smart_theme .mep-event-review-list-wrapper,
 body.single-mep_events:has(.mep_smart_theme) .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
-	margin: 0 !important;
+	margin: 20px 0 !important;
 }
 
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel)::before {
@@ -4239,7 +4260,8 @@ body.single-mep_events #mageModal .mage-modal-footer {
 			"title"
 			"action"
 			"list" !important;
-		padding: 18px 16px 18px !important;
+		padding: 20px !important;
+		margin: 20px 0 !important;
 		row-gap: 14px !important;
 	}
 
