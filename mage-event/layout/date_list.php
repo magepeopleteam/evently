@@ -1,6 +1,6 @@
 <?php
 /**
- * Event Schedule Details — polished date cards with session chips.
+ * Event Schedule — modern agenda date rows with session links.
  * Theme override of mage-eventpress templates/layout/date_list.php.
  *
  * @package Evently
@@ -184,6 +184,7 @@
 											<a class="mpwem-date-card__session<?php echo ! empty( $session['active'] ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( $session['url'] ); ?>">
 												<?php if ( $session['label'] ) { ?>
 													<span class="mpwem-date-card__session-label"><?php echo esc_html( $session['label'] ); ?></span>
+													<span class="mpwem-date-card__session-sep" aria-hidden="true">·</span>
 												<?php } ?>
 												<span class="mpwem-date-card__session-time"><?php echo esc_html( $session['time'] ); ?></span>
 											</a>

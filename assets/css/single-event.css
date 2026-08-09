@@ -904,158 +904,332 @@ body.evently-review-modal-open {
 	}
 }
 
-/* ── Schedule date list (plugin date_list override) ──────────────── */
+/* ── Schedule (modern agenda list) ───────────────────────────────── */
+
+.evently-event-schedule > h2 {
+	margin-bottom: 1rem;
+	font-size: clamp(1.25rem, 2vw, 1.5rem);
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.25;
+	color: var(--evently-text);
+}
 
 .evently-event-schedule .evently-date-list,
-.evently-event-schedule .date_list_area {
+.evently-event-schedule .date_list_area,
+.evently-event-schedule .mpwem-date-list {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 0;
 	margin: 0;
-	padding: 0;
+	padding: 4px 0;
 	max-height: none;
 	overflow: visible;
-}
-
-.evently-date-row__link {
-	display: grid;
-	grid-template-columns: auto 1fr auto;
-	align-items: center;
-	gap: 14px;
-	width: 100%;
-	padding: 14px;
 	border: 1px solid var(--evently-border);
 	border-radius: 16px;
-	background: var(--evently-surface);
+	background: var(--evently-white);
+	box-sizing: border-box;
+}
+
+.evently-event-schedule .date-list-item,
+.evently-event-schedule .mpwem-date-card {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+/* Show first 5 dates; hide the rest until "View More Dates" */
+.evently-event-schedule .mpwem-date-card[data-collapse]:not(.mActive),
+.evently-event-schedule .date-list-item[data-collapse]:not(.mActive) {
+	display: none !important;
+}
+
+.evently-event-schedule .date_item::before {
+	display: none;
+}
+
+.evently-event-schedule .mpwem-date-card__inner,
+.evently-event-schedule .evently-date-row__link {
+	display: grid;
+	grid-template-columns: 56px minmax(0, 1fr);
+	align-items: start;
+	gap: 14px;
+	width: 100%;
+	margin: 0;
+	padding: 16px 18px;
+	border: 0;
+	border-bottom: 1px solid var(--evently-border);
+	border-radius: 0;
+	background: transparent;
 	color: var(--evently-text);
 	text-decoration: none;
+	box-shadow: none;
 	box-sizing: border-box;
-	transition: border-color var(--evently-transition-fast) ease,
-		background var(--evently-transition-fast) ease,
-		box-shadow var(--evently-transition-fast) ease,
-		transform var(--evently-transition-fast) ease;
+	position: relative;
+	transform: none;
+	transition: background-color 0.15s ease;
 }
 
-.evently-date-row__link:hover,
-.evently-date-row.is-active .evently-date-row__link {
-	background: var(--evently-white);
-	border-color: rgba(108, 92, 231, 0.35);
-	box-shadow: 0 8px 22px rgba(108, 92, 231, 0.1);
-	transform: translateY(-1px);
-	color: var(--evently-text);
+.evently-event-schedule .mpwem-date-card:last-child .mpwem-date-card__inner,
+.evently-event-schedule .date-list-item:last-child .mpwem-date-card__inner {
+	border-bottom: 0;
 }
 
-.evently-date-row.is-active .evently-date-row__link {
-	box-shadow: 0 0 0 3px var(--evently-primary-soft), 0 8px 22px rgba(108, 92, 231, 0.1);
+.evently-event-schedule .mpwem-date-card:hover .mpwem-date-card__inner,
+.evently-event-schedule .evently-date-row__link:hover {
+	background: rgba(11, 11, 13, 0.02);
+	box-shadow: none;
+	transform: none;
 }
 
-.evently-date-row__badge {
+.evently-event-schedule .mpwem-date-card.is-active .mpwem-date-card__inner,
+.evently-event-schedule .evently-date-row.is-active .evently-date-row__link {
+	background: rgba(11, 11, 13, 0.03);
+}
+
+.evently-event-schedule .mpwem-date-card.is-active .mpwem-date-card__inner::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 14px;
+	bottom: 14px;
+	width: 3px;
+	border-radius: 0 3px 3px 0;
+	background: var(--evently-text);
+}
+
+.evently-event-schedule .mpwem-date-card__badge,
+.evently-event-schedule .evently-date-row__badge {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	width: 56px;
-	min-height: 60px;
-	padding: 8px 6px;
+	min-height: 56px;
+	padding: 8px 4px;
+	border: 1px solid var(--evently-border);
 	border-radius: 14px;
-	background: linear-gradient(180deg, #7a6bf0 0%, var(--evently-primary) 100%);
-	color: #fff;
-	box-shadow: 0 8px 18px rgba(108, 92, 231, 0.28);
+	background: transparent;
+	color: var(--evently-text);
+	box-shadow: none;
+	flex-shrink: 0;
+	box-sizing: border-box;
 }
 
-.evently-date-row__month {
+.evently-event-schedule .mpwem-date-card.is-active .mpwem-date-card__badge {
+	border-color: var(--evently-text);
+	background: var(--evently-text);
+	color: var(--evently-white);
+}
+
+.evently-event-schedule .mpwem-date-card__month,
+.evently-event-schedule .evently-date-row__month {
 	font-size: 10px;
 	font-weight: 700;
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	line-height: 1;
-	opacity: 0.92;
+	color: var(--evently-muted);
+	opacity: 1;
 }
 
-.evently-date-row__day {
-	margin-top: 4px;
-	font-size: 24px;
-	font-weight: 800;
-	letter-spacing: -0.03em;
+.evently-event-schedule .mpwem-date-card.is-active .mpwem-date-card__month {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.evently-event-schedule .mpwem-date-card__day,
+.evently-event-schedule .evently-date-row__day {
+	margin-top: 5px;
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: -0.04em;
 	line-height: 1;
+	color: inherit;
 }
 
-.evently-date-row__body {
+.evently-event-schedule .mpwem-date-card__content,
+.evently-event-schedule .evently-date-row__body {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 8px;
 	min-width: 0;
+	padding-top: 2px;
 }
 
-.evently-date-row__dow {
+.evently-event-schedule .mpwem-date-card__weekday,
+.evently-event-schedule .evently-date-row__dow {
+	display: block;
 	font-size: 11px;
 	font-weight: 700;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
-	color: var(--evently-primary);
+	line-height: 1.2;
+	color: var(--evently-muted);
 }
 
-.evently-date-row__full {
-	font-size: 15px;
-	font-weight: 700;
-	line-height: 1.3;
+.evently-event-schedule .mpwem-date-card__date,
+.evently-event-schedule .evently-date-row__full {
+	display: block;
+	margin: 0;
+	padding: 0;
 	color: var(--evently-text);
+	font-size: 16px;
+	font-weight: 650;
+	letter-spacing: -0.015em;
+	line-height: 1.3;
+	text-decoration: none;
 }
 
-.evently-date-row__time {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
+.evently-event-schedule .mpwem-date-card__date:hover {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.evently-event-schedule .mpwem-date-card__meta,
+.evently-event-schedule .evently-date-row__time {
+	color: var(--evently-muted);
 	font-size: 13px;
-	font-weight: 600;
-	color: var(--evently-muted);
+	font-weight: 450;
+	line-height: 1.4;
 }
 
-.evently-date-row__chevron {
+.evently-event-schedule .mpwem-date-card__sessions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 0;
+	margin-top: 2px;
+}
+
+.evently-event-schedule .mpwem-date-card__session {
 	display: inline-flex;
+	flex-direction: row;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
 	color: var(--evently-muted);
-	opacity: 0.7;
+	font-size: 13px;
+	font-weight: 450;
+	line-height: 1.45;
+	text-decoration: none;
+	box-sizing: border-box;
+	transition: color 0.12s ease;
 }
 
-.evently-date-row__link:hover .evently-date-row__chevron,
-.evently-date-row.is-active .evently-date-row__chevron {
-	color: var(--evently-primary);
+.evently-event-schedule .mpwem-date-card__session:not(:last-child)::after {
+	content: "·";
+	display: inline;
+	margin: 0 10px 0 6px;
+	color: #d1d5db;
+	font-weight: 400;
+	pointer-events: none;
+}
+
+.evently-event-schedule .mpwem-date-card__session:hover {
+	color: var(--evently-text);
+	background: transparent;
+}
+
+.evently-event-schedule .mpwem-date-card__session.is-active {
+	color: var(--evently-text);
+	font-weight: 650;
+	background: transparent;
+}
+
+.evently-event-schedule .mpwem-date-card__session-label,
+.evently-event-schedule .mpwem-date-card__session-time {
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
 	opacity: 1;
+	background: transparent;
 }
 
-.evently-date-list__more {
+.evently-event-schedule .mpwem-date-card__session-sep {
+	color: #d1d5db;
+	font-weight: 400;
+}
+
+.evently-event-schedule .mpwem-date-card__session-time {
+	color: inherit;
+}
+
+.evently-event-schedule .mpwem-date-card__go,
+.evently-event-schedule .evently-date-row__chevron {
+	display: none;
+}
+
+.evently-event-schedule .mpwem-date-list__more,
+.evently-event-schedule .evently-date-list__more,
+.evently-event-schedule button.mpwem_get_date_list {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
 	min-height: 44px;
-	margin-top: 4px;
-	padding: 10px 14px;
-	border: 1px dashed rgba(108, 92, 231, 0.35);
+	margin: 12px 0 0;
+	padding: 11px 16px;
+	border: 1px solid var(--evently-border);
 	border-radius: 12px;
 	background: transparent;
-	color: var(--evently-primary);
+	color: var(--evently-text);
 	font: inherit;
 	font-size: 13px;
-	font-weight: 700;
+	font-weight: 650;
+	letter-spacing: -0.01em;
 	cursor: pointer;
+	box-shadow: none;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-.evently-date-list__more span,
-.evently-date-list__more [data-text] {
-	color: var(--evently-primary);
-	font-weight: 700;
+.evently-event-schedule .mpwem-date-list__more span,
+.evently-event-schedule .mpwem-date-list__more [data-text],
+.evently-event-schedule .evently-date-list__more span,
+.evently-event-schedule .evently-date-list__more [data-text] {
+	color: inherit;
+	font-weight: inherit;
 }
 
-.evently-date-list__more:hover {
-	background: var(--evently-primary-soft);
+.evently-event-schedule .mpwem-date-list__more:hover,
+.evently-event-schedule .evently-date-list__more:hover,
+.evently-event-schedule button.mpwem_get_date_list:hover {
+	background: rgba(11, 11, 13, 0.03);
+	border-color: #d1d5db;
 	border-style: solid;
-	color: var(--evently-primary);
+	color: var(--evently-text);
 }
 
-.evently-date-list__more:hover span,
-.evently-date-list__more:hover [data-text] {
-	color: var(--evently-primary);
+@media (max-width: 640px) {
+	.evently-event-schedule .mpwem-date-card__inner,
+	.evently-event-schedule .evently-date-row__link {
+		grid-template-columns: 48px minmax(0, 1fr);
+		gap: 12px;
+		padding: 14px 14px;
+	}
+
+	.evently-event-schedule .mpwem-date-card__badge,
+	.evently-event-schedule .evently-date-row__badge {
+		width: 48px;
+		min-height: 48px;
+		border-radius: 12px;
+	}
+
+	.evently-event-schedule .mpwem-date-card__day,
+	.evently-event-schedule .evently-date-row__day {
+		font-size: 18px;
+	}
+
+	.evently-event-schedule .mpwem-date-card__date,
+	.evently-event-schedule .evently-date-row__full {
+		font-size: 15px;
+	}
 }
 
 /* Related events */
