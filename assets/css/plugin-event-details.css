@@ -3502,15 +3502,22 @@ body.single-mep_events .default_theme .mpwem_registration_area .date-time-area >
 	display: contents !important;
 }
 
+/* Keep .mpwem_time_area as a real grid item (not display:contents).
+   Inline loader styles / AJAX swaps break contents-based grids + modern select. */
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem_time_area {
-	display: contents !important;
+	display: block !important;
+	width: 100% !important;
+	min-width: 0 !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	width: auto !important;
 	height: auto !important;
 	min-height: 0 !important;
 	overflow: visible !important;
 	position: static !important;
+}
+
+body.single-mep_events .default_theme .mpwem_registration_area .date-time-area .mpwem_time_area label {
+	height: 100% !important;
 }
 
 body.single-mep_events .default_theme .mpwem_registration_area .date-time-area label {
@@ -3523,6 +3530,7 @@ body.single-mep_events .default_theme .mpwem_registration_area .date-time-area l
 	column-gap: 10px !important;
 	row-gap: 10px !important;
 	width: 100% !important;
+	min-width: 0 !important;
 	margin: 0 !important;
 	padding: 16px 18px !important;
 	position: relative !important;

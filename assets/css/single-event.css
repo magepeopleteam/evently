@@ -1328,6 +1328,12 @@ body.evently-review-modal-open {
 	box-shadow: 0 18px 48px rgba(11, 11, 13, 0.1);
 }
 
+/* Allow the modern time dropdown to escape the card chrome. */
+.evently-booking-card:has(.date-time-area.has-modern-select-open),
+.evently-booking-card:has(.mpwem-modern-select.is-open) {
+	overflow: visible;
+}
+
 .evently-booking-card__head {
 	padding: 20px 20px 16px;
 	background: linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.03) 100%);
@@ -1903,11 +1909,318 @@ body.evently-review-modal-open {
 }
 
 .evently-booking-card .date-time-header {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: stretch !important;
+	gap: 12px !important;
 	background: none !important;
 	border: none !important;
 	box-shadow: none !important;
 	padding: 0 !important;
 	margin: 0 0 4px !important;
+	position: relative !important;
+	z-index: 2 !important;
+}
+
+/* Date / time picker panel — Evently booking card (narrow sidebar). */
+.evently-booking-card .date-time-area {
+	display: grid !important;
+	grid-template-columns: 1fr !important;
+	gap: 10px !important;
+	align-items: stretch !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	overflow: visible !important;
+	box-sizing: border-box !important;
+}
+
+.evently-booking-card .date-time-area > ._dFlex {
+	display: contents !important;
+}
+
+/* Real grid/flex item — not display:contents (breaks loaders + modern select). */
+.evently-booking-card .date-time-area .mpwem_time_area {
+	display: block !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	position: static !important;
+	height: auto !important;
+	min-height: 0 !important;
+	overflow: visible !important;
+}
+
+.evently-booking-card .date-time-area label,
+.evently-booking-card .date-time-area > label,
+.evently-booking-card .date-time-area .mpwem_time_area label {
+	display: grid !important;
+	grid-template-columns: 20px minmax(0, 1fr) !important;
+	grid-template-areas:
+		"lbl lbl"
+		"ico ctl" !important;
+	align-items: center !important;
+	column-gap: 10px !important;
+	row-gap: 8px !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	margin: 0 !important;
+	padding: 14px 16px !important;
+	position: relative !important;
+	background: #f8f7fc !important;
+	border: 1px solid #e0ddea !important;
+	border-radius: 14px !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+	transition: background-color var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease !important;
+}
+
+.evently-booking-card .date-time-area label:hover,
+.evently-booking-card .date-time-area label:focus-within {
+	background: #f4f1fc !important;
+	border-color: rgba(108, 92, 231, 0.4) !important;
+}
+
+.evently-booking-card .date-time-area label::before,
+.evently-booking-card .date-time-area label::after {
+	display: none !important;
+	content: none !important;
+}
+
+.evently-booking-card .date-time-area label > span {
+	grid-area: lbl !important;
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.08em !important;
+	text-transform: uppercase !important;
+	line-height: 1.2 !important;
+	color: var(--evently-muted) !important;
+}
+
+.evently-booking-card .date-time-area label i {
+	grid-area: ico !important;
+	position: static !important;
+	right: auto !important;
+	bottom: auto !important;
+	z-index: auto !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 20px !important;
+	height: 20px !important;
+	pointer-events: none !important;
+	color: var(--evently-text) !important;
+	font-size: 14px !important;
+	line-height: 1 !important;
+	opacity: 0.72 !important;
+}
+
+.evently-booking-card .date-time-area label input[type="hidden"],
+.evently-booking-card .date-time-header input[type="hidden"],
+.evently-booking-card input#mpwem_date_time[type="hidden"] {
+	display: none !important;
+	width: 0 !important;
+	height: 0 !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border: 0 !important;
+}
+
+.evently-booking-card .date-time-area .formControl,
+.evently-booking-card .date-time-area select.formControl,
+.evently-booking-card .date-time-area input.formControl,
+.evently-booking-card input#mpwem_date_time.formControl {
+	grid-area: ctl !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 0 22px 0 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background-color: transparent !important;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+	background-repeat: no-repeat !important;
+	background-position: right center !important;
+	background-size: 12px 8px !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 600 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.35 !important;
+	color: var(--evently-text) !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	cursor: pointer !important;
+}
+
+.evently-booking-card .date-time-area .formControl:hover,
+.evently-booking-card .date-time-area select.formControl:hover,
+.evently-booking-card input#mpwem_date_time.formControl:hover,
+.evently-booking-card .date-time-area .formControl:focus,
+.evently-booking-card .date-time-area select.formControl:focus,
+.evently-booking-card input#mpwem_date_time.formControl:focus {
+	outline: none !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+	color: var(--evently-text) !important;
+}
+
+/* Modern custom time dropdown */
+.evently-booking-card .date-time-area .mpwem-modern-select {
+	grid-area: ctl !important;
+	position: relative !important;
+	width: 100% !important;
+	min-width: 0 !important;
+	z-index: 2 !important;
+}
+
+.evently-booking-card .date-time-area.has-modern-select-open,
+.evently-booking-card .date-time-area .mpwem-modern-select.is-open {
+	z-index: 40 !important;
+	overflow: visible !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__native {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+	background-image: none !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__trigger {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	gap: 10px !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 15px !important;
+	font-weight: 600 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.35 !important;
+	text-align: left !important;
+	cursor: pointer !important;
+	box-shadow: none !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__trigger:focus {
+	outline: none !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__trigger:focus-visible {
+	outline: 2px solid var(--evently-primary) !important;
+	outline-offset: 3px !important;
+	border-radius: 4px !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__value {
+	display: block !important;
+	min-width: 0 !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	white-space: nowrap !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__chevron {
+	flex: 0 0 auto !important;
+	width: 12px !important;
+	height: 8px !important;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+	background-size: 12px 8px !important;
+	transition: transform 0.18s ease !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select.is-open .mpwem-modern-select__chevron {
+	transform: rotate(180deg) !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__menu {
+	position: absolute !important;
+	top: calc(100% + 10px) !important;
+	left: -30px !important;
+	right: -16px !important;
+	z-index: 50 !important;
+	margin: 0 !important;
+	padding: 6px !important;
+	list-style: none !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-white) !important;
+	box-shadow:
+		0 16px 40px rgba(17, 17, 19, 0.12),
+		0 2px 8px rgba(17, 17, 19, 0.05) !important;
+	box-sizing: border-box !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__menu[hidden] {
+	display: none !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__option {
+	display: block !important;
+	margin: 0 !important;
+	padding: 11px 12px !important;
+	border: 0 !important;
+	border-radius: 8px !important;
+	background: transparent !important;
+	color: var(--evently-muted) !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	line-height: 1.35 !important;
+	letter-spacing: -0.01em !important;
+	cursor: pointer !important;
+	transition: background-color var(--evently-transition-fast, 0.12s) ease,
+		color var(--evently-transition-fast, 0.12s) ease !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__option:hover,
+.evently-booking-card .date-time-area .mpwem-modern-select__option:focus {
+	outline: none !important;
+	background: rgba(11, 11, 13, 0.05) !important;
+	color: var(--evently-text) !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__option.is-selected {
+	background: var(--evently-text) !important;
+	color: var(--evently-white) !important;
+	font-weight: 600 !important;
+}
+
+.evently-booking-card .date-time-area .mpwem-modern-select__option.is-selected:hover,
+.evently-booking-card .date-time-area .mpwem-modern-select__option.is-selected:focus {
+	background: var(--evently-text) !important;
+	color: var(--evently-white) !important;
 }
 
 .evently-booking-card .ticket-title,
