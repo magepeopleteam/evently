@@ -1101,7 +1101,7 @@ body.evently-review-modal-open {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 6px 0;
+	gap: 0;
 	margin-top: 2px;
 }
 
@@ -1110,7 +1110,7 @@ body.evently-review-modal-open {
 	flex-direction: row;
 	align-items: baseline;
 	flex-wrap: wrap;
-	gap: 1px;
+	gap: 0;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -1119,7 +1119,7 @@ body.evently-review-modal-open {
 	color: var(--evently-muted);
 	font-size: 13px;
 	font-weight: 450;
-	line-height: 1.45;
+	line-height: 1.35;
 	text-decoration: none;
 	box-sizing: border-box;
 	transition: color 0.12s ease;
@@ -1128,7 +1128,7 @@ body.evently-review-modal-open {
 .evently-event-schedule .mpwem-date-card__session:not(:last-child)::after {
 	content: "·";
 	display: inline;
-	margin: 0 10px 0 6px;
+	margin: 0 4px;
 	color: #d1d5db;
 	font-weight: 400;
 	pointer-events: none;
@@ -1155,6 +1155,7 @@ body.evently-review-modal-open {
 }
 
 .evently-event-schedule .mpwem-date-card__session-sep {
+	margin: 0 3px;
 	color: #d1d5db;
 	font-weight: 400;
 }
@@ -1168,27 +1169,43 @@ body.evently-review-modal-open {
 	display: none;
 }
 
+.evently-event-schedule .mpwem-date-list:has(+ .mpwem-date-list__more) {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-bottom: 0;
+}
+
 .evently-event-schedule .mpwem-date-list__more,
 .evently-event-schedule .evently-date-list__more,
 .evently-event-schedule button.mpwem_get_date_list {
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+	gap: 12px;
 	width: 100%;
-	min-height: 44px;
-	margin: 12px 0 0;
-	padding: 11px 16px;
+	min-height: 48px;
+	margin: 0;
+	padding: 12px 16px;
 	border: 1px solid var(--evently-border);
-	border-radius: 12px;
-	background: transparent;
+	border-top: 1px dashed var(--evently-border);
+	border-radius: 0 0 16px 16px;
+	background: rgba(11, 11, 13, 0.025);
 	color: var(--evently-text);
 	font: inherit;
 	font-size: 13px;
-	font-weight: 650;
+	font-weight: 600;
 	letter-spacing: -0.01em;
 	cursor: pointer;
 	box-shadow: none;
-	transition: background-color 0.15s ease, border-color 0.15s ease;
+	transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.evently-event-schedule .mpwem-date-list__more-copy,
+.evently-event-schedule .evently-date-list__more-copy {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
 }
 
 .evently-event-schedule .mpwem-date-list__more span,
@@ -1199,10 +1216,59 @@ body.evently-review-modal-open {
 	font-weight: inherit;
 }
 
+.evently-event-schedule .mpwem-date-list__more-count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 28px;
+	padding: 3px 8px;
+	border-radius: 999px;
+	background: var(--evently-text);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	line-height: 1.2;
+}
+
+.evently-event-schedule .mpwem-date-list__more-icon {
+	flex: 0 0 auto;
+	width: 28px;
+	height: 28px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+	background: var(--evently-white, #fff);
+	border: 1px solid var(--evently-border);
+	position: relative;
+	transition: transform 0.2s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.evently-event-schedule .mpwem-date-list__more-icon::before {
+	content: "";
+	width: 7px;
+	height: 7px;
+	border-right: 1.5px solid currentColor;
+	border-bottom: 1.5px solid currentColor;
+	transform: translateY(-1px) rotate(45deg);
+}
+
+.evently-event-schedule .mpwem-date-list__more.is-open .mpwem-date-list__more-icon {
+	transform: rotate(180deg);
+	background: var(--evently-text);
+	border-color: var(--evently-text);
+	color: #fff;
+}
+
+.evently-event-schedule .mpwem-date-list__more.is-open .mpwem-date-list__more-count {
+	opacity: 0.35;
+}
+
 .evently-event-schedule .mpwem-date-list__more:hover,
 .evently-event-schedule .evently-date-list__more:hover,
 .evently-event-schedule button.mpwem_get_date_list:hover {
-	background: rgba(11, 11, 13, 0.03);
+	background: rgba(11, 11, 13, 0.045);
 	border-color: #d1d5db;
 	border-style: solid;
 	color: var(--evently-text);
