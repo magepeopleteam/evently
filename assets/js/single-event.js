@@ -645,9 +645,55 @@
 		} );
 	}
 
+	/**
+	 * Schedule "View More Dates" — Evently renders the list outside .mpwem_style,
+	 * so the plugin collapse handler does not bind. Mirror that toggle here.
+	 */
+	function initScheduleMore( root ) {
+		var schedule = ( root || document ).querySelector( '.evently-event-schedule' );
+		if ( ! schedule ) {
+			return;
+		}
+
+		var btn = schedule.querySelector( '.mpwem-date-list__more, button[data-collapse-target="#mpwem_more_date"]' );
+		if ( ! btn || btn.getAttribute( 'data-evently-schedule-more' ) ) {
+			return;
+		}
+		btn.setAttribute( 'data-evently-schedule-more', '1' );
+		btn.setAttribute( 'type', 'button' );
+		btn.setAttribute( 'aria-expanded', 'false' );
+
+		btn.addEventListener( 'click', function ( event ) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			var targetId = btn.getAttribute( 'data-collapse-target' ) || '#mpwem_more_date';
+			var panels = schedule.querySelectorAll( '[data-collapse="' + targetId + '"]' );
+			if ( ! panels.length ) {
+				return;
+			}
+
+			var willOpen = ! panels[0].classList.contains( 'mActive' );
+			Array.prototype.forEach.call( panels, function ( panel ) {
+				panel.classList.toggle( 'mActive', willOpen );
+			} );
+
+			btn.classList.toggle( 'is-open', willOpen );
+			btn.setAttribute( 'aria-expanded', willOpen ? 'true' : 'false' );
+
+			var textEl = btn.querySelector( '[data-text]' );
+			if ( textEl ) {
+				textEl.textContent = willOpen
+					? ( btn.getAttribute( 'data-open-text' ) || 'Hide Date Lists' )
+					: ( btn.getAttribute( 'data-close-text' ) || 'View More Dates' );
+			}
+		} );
+	}
+
 	function init() {
 		initReadMore( document );
 		initPluginGallery( document );
+		initScheduleMore( document );
 		document.querySelectorAll( '[data-evently-reviews]' ).forEach( enhanceReviews );
 		document.querySelectorAll( '.default_theme .mpwem_calender_area, .mep-default-sidebar .mpwem_calender_area' ).forEach( enhanceCalendarArea );
 	}

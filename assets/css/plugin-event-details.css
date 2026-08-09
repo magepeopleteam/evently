@@ -2169,12 +2169,21 @@ body.single-mep_events .evently-event-schedule .mpwem-date-list {
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date-list-item,
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .date_item,
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-card,
-body.single-mep_events .evently-event-schedule .mpwem-date-card {
+body.single-mep_events .evently-event-schedule .mpwem-date-card,
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-card {
 	margin: 0 !important;
 	padding: 0 !important;
 	border: 0 !important;
 	background: transparent !important;
 	box-shadow: none !important;
+}
+
+/* Keep only the next 5 dates visible until View More is clicked */
+body.single-mep_events .evently-event-schedule .mpwem-date-card[data-collapse]:not(.mActive),
+body.single-mep_events .evently-event-schedule .date-list-item[data-collapse]:not(.mActive),
+body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-card[data-collapse]:not(.mActive),
+body.single-mep_events .mep_smart_theme .mpwem_sidebar_content .event_date_list_area .mpwem-date-card[data-collapse]:not(.mActive) {
+	display: none !important;
 }
 
 body.single-mep_events .default_theme .mep-default-sidebar .event_date_list_area .mpwem-date-card + .mpwem-date-card {
