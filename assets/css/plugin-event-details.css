@@ -258,7 +258,18 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time::bef
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer {
-	padding: 7px 14px 7px 10px !important;
+	padding: 8px 16px 8px 8px !important;
+	gap: 10px !important;
+	align-items: center !important;
+	margin: 0 !important;
+	background: transparent !important;
+	color: #fff !important;
+}
+
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer,
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer a,
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer h5 {
+	color: #fff !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer h5 {
@@ -266,16 +277,16 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	width: 30px !important;
-	height: 30px !important;
+	width: 32px !important;
+	height: 32px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	border-radius: 50% !important;
-	background: rgba(255, 255, 255, 0.16) !important;
-	border: 1px solid rgba(255, 255, 255, 0.2) !important;
+	background: rgba(255, 255, 255, 0.18) !important;
+	border: 1px solid rgba(255, 255, 255, 0.28) !important;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
 	font-size: 0 !important;
 	line-height: 0 !important;
-	color: #fff !important;
 	overflow: hidden !important;
 }
 
@@ -287,9 +298,9 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 	align-items: center !important;
 	justify-content: center !important;
 	margin: 0 !important;
-	font-size: 13px !important;
+	font-size: 14px !important;
 	line-height: 1 !important;
-	color: inherit !important;
+	color: #fff !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > i,
@@ -313,13 +324,14 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time > i 
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer {
-	display: flex !important;
-	flex-direction: column !important;
-	align-items: flex-start !important;
-	justify-content: center !important;
-	gap: 1px !important;
+	display: inline-flex !important;
+	flex-direction: row !important;
+	flex-wrap: wrap !important;
+	align-items: baseline !important;
+	justify-content: flex-start !important;
+	gap: 6px !important;
 	width: auto !important;
-	flex: 1 1 auto !important;
+	flex: 0 1 auto !important;
 	min-width: 0 !important;
 	margin: 0 !important;
 	padding: 0 !important;
@@ -327,38 +339,41 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-or
 	border: 0 !important;
 	border-radius: 0 !important;
 	box-shadow: none !important;
+	line-height: 1.2 !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item::before {
 	content: "Organized by" !important;
-	display: block !important;
+	display: inline !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	font-size: 10px !important;
-	font-weight: 600 !important;
-	letter-spacing: 0.04em !important;
-	text-transform: uppercase !important;
-	line-height: 1.1 !important;
-	color: rgba(255, 255, 255, 0.68) !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	letter-spacing: 0.01em !important;
+	text-transform: none !important;
+	line-height: 1.2 !important;
+	color: rgba(255, 255, 255, 0.72) !important;
+	white-space: nowrap !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item a,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__name,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-organizer__name {
-	display: inline-block !important;
-	max-width: 180px !important;
+	display: inline !important;
+	max-width: 200px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	font-family: inherit !important;
-	font-size: 13.5px !important;
+	font-size: 14px !important;
 	font-weight: 700 !important;
-	letter-spacing: -0.01em !important;
-	line-height: 1.25 !important;
+	letter-spacing: -0.015em !important;
+	line-height: 1.2 !important;
 	color: #fff !important;
 	text-decoration: none !important;
 	white-space: nowrap !important;
 	overflow: hidden !important;
 	text-overflow: ellipsis !important;
+	vertical-align: baseline;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item a:hover,
@@ -369,12 +384,12 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-o
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__identity {
-	display: flex !important;
-	align-items: center !important;
-	gap: 10px !important;
+	display: inline-flex !important;
+	align-items: baseline !important;
+	gap: 6px !important;
 	min-width: 0 !important;
-	width: 100% !important;
-	flex: 1 1 auto !important;
+	width: auto !important;
+	flex: 0 1 auto !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__avatar {
@@ -382,21 +397,23 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-or
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__meta {
-	display: flex !important;
-	flex-direction: column !important;
-	gap: 1px !important;
+	display: inline-flex !important;
+	flex-direction: row !important;
+	flex-wrap: wrap !important;
+	align-items: baseline !important;
+	gap: 6px !important;
 	min-width: 0 !important;
-	width: 100% !important;
+	width: auto !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__label {
-	display: block !important;
-	font-size: 10px !important;
-	font-weight: 600 !important;
-	letter-spacing: 0.04em !important;
-	text-transform: uppercase !important;
-	line-height: 1.1 !important;
-	color: rgba(255, 255, 255, 0.68) !important;
+	display: inline !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	letter-spacing: 0.01em !important;
+	text-transform: none !important;
+	line-height: 1.2 !important;
+	color: rgba(255, 255, 255, 0.72) !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__follow {
