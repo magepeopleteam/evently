@@ -955,6 +955,7 @@ body.single-mep_events .default_theme .mep-event-tags,
 body.single-mep_events .mep_smart_theme .mep-event-tags {
 	display: flex !important;
 	flex-direction: column !important;
+	padding: 20px !important;
 	align-items: flex-start !important;
 	gap: 12px !important;
 }
