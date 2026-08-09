@@ -133,7 +133,7 @@ function evently_register_assets() {
 	wp_register_script( 'evently-carousel', $js_dir . 'carousel.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-modal', $js_dir . 'modal.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-gallery-lightbox', $js_dir . 'gallery-lightbox.js', array( 'evently-modal', 'jquery' ), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
-	wp_register_script( 'evently-booking-form', $js_dir . 'booking-form.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_register_script( 'evently-booking-form', $js_dir . 'booking-form.js', array( 'jquery', 'jquery-ui-datepicker' ), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_register_script( 'evently-single-event', $js_dir . 'single-event.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	// Attendee drawer needs jQuery + plugin qty/clone scripts (mpwem_script).
 	wp_register_script(

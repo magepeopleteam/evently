@@ -494,8 +494,21 @@
 		var list = section.querySelector( '.mep-event-review-list' );
 		var items = list ? list.querySelectorAll( '.mep-event-review-item' ) : [];
 		var avg = list ? list.querySelector( '.mep-event-review-avg' ) : null;
+		var pluginEmpty = section.querySelector( '.mep-reviews-empty' );
+		var isEmpty = ! items.length;
 
-		if ( list && ! items.length && ! section.querySelector( '.evently-reviews-empty' ) ) {
+		if ( isEmpty ) {
+			section.classList.add( 'is-empty' );
+			var wrapper = section.querySelector( '.mep-event-review-list-wrapper' );
+			if ( wrapper ) {
+				wrapper.classList.add( 'is-empty' );
+			}
+		} else {
+			section.classList.remove( 'is-empty' );
+		}
+
+		// Prefer the addon's empty state; only inject Evently empty if none exists.
+		if ( list && isEmpty && ! pluginEmpty && ! section.querySelector( '.evently-reviews-empty' ) ) {
 			var empty = document.createElement( 'div' );
 			empty.className = 'evently-reviews-empty';
 			empty.innerHTML =
@@ -510,23 +523,40 @@
 			}
 		}
 
+		// When both empty states exist, drop the Evently duplicate.
+		if ( pluginEmpty ) {
+			section.querySelectorAll( '.evently-reviews-empty' ).forEach( function ( node ) {
+				node.remove();
+			} );
+		}
+
 		var modal = section.querySelector( '#mageModal' ) || document.getElementById( 'mageModal' );
 		enhanceReviewModal( modal );
 
+		function openReviewModal( e ) {
+			if ( e ) {
+				e.preventDefault();
+			}
+			if ( ! modal ) {
+				return;
+			}
+			modal.style.display = 'block';
+			modal.classList.add( 'is-open' );
+			document.body.classList.add( 'evently-review-modal-open' );
+		}
+
+		function closeModal() {
+			if ( ! modal ) {
+				return;
+			}
+			modal.style.display = 'none';
+			modal.classList.remove( 'is-open' );
+			document.body.classList.remove( 'evently-review-modal-open' );
+		}
+
 		if ( btn && modal && ! btn.getAttribute( 'data-evently-review-bound' ) ) {
 			btn.setAttribute( 'data-evently-review-bound', '1' );
-			btn.addEventListener( 'click', function ( e ) {
-				e.preventDefault();
-				modal.style.display = 'block';
-				modal.classList.add( 'is-open' );
-				document.body.classList.add( 'evently-review-modal-open' );
-			} );
-
-			function closeModal() {
-				modal.style.display = 'none';
-				modal.classList.remove( 'is-open' );
-				document.body.classList.remove( 'evently-review-modal-open' );
-			}
+			btn.addEventListener( 'click', openReviewModal );
 
 			modal.querySelectorAll( '.close, [data-mage-modal-close]' ).forEach( function ( el ) {
 				el.addEventListener( 'click', function ( e ) {
@@ -553,6 +583,15 @@
 				}
 			} );
 		}
+
+		// Empty-state CTA from the addon should open the same modal.
+		section.querySelectorAll( '.mep-reviews-empty__cta, [data-mep-review-trigger]' ).forEach( function ( emptyBtn ) {
+			if ( emptyBtn.getAttribute( 'data-evently-review-bound' ) ) {
+				return;
+			}
+			emptyBtn.setAttribute( 'data-evently-review-bound', '1' );
+			emptyBtn.addEventListener( 'click', openReviewModal );
+		} );
 	}
 
 	var calProviders = {

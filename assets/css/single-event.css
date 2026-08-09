@@ -414,13 +414,113 @@
 
 /* ── Reviews (Pro addon markup, redesigned) ───────────────────────── */
 
+/* Borderless, like every other section on the page (description, schedule,
+   gallery…) — no card, no gradient decoration. A hairline under the head is
+   the only separator; the list itself reads as a quiet, divided stack. */
 .evently-event-reviews {
-	padding: var(--evently-space-4);
-	background:
-		radial-gradient(120% 80% at 0% 0%, var(--evently-primary-soft), transparent 55%),
-		var(--evently-surface);
-	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-lg);
+	padding: 0;
+	background: none;
+	border: 0;
+	border-radius: 0;
+}
+
+/* Empty: one quiet line — no stacked titles / CTAs / dashed boxes.
+   Match section.is-empty (JS) or wrapper.is-empty (addon markup). */
+.evently-event-reviews.is-empty .evently-event-reviews__head,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .evently-event-reviews__head,
+.evently-event-reviews:has(.mep-reviews-empty) .evently-event-reviews__head {
+	margin-bottom: var(--evently-space-2);
+	padding-bottom: 0;
+	border-bottom: 0;
+	align-items: center;
+}
+
+.evently-event-reviews.is-empty .evently-event-reviews__eyebrow,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .evently-event-reviews__eyebrow,
+.evently-event-reviews:has(.mep-reviews-empty) .evently-event-reviews__eyebrow {
+	display: none;
+}
+
+.evently-event-reviews.is-empty .evently-event-reviews__titles h2,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .evently-event-reviews__titles h2,
+.evently-event-reviews:has(.mep-reviews-empty) .evently-event-reviews__titles h2 {
+	font-size: 1.25rem;
+}
+
+.evently-event-reviews.is-empty .evently-event-reviews__actions,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .evently-event-reviews__actions,
+.evently-event-reviews:has(.mep-reviews-empty) .evently-event-reviews__actions {
+	display: none;
+}
+
+.evently-event-reviews.is-empty .mep-reviews-head,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .mep-reviews-head,
+.evently-event-reviews:has(.mep-reviews-empty) .mep-reviews-head {
+	display: none !important;
+}
+
+.evently-event-reviews.is-empty .mep-reviews-empty,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .mep-reviews-empty,
+.evently-event-reviews:has(.mep-reviews-empty) .mep-reviews-empty {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: flex-start !important;
+	gap: 12px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	text-align: left !important;
+}
+
+.evently-event-reviews.is-empty .mep-reviews-empty__text,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .mep-reviews-empty__text,
+.evently-event-reviews:has(.mep-reviews-empty) .mep-reviews-empty__text {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 0.9375rem !important;
+	font-weight: 500 !important;
+	line-height: 1.45 !important;
+	color: var(--evently-muted) !important;
+}
+
+.evently-event-reviews.is-empty .mep-reviews-empty__cta,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .mep-reviews-empty__cta,
+.evently-event-reviews:has(.mep-reviews-empty) .mep-reviews-empty__cta {
+	appearance: none !important;
+	cursor: pointer !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	margin: 0 !important;
+	padding: 0.65rem 1.1rem !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 999px !important;
+	background: none !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 0.8125rem !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	box-shadow: none !important;
+	transition: background 0.15s var(--evently-ease),
+		border-color 0.15s var(--evently-ease),
+		color 0.15s var(--evently-ease) !important;
+}
+
+.evently-event-reviews.is-empty .mep-reviews-empty__cta:hover,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .mep-reviews-empty__cta:hover,
+.evently-event-reviews:has(.mep-reviews-empty) .mep-reviews-empty__cta:hover {
+	background: var(--evently-surface) !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	color: var(--evently-text) !important;
+}
+
+.evently-event-reviews.is-empty .evently-reviews-empty,
+.evently-event-reviews:has(.mep-event-review-list-wrapper.is-empty) .evently-reviews-empty,
+.evently-event-reviews:has(.mep-reviews-empty) .evently-reviews-empty {
+	display: none !important;
 }
 
 .evently-event-reviews__head {
@@ -430,6 +530,8 @@
 	justify-content: space-between;
 	gap: var(--evently-space-2);
 	margin-bottom: var(--evently-space-4);
+	padding-bottom: var(--evently-space-3);
+	border-bottom: 1px solid var(--evently-border);
 }
 
 .evently-event-reviews__eyebrow {
@@ -460,23 +562,33 @@
 .evently-event-reviews .evently-review-write {
 	appearance: none;
 	cursor: pointer;
-	border: 0;
+	border: 1px solid var(--evently-border);
 	border-radius: var(--evently-radius-pill);
-	padding: 0.75rem 1.25rem;
-	background: var(--evently-dark);
-	color: var(--evently-white);
+	padding: 0.7rem 1.2rem;
+	background: none;
+	color: var(--evently-text);
 	font-family: inherit;
 	font-size: var(--evently-fs-small);
 	font-weight: 700;
 	line-height: 1.2;
-	box-shadow: var(--evently-shadow-soft);
-	transition: background 0.15s var(--evently-ease), transform 0.15s var(--evently-ease);
+	box-shadow: none;
+	transition: background 0.15s var(--evently-ease),
+		border-color 0.15s var(--evently-ease),
+		color 0.15s var(--evently-ease);
+}
+
+.evently-event-reviews .mep-reviews-write__icon {
+	display: inline-flex;
+	margin-right: 0.4rem;
+	font-size: 0.9em;
+	vertical-align: -1px;
 }
 
 .evently-event-reviews #give-review-btn:hover,
 .evently-event-reviews .evently-review-write:hover {
-	background: var(--evently-primary);
-	transform: translateY(-1px);
+	background: var(--evently-text);
+	border-color: var(--evently-text);
+	color: var(--evently-white);
 }
 
 .evently-event-reviews #give-review-btn:focus-visible,
@@ -491,12 +603,13 @@
 }
 
 .evently-event-reviews .mep-event-review-avg {
-	margin: 0;
-	padding: var(--evently-space-3);
-	background: var(--evently-white);
-	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-md);
-	box-shadow: var(--evently-shadow-card);
+	margin: 0 0 var(--evently-space-3);
+	padding: 0 0 var(--evently-space-3);
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--evently-border);
+	border-radius: 0;
+	box-shadow: none;
 }
 
 .evently-event-reviews .mep-avg-review-item {
@@ -518,8 +631,8 @@
 }
 
 .evently-event-reviews .mep-avg-review-item .rating-bar {
-	height: 8px;
-	background: rgba(11, 11, 13, 0.08);
+	height: 6px;
+	background: var(--evently-border);
 	border-radius: 999px;
 	overflow: hidden;
 }
@@ -527,7 +640,7 @@
 .evently-event-reviews .mep-avg-review-item .rating-bar span {
 	display: block;
 	height: 100%;
-	background: linear-gradient(90deg, var(--evently-primary), #8b7cf0);
+	background: var(--evently-primary);
 	border-radius: inherit;
 }
 
@@ -541,22 +654,22 @@
 .evently-event-reviews .mep-event-review-list {
 	display: flex;
 	flex-direction: column;
-	gap: var(--evently-space-3);
+	gap: 0;
 }
 
 .evently-reviews-empty {
-	padding: var(--evently-space-5) var(--evently-space-3);
-	text-align: center;
-	background: var(--evently-white);
-	border: 1px dashed var(--evently-border);
-	border-radius: var(--evently-radius-md);
+	padding: 0;
+	text-align: left;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
 }
 
 .evently-reviews-empty__title {
-	margin: 0 0 0.35rem;
-	font-size: var(--evently-fs-h4);
-	font-weight: 700;
-	color: var(--evently-text);
+	margin: 0 0 0.25rem;
+	font-size: 0.9375rem;
+	font-weight: 500;
+	color: var(--evently-muted);
 }
 
 .evently-reviews-empty__text {
@@ -568,11 +681,21 @@
 .evently-event-reviews .mep-event-review-item {
 	display: flex;
 	gap: var(--evently-space-3);
-	padding: var(--evently-space-3);
-	background: var(--evently-white);
-	border: 1px solid var(--evently-border);
-	border-radius: var(--evently-radius-md);
-	box-shadow: var(--evently-shadow-card);
+	padding: var(--evently-space-3) 0;
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--evently-border);
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.evently-event-reviews .mep-event-review-item:first-child {
+	padding-top: 0;
+}
+
+.evently-event-reviews .mep-event-review-item:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
 }
 
 .evently-event-reviews .mep-event-review-img {
@@ -672,7 +795,7 @@ body.evently-review-modal-open {
 	background: var(--evently-white);
 	border: 1px solid var(--evently-border);
 	border-radius: var(--evently-radius-lg);
-	box-shadow: var(--evently-shadow-deep);
+	box-shadow: var(--evently-shadow-card);
 	animation: eventlyReviewModalIn 0.28s var(--evently-ease);
 }
 
@@ -728,17 +851,18 @@ body.evently-review-modal-open {
 	justify-content: center;
 	border: 0;
 	border-radius: 50%;
-	background: var(--evently-surface);
+	background: none;
 	color: var(--evently-muted);
 	font-size: 1.35rem;
 	line-height: 1;
 	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease;
 }
 
 #mageModal .mage-modal-header .close:hover,
 #mageModal .mage-modal-header .close:focus {
-	background: var(--evently-dark);
-	color: var(--evently-white);
+	background: var(--evently-surface);
+	color: var(--evently-text);
 }
 
 #mageModal .mage-modal-body {
@@ -823,8 +947,8 @@ body.evently-review-modal-open {
 	display: block;
 	font-size: 1.85rem;
 	line-height: 1;
-	color: #d9d9d4;
-	transition: color 0.12s ease, transform 0.12s ease;
+	color: var(--evently-border);
+	transition: color 0.12s ease;
 }
 
 #mageModal .evently-review-star:hover .evently-review-star__icon,
@@ -838,11 +962,6 @@ body.evently-review-modal-open {
 	color: #f5a524;
 }
 
-#mageModal .evently-review-star:hover .evently-review-star__icon,
-#mageModal .mep-review-star:hover .mep-review-star__icon {
-	transform: scale(1.08);
-}
-
 #mageModal .evently-review-submit,
 #mageModal .mep-event-review-form input[type="submit"] {
 	appearance: none;
@@ -850,17 +969,17 @@ body.evently-review-modal-open {
 	border: 0;
 	border-radius: var(--evently-radius-pill);
 	padding: 0.85rem 1.4rem;
-	background: var(--evently-dark);
+	background: var(--evently-primary);
 	color: var(--evently-white);
 	font-family: inherit;
 	font-size: var(--evently-fs-button);
 	font-weight: 700;
-	transition: background 0.15s ease;
+	transition: filter 0.15s ease;
 }
 
 #mageModal .evently-review-submit:hover,
 #mageModal .mep-event-review-form input[type="submit"]:hover {
-	background: var(--evently-primary);
+	filter: brightness(0.92);
 }
 
 #mageModal .review_form_error {
@@ -869,10 +988,6 @@ body.evently-review-modal-open {
 }
 
 @media (max-width: 640px) {
-	.evently-event-reviews {
-		padding: var(--evently-space-3);
-	}
-
 	.evently-event-reviews__head {
 		align-items: stretch;
 	}
@@ -1223,8 +1338,8 @@ body.evently-review-modal-open {
 	min-width: 28px;
 	padding: 3px 8px;
 	border-radius: 999px;
-	background: var(--evently-text);
-	color: #fff;
+	background: #e8e8f5;
+	color: var(--evently-primary);
 	font-size: 11px;
 	font-weight: 700;
 	letter-spacing: 0.02em;
@@ -1324,20 +1439,17 @@ body.evently-review-modal-open {
 	border: 1px solid var(--evently-border);
 	border-radius: 22px;
 	padding: 0;
-	overflow: hidden;
-	box-shadow: 0 18px 48px rgba(11, 11, 13, 0.1);
-}
-
-/* Allow the modern time dropdown to escape the card chrome. */
-.evently-booking-card:has(.date-time-area.has-modern-select-open),
-.evently-booking-card:has(.mpwem-modern-select.is-open) {
+	/* Keep visible so jQuery UI datepicker + time menus are not clipped. */
 	overflow: visible;
+	box-shadow: 0 18px 48px rgba(11, 11, 13, 0.1);
 }
 
 .evently-booking-card__head {
 	padding: 20px 20px 16px;
 	background: linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.03) 100%);
 	border-bottom: 1px solid rgba(108, 92, 231, 0.12);
+	border-radius: 22px 22px 0 0;
+	overflow: hidden;
 }
 
 .evently-booking-card__eyebrow {
@@ -1387,38 +1499,102 @@ body.evently-review-modal-open {
 .evently-booking-card__foot {
 	display: flex;
 	flex-direction: column;
-	gap: 14px;
+	gap: 12px;
 	padding: 16px 20px 20px;
 	border-top: 1px solid var(--evently-border);
 	background: linear-gradient(180deg, #fbfbfd 0%, #fff 100%);
+	border-radius: 0 0 22px 22px;
 }
+
+/* ── Share (plugin share_widgets — modern Evently card) ──────────── */
 
 .evently-booking-card__share {
 	display: flex;
-	align-items: center;
-	gap: 12px;
-	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0;
+	width: 100%;
 }
 
 .evently-booking-card__share-label {
-	font-size: 11px;
-	font-weight: 700;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-	color: var(--evently-muted);
-	line-height: 1;
+	display: none !important;
 }
 
 .evently-booking-card__share .share_widgets {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 14px !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 14px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 16px !important;
+	background: var(--evently-white) !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+}
+
+.evently-booking-card__share .share_widgets__head {
+	display: flex !important;
+	align-items: center !important;
+	gap: 12px !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	border: 0 !important;
+}
+
+.evently-booking-card__share .share_widgets__icon {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 40px !important;
+	height: 40px !important;
+	flex-shrink: 0 !important;
+	border-radius: 12px !important;
+	background: linear-gradient(180deg, #f4f1fc 0%, #ebe6fa 100%) !important;
+	border: 1px solid rgba(108, 92, 231, 0.18) !important;
+	color: var(--evently-primary) !important;
+	font-size: 15px !important;
+	line-height: 1 !important;
+}
+
+.evently-booking-card__share .share_widgets__icon i {
+	margin: 0 !important;
+	padding: 0 !important;
+	width: auto !important;
+	height: auto !important;
 	background: transparent !important;
-	box-shadow: none !important;
+	color: inherit !important;
+	font-size: inherit !important;
+	line-height: 1 !important;
+}
+
+.evently-booking-card__share .share_widgets__copy {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 3px !important;
+	min-width: 0 !important;
+}
+
+.evently-booking-card__share .share_widgets__eyebrow {
+	display: block !important;
+	margin: 0 !important;
+	font-size: 11px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.1em !important;
+	text-transform: uppercase !important;
+	color: var(--evently-muted) !important;
+	line-height: 1.2 !important;
 }
 
 .evently-booking-card__share .share_widgets_title {
-	display: none !important;
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
 }
 
 .evently-booking-card__share .share_widgets_list {
@@ -1438,27 +1614,29 @@ body.evently-review-modal-open {
 }
 
 .evently-booking-card__share .share_widgets_list li a {
-	width: 36px !important;
-	height: 36px !important;
+	width: 40px !important;
+	height: 40px !important;
 	border-radius: 12px !important;
-	background: var(--evently-white) !important;
+	background: var(--evently-surface, #f8f8fb) !important;
 	border: 1px solid var(--evently-border) !important;
 	color: var(--evently-text) !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	font-size: 14px !important;
+	font-size: 15px !important;
 	line-height: 1 !important;
 	padding: 0 !important;
 	margin: 0 !important;
 	text-align: center !important;
+	text-decoration: none !important;
+	box-shadow: none !important;
 	transition: transform var(--evently-transition-fast) ease,
 		background var(--evently-transition-fast) ease,
 		border-color var(--evently-transition-fast) ease,
-		color var(--evently-transition-fast) ease;
+		color var(--evently-transition-fast) ease,
+		box-shadow var(--evently-transition-fast) ease;
 }
 
-/* Plugin sets the <i> to 40×40 without centering the glyph — override. */
 .evently-booking-card__share .share_widgets_list li a i,
 .evently-booking-card__share .share_widgets_list i {
 	width: 1em !important;
@@ -1470,7 +1648,7 @@ body.evently-review-modal-open {
 	border-radius: 0 !important;
 	background: transparent !important;
 	background-color: transparent !important;
-	font-size: 14px !important;
+	font-size: 15px !important;
 	line-height: 1 !important;
 	display: inline-flex !important;
 	align-items: center !important;
@@ -1485,7 +1663,13 @@ body.evently-review-modal-open {
 }
 
 .evently-booking-card__share .share_widgets_list li a:hover {
-	transform: translateY(-1px);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 18px rgba(11, 11, 13, 0.1);
+}
+
+.evently-booking-card__share .share_widgets_list li a:focus-visible {
+	outline: 2px solid var(--evently-primary) !important;
+	outline-offset: 2px !important;
 }
 
 .evently-booking-card__share .share_widgets_list li a.facebook:hover {
@@ -1496,19 +1680,17 @@ body.evently-review-modal-open {
 
 .evently-booking-card__share .share_widgets_list li a.facebook:hover i {
 	background: transparent !important;
-	background-color: transparent !important;
 	color: #fff !important;
 }
 
 .evently-booking-card__share .share_widgets_list li a.twitter:hover {
-	background: #111 !important;
-	border-color: #111 !important;
+	background: #0b0b0d !important;
+	border-color: #0b0b0d !important;
 	color: #fff !important;
 }
 
 .evently-booking-card__share .share_widgets_list li a.twitter:hover i {
 	background: transparent !important;
-	background-color: transparent !important;
 	color: #fff !important;
 }
 
@@ -1520,7 +1702,6 @@ body.evently-review-modal-open {
 
 .evently-booking-card__share .share_widgets_list li a.linkedin:hover i {
 	background: transparent !important;
-	background-color: transparent !important;
 	color: #fff !important;
 }
 
@@ -1532,7 +1713,6 @@ body.evently-review-modal-open {
 
 .evently-booking-card__share .share_widgets_list li a.whatsapp:hover i {
 	background: transparent !important;
-	background-color: transparent !important;
 	color: #fff !important;
 }
 
@@ -1544,11 +1724,10 @@ body.evently-review-modal-open {
 
 .evently-booking-card__share .share_widgets_list li a.email:hover i {
 	background: transparent !important;
-	background-color: transparent !important;
 	color: #fff !important;
 }
 
-/* ── Add Calendar (modern restyle of plugin mpwem_calender_area) ─── */
+/* ── Add Calendar (plugin mpwem_calender_area — modern Evently card) ─ */
 
 .evently-booking-card__calendar {
 	width: 100%;
@@ -1557,36 +1736,133 @@ body.evently-review-modal-open {
 
 .evently-booking-card__calendar .mpwem_calender_area {
 	position: relative;
-	width: 100%;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 12px !important;
+	width: 100% !important;
 	margin: 0 !important;
-	padding: 0 !important;
-	background: transparent !important;
-	border: 0 !important;
+	padding: 14px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 16px !important;
 	box-shadow: none !important;
+	box-sizing: border-box !important;
 }
 
+.evently-booking-card__calendar .mpwem_calender_area__head {
+	display: flex !important;
+	align-items: center !important;
+	gap: 12px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area__date {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 48px !important;
+	min-height: 52px !important;
+	flex-shrink: 0 !important;
+	padding: 6px 4px !important;
+	border-radius: 12px !important;
+	background: linear-gradient(180deg, #0b0b0d 0%, #2a2a32 100%) !important;
+	color: #fff !important;
+	box-sizing: border-box !important;
+	line-height: 1 !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area__month {
+	display: block !important;
+	font-size: 10px !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.08em !important;
+	text-transform: uppercase !important;
+	opacity: 0.78 !important;
+	margin: 0 0 4px !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area__day {
+	display: block !important;
+	font-size: 20px !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.03em !important;
+	line-height: 1 !important;
+	margin: 0 !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area__icon {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 48px !important;
+	height: 52px !important;
+	flex-shrink: 0 !important;
+	border-radius: 12px !important;
+	background: linear-gradient(180deg, #f4f1fc 0%, #ebe6fa 100%) !important;
+	border: 1px solid rgba(108, 92, 231, 0.18) !important;
+	color: var(--evently-primary) !important;
+	font-size: 18px !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area__copy {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 4px !important;
+	min-width: 0 !important;
+	flex: 1 1 auto !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area__title {
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.02em !important;
+	line-height: 1.25 !important;
+	color: var(--evently-text) !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_area__meta {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	line-height: 1.4 !important;
+	color: var(--evently-muted) !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	display: -webkit-box !important;
+	-webkit-line-clamp: 2 !important;
+	line-clamp: 2 !important;
+	-webkit-box-orient: vertical !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_toggle,
 .evently-booking-card__calendar .evently-cal-btn,
 .evently-booking-card__calendar .mpwem_calender_area > button {
-	position: relative;
+	position: relative !important;
 	width: 100% !important;
 	min-width: 0 !important;
 	height: auto !important;
 	margin: 0 !important;
-	padding: 13px 42px 13px 14px !important;
+	padding: 12px 42px 12px 12px !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: flex-start !important;
-	gap: 12px !important;
-	border: 1px solid rgba(108, 92, 231, 0.22) !important;
-	border-radius: 14px !important;
-	background: linear-gradient(180deg, #fff 0%, #f8f7fc 100%) !important;
+	gap: 10px !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: 12px !important;
+	background: var(--evently-surface, #f8f8fb) !important;
 	color: var(--evently-text) !important;
 	font-family: inherit !important;
 	font-size: 14px !important;
 	font-weight: 600 !important;
 	line-height: 1.2 !important;
 	text-align: left !important;
-	box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08) !important;
+	box-shadow: none !important;
 	cursor: pointer !important;
 	transition: background var(--evently-transition-fast) ease,
 		border-color var(--evently-transition-fast) ease,
@@ -1594,70 +1870,105 @@ body.evently-review-modal-open {
 		transform var(--evently-transition-fast) ease !important;
 }
 
+.evently-booking-card__calendar .mpwem_calender_toggle:hover,
 .evently-booking-card__calendar .evently-cal-btn:hover,
 .evently-booking-card__calendar .mpwem_calender_area > button:hover {
-	background: var(--evently-primary-soft) !important;
-	border-color: rgba(108, 92, 231, 0.4) !important;
-	box-shadow: 0 8px 18px rgba(108, 92, 231, 0.12) !important;
+	background: #f4f1fc !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	box-shadow: 0 6px 16px rgba(108, 92, 231, 0.08) !important;
 	transform: translateY(-1px);
 	color: var(--evently-text) !important;
 }
 
-.evently-booking-card__calendar .evently-cal-btn span,
-.evently-booking-card__calendar .evently-cal-btn [data-text],
-.evently-booking-card__calendar .mpwem_calender_area > button span,
-.evently-booking-card__calendar .mpwem_calender_area > button [data-text] {
-	color: var(--evently-text) !important;
+.evently-booking-card__calendar .mpwem_calender_toggle.is-open,
+.evently-booking-card__calendar .evently-cal-btn.is-open {
+	background: #f4f1fc !important;
+	border-color: rgba(108, 92, 231, 0.4) !important;
 }
 
-.evently-cal-btn__icon {
-	width: 32px;
-	height: 32px;
-	border-radius: 10px;
-	background: var(--evently-white);
-	border: 1px solid var(--evently-border);
-	color: var(--evently-primary);
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
+.evently-booking-card__calendar .mpwem_calender_toggle__icon,
+.evently-booking-card__calendar .evently-cal-btn__icon {
+	width: 28px !important;
+	height: 28px !important;
+	border-radius: 8px !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	color: var(--evently-primary) !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	font-size: 13px !important;
+	line-height: 1 !important;
 }
 
-.evently-cal-btn__icon svg {
+.evently-booking-card__calendar .mpwem_calender_toggle__icon i,
+.evently-booking-card__calendar .evently-cal-btn__icon i {
+	margin: 0 !important;
+	color: inherit !important;
+	background: transparent !important;
+	font-size: inherit !important;
+	line-height: 1 !important;
+}
+
+.evently-booking-card__calendar .evently-cal-btn__icon svg {
 	display: block;
 }
 
-.evently-cal-btn__chevron {
-	position: absolute;
-	right: 16px;
-	top: 50%;
-	transform: translateY(-50%);
-	display: inline-flex;
-	color: var(--evently-muted);
-	transition: transform var(--evently-transition-fast) ease;
+.evently-booking-card__calendar .mpwem_calender_toggle > span[data-text],
+.evently-booking-card__calendar .evently-cal-btn [data-text],
+.evently-booking-card__calendar .mpwem_calender_area > button [data-text] {
+	color: var(--evently-text) !important;
+	font-weight: 600 !important;
 }
 
-.evently-cal-btn.is-open .evently-cal-btn__chevron {
-	transform: translateY(-50%) rotate(180deg);
-	color: var(--evently-primary);
+.evently-booking-card__calendar .mpwem_calender_toggle__chevron,
+.evently-booking-card__calendar .evently-cal-btn__chevron {
+	position: absolute !important;
+	right: 14px !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	color: var(--evently-muted) !important;
+	font-size: 12px !important;
+	line-height: 1 !important;
+	transition: transform var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease !important;
 }
 
+.evently-booking-card__calendar .mpwem_calender_toggle.is-open .mpwem_calender_toggle__chevron,
+.evently-booking-card__calendar .evently-cal-btn.is-open .evently-cal-btn__chevron,
+.evently-booking-card__calendar .mpwem_calender_toggle.is-open .evently-cal-btn__chevron {
+	transform: translateY(-50%) rotate(180deg) !important;
+	color: var(--evently-primary) !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_toggle:has(.mpwem_calender_toggle__chevron) .evently-cal-btn__chevron,
+.evently-booking-card__calendar .mpwem_calender_toggle:has(.mpwem_calender_toggle__icon) .evently-cal-btn__icon {
+	display: none !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_providers,
 .evently-booking-card__calendar .evently-cal-panel,
 .evently-booking-card__calendar [data-collapse] {
 	display: none;
-	margin-top: 10px !important;
-	padding: 12px !important;
-	background: var(--evently-white) !important;
-	border: 1px solid var(--evently-border) !important;
-	border-radius: 14px !important;
-	box-shadow: 0 10px 28px rgba(11, 11, 13, 0.06) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
 }
 
+.evently-booking-card__calendar .mpwem_calender_providers.mActive,
 .evently-booking-card__calendar .evently-cal-panel.mActive,
 .evently-booking-card__calendar [data-collapse].mActive {
 	display: block;
 }
 
+.evently-booking-card__calendar .mpwem_calender_providers__list,
 .evently-booking-card__calendar .evently-cal-providers,
 .evently-booking-card__calendar [data-collapse] > div,
 .evently-booking-card__calendar [data-collapse] ._mt_xs_fdColumn {
@@ -1669,6 +1980,7 @@ body.evently-review-modal-open {
 	flex-direction: unset !important;
 }
 
+.evently-booking-card__calendar .mpwem_calender_provider,
 .evently-booking-card__calendar .evently-cal-provider,
 .evently-booking-card__calendar [data-collapse] a,
 .evently-booking-card__calendar [data-collapse] a._button_general_mt_xs {
@@ -1683,7 +1995,7 @@ body.evently-review-modal-open {
 	padding: 11px 12px !important;
 	border-radius: 12px !important;
 	border: 1px solid var(--evently-border) !important;
-	background: var(--evently-surface) !important;
+	background: var(--evently-surface, #f8f8fb) !important;
 	color: var(--evently-text) !important;
 	font-family: inherit !important;
 	font-size: 13px !important;
@@ -1697,6 +2009,7 @@ body.evently-review-modal-open {
 		transform var(--evently-transition-fast) ease !important;
 }
 
+.evently-booking-card__calendar .mpwem_calender_provider:hover,
 .evently-booking-card__calendar .evently-cal-provider:hover,
 .evently-booking-card__calendar [data-collapse] a:hover {
 	background: var(--evently-white) !important;
@@ -1705,36 +2018,62 @@ body.evently-review-modal-open {
 	transform: translateY(-1px);
 }
 
-.evently-cal-provider__icon {
-	width: 28px;
-	height: 28px;
-	border-radius: 8px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	background: var(--evently-white);
-	border: 1px solid var(--evently-border);
-	font-size: 13px;
-	line-height: 1;
-	color: var(--evently-text);
+.evently-booking-card__calendar .mpwem_calender_provider__icon,
+.evently-booking-card__calendar .evently-cal-provider__icon {
+	width: 28px !important;
+	height: 28px !important;
+	border-radius: 8px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	background: var(--evently-white) !important;
+	border: 1px solid var(--evently-border) !important;
+	font-size: 13px !important;
+	line-height: 1 !important;
+	color: var(--evently-text) !important;
 }
 
-.evently-cal-google .evently-cal-provider__icon {
-	color: #ea4335;
+.evently-booking-card__calendar .mpwem_calender_provider__icon i,
+.evently-booking-card__calendar .evently-cal-provider__icon i {
+	margin: 0 !important;
+	background: transparent !important;
+	color: inherit !important;
+	font-size: inherit !important;
+	line-height: 1 !important;
 }
 
-.evently-cal-yahoo .evently-cal-provider__icon {
-	color: #6001d2;
+.evently-booking-card__calendar .mpwem_calender_provider__label {
+	min-width: 0 !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	white-space: nowrap !important;
 }
 
-.evently-cal-outlook .evently-cal-provider__icon {
-	color: #0078d4;
+.evently-booking-card__calendar .mpwem_calender_provider:has(.mpwem_calender_provider__icon) > .evently-cal-provider__icon {
+	display: none !important;
 }
 
-.evently-cal-apple .evently-cal-provider__icon {
-	color: #111;
+.evently-booking-card__calendar .mpwem_calender_provider--google .mpwem_calender_provider__icon,
+.evently-booking-card__calendar .evently-cal-google .evently-cal-provider__icon {
+	color: #ea4335 !important;
 }
+
+.evently-booking-card__calendar .mpwem_calender_provider--yahoo .mpwem_calender_provider__icon,
+.evently-booking-card__calendar .evently-cal-yahoo .evently-cal-provider__icon {
+	color: #6001d2 !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_provider--outlook .mpwem_calender_provider__icon,
+.evently-booking-card__calendar .evently-cal-outlook .evently-cal-provider__icon {
+	color: #0078d4 !important;
+}
+
+.evently-booking-card__calendar .mpwem_calender_provider--apple .mpwem_calender_provider__icon,
+.evently-booking-card__calendar .evently-cal-apple .evently-cal-provider__icon {
+	color: #111 !important;
+}
+
 
 /* Organizer card — Horizon organizer.php parity (identity + seat stats) */
 
@@ -2042,7 +2381,7 @@ body.evently-review-modal-open {
 	width: 100% !important;
 	max-width: 100% !important;
 	min-width: 0 !important;
-	min-height: 0 !important;
+	min-height: 22px !important;
 	height: auto !important;
 	margin: 0 !important;
 	padding: 0 22px 0 0 !important;
@@ -2063,6 +2402,14 @@ body.evently-review-modal-open {
 	box-sizing: border-box !important;
 	appearance: none !important;
 	-webkit-appearance: none !important;
+	cursor: pointer !important;
+	pointer-events: auto !important;
+	position: relative !important;
+	z-index: 1 !important;
+}
+
+/* Whole date row is the hit target for the readonly picker input. */
+.evently-booking-card .date-time-area > label {
 	cursor: pointer !important;
 }
 
@@ -2221,6 +2568,290 @@ body.evently-review-modal-open {
 .evently-booking-card .date-time-area .mpwem-modern-select__option.is-selected:focus {
 	background: var(--evently-text) !important;
 	color: var(--evently-white) !important;
+}
+
+/* jQuery UI ticket datepicker — modern Evently calendar card (popup on body). */
+body.single-mep_events #ui-datepicker-div,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern,
+body.single-mep_events #ui-datepicker-div.ui-datepicker {
+	z-index: 100100 !important;
+	position: absolute !important;
+	width: 320px !important;
+	min-width: 300px !important;
+	max-width: calc(100vw - 24px) !important;
+	padding: 16px 16px 14px !important;
+	margin-top: 8px !important;
+	border: 1px solid rgba(17, 17, 19, 0.08) !important;
+	border-radius: 20px !important;
+	background:
+		radial-gradient(120% 90% at 0% 0%, var(--evently-primary-soft), transparent 55%),
+		var(--evently-white) !important;
+	color: var(--evently-text) !important;
+	font-family: var(--evently-font-sans) !important;
+	font-size: 13px !important;
+	line-height: 1.2 !important;
+	box-shadow:
+		0 24px 48px rgba(17, 17, 19, 0.14),
+		0 8px 16px rgba(17, 17, 19, 0.06),
+		0 0 0 1px rgba(108, 92, 231, 0.04) !important;
+	box-sizing: border-box !important;
+	overflow: hidden !important;
+	animation: evently-datepicker-in 0.18s var(--evently-ease, ease) both;
+}
+
+@keyframes evently-datepicker-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-header {
+	position: relative !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	min-height: 40px !important;
+	margin: 0 0 12px !important;
+	padding: 0 44px !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title {
+	margin: 0 !important;
+	line-height: 1.2 !important;
+	color: var(--evently-text) !important;
+	font-size: 0.8125rem !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.02em !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title select,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-month,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-year {
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	margin: 0 3px !important;
+	padding: 0.4rem 1.55rem 0.4rem 0.7rem !important;
+	border: 1px solid rgba(17, 17, 19, 0.08) !important;
+	border-radius: 999px !important;
+	background-color: rgba(255, 255, 255, 0.92) !important;
+	background-image:
+		linear-gradient(45deg, transparent 50%, var(--evently-muted) 50%),
+		linear-gradient(135deg, var(--evently-muted) 50%, transparent 50%) !important;
+	background-position:
+		calc(100% - 12px) calc(50% - 1px),
+		calc(100% - 8px) calc(50% - 1px) !important;
+	background-size: 4px 4px, 4px 4px !important;
+	background-repeat: no-repeat !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 0.8125rem !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	width: auto !important;
+	max-width: 46% !important;
+	cursor: pointer !important;
+	box-shadow: 0 1px 2px rgba(17, 17, 19, 0.04) !important;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title select:hover,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-month:hover,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-year:hover {
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	background-color: var(--evently-white) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title select:focus,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-month:focus,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-year:focus {
+	outline: none !important;
+	border-color: var(--evently-primary) !important;
+	box-shadow: 0 0 0 3px var(--evently-primary-soft) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next {
+	position: absolute !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+	width: 34px !important;
+	height: 34px !important;
+	margin: 0 !important;
+	border: 1px solid rgba(17, 17, 19, 0.08) !important;
+	border-radius: 50% !important;
+	background: rgba(255, 255, 255, 0.95) !important;
+	cursor: pointer !important;
+	box-shadow: 0 1px 3px rgba(17, 17, 19, 0.06) !important;
+	transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev {
+	left: 0 !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next {
+	right: 0 !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev:hover,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next:hover {
+	background: var(--evently-white) !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	box-shadow: 0 4px 12px rgba(108, 92, 231, 0.12) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev.ui-state-disabled,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next.ui-state-disabled {
+	opacity: 0.35 !important;
+	cursor: default !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev span,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next span,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-icon {
+	display: none !important;
+	background-image: none !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev::after,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next::after {
+	content: "" !important;
+	position: absolute !important;
+	top: 50% !important;
+	left: 50% !important;
+	width: 7px !important;
+	height: 7px !important;
+	border-top: 2px solid var(--evently-text) !important;
+	border-right: 2px solid var(--evently-text) !important;
+	transform: translate(-35%, -50%) rotate(-135deg) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next::after {
+	transform: translate(-65%, -50%) rotate(45deg) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern table.ui-datepicker-calendar {
+	width: 100% !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+	border-collapse: separate !important;
+	border-spacing: 0 4px !important;
+	table-layout: fixed !important;
+	font-size: 0.8125rem !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern th {
+	padding: 0 0 8px !important;
+	width: 14.28% !important;
+	border: 0 !important;
+	background: transparent !important;
+	color: var(--evently-muted) !important;
+	font-size: 0.6875rem !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.06em !important;
+	text-transform: uppercase !important;
+	text-align: center !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td {
+	padding: 2px !important;
+	width: 14.28% !important;
+	border: 0 !important;
+	background: transparent !important;
+	text-align: center !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-default {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 36px !important;
+	height: 36px !important;
+	max-width: 36px !important;
+	margin: 0 auto !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 50% !important;
+	background: transparent !important;
+	color: var(--evently-text) !important;
+	font-family: inherit !important;
+	font-size: 0.875rem !important;
+	font-weight: 600 !important;
+	line-height: 1 !important;
+	text-align: center !important;
+	text-decoration: none !important;
+	box-sizing: border-box !important;
+	transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-default:hover {
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-primary) !important;
+	transform: translateY(-1px) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-today .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-today a.ui-state-default {
+	background: transparent !important;
+	color: var(--evently-text) !important;
+	box-shadow: inset 0 0 0 1.5px rgba(17, 17, 19, 0.18) !important;
+	font-weight: 700 !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-available a.ui-state-default:not(.ui-state-active),
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td[title="Available"] a.ui-state-default:not(.ui-state-active) {
+	background: rgba(108, 92, 231, 0.08) !important;
+	color: var(--evently-text) !important;
+	font-weight: 700 !important;
+	box-shadow: inset 0 0 0 1px rgba(108, 92, 231, 0.12) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-available a.ui-state-default:not(.ui-state-active):hover,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td[title="Available"] a.ui-state-default:not(.ui-state-active):hover {
+	background: rgba(108, 92, 231, 0.16) !important;
+	color: var(--evently-primary) !important;
+	box-shadow: inset 0 0 0 1px rgba(108, 92, 231, 0.28) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td .ui-state-active,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-active,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-current-day .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-current-day a.ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-available a.ui-state-active,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-today.ui-datepicker-current-day .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-today.ui-datepicker-current-day a.ui-state-default {
+	background: var(--evently-primary) !important;
+	color: var(--evently-white) !important;
+	font-weight: 700 !important;
+	box-shadow:
+		0 8px 18px rgba(108, 92, 231, 0.35),
+		0 0 0 3px rgba(108, 92, 231, 0.14) !important;
+	transform: none !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-unavailable .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-unselectable .ui-state-default,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-other-month .ui-state-default {
+	background: transparent !important;
+	color: rgba(17, 17, 19, 0.28) !important;
+	font-weight: 500 !important;
+	opacity: 1 !important;
+	box-shadow: none !important;
+	cursor: default !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-buttonpane {
+	display: none !important;
 }
 
 .evently-booking-card .ticket-title,
@@ -3088,6 +3719,20 @@ body.evently-review-modal-open {
 }
 
 /* ── Attendee form drawer (Horizon-parity, Evently skin) ──────────── */
+
+/*
+ * The plugin renders `.mep_attendee_info_hidden` as a raw JS clone-template (the source
+ * markup it duplicates into `.mep_attendee_info` per ticket qty) — it is never meant to be
+ * seen in place. Previously nothing hid it unconditionally: the existing rules below only
+ * apply once `.evently-booking-card--attendee-drawer` has been added by attendee-drawer.js,
+ * so on first render (or if that JS hasn't run/failed) the unstyled template — labels,
+ * required markers, empty inputs — sat visible inline on the page. Hide it everywhere by
+ * default; the more specific `.evently-attendee-drawer__body .mep_attendee_info_hidden`
+ * rule further down still wins once the block is actually relocated into the drawer.
+ */
+.mep_attendee_info_hidden {
+	display: none !important;
+}
 
 .evently-booking-card--attendee-drawer .ev-attendee-home {
 	display: none !important;

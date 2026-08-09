@@ -13,6 +13,21 @@
  * changing plugin markup or hooks.
  */
 
+/*
+ * The plugin renders `.mep_attendee_info_hidden` as a raw JS clone-template — the source
+ * markup its own scripts duplicate into `.mep_attendee_info` per ticket qty — and it is
+ * never meant to be seen in place. None of the Default/Smart/Virtual skins ship a base
+ * rule that hides it unconditionally (Horizon only hides it once already inside its own
+ * attendee drawer body, and the plugin's Divi rule is scoped to #mage-container.mage,
+ * which none of these skins wrap with), so on these Plugin Event Details pages the
+ * unstyled template — bare labels, required markers, empty inputs — sits visible inline
+ * until/unless the plugin's own JS relocates it. Hide it here unconditionally as a
+ * theme-side safety net; it costs nothing on skins where the plugin already hides it.
+ */
+body.single-mep_events .mep_attendee_info_hidden {
+	display: none !important;
+}
+
 /* Clear the fixed site-header, then add a small breathing gap. */
 body.single-mep_events .evently-main {
 	padding-top: calc(var(--evently-header-height) + var(--evently-space-4));
@@ -3812,77 +3827,165 @@ body.single-mep_events .default_theme .mpwem_registration_area input#mpwem_date_
 	}
 }
 
-/* Modern ticket datepicker — Evently tokens (popup lives on body) */
+/* Modern ticket datepicker — Evently calendar card (popup lives on body) */
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern {
-	border-color: var(--evently-border) !important;
-	background: var(--evently-white) !important;
+	z-index: 100100 !important;
+	position: absolute !important;
+	width: 320px !important;
+	min-width: 300px !important;
+	max-width: calc(100vw - 24px) !important;
+	padding: 16px 16px 14px !important;
+	margin-top: 8px !important;
+	border: 1px solid rgba(17, 17, 19, 0.08) !important;
+	border-radius: 20px !important;
+	background:
+		radial-gradient(120% 90% at 0% 0%, var(--evently-primary-soft), transparent 55%),
+		var(--evently-white) !important;
 	color: var(--evently-text) !important;
 	font-family: var(--evently-font-sans) !important;
 	box-shadow:
-		0 16px 40px rgba(17, 17, 19, 0.12),
-		0 2px 8px rgba(17, 17, 19, 0.05) !important;
+		0 24px 48px rgba(17, 17, 19, 0.14),
+		0 8px 16px rgba(17, 17, 19, 0.06),
+		0 0 0 1px rgba(108, 92, 231, 0.04) !important;
+	overflow: hidden !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-header {
+	position: relative !important;
+	min-height: 40px !important;
+	margin: 0 0 12px !important;
+	padding: 0 44px !important;
+	background: transparent !important;
+	border: 0 !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title {
 	color: var(--evently-text) !important;
+	font-weight: 700 !important;
+	letter-spacing: -0.02em !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-title select,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-month,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern select.ui-datepicker-year {
-	border-color: var(--evently-border) !important;
-	background-color: #fafafa !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	margin: 0 3px !important;
+	padding: 0.4rem 1.55rem 0.4rem 0.7rem !important;
+	border: 1px solid rgba(17, 17, 19, 0.08) !important;
+	border-radius: 999px !important;
+	background-color: rgba(255, 255, 255, 0.92) !important;
 	color: var(--evently-text) !important;
+	font-weight: 700 !important;
+	cursor: pointer !important;
+	box-shadow: 0 1px 2px rgba(17, 17, 19, 0.04) !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next {
-	border-color: var(--evently-border) !important;
-	background: var(--evently-white) !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+	width: 34px !important;
+	height: 34px !important;
+	border: 1px solid rgba(17, 17, 19, 0.08) !important;
+	border-radius: 50% !important;
+	background: rgba(255, 255, 255, 0.95) !important;
+	box-shadow: 0 1px 3px rgba(17, 17, 19, 0.06) !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev:hover,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next:hover {
-	background: #f5f5f3 !important;
-	border-color: #d8d8d2 !important;
+	background: var(--evently-white) !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	box-shadow: 0 4px 12px rgba(108, 92, 231, 0.12) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev span,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next span,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-icon {
+	display: none !important;
+	background-image: none !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-prev::after,
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next::after {
+	content: "" !important;
+	position: absolute !important;
+	top: 50% !important;
+	left: 50% !important;
+	width: 7px !important;
+	height: 7px !important;
+	border-top: 2px solid var(--evently-text) !important;
+	border-right: 2px solid var(--evently-text) !important;
+	transform: translate(-35%, -50%) rotate(-135deg) !important;
+}
+
+body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker-next::after {
+	transform: translate(-65%, -50%) rotate(45deg) !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern th {
+	padding: 0 0 8px !important;
 	color: var(--evently-muted) !important;
+	font-size: 0.6875rem !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.06em !important;
+	text-transform: uppercase !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td .ui-state-default,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-default {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 36px !important;
+	height: 36px !important;
+	margin: 0 auto !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 50% !important;
+	background: transparent !important;
 	color: var(--evently-text) !important;
+	font-weight: 600 !important;
+	transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-default:hover {
-	background: #f5f5f3 !important;
-	color: var(--evently-text) !important;
+	background: var(--evently-primary-soft) !important;
+	color: var(--evently-primary) !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-today .ui-state-default {
-	background: #fafafa !important;
-	box-shadow: inset 0 0 0 1px var(--evently-border) !important;
+	background: transparent !important;
+	box-shadow: inset 0 0 0 1.5px rgba(17, 17, 19, 0.18) !important;
+	font-weight: 700 !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td .ui-state-active,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td a.ui-state-active,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-current-day .ui-state-default,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-current-day a.ui-state-default {
-	background: var(--evently-text) !important;
+	background: var(--evently-primary) !important;
 	color: var(--evently-white) !important;
+	box-shadow:
+		0 8px 18px rgba(108, 92, 231, 0.35),
+		0 0 0 3px rgba(108, 92, 231, 0.14) !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-available a.ui-state-default:not(.ui-state-active),
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td[title="Available"] a.ui-state-default:not(.ui-state-active) {
-	background: #f5f5f3 !important;
+	background: rgba(108, 92, 231, 0.08) !important;
 	color: var(--evently-text) !important;
+	font-weight: 700 !important;
+	box-shadow: inset 0 0 0 1px rgba(108, 92, 231, 0.12) !important;
 }
 
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.mpwem-day-unavailable .ui-state-default,
 body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern td.ui-datepicker-unselectable .ui-state-default {
-	color: #cfcfca !important;
+	background: transparent !important;
+	color: rgba(17, 17, 19, 0.28) !important;
+	opacity: 1 !important;
+	box-shadow: none !important;
 }
 
 /* Ticket block */
