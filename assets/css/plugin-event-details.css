@@ -2456,13 +2456,11 @@ body.single-mep_events .default_theme .mpwem_registration_area .date-time-header
 	flex-direction: column !important;
 	align-items: stretch !important;
 	gap: 14px !important;
-	margin: 0 !important;
+	margin: 10px 0 !important;
 	padding: 20px 22px 18px !important;
-	background:
-		linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.02) 100%) !important;
-	border: 0 !important;
-	border-bottom: 1px solid rgba(108, 92, 231, 0.12) !important;
-	border-radius: 0 !important;
+	background: linear-gradient(180deg, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0.02) 100%) !important;
+	border: 1px solid #ddd !important;
+	border-radius: 20px !important;
 	box-shadow: none !important;
 	z-index: auto !important;
 	position: relative !important;
