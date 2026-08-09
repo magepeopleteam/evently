@@ -1,11 +1,13 @@
 /**
- * Plugin event-details — layout safety only.
+ * Plugin event-details — layout safety + content-track alignment.
  *
  * Loaded on singular mep_events when Evently is not applying a theme skin.
- * Does not restyle Default / Smart / Virtual / Horizon.
- *
- * Theme base/typography are scoped away from #mage-container / plugin wrappers
- * in base.css + typography.css so those early rules never fight plugin CSS.
+ * Does not restyle Default / Smart / Virtual / Horizon visuals — only:
+ * 1. Clear Evently's fixed site header.
+ * 2. Hide the plugin attendee clone-template when skins leave it visible.
+ * 3. Match plugin wrappers to Evently's header/content track
+ *    (--evently-max + --evently-pad) so header and event content share
+ *    the same left/right edges (plugin defaults to 1320px / Horizon 1340px).
  */
 
 /* Clear the fixed site-header. */
@@ -16,4 +18,49 @@ body.single-mep_events .evently-main {
 /* Plugin attendee clone-template — hide when skins leave it visible inline. */
 body.single-mep_events .mep_attendee_info_hidden {
 	display: none !important;
+}
+
+/*
+ * Align Default / Smart / Virtual wrappers with .site-header__inner /
+ * .evently-container (1240px + pad). Plugin ships 1320px + --dmp padding.
+ */
+body.single-mep_events .evently-main .mpwem_wrapper,
+body.single-mep_events .evently-main .mep-events-wrapper {
+	max-width: var(--evently-max) !important;
+	width: 100% !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding-left: var(--evently-pad) !important;
+	padding-right: var(--evently-pad) !important;
+	box-sizing: border-box;
+}
+
+body.single-mep_events .evently-main .mpwem_container {
+	max-width: 100% !important;
+	width: 100% !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	box-sizing: border-box;
+}
+
+/*
+ * Horizon zeros the parent wrappers and uses .horizon_shell (1340px) +
+ * .horizon_hero (full-bleed minus 48px). Pin both to the same track.
+ */
+body.single-mep_events .horizon_theme .horizon_shell {
+	max-width: var(--evently-max) !important;
+	width: 100% !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding-left: var(--evently-pad) !important;
+	padding-right: var(--evently-pad) !important;
+	box-sizing: border-box;
+}
+
+body.single-mep_events .horizon_theme .horizon_hero {
+	width: calc(100% - (var(--evently-pad) * 2));
+	max-width: var(--evently-max);
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
 }

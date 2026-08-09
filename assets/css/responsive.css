@@ -4,12 +4,15 @@
  * exactly: 1000px (tablet) and 640px (mobile). Brief §11/§19 mobile spec.
  */
 
-@media (max-width: 1000px) {
-	/* The fixed header's own nav has no wrap/shrink fallback — at the same
-	   tablet breakpoint everything else in this file reflows at, it has to
-	   switch to the mobile drawer + hamburger button too, or the full desktop
-	   nav row (especially once a dropdown item's caret adds extra width)
-	   overflows past the viewport and pushes header-actions off-screen. */
+/* The fixed header's nav row (logo + menu items + search/login/CTA) has no
+   wrap/shrink fallback, and needs more room than the 1000px tablet breakpoint
+   below gives everything else — measured: it stops fitting on one line
+   somewhere around 1080-1100px (a dropdown item's caret adds a bit more
+   width than before), where it would otherwise overflow past the viewport
+   and push header-actions off-screen entirely. Kept as its own breakpoint
+   rather than widening the shared 1000px one below, so the grid/hero
+   sections that already match the Figma spec at 1000px are unaffected. */
+@media (max-width: 1120px) {
 	.site-nav,
 	.header-actions {
 		display: none;
@@ -18,7 +21,9 @@
 	.mobile-menu-btn {
 		display: flex;
 	}
+}
 
+@media (max-width: 1000px) {
 	.hero-inner {
 		grid-template-columns: 1fr;
 		gap: var(--evently-space-5);

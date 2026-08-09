@@ -295,10 +295,29 @@ function evently_enqueue_assets() {
 		);
 	}
 
-	// Plugin details mode: keep the plugin's own design. Only load a tiny
-	// layout-safety sheet (header clearance). Do not depend on plugin CSS —
-	// that would load this file after the plugin and risk overriding it.
+	// Plugin details mode: keep the plugin's own design. Only load layout
+	// safety + header/content width alignment. Depend on plugin CSS when
+	// present so our max-width track rules win over 1320px / Horizon 1340px.
 	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && evently_use_plugin_event_details() ) {
+		$evently_plugin_detail_deps = array();
+		foreach ( array( 'mpwem_horizon_theme', 'mpwem_style', 'mpwem_global' ) as $evently_plugin_style ) {
+			if ( wp_style_is( $evently_plugin_style, 'registered' ) || wp_style_is( $evently_plugin_style, 'enqueued' ) ) {
+				$evently_plugin_detail_deps[] = $evently_plugin_style;
+			}
+		}
+		if ( $evently_plugin_detail_deps ) {
+			$evently_styles = wp_styles();
+			if ( isset( $evently_styles->registered['evently-plugin-event-details'] ) ) {
+				$evently_styles->registered['evently-plugin-event-details']->deps = array_values(
+					array_unique(
+						array_merge(
+							$evently_styles->registered['evently-plugin-event-details']->deps,
+							$evently_plugin_detail_deps
+						)
+					)
+				);
+			}
+		}
 		wp_enqueue_style( 'evently-plugin-event-details' );
 	}
 
