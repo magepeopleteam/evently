@@ -937,8 +937,85 @@ body.single-mep_events .default_theme .mpwem_registration_area,
 body.single-mep_events .default_theme .faq_area,
 body.single-mep_events .default_theme div.faq_area,
 body.single-mep_events .default_theme .mpwem_timeline_area,
+body.single-mep_events .default_theme .mep-event-tags-widget,
 body.single-mep_events .mep-event-review-list-wrapper:not(.horizon_reviews_panel) {
 	margin-top: var(--evently-dt-section-stack) !important;
+}
+
+/* Event Tags — modern minimal chips */
+body.single-mep_events .default_theme .mep-event-tags-widget,
+body.single-mep_events .mep_smart_theme .mep-event-tags-widget {
+	margin-bottom: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+body.single-mep_events .default_theme .mep-event-tags,
+body.single-mep_events .mep_smart_theme .mep-event-tags {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: flex-start !important;
+	gap: 12px !important;
+}
+
+body.single-mep_events .default_theme .mep-event-tags-widget .location-title,
+body.single-mep_events .default_theme .mep-event-tags__title,
+body.single-mep_events .mep_smart_theme .mep-event-tags-widget .location-title,
+body.single-mep_events .mep_smart_theme .mep-event-tags__title {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 0.75rem !important;
+	font-weight: 650 !important;
+	letter-spacing: 0.06em !important;
+	text-transform: uppercase !important;
+	color: var(--evently-muted) !important;
+	line-height: 1.3 !important;
+}
+
+body.single-mep_events .default_theme .mep-event-tags-list,
+body.single-mep_events .mep_smart_theme .mep-event-tags-list {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: center !important;
+	gap: 8px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	line-height: 1.2 !important;
+}
+
+body.single-mep_events .default_theme .mep-event-tags-list a.mep-tag-link,
+body.single-mep_events .mep_smart_theme .mep-event-tags-list a.mep-tag-link {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	min-height: 32px !important;
+	padding: 6px 14px !important;
+	margin: 0 !important;
+	border: 1px solid var(--evently-border) !important;
+	border-radius: var(--evently-radius-pill) !important;
+	background: var(--evently-white, #fff) !important;
+	color: var(--evently-dark, #0b0b0d) !important;
+	font-size: 0.8125rem !important;
+	font-weight: 550 !important;
+	line-height: 1 !important;
+	text-decoration: none !important;
+	box-shadow: none !important;
+	transform: none !important;
+	transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
+}
+
+body.single-mep_events .default_theme .mep-event-tags-list a.mep-tag-link:hover,
+body.single-mep_events .default_theme .mep-event-tags-list a.mep-tag-link:focus-visible,
+body.single-mep_events .mep_smart_theme .mep-event-tags-list a.mep-tag-link:hover,
+body.single-mep_events .mep_smart_theme .mep-event-tags-list a.mep-tag-link:focus-visible {
+	background: var(--evently-primary-soft) !important;
+	border-color: rgba(108, 92, 231, 0.35) !important;
+	color: var(--evently-primary) !important;
+	transform: none !important;
+	box-shadow: none !important;
+	outline: none !important;
 }
 
 body.single-mep_events .default_theme .mpwem_related_area {
