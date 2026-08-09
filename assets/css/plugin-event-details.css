@@ -191,55 +191,74 @@ body.single-mep_events .mep_smart_theme .mpwem_smart_hero .evently-slider-rail {
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo {
-	display: flex !important;
+	display: inline-flex !important;
 	flex-wrap: wrap !important;
-	align-items: stretch !important;
-	gap: 6px !important;
+	align-items: center !important;
+	gap: 0 !important;
+	max-width: min(720px, 100%) !important;
 	margin: 0 !important;
-	padding: 0 !important;
-	background: transparent !important;
-	border: 0 !important;
-	border-radius: 0 !important;
-	box-shadow: none !important;
+	padding: 6px !important;
+	background: rgba(12, 14, 20, 0.42) !important;
+	border: 1px solid rgba(255, 255, 255, 0.18) !important;
+	border-radius: 999px !important;
+	backdrop-filter: blur(16px) saturate(1.2);
+	-webkit-backdrop-filter: blur(16px) saturate(1.2);
+	box-shadow:
+		0 10px 30px rgba(0, 0, 0, 0.22),
+		inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 	box-sizing: border-box !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
+	position: relative !important;
 	flex: 0 1 auto !important;
 	min-width: 0 !important;
 	max-width: 100% !important;
 	margin: 0 !important;
-	padding: 7px 10px !important;
-	display: flex !important;
+	padding: 8px 14px !important;
+	display: inline-flex !important;
 	align-items: center !important;
 	gap: 8px !important;
-	background: rgba(255, 255, 255, 0.14) !important;
-	border: 1px solid rgba(255, 255, 255, 0.22) !important;
-	border-radius: 10px !important;
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 999px !important;
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
 	box-shadow: none !important;
 	color: #fff !important;
 	font-family: inherit !important;
 	font-size: 13px !important;
 	font-weight: 500 !important;
-	line-height: 1.3 !important;
+	line-height: 1.25 !important;
 	box-sizing: border-box !important;
-	transition: background-color 0.18s ease, border-color 0.18s ease !important;
+	transition: background-color 0.18s ease !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer:hover,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location:hover,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time:hover {
-	background: rgba(255, 255, 255, 0.22) !important;
-	border-color: rgba(255, 255, 255, 0.34) !important;
+	background: rgba(255, 255, 255, 0.1) !important;
+	border-color: transparent !important;
 	box-shadow: none !important;
 }
 
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location::before,
+body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time::before {
+	content: "" !important;
+	position: absolute !important;
+	left: 0 !important;
+	top: 50% !important;
+	width: 1px !important;
+	height: 18px !important;
+	transform: translateY(-50%) !important;
+	background: rgba(255, 255, 255, 0.22) !important;
+	pointer-events: none;
+}
+
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer {
-	padding: 6px 10px !important;
+	padding: 7px 14px 7px 10px !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer h5 {
@@ -247,11 +266,11 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	width: 28px !important;
-	height: 28px !important;
+	width: 30px !important;
+	height: 30px !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	border-radius: 8px !important;
+	border-radius: 50% !important;
 	background: rgba(255, 255, 255, 0.16) !important;
 	border: 1px solid rgba(255, 255, 255, 0.2) !important;
 	font-size: 0 !important;
@@ -268,7 +287,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 	align-items: center !important;
 	justify-content: center !important;
 	margin: 0 !important;
-	font-size: 12px !important;
+	font-size: 13px !important;
 	line-height: 1 !important;
 	color: inherit !important;
 }
@@ -276,17 +295,18 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > i,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time > i {
 	flex-shrink: 0 !important;
-	width: 28px !important;
-	height: 28px !important;
+	width: auto !important;
+	height: auto !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
 	margin: 0 !important;
-	border-radius: 8px !important;
-	background: rgba(255, 255, 255, 0.16) !important;
-	border: 1px solid rgba(255, 255, 255, 0.2) !important;
-	color: #fff !important;
-	font-size: 12px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	color: rgba(255, 255, 255, 0.82) !important;
+	font-size: 13px !important;
 	line-height: 1 !important;
 	box-sizing: border-box !important;
 }
@@ -315,25 +335,25 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_i
 	margin: 0 !important;
 	padding: 0 !important;
 	font-size: 10px !important;
-	font-weight: 650 !important;
-	letter-spacing: 0.05em !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.04em !important;
 	text-transform: uppercase !important;
-	line-height: 1.15 !important;
-	color: rgba(255, 255, 255, 0.72) !important;
+	line-height: 1.1 !important;
+	color: rgba(255, 255, 255, 0.68) !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item a,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__name,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-organizer__name {
 	display: inline-block !important;
-	max-width: 100% !important;
+	max-width: 180px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	font-family: inherit !important;
-	font-size: 13px !important;
+	font-size: 13.5px !important;
 	font-weight: 700 !important;
 	letter-spacing: -0.01em !important;
-	line-height: 1.3 !important;
+	line-height: 1.25 !important;
 	color: #fff !important;
 	text-decoration: none !important;
 	white-space: nowrap !important;
@@ -345,6 +365,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_i
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-organizer__name:hover {
 	color: #fff !important;
 	text-decoration: underline !important;
+	text-underline-offset: 2px;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__identity {
@@ -363,7 +384,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-or
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__meta {
 	display: flex !important;
 	flex-direction: column !important;
-	gap: 2px !important;
+	gap: 1px !important;
 	min-width: 0 !important;
 	width: 100% !important;
 }
@@ -371,11 +392,11 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-or
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__label {
 	display: block !important;
 	font-size: 10px !important;
-	font-weight: 650 !important;
-	letter-spacing: 0.05em !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.04em !important;
 	text-transform: uppercase !important;
-	line-height: 1.15 !important;
-	color: rgba(255, 255, 255, 0.72) !important;
+	line-height: 1.1 !important;
+	color: rgba(255, 255, 255, 0.68) !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__follow {
@@ -385,9 +406,10 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-or
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > div,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 	min-width: 0 !important;
-	font-size: 13px !important;
-	font-weight: 650 !important;
-	line-height: 1.3 !important;
+	font-size: 13.5px !important;
+	font-weight: 600 !important;
+	letter-spacing: -0.01em !important;
+	line-height: 1.25 !important;
 	color: #fff !important;
 }
 
@@ -395,7 +417,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location 
 	overflow: hidden !important;
 	text-overflow: ellipsis !important;
 	white-space: nowrap !important;
-	max-width: 260px !important;
+	max-width: 240px !important;
 	display: block !important;
 	-webkit-line-clamp: unset !important;
 	-webkit-box-orient: unset !important;
@@ -403,6 +425,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location 
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 	white-space: nowrap !important;
+	padding-right: 16px !important;
 }
 
 @media (max-width: 640px) {
@@ -422,10 +445,14 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 	}
 
 	body.single-mep_events .mep_smart_theme .smart_theme_metainfo {
+		display: flex !important;
 		flex-direction: column !important;
 		align-items: stretch !important;
-		gap: 6px !important;
+		gap: 2px !important;
 		width: 100% !important;
+		max-width: 100% !important;
+		padding: 8px !important;
+		border-radius: 18px !important;
 	}
 
 	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer,
@@ -433,11 +460,25 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 		width: 100% !important;
 		flex: 1 1 auto !important;
+		padding: 10px 12px !important;
+		border-radius: 14px !important;
 	}
 
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location::before,
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time::before {
+		display: none !important;
+	}
+
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
+		padding-right: 12px !important;
+	}
+
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item a,
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__name,
+	body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-organizer__name,
 	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > div {
-		white-space: normal !important;
 		max-width: none !important;
+		white-space: normal !important;
 	}
 }
 
