@@ -101,12 +101,101 @@ body.single-mep_events .horizon_theme .horizon_hero {
    Modern chip cards with icon badges and clear hierarchy.
    ═══════════════════════════════════════════════════════════════════ */
 
+/* Smart theme — title + metainfo over gallery (bottom left) */
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero {
+	position: relative !important;
+	margin: 0 0 var(--evently-space-5) !important;
+	border-radius: 18px !important;
+	overflow: hidden !important;
+	isolation: isolate;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .mpwem_slider_area,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .superSlider,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .superSlider > .dFlex,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .superSlider .sliderAllItem,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .mpwem_slider_area .post_thumb {
+	margin: 0 !important;
+	border-radius: 0 !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .superSlider.mpwem-slider--style-2 > .dFlex > .sliderAllItem {
+	border-radius: 0 !important;
+	max-height: min(680px, 78vh) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .mpwem_slider_area .post_thumb {
+	aspect-ratio: 16 / 10 !important;
+	max-height: min(680px, 78vh) !important;
+	min-height: 260px !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .mpwem_slider_area .post_thumb img {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay {
+	position: absolute !important;
+	left: 0 !important;
+	right: 0 !important;
+	bottom: 0 !important;
+	z-index: 40 !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: flex-start !important;
+	justify-content: flex-end !important;
+	gap: 12px !important;
+	padding: 72px 24px 22px !important;
+	background: linear-gradient(
+		180deg,
+		rgba(10, 12, 18, 0) 0%,
+		rgba(10, 12, 18, 0.28) 38%,
+		rgba(10, 12, 18, 0.72) 100%
+	) !important;
+	pointer-events: none;
+	box-sizing: border-box !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay .mpwem_tile,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay .smart_theme_metainfo,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay .smart_theme_metainfo a {
+	pointer-events: auto;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay h1.mpwem_tile,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay .mpwem_tile {
+	max-width: min(920px, 100%) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	color: #fff !important;
+	font-family: inherit !important;
+	font-size: clamp(1.65rem, 3.4vw, 2.65rem) !important;
+	font-weight: 800 !important;
+	letter-spacing: -0.03em !important;
+	line-height: 1.12 !important;
+	text-align: left !important;
+	text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .mpwem-slider-style2__count,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .evently-slider-count {
+	display: none !important;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .mpwem-slider-style2__view-all,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .iconIndicator,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .evently-slider-rail {
+	z-index: 50 !important;
+}
+
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo {
 	display: flex !important;
 	flex-wrap: wrap !important;
 	align-items: stretch !important;
-	gap: 4px !important;
-	margin: 0 0 var(--evently-space-4) !important;
+	gap: 6px !important;
+	margin: 0 !important;
 	padding: 0 !important;
 	background: transparent !important;
 	border: 0 !important;
@@ -118,38 +207,39 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo {
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
-	flex: 1 1 160px !important;
+	flex: 0 1 auto !important;
 	min-width: 0 !important;
+	max-width: 100% !important;
 	margin: 0 !important;
-	padding: 8px 10px !important;
+	padding: 7px 10px !important;
 	display: flex !important;
 	align-items: center !important;
 	gap: 8px !important;
-	background: var(--evently-surface, #f7f7f8) !important;
-	border: 1px solid var(--evently-border) !important;
-	border-radius: 8px !important;
+	background: rgba(255, 255, 255, 0.14) !important;
+	border: 1px solid rgba(255, 255, 255, 0.22) !important;
+	border-radius: 10px !important;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	box-shadow: none !important;
-	color: var(--evently-text) !important;
+	color: #fff !important;
 	font-family: inherit !important;
-	font-size: 14px !important;
+	font-size: 13px !important;
 	font-weight: 500 !important;
 	line-height: 1.3 !important;
 	box-sizing: border-box !important;
-	transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease !important;
+	transition: background-color 0.18s ease, border-color 0.18s ease !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer:hover,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location:hover,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time:hover {
-	background: var(--evently-white, #fff) !important;
-	border-color: #d7d7de !important;
-	box-shadow: 0 4px 12px rgba(11, 11, 13, 0.04) !important;
+	background: rgba(255, 255, 255, 0.22) !important;
+	border-color: rgba(255, 255, 255, 0.34) !important;
+	box-shadow: none !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer {
-	flex: 1.15 1 200px !important;
-	padding: 7px 10px !important;
-	border-radius: 8px !important;
+	padding: 6px 10px !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer h5 {
@@ -157,16 +247,16 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	width: 30px !important;
-	height: 30px !important;
+	width: 28px !important;
+	height: 28px !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	border-radius: 6px !important;
-	background: var(--evently-white, #fff) !important;
-	border: 1px solid var(--evently-border) !important;
+	border-radius: 8px !important;
+	background: rgba(255, 255, 255, 0.16) !important;
+	border: 1px solid rgba(255, 255, 255, 0.2) !important;
 	font-size: 0 !important;
 	line-height: 0 !important;
-	color: var(--evently-text) !important;
+	color: #fff !important;
 	overflow: hidden !important;
 }
 
@@ -178,7 +268,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 	align-items: center !important;
 	justify-content: center !important;
 	margin: 0 !important;
-	font-size: 13px !important;
+	font-size: 12px !important;
 	line-height: 1 !important;
 	color: inherit !important;
 }
@@ -186,17 +276,17 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > i,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time > i {
 	flex-shrink: 0 !important;
-	width: 30px !important;
-	height: 30px !important;
+	width: 28px !important;
+	height: 28px !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
 	margin: 0 !important;
-	border-radius: 6px !important;
-	background: var(--evently-white, #fff) !important;
-	border: 1px solid var(--evently-border) !important;
-	color: var(--evently-text) !important;
-	font-size: 13px !important;
+	border-radius: 8px !important;
+	background: rgba(255, 255, 255, 0.16) !important;
+	border: 1px solid rgba(255, 255, 255, 0.2) !important;
+	color: #fff !important;
+	font-size: 12px !important;
 	line-height: 1 !important;
 	box-sizing: border-box !important;
 }
@@ -229,7 +319,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_i
 	letter-spacing: 0.05em !important;
 	text-transform: uppercase !important;
 	line-height: 1.15 !important;
-	color: var(--evently-muted) !important;
+	color: rgba(255, 255, 255, 0.72) !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item a,
@@ -240,11 +330,11 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-o
 	margin: 0 !important;
 	padding: 0 !important;
 	font-family: inherit !important;
-	font-size: 14px !important;
+	font-size: 13px !important;
 	font-weight: 700 !important;
 	letter-spacing: -0.01em !important;
 	line-height: 1.3 !important;
-	color: var(--evently-text) !important;
+	color: #fff !important;
 	text-decoration: none !important;
 	white-space: nowrap !important;
 	overflow: hidden !important;
@@ -253,7 +343,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-o
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .mpwem_organizer_item a:hover,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo a.evently-plugin-organizer__name:hover {
-	color: var(--evently-primary) !important;
+	color: #fff !important;
 	text-decoration: underline !important;
 }
 
@@ -280,12 +370,12 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-or
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__label {
 	display: block !important;
-	font-size: 11px !important;
+	font-size: 10px !important;
 	font-weight: 650 !important;
-	letter-spacing: 0.06em !important;
+	letter-spacing: 0.05em !important;
 	text-transform: uppercase !important;
-	line-height: 1.2 !important;
-	color: var(--evently-muted) !important;
+	line-height: 1.15 !important;
+	color: rgba(255, 255, 255, 0.72) !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-organizer__follow {
@@ -295,16 +385,17 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo .evently-plugin-or
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > div,
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 	min-width: 0 !important;
-	font-size: 14px !important;
+	font-size: 13px !important;
 	font-weight: 650 !important;
-	line-height: 1.35 !important;
-	color: var(--evently-text) !important;
+	line-height: 1.3 !important;
+	color: #fff !important;
 }
 
 body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > div {
 	overflow: hidden !important;
 	text-overflow: ellipsis !important;
 	white-space: nowrap !important;
+	max-width: 260px !important;
 	display: block !important;
 	-webkit-line-clamp: unset !important;
 	-webkit-box-orient: unset !important;
@@ -315,10 +406,26 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 }
 
 @media (max-width: 640px) {
+	body.single-mep_events .mep_smart_theme .mpwem_smart_hero {
+		border-radius: 14px !important;
+		margin-bottom: var(--evently-space-4) !important;
+	}
+
+	body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay {
+		gap: 10px !important;
+		padding: 56px 14px 14px !important;
+	}
+
+	body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay h1.mpwem_tile,
+	body.single-mep_events .mep_smart_theme .mpwem_smart_hero__overlay .mpwem_tile {
+		font-size: clamp(1.35rem, 7vw, 1.85rem) !important;
+	}
+
 	body.single-mep_events .mep_smart_theme .smart_theme_metainfo {
 		flex-direction: column !important;
 		align-items: stretch !important;
-		gap: 4px !important;
+		gap: 6px !important;
+		width: 100% !important;
 	}
 
 	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_organizer,
@@ -330,6 +437,7 @@ body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_time {
 
 	body.single-mep_events .mep_smart_theme .smart_theme_metainfo > .mpwem_location > div {
 		white-space: normal !important;
+		max-width: none !important;
 	}
 }
 
@@ -1434,8 +1542,8 @@ body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--styl
 	display: none !important;
 }
 
-body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-count,
-body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .mpwem-slider-style2__count {
+body.single-mep_events .default_theme:not(.mep_smart_theme) .mpwem_slider_area:has(.mpwem-slider--style-2) .evently-slider-count,
+body.single-mep_events .default_theme:not(.mep_smart_theme) .mpwem_slider_area:has(.mpwem-slider--style-2) .mpwem-slider-style2__count {
 	position: absolute !important;
 	z-index: 15 !important;
 	left: 14px !important;
@@ -1452,6 +1560,13 @@ body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--styl
 	letter-spacing: 0.02em !important;
 	line-height: 1.2 !important;
 	pointer-events: none;
+}
+
+body.single-mep_events .mep_smart_theme .mpwem-slider-style2__count,
+body.single-mep_events .mep_smart_theme .evently-slider-count,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .mpwem-slider-style2__count,
+body.single-mep_events .mep_smart_theme .mpwem_smart_hero .evently-slider-count {
+	display: none !important;
 }
 
 body.single-mep_events .default_theme .mpwem_slider_area:has(.mpwem-slider--style-2) .mpwem-slider-style2__view-all {

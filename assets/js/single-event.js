@@ -273,12 +273,20 @@
 			stage.appendChild( rail );
 
 			// Prefer plugin-rendered count badge; only add one if missing.
-			if ( ! shell.querySelector( '.mpwem-slider-style2__count' ) && ! stage.querySelector( '.evently-slider-count' ) ) {
+			// Smart theme hides this badge (title/meta overlay occupies bottom-left).
+			var isSmartTheme = !!( area.closest && area.closest( '.mep_smart_theme' ) );
+			if ( ! isSmartTheme && ! shell.querySelector( '.mpwem-slider-style2__count' ) && ! stage.querySelector( '.evently-slider-count' ) ) {
 				var count = document.createElement( 'div' );
 				count.className = 'evently-slider-count';
 				count.setAttribute( 'aria-hidden', 'true' );
 				count.textContent = t( 'galleryCount', '%d photos' ).replace( '%d', String( total ) );
 				stage.appendChild( count );
+			} else if ( isSmartTheme ) {
+				Array.prototype.forEach.call( shell.querySelectorAll( '.mpwem-slider-style2__count, .evently-slider-count' ), function ( badge ) {
+					if ( badge && badge.parentNode ) {
+						badge.parentNode.removeChild( badge );
+					}
+				} );
 			}
 
 			// Plugin resize may re-apply inline heights after images load.
