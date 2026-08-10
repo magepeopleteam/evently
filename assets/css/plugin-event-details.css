@@ -8,6 +8,7 @@
  * 3. Match plugin wrappers to Evently's header/content track
  *    (--evently-max + --evently-pad) so header and event content share
  *    the same left/right edges (plugin defaults to 1320px / Horizon 1340px).
+ * 4. Match plugin typography to Evently's Plus Jakarta Sans.
  */
 
 /* Clear the fixed site-header. */
@@ -67,4 +68,55 @@ body.single-mep_events .horizon_theme .horizon_hero {
 	margin-left: auto;
 	margin-right: auto;
 	box-sizing: border-box;
+}
+
+/*
+ * Typography — use Evently's font on plugin details.
+ * Remap Horizon's --hz-sans / --hz-serif so Outfit / Playfair don't fight the theme.
+ */
+body.single-mep_events .mpwem_wrapper,
+body.single-mep_events .mep-events-wrapper,
+body.single-mep_events .mpwem_style,
+body.single-mep_events #mage-container,
+body.single-mep_events .horizon_theme,
+body.single-mep_events .mep_reviews_panel,
+body.single-mep_events .mep-event-review-list-wrapper {
+	--hz-sans: var(--evently-font-sans);
+	--hz-serif: var(--evently-font-sans);
+	font-family: var(--evently-font-sans) !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body.single-mep_events .horizon_theme h1,
+body.single-mep_events .horizon_theme h2,
+body.single-mep_events .horizon_theme h3,
+body.single-mep_events .horizon_theme h4,
+body.single-mep_events .horizon_theme h5,
+body.single-mep_events .horizon_theme h6,
+body.single-mep_events .mpwem_wrapper h1,
+body.single-mep_events .mpwem_wrapper h2,
+body.single-mep_events .mpwem_wrapper h3,
+body.single-mep_events .mpwem_wrapper h4,
+body.single-mep_events .mep-events-wrapper h1,
+body.single-mep_events .mep-events-wrapper h2,
+body.single-mep_events .mep-events-wrapper h3,
+body.single-mep_events .mep-events-wrapper h4,
+body.single-mep_events .mep_reviews_title,
+body.single-mep_events .horizon_reviews_title,
+body.single-mep_events button,
+body.single-mep_events input,
+body.single-mep_events select,
+body.single-mep_events textarea {
+	font-family: var(--evently-font-sans) !important;
+}
+
+/* Keep Font Awesome icons intact (override the inherited theme font). */
+body.single-mep_events .fa::before,
+body.single-mep_events .fas::before,
+body.single-mep_events .far::before,
+body.single-mep_events .fal::before,
+body.single-mep_events .fab::before,
+body.single-mep_events [class*="fa-"]::before {
+	font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands", "FontAwesome" !important;
 }

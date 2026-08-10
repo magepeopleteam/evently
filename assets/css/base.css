@@ -38,9 +38,9 @@ body {
 :where(body.single-mep_events .mpwem_wrapper),
 :where(body.single-mep_events .mep-events-wrapper),
 :where(body.single-mep_events .horizon_theme) {
-	font-family: initial;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	font-family: inherit;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 img,
