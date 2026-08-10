@@ -951,4 +951,144 @@ class Evently_Booking_Adapter {
 			'paged'     => $paged,
 		);
 	}
+
+	/**
+	 * Lightweight autocomplete suggestions for the Smart Search "What" field.
+	 * Returns slim rows (title, url, date, location, thumb) — not full cards.
+	 *
+	 * @param string $term  Search term (min 2 characters).
+	 * @param int    $limit Max suggestions. Default 8.
+	 * @return array[]
+	 */
+	public static function suggest_events( $term, $limit = 8 ) {
+		$term  = trim( wp_strip_all_tags( (string) $term ) );
+		$limit = max( 1, min( 12, absint( $limit ) ) );
+
+		if ( strlen( $term ) < 2 ) {
+			return array();
+		}
+
+		if ( ! self::is_active() ) {
+			return self::suggest_demo_events( $term, $limit );
+		}
+
+		// Prefer WordPress title/content relevance, then enrich via the adapter.
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'mep_events',
+				'post_status'            => 'publish',
+				's'                      => $term,
+				'posts_per_page'         => $limit,
+				'orderby'                => 'relevance',
+				'no_found_rows'          => true,
+				'ignore_sticky_posts'    => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => true,
+			)
+		);
+
+		$suggestions = array();
+		if ( $query->have_posts() ) {
+			foreach ( $query->posts as $post ) {
+				$suggestions[] = self::format_suggestion( $post->ID );
+			}
+		}
+
+		// Fallback: title substring against upcoming events when WP relevance is empty
+		// (common with short custom titles or non-Latin scripts).
+		if ( empty( $suggestions ) ) {
+			$result = self::search_events(
+				array(
+					'search'   => $term,
+					'per_page' => $limit,
+					'paged'    => 1,
+					'status'   => 'upcoming',
+				)
+			);
+			foreach ( $result['cards'] as $card ) {
+				$suggestions[] = array(
+					'id'         => (int) $card['id'],
+					'title'      => (string) $card['title'],
+					'url'        => (string) $card['url'],
+					'date'       => (string) $card['date_full'],
+					'location'   => (string) $card['location'],
+					'category'   => (string) $card['category'],
+					'price'      => (string) $card['price_label'],
+					'image'      => self::suggestion_image_url( (int) $card['image_id'] ),
+				);
+			}
+		}
+
+		return $suggestions;
+	}
+
+	/**
+	 * Demo-data suggestions when the booking plugin is inactive.
+	 *
+	 * @param string $term
+	 * @param int    $limit
+	 * @return array[]
+	 */
+	private static function suggest_demo_events( $term, $limit ) {
+		if ( ! function_exists( 'evently_demo_events' ) || ! function_exists( 'evently_demo_event_to_card' ) ) {
+			return array();
+		}
+
+		$suggestions = array();
+		foreach ( evently_demo_events() as $demo_event ) {
+			$title = isset( $demo_event['title'] ) ? (string) $demo_event['title'] : '';
+			if ( '' === $title || false === stripos( $title, $term ) ) {
+				continue;
+			}
+			$card          = evently_demo_event_to_card( $demo_event );
+			$suggestions[] = array(
+				'id'       => (int) $card['id'],
+				'title'    => (string) $card['title'],
+				'url'      => (string) $card['url'],
+				'date'     => (string) $card['date_full'],
+				'location' => (string) $card['location'],
+				'category' => (string) $card['category'],
+				'price'    => (string) $card['price_label'],
+				'image'    => ! empty( $card['image_url'] ) ? (string) $card['image_url'] : self::suggestion_image_url( (int) $card['image_id'] ),
+			);
+			if ( count( $suggestions ) >= $limit ) {
+				break;
+			}
+		}
+
+		return $suggestions;
+	}
+
+	/**
+	 * Slim suggestion row for autocomplete UI.
+	 *
+	 * @param int $event_id
+	 * @return array
+	 */
+	private static function format_suggestion( $event_id ) {
+		$card = self::get_event_card_data( $event_id );
+
+		return array(
+			'id'       => (int) $card['id'],
+			'title'    => (string) $card['title'],
+			'url'      => (string) $card['url'],
+			'date'     => (string) $card['date_full'],
+			'location' => (string) $card['location'],
+			'category' => (string) $card['category'],
+			'price'    => (string) $card['price_label'],
+			'image'    => self::suggestion_image_url( (int) $card['image_id'] ),
+		);
+	}
+
+	/**
+	 * @param int $image_id Attachment ID.
+	 * @return string
+	 */
+	private static function suggestion_image_url( $image_id ) {
+		if ( ! $image_id ) {
+			return '';
+		}
+		$url = wp_get_attachment_image_url( $image_id, 'thumbnail' );
+		return $url ? $url : '';
+	}
 }

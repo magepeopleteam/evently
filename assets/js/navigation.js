@@ -89,4 +89,54 @@
 			}
 		} );
 	}
+
+	// Keep multi-column mega panels centered under the parent, then nudge
+	// horizontally only if centering would clip past the viewport edges.
+	var megaParents = document.querySelectorAll( '.site-nav > .menu-item-has-children.has-multi-column' );
+	var MEGA_PAD = 16;
+
+	function clampMegaMenu( parent ) {
+		var menu = parent.querySelector( ':scope > .sub-menu' );
+		if ( ! menu ) {
+			return;
+		}
+
+		menu.style.setProperty( '--evently-mega-shift', '0px' );
+
+		var rect = menu.getBoundingClientRect();
+		var shift = 0;
+
+		if ( rect.left < MEGA_PAD ) {
+			shift = MEGA_PAD - rect.left;
+		} else if ( rect.right > window.innerWidth - MEGA_PAD ) {
+			shift = window.innerWidth - MEGA_PAD - rect.right;
+		}
+
+		menu.style.setProperty( '--evently-mega-shift', shift + 'px' );
+	}
+
+	megaParents.forEach( function ( parent ) {
+		parent.addEventListener( 'mouseenter', function () {
+			clampMegaMenu( parent );
+		} );
+		parent.addEventListener( 'focusin', function () {
+			clampMegaMenu( parent );
+		} );
+	} );
+
+	window.addEventListener(
+		'resize',
+		function () {
+			megaParents.forEach( function ( parent ) {
+				if (
+					parent.matches( ':hover' ) ||
+					parent.matches( ':focus-within' ) ||
+					parent.classList.contains( 'is-open' )
+				) {
+					clampMegaMenu( parent );
+				}
+			} );
+		},
+		{ passive: true }
+	);
 } )();

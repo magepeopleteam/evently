@@ -183,8 +183,14 @@
 	box-shadow: var(--evently-shadow-floating);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr auto;
-	overflow: hidden;
+	overflow: visible;
 	min-height: 88px;
+	position: relative;
+	z-index: 5;
+}
+
+.search-bar.has-select-open {
+	z-index: 30;
 }
 
 .search-field {
@@ -194,10 +200,29 @@
 	justify-content: center;
 	border-right: 1px solid var(--evently-border);
 	min-width: 0;
+	position: relative;
 }
 
 .search-field:last-of-type {
 	border-right: none;
+}
+
+.search-field--select {
+	overflow: visible;
+	z-index: 1;
+}
+
+.search-field--select.is-select-open {
+	z-index: 40;
+}
+
+.search-field--what {
+	overflow: visible;
+	z-index: 1;
+}
+
+.search-field--what.is-autocomplete-open {
+	z-index: 40;
 }
 
 .search-field input,
@@ -216,6 +241,154 @@
 
 .search-field input::placeholder {
 	color: #bbb;
+}
+
+/* ── Modern category select (search.js enhances the native <select>) ─ */
+
+.evently-modern-select {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+}
+
+.evently-modern-select__native {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
+
+.evently-modern-select__trigger {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--evently-text);
+	font-family: inherit;
+	font-size: var(--evently-fs-label);
+	font-weight: 500;
+	letter-spacing: -0.01em;
+	line-height: 1.35;
+	text-align: left;
+	cursor: pointer;
+	box-shadow: none;
+}
+
+.evently-modern-select__trigger:focus {
+	outline: none;
+}
+
+.evently-modern-select__trigger:focus-visible {
+	outline: 2px solid var(--evently-primary);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+.evently-modern-select__value {
+	display: block;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.evently-modern-select__chevron {
+	flex: 0 0 auto;
+	width: 12px;
+	height: 8px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23777773' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 12px 8px;
+	transition: transform var(--evently-transition-fast) ease;
+}
+
+.evently-modern-select.is-open .evently-modern-select__chevron {
+	transform: rotate(180deg);
+}
+
+.evently-modern-select__menu {
+	position: absolute;
+	top: calc(100% + 14px);
+	right: 0;
+	left: auto;
+	z-index: 50;
+	min-width: 240px;
+	max-width: min(320px, calc(100vw - 32px));
+	max-height: 320px;
+	overflow-y: auto;
+	margin: 0;
+	padding: 8px;
+	list-style: none;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+	background: var(--evently-white);
+	box-shadow: var(--evently-shadow-deep);
+	box-sizing: border-box;
+	scrollbar-width: thin;
+}
+
+.evently-modern-select__menu[hidden] {
+	display: none;
+}
+
+.evently-modern-select__option {
+	display: block;
+	margin: 0;
+	padding: 11px 14px;
+	border: 0;
+	border-radius: var(--evently-radius-sm);
+	background: transparent;
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-small);
+	font-weight: 500;
+	line-height: 1.35;
+	letter-spacing: -0.01em;
+	text-align: left;
+	cursor: pointer;
+	transition: background-color var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease;
+}
+
+.evently-modern-select__option + .evently-modern-select__option {
+	margin-top: 2px;
+}
+
+.evently-modern-select__option:hover,
+.evently-modern-select__option:focus {
+	outline: none;
+	background: var(--evently-surface);
+	color: var(--evently-text);
+}
+
+.evently-modern-select__option.is-selected {
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+	font-weight: 600;
+}
+
+.evently-modern-select__option.is-selected:hover,
+.evently-modern-select__option.is-selected:focus {
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+}
+
+.evently-modern-select__option.is-disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
 }
 
 .search-submit {

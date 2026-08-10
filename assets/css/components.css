@@ -416,6 +416,169 @@ body.evently-modal-open {
 	font-weight: 600;
 }
 
+/* ── Event autocomplete (Smart Search + header quick-search) ──────── */
+
+.evently-autocomplete {
+	position: relative;
+}
+
+.evently-autocomplete.is-autocomplete-open {
+	z-index: 40;
+}
+
+.evently-autocomplete__panel {
+	position: absolute;
+	top: calc(100% + 10px);
+	left: 0;
+	right: 0;
+	z-index: 60;
+	min-width: 280px;
+	max-width: min(420px, calc(100vw - 32px));
+	max-height: 380px;
+	overflow-y: auto;
+	margin: 0;
+	padding: 8px;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-md);
+	background: var(--evently-white);
+	box-shadow: var(--evently-shadow-deep);
+	box-sizing: border-box;
+	scrollbar-width: thin;
+}
+
+.search-field--what .evently-autocomplete__panel {
+	left: 0;
+	right: auto;
+	width: min(420px, calc(100vw - 48px));
+}
+
+.evently-modal__search-form.evently-autocomplete .evently-autocomplete__panel {
+	left: 0;
+	right: 0;
+	width: auto;
+	max-width: none;
+}
+
+.evently-autocomplete__panel[hidden] {
+	display: none;
+}
+
+.evently-autocomplete__item {
+	display: grid;
+	grid-template-columns: 44px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+	margin: 0;
+	padding: 10px 12px;
+	border: 0;
+	border-radius: var(--evently-radius-sm);
+	background: transparent;
+	color: var(--evently-text);
+	font-family: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition: background-color var(--evently-transition-fast) ease;
+}
+
+.evently-autocomplete__item + .evently-autocomplete__item {
+	margin-top: 2px;
+}
+
+.evently-autocomplete__item:hover,
+.evently-autocomplete__item.is-active,
+.evently-autocomplete__item:focus {
+	outline: none;
+	background: var(--evently-surface);
+}
+
+.evently-autocomplete__thumb {
+	width: 44px;
+	height: 44px;
+	border-radius: 8px;
+	overflow: hidden;
+	background: var(--evently-surface);
+	flex-shrink: 0;
+}
+
+.evently-autocomplete__thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.evently-autocomplete__thumb.is-placeholder {
+	background:
+		linear-gradient(135deg, var(--evently-border) 0%, var(--evently-surface) 100%);
+}
+
+.evently-autocomplete__body {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.evently-autocomplete__title {
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	line-height: 1.35;
+	color: var(--evently-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.evently-autocomplete__meta {
+	font-size: var(--evently-fs-caption);
+	font-weight: 500;
+	color: var(--evently-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.evently-autocomplete__price {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--evently-primary);
+	white-space: nowrap;
+}
+
+.evently-autocomplete__view-all {
+	display: block;
+	width: 100%;
+	margin-top: 6px;
+	padding: 12px 14px;
+	border: 0;
+	border-top: 1px solid var(--evently-border);
+	border-radius: 0 0 var(--evently-radius-sm) var(--evently-radius-sm);
+	background: transparent;
+	color: var(--evently-primary);
+	font-family: inherit;
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	text-align: left;
+	cursor: pointer;
+}
+
+.evently-autocomplete__view-all:hover,
+.evently-autocomplete__view-all:focus {
+	outline: none;
+	background: var(--evently-primary-soft);
+}
+
+.evently-autocomplete__empty,
+.evently-autocomplete__loading {
+	padding: 16px 14px;
+	font-size: var(--evently-fs-small);
+	font-weight: 500;
+	color: var(--evently-muted);
+	text-align: left;
+}
+
 /* ── Notices (booking-plugin-missing, WooCommerce-missing, etc.) ─── */
 
 .evently-notice {

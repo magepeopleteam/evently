@@ -4012,12 +4012,32 @@ body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker
 
 .evently-attendee-drawer__body .mep_attendee_info > .mep_form_item,
 .evently-attendee-drawer__body .mep_attendee_info > .evently-attendee-block.mep_form_item {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 12px;
+	align-items: start;
 	margin: 0;
 	padding: 16px;
 	border: 1px solid var(--evently-border);
 	border-radius: 16px;
 	background: var(--evently-white);
 	box-shadow: 0 8px 24px rgba(11, 11, 13, 0.04);
+}
+
+/* More than 4 fields → two-column form layout. */
+.evently-attendee-drawer__body .mep_attendee_info > .mep_form_item.mep-form--cols-2,
+.evently-attendee-drawer__body .mep_attendee_info > .mep_form_item:has(> .mp_form_item:nth-of-type(5)),
+.evently-attendee-drawer__body .mep_attendee_info > .evently-attendee-block.mep_form_item.mep-form--cols-2,
+.evently-attendee-drawer__body .mep_attendee_info > .evently-attendee-block.mep_form_item:has(> .mp_form_item:nth-of-type(5)) {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	column-gap: 16px;
+	row-gap: 12px;
+}
+
+.evently-attendee-drawer__body .mep_attendee_info > .mep_form_item > h6,
+.evently-attendee-drawer__body .mep_attendee_info > .mep_form_item > .evently-attendee-card__head,
+.evently-attendee-drawer__body .mep_attendee_info > .evently-attendee-block.mep_form_item > .evently-attendee-card__head {
+	grid-column: 1 / -1;
 }
 
 .evently-attendee-drawer__body .evently-attendee-card__head {
@@ -4088,7 +4108,21 @@ body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: 6px;
-	margin: 0 0 12px;
+	margin: 0;
+	min-width: 0;
+}
+
+.evently-attendee-drawer__body .mep_form_item.mep-form--cols-2 > .mp_form_item:has(textarea),
+.evently-attendee-drawer__body .mep_form_item.mep-form--cols-2 > .mp_form_item:has(select[multiple]),
+.evently-attendee-drawer__body .mep_form_item.mep-form--cols-2 > .mp_form_item.mep_checkbox_item,
+.evently-attendee-drawer__body .mep_form_item.mep-form--cols-2 > .mp_form_item.mep_radio_item,
+.evently-attendee-drawer__body .mep_form_item.mep-form--cols-2 > .mp_form_item.mep_file_item,
+.evently-attendee-drawer__body .mep_form_item:has(> .mp_form_item:nth-of-type(5)) > .mp_form_item:has(textarea),
+.evently-attendee-drawer__body .mep_form_item:has(> .mp_form_item:nth-of-type(5)) > .mp_form_item:has(select[multiple]),
+.evently-attendee-drawer__body .mep_form_item:has(> .mp_form_item:nth-of-type(5)) > .mp_form_item.mep_checkbox_item,
+.evently-attendee-drawer__body .mep_form_item:has(> .mp_form_item:nth-of-type(5)) > .mp_form_item.mep_radio_item,
+.evently-attendee-drawer__body .mep_form_item:has(> .mp_form_item:nth-of-type(5)) > .mp_form_item.mep_file_item {
+	grid-column: 1 / -1;
 }
 
 .evently-attendee-drawer__body .mp_form_item:last-child {
@@ -4153,6 +4187,15 @@ body.single-mep_events #ui-datepicker-div.mpwem-datepicker-modern .ui-datepicker
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+}
+
+@media (max-width: 640px) {
+	.evently-attendee-drawer__body .mep_attendee_info > .mep_form_item.mep-form--cols-2,
+	.evently-attendee-drawer__body .mep_attendee_info > .mep_form_item:has(> .mp_form_item:nth-of-type(5)),
+	.evently-attendee-drawer__body .mep_attendee_info > .evently-attendee-block.mep_form_item.mep-form--cols-2,
+	.evently-attendee-drawer__body .mep_attendee_info > .evently-attendee-block.mep_form_item:has(> .mp_form_item:nth-of-type(5)) {
+		grid-template-columns: minmax(0, 1fr);
+	}
 }
 
 .evently-attendee-drawer__foot {

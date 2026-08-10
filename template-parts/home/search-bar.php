@@ -31,10 +31,10 @@ if ( empty( $evently_categories ) ) {
 }
 ?>
 <div class="search-wrap">
-	<form class="search-bar evently-overflow-x" role="search" method="get" action="<?php echo esc_url( $evently_search_action ); ?>">
-		<div class="search-field">
+	<form class="search-bar" role="search" method="get" action="<?php echo esc_url( $evently_search_action ); ?>">
+		<div class="search-field search-field--what">
 			<label class="evently-field-label" for="evently-search-what"><?php esc_html_e( 'What', 'evently' ); ?></label>
-			<input type="text" id="evently-search-what" name="s" placeholder="<?php esc_attr_e( 'Search events, artists, venues…', 'evently' ); ?>" />
+			<input type="text" id="evently-search-what" name="s" placeholder="<?php esc_attr_e( 'Search events, artists, venues…', 'evently' ); ?>" autocomplete="off" data-evently-autocomplete />
 		</div>
 		<div class="search-field">
 			<label class="evently-field-label" for="evently-search-where"><?php esc_html_e( 'Where', 'evently' ); ?></label>
@@ -45,9 +45,9 @@ if ( empty( $evently_categories ) ) {
 			<?php /* The booking plugin's query API only filters by year + upcoming/today/expired status, not an arbitrary date — mage-event/event-archive.php reads this as `evently_date` and narrows to the matching year, an honest best-effort rather than a fabricated exact-day filter. */ ?>
 			<input type="date" id="evently-search-when" name="evently_date" placeholder="<?php esc_attr_e( 'Any date', 'evently' ); ?>" />
 		</div>
-		<div class="search-field">
+		<div class="search-field search-field--select">
 			<label class="evently-field-label" for="evently-search-category"><?php esc_html_e( 'Category', 'evently' ); ?></label>
-			<select id="evently-search-category" name="mep_cat">
+			<select id="evently-search-category" name="mep_cat" data-evently-modern-select>
 				<option value=""><?php esc_html_e( 'All events', 'evently' ); ?></option>
 				<?php foreach ( $evently_categories as $evently_slug => $evently_name ) : ?>
 					<option value="<?php echo esc_attr( $evently_slug ); ?>"><?php echo esc_html( $evently_name ); ?></option>

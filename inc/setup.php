@@ -144,3 +144,56 @@ function evently_excerpt_more() {
 	return '…';
 }
 add_filter( 'excerpt_more', 'evently_excerpt_more' );
+
+/**
+ * Max items per dropdown column before a new column is added.
+ * 9–16 children → 2 columns, 17–24 → 3, etc.
+ */
+define( 'EVENTLY_MENU_ITEMS_PER_COLUMN', 8 );
+
+/**
+ * Mark primary-nav parents with more than 8 direct children for multi-column
+ * dropdowns. Adds `has-multi-column` and `menu-columns-{N}` on the parent <li>
+ * so header.css can lay the submenu out as a mega-menu grid (desktop only).
+ *
+ * @param WP_Post[] $items Menu items.
+ * @param stdClass  $args  wp_nav_menu() args.
+ * @return WP_Post[]
+ */
+function evently_mark_multi_column_menu_items( $items, $args ) {
+	if ( empty( $args->theme_location ) || 'primary' !== $args->theme_location ) {
+		return $items;
+	}
+
+	$per_column   = (int) EVENTLY_MENU_ITEMS_PER_COLUMN;
+	$child_counts = array();
+
+	foreach ( $items as $item ) {
+		$parent_id = (int) $item->menu_item_parent;
+		if ( $parent_id > 0 ) {
+			if ( ! isset( $child_counts[ $parent_id ] ) ) {
+				$child_counts[ $parent_id ] = 0;
+			}
+			++$child_counts[ $parent_id ];
+		}
+	}
+
+	foreach ( $items as $item ) {
+		// Top-level items only (parent 0) — nested flyouts stay single-column.
+		if ( 0 !== (int) $item->menu_item_parent ) {
+			continue;
+		}
+
+		$count = isset( $child_counts[ (int) $item->ID ] ) ? (int) $child_counts[ (int) $item->ID ] : 0;
+		if ( $count <= $per_column ) {
+			continue;
+		}
+
+		$columns           = (int) ceil( $count / $per_column );
+		$item->classes[]   = 'has-multi-column';
+		$item->classes[]   = 'menu-columns-' . $columns;
+	}
+
+	return $items;
+}
+add_filter( 'wp_nav_menu_objects', 'evently_mark_multi_column_menu_items', 10, 2 );

@@ -162,6 +162,22 @@ function evently_enqueue_assets() {
 	wp_enqueue_style( 'evently-header' );
 	wp_enqueue_script( 'evently-navigation' );
 	wp_enqueue_script( 'evently-modal' ); // Backs the header's quick-search modal on every page.
+	wp_enqueue_script( 'evently-search' ); // Autocomplete for Smart Search + header quick-search modal.
+	wp_localize_script(
+		'evently-search',
+		'eventlySearch',
+		array(
+			'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+			'nonce'     => wp_create_nonce( 'evently_search_suggest' ),
+			'minChars'  => 2,
+			'i18n'      => array(
+				'noResults'   => __( 'No events found', 'evently' ),
+				'viewAll'     => __( 'View all results', 'evently' ),
+				'suggestions' => __( 'Event suggestions', 'evently' ),
+				'loading'     => __( 'Searching…', 'evently' ),
+			),
+		)
+	);
 
 	// Singular mep_events uses the plugin's own details UI — do not treat it as
 	// an Evently archive/card context (avoids extra theme CSS/JS on that page).
@@ -173,7 +189,6 @@ function evently_enqueue_assets() {
 		wp_enqueue_style( 'evently-events' );
 		wp_enqueue_style( 'evently-home' );
 		wp_enqueue_style( 'evently-blog' ); // Event Journal teaser section reuses the real blog's editorial card styles.
-		wp_enqueue_script( 'evently-search' );
 		wp_enqueue_script( 'evently-favorites' );
 		wp_enqueue_script( 'evently-calendar' );
 		wp_enqueue_script( 'evently-carousel' );
@@ -181,9 +196,9 @@ function evently_enqueue_assets() {
 	}
 
 	if ( $is_event_listing_context || is_page_template( 'page-templates/event-archive.php' ) ) {
+		wp_enqueue_style( 'evently-hero' ); // Shared Smart Search bar styles (search-bar.php).
 		wp_enqueue_style( 'evently-events' );
 		wp_enqueue_style( 'evently-archive' );
-		wp_enqueue_script( 'evently-search' );
 		wp_enqueue_script( 'evently-filters' );
 		wp_enqueue_script( 'evently-favorites' );
 	}

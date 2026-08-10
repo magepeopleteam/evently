@@ -38,6 +38,8 @@ if ( empty( $evently_create_event_url ) ) {
 			<?php endif; ?>
 		</a>
 
+		<div class="header-spacer"></div>
+
 		<?php if ( has_nav_menu( 'primary' ) ) : ?>
 			<nav class="site-nav" aria-label="<?php esc_attr_e( 'Primary', 'evently' ); ?>">
 				<?php
@@ -68,8 +70,6 @@ if ( empty( $evently_create_event_url ) ) {
 				?>
 			</nav>
 		<?php endif; ?>
-
-		<div class="header-spacer"></div>
 
 		<div class="header-actions">
 			<button type="button" class="header-search-btn" aria-label="<?php esc_attr_e( 'Search events', 'evently' ); ?>" data-evently-modal-trigger="evently-search-modal">

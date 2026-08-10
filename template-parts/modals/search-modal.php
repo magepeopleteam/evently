@@ -30,6 +30,8 @@ $evently_search_action = evently_get_events_page_url();
 				name="s"
 				class="evently-input"
 				placeholder="<?php esc_attr_e( 'Search events, artists, venues…', 'evently' ); ?>"
+				autocomplete="off"
+				data-evently-autocomplete
 			/>
 			<button type="submit" class="btn btn--accent"><?php esc_html_e( 'Search', 'evently' ); ?></button>
 		</form>

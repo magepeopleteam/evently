@@ -77,3 +77,25 @@ function evently_maybe_use_plugin_single_event_template( $template ) {
 	return $template;
 }
 add_filter( 'single_template', 'evently_maybe_use_plugin_single_event_template', 20 );
+
+/**
+ * AJAX: autocomplete suggestions for the Smart Search / quick-search fields.
+ * Public (nopriv) — search is a front-end discovery feature.
+ *
+ * @return void
+ */
+function evently_ajax_search_suggest() {
+	check_ajax_referer( 'evently_search_suggest', 'nonce' );
+
+	$term  = isset( $_REQUEST['term'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['term'] ) ) : '';
+	$limit = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : 8;
+
+	if ( ! class_exists( 'Evently_Booking_Adapter' ) ) {
+		wp_send_json_success( array( 'suggestions' => array() ) );
+	}
+
+	$suggestions = Evently_Booking_Adapter::suggest_events( $term, $limit );
+	wp_send_json_success( array( 'suggestions' => $suggestions ) );
+}
+add_action( 'wp_ajax_evently_search_suggest', 'evently_ajax_search_suggest' );
+add_action( 'wp_ajax_nopriv_evently_search_suggest', 'evently_ajax_search_suggest' );

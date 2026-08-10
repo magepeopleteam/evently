@@ -134,7 +134,11 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 
 .site-nav {
 	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 	gap: var(--evently-space-4);
+	flex-shrink: 0;
+	margin-left: auto;
 }
 
 /* wp_nav_menu() outputs bare <li> items here (items_wrap omits the <ul>
@@ -233,6 +237,99 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 
 .site-nav .sub-menu a:hover {
 	background: var(--evently-border);
+}
+
+/*
+ * Multi-column mega submenu — parents with >8 direct children get
+ * `.has-multi-column` + `.menu-columns-N` from setup.php (ceil(count/8)).
+ * Items fill column-first (8 per column): 24 children → 3 columns.
+ * Centered under the parent label (left: 50% + translateX(-50%)).
+ * Scoped to `.site-nav` so the mobile drawer stays a single stacked list.
+ */
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu {
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-rows: repeat(8, auto);
+	grid-auto-columns: minmax(200px, 240px);
+	column-gap: var(--evently-space-4);
+	row-gap: 2px;
+	left: 50%;
+	right: auto;
+	min-width: 0;
+	max-width: min(780px, calc(100vw - 48px));
+	margin-top: 12px;
+	padding: var(--evently-space-3);
+	border-radius: var(--evently-radius-md);
+	border: 1px solid var(--evently-border);
+	background-color: var(--evently-white);
+	background-repeat: no-repeat;
+	box-shadow: var(--evently-shadow-deep);
+	/* Keep horizontal center + subtle open animation.
+	   --evently-mega-shift (set in navigation.js) nudges the panel
+	   only when centering would overflow the viewport. */
+	transform: translate(calc(-50% + var(--evently-mega-shift, 0px)), 4px);
+}
+
+/* Full-height column rules sitting in the gaps (2 / 3 / 4 column layouts). */
+.site-nav li.menu-item-has-children.has-multi-column.menu-columns-2 > .sub-menu {
+	background-image: linear-gradient(var(--evently-border), var(--evently-border));
+	background-size: 1px calc(100% - (var(--evently-space-3) * 2));
+	background-position: 50% var(--evently-space-3);
+}
+
+.site-nav li.menu-item-has-children.has-multi-column.menu-columns-3 > .sub-menu {
+	background-image:
+		linear-gradient(var(--evently-border), var(--evently-border)),
+		linear-gradient(var(--evently-border), var(--evently-border));
+	background-size: 1px calc(100% - (var(--evently-space-3) * 2));
+	background-position:
+		calc(100% / 3) var(--evently-space-3),
+		calc(200% / 3) var(--evently-space-3);
+}
+
+.site-nav li.menu-item-has-children.has-multi-column.menu-columns-4 > .sub-menu {
+	background-image:
+		linear-gradient(var(--evently-border), var(--evently-border)),
+		linear-gradient(var(--evently-border), var(--evently-border)),
+		linear-gradient(var(--evently-border), var(--evently-border));
+	background-size: 1px calc(100% - (var(--evently-space-3) * 2));
+	background-position:
+		25% var(--evently-space-3),
+		50% var(--evently-space-3),
+		75% var(--evently-space-3);
+}
+
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu a {
+	display: block;
+	padding: 10px 14px;
+	border-radius: var(--evently-radius-sm);
+	font-size: var(--evently-fs-small);
+	font-weight: 500;
+	line-height: 1.4;
+	letter-spacing: -0.01em;
+	color: var(--evently-muted);
+	white-space: normal;
+	transition: background var(--evently-transition-fast) ease,
+		color var(--evently-transition-fast) ease;
+}
+
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu a:hover {
+	background: var(--evently-surface);
+	color: var(--evently-text);
+}
+
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu > .current-menu-item > a,
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu > .current_page_item > a {
+	background: var(--evently-primary-soft);
+	color: var(--evently-primary);
+	font-weight: 600;
+}
+
+/* Open state: stay horizontally centered under the parent label. */
+.site-nav li.menu-item-has-children.has-multi-column:hover > .sub-menu,
+.site-nav li.menu-item-has-children.has-multi-column:focus-within > .sub-menu,
+.site-nav li.menu-item-has-children.has-multi-column.is-open > .sub-menu {
+	transform: translate(calc(-50% + var(--evently-mega-shift, 0px)), 0);
 }
 
 /* The transparent/dark header state (body.evently-header-on-media, above)
