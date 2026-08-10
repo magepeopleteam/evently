@@ -177,7 +177,7 @@
 					break;
 				}
 			}
-			if ( ! shell || ! shell.classList.contains( 'mpwem-slider--style-2' ) ) {
+			if ( ! shell || ( ! shell.classList.contains( 'mpwem-slider--style-2' ) && ! shell.classList.contains( 'is-style-2' ) && ! area.classList.contains( 'is-style-2' ) ) ) {
 				return;
 			}
 
@@ -224,6 +224,20 @@
 				window.setTimeout( function () {
 					clearInlineSliderHeights( stage );
 				}, 50 );
+				return;
+			}
+
+			// Plugin Style Two already renders bottom-right prev/next/zoom — keep those.
+			if ( shell.querySelector( '.mpwem_slider_style2_controls' ) ) {
+				window.setTimeout( function () {
+					clearInlineSliderHeights( stage );
+				}, 50 );
+				window.setTimeout( function () {
+					clearInlineSliderHeights( stage );
+				}, 400 );
+				window.addEventListener( 'resize', function () {
+					clearInlineSliderHeights( stage );
+				} );
 				return;
 			}
 
