@@ -115,6 +115,8 @@
 
 .evently-single-post__title,
 .evently-page__title {
+	font-size: var(--evently-fs-h2);
+	line-height: 1.1;
 	margin-bottom: var(--evently-space-2);
 }
 
@@ -147,6 +149,29 @@
 .evently-page__content h2 {
 	font-size: 28px;
 	margin-top: var(--evently-space-6);
+}
+
+/* Keep mage-eventpress shortcode cards free of page-content typography. */
+.evently-page__content .list_with_filter_section.mep_event_list h2.mep_list_title {
+	font-size: 17px;
+	margin-top: 0;
+	margin-bottom: 4px;
+}
+
+.evently-page__content .list_with_filter_section.mep_event_list a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.evently-page__content .list_with_filter_section.mep_event_list .mep_event_card__book {
+	color: #fff;
+}
+
+/* Let calendar / more-dates popovers escape the page content box. */
+.evently-page,
+.evently-page__content,
+.evently-page__content .list_with_filter_section.mep_event_list {
+	overflow: visible;
 }
 
 .evently-single-post__content h3,
