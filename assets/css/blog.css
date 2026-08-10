@@ -91,6 +91,11 @@
 	padding-top: var(--evently-header-height);
 }
 
+.evently-archive-header__title {
+	font-size: var(--evently-fs-h2);
+	line-height: 1.1;
+}
+
 .evently-archive-header__title span {
 	color: var(--evently-primary);
 }
@@ -115,7 +120,7 @@
 
 .evently-single-post__title,
 .evently-page__title {
-	font-size: var(--evently-fs-h2);
+	font-size: 32px;
 	line-height: 1.1;
 	margin-bottom: var(--evently-space-2);
 }

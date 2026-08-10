@@ -327,7 +327,8 @@ function evently_enqueue_assets() {
 		wp_enqueue_style( 'evently-events' );
 	}
 
-	if ( is_singular( 'post' ) || is_home() || ( is_archive() && ! $is_event_context ) || is_search() ) {
+	// Pages use page.php (.evently-page__title etc.); posts/archives/search share the same blog stylesheet.
+	if ( is_singular( 'post' ) || is_page() || is_home() || ( is_archive() && ! $is_event_context ) || is_search() ) {
 		wp_enqueue_style( 'evently-blog' );
 	}
 
