@@ -120,3 +120,14 @@ body.single-mep_events .fab::before,
 body.single-mep_events [class*="fa-"]::before {
 	font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands", "FontAwesome" !important;
 }
+
+/*
+ * Slider prev/next (superSlider .iconIndicator) used a high z-index that
+ * painted over Evently's fixed site header while scrolling. Keep arrows
+ * inside the slider stack and below the header.
+ */
+body.single-mep_events .mpwem_style .superSlider .iconIndicator,
+body.single-mep_events .mpwem_style .superSlider .iconIndicator.prevItem,
+body.single-mep_events .mpwem_style .superSlider .iconIndicator.nextItem {
+	z-index: 5;
+}

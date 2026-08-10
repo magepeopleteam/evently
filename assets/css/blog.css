@@ -118,6 +118,10 @@
 	margin-bottom: var(--evently-space-4);
 }
 
+header.evently-page__header {
+	margin-top: 40px;
+}
+
 .evently-single-post__title,
 .evently-page__title {
 	font-size: 32px;
