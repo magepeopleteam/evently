@@ -21,20 +21,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-while ( have_posts() ) :
-	the_post();
-	// Any editor content added above the archive (e.g. an intro paragraph)
-	// prints first, so this template stays useful even with custom copy.
-	$evently_page_content = get_the_content();
-	if ( ! empty( trim( wp_strip_all_tags( $evently_page_content ) ) ) ) :
-		?>
-		<div class="evently-container evently-archive-page-intro">
-			<?php the_content(); ?>
-		</div>
-		<?php
-	endif;
-endwhile;
+if ( ! function_exists( 'evently_elementor_location' ) || ! evently_elementor_location( 'single' ) ) {
+	while ( have_posts() ) :
+		the_post();
+		// Any editor content added above the archive (e.g. an intro paragraph)
+		// prints first, so this template stays useful even with custom copy.
+		$evently_page_content = get_the_content();
+		if ( ! empty( trim( wp_strip_all_tags( $evently_page_content ) ) ) ) :
+			?>
+			<div class="evently-container evently-archive-page-intro">
+				<?php the_content(); ?>
+			</div>
+			<?php
+		endif;
+	endwhile;
 
-evently_template_part( 'template-parts/archive/event-archive-content' );
+	evently_template_part( 'template-parts/archive/event-archive-content' );
+}
 
 get_footer();

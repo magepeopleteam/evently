@@ -319,6 +319,30 @@ function evently_get_social_links() {
 }
 
 /**
+ * Whether Elementor's Page Settings → "Hide Title" is enabled for a post.
+ *
+ * @param int $post_id Post ID. 0 = current queried object.
+ * @return bool
+ */
+function evently_elementor_hides_title( $post_id = 0 ) {
+	if ( ! $post_id ) {
+		$post_id = get_queried_object_id();
+	}
+
+	if ( ! $post_id || ! class_exists( '\Elementor\Plugin' ) ) {
+		return false;
+	}
+
+	$document = \Elementor\Plugin::$instance->documents->get( $post_id );
+	if ( ! $document ) {
+		return false;
+	}
+
+	// Switcher control stores "yes" when enabled.
+	return 'yes' === $document->get_settings( 'hide_title' );
+}
+
+/**
  * Whether the current singular view should print Evently's page/post title.
  *
  * @return bool
@@ -334,6 +358,11 @@ function evently_should_render_singular_title() {
 
 	// Already printed this request (page.php / single.php / Elementor hook).
 	if ( did_action( 'evently_rendered_singular_title' ) ) {
+		return false;
+	}
+
+	// Honor Elementor Page Settings → Hide Title.
+	if ( evently_elementor_hides_title() ) {
 		return false;
 	}
 
@@ -362,7 +391,7 @@ function evently_render_singular_title( $context = '' ) {
 			<?php if ( ! empty( $evently_categories ) ) : ?>
 				<div class="evently-eyebrow evently-eyebrow--pill"><?php echo esc_html( $evently_categories[0]->name ); ?></div>
 			<?php endif; ?>
-			<h1 class="evently-single-post__title"><?php the_title(); ?></h1>
+			<h1 class="evently-single-post__title entry-title elementor-page-title"><?php the_title(); ?></h1>
 			<div class="evently-single-post__meta">
 				<span><?php echo esc_html( get_the_date() ); ?></span>
 				<span aria-hidden="true">·</span>
@@ -373,7 +402,7 @@ function evently_render_singular_title( $context = '' ) {
 	} else {
 		?>
 		<header class="evently-page__header">
-			<h1 class="evently-page__title"><?php the_title(); ?></h1>
+			<h1 class="evently-page__title entry-title elementor-page-title"><?php the_title(); ?></h1>
 		</header>
 		<?php
 	}

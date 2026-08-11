@@ -2,6 +2,9 @@
 /**
  * The header for the theme.
  *
+ * When Elementor Pro Theme Builder provides a Header location, that template
+ * replaces Evently's site-header; otherwise the theme header prints as usual.
+ *
  * @package Evently
  */
 
@@ -27,7 +30,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'evently_before_header' );
 
-evently_template_part( 'template-parts/header/site-header' );
+if ( ! function_exists( 'evently_elementor_location' ) || ! evently_elementor_location( 'header' ) ) {
+	evently_template_part( 'template-parts/header/site-header' );
+}
 
 /**
  * Fires right after the site header markup, before <main>.

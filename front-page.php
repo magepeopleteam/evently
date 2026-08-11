@@ -11,6 +11,8 @@
  * hands off to that admin-built page instead — see the branch below. Nothing
  * here changes for a fresh/default install.
  *
+ * Elementor Pro Theme Builder `single` location can replace the whole page.
+ *
  * @package Evently
  */
 
@@ -20,48 +22,50 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-if ( evently_homepage_uses_custom_builder() ) {
-	global $post;
-	$evently_custom_front_page = get_post( (int) get_option( 'page_on_front' ) );
-	if ( $evently_custom_front_page ) {
-		$post = $evently_custom_front_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- standard "borrow the loop" pattern for rendering one specific page's content outside The Loop.
-		setup_postdata( $post );
-		?>
-		<main id="primary" class="evently-custom-homepage">
-			<?php the_content(); ?>
-		</main>
-		<?php
-		wp_reset_postdata();
-	}
-} else {
-	$evently_home_sections = array(
-		'hero',
-		'categories',
-		'trending-events',
-		'featured-event',
-		'choose-vibe',
-		'near-you',
-		'calendar',
-		'how-it-works',
-		'digital-ticket',
-		'organizer-cta',
-		'stats',
-		'testimonials',
-		'event-journal',
-		'final-cta',
-	);
+if ( ! function_exists( 'evently_elementor_location' ) || ! evently_elementor_location( 'single' ) ) {
+	if ( evently_homepage_uses_custom_builder() ) {
+		global $post;
+		$evently_custom_front_page = get_post( (int) get_option( 'page_on_front' ) );
+		if ( $evently_custom_front_page ) {
+			$post = $evently_custom_front_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- standard "borrow the loop" pattern for rendering one specific page's content outside The Loop.
+			setup_postdata( $post );
+			?>
+			<div class="evently-custom-homepage">
+				<?php the_content(); ?>
+			</div>
+			<?php
+			wp_reset_postdata();
+		}
+	} else {
+		$evently_home_sections = array(
+			'hero',
+			'categories',
+			'trending-events',
+			'featured-event',
+			'choose-vibe',
+			'near-you',
+			'calendar',
+			'how-it-works',
+			'digital-ticket',
+			'organizer-cta',
+			'stats',
+			'testimonials',
+			'event-journal',
+			'final-cta',
+		);
 
-	/**
-	 * Filters the ordered list of homepage section slugs rendered by
-	 * front-page.php. Each slug maps to template-parts/home/{slug}.php.
-	 * Only applies to the built-in demo homepage, not an admin-built one.
-	 *
-	 * @param string[] $evently_home_sections Section slugs in render order.
-	 */
-	$evently_home_sections = apply_filters( 'evently_home_sections', $evently_home_sections );
+		/**
+		 * Filters the ordered list of homepage section slugs rendered by
+		 * front-page.php. Each slug maps to template-parts/home/{slug}.php.
+		 * Only applies to the built-in demo homepage, not an admin-built one.
+		 *
+		 * @param string[] $evently_home_sections Section slugs in render order.
+		 */
+		$evently_home_sections = apply_filters( 'evently_home_sections', $evently_home_sections );
 
-	foreach ( $evently_home_sections as $evently_section ) {
-		evently_template_part( 'template-parts/home/' . sanitize_file_name( $evently_section ) );
+		foreach ( $evently_home_sections as $evently_section ) {
+			evently_template_part( 'template-parts/home/' . sanitize_file_name( $evently_section ) );
+		}
 	}
 }
 

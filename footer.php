@@ -2,6 +2,9 @@
 /**
  * The footer for the theme.
  *
+ * When Elementor Pro Theme Builder provides a Footer location, that template
+ * replaces Evently's site-footer; otherwise the theme footer prints as usual.
+ *
  * @package Evently
  */
 
@@ -17,7 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'evently_before_footer' );
 
-evently_template_part( 'template-parts/footer/site-footer' );
+if ( ! function_exists( 'evently_elementor_location' ) || ! evently_elementor_location( 'footer' ) ) {
+	evently_template_part( 'template-parts/footer/site-footer' );
+}
 
 /**
  * Fires right after the site footer markup, before </body>.

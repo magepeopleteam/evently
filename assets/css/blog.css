@@ -121,14 +121,40 @@
 }
 
 .evently-single-post__title,
-.evently-page__title {
-	display: block;
+.evently-page__title,
+h1.entry-title.elementor-page-title {
+	/* Elementor Page Settings → Hide Title sets --page-title-display: none. */
+	display: var(--page-title-display, block);
 	font-size: 32px;
 	line-height: 1.1;
 	margin: 0 0 var(--evently-space-2);
 	color: var(--evently-text);
 	font-weight: 800;
 	letter-spacing: -0.03em;
+}
+
+body.evently-elementor-hide-title .evently-page__header,
+body.evently-elementor-hide-title .evently-elementor-page-title,
+body.evently-elementor-hide-title .evently-single-post__header {
+	display: none;
+}
+
+.evently-page--elementor,
+.evently-single-post--elementor {
+	display: block;
+	width: 100%;
+	max-width: none;
+	padding: 0;
+	margin: 0;
+}
+
+.evently-page--elementor .evently-page__header,
+.evently-single-post--elementor .evently-single-post__header {
+	max-width: var(--evently-max);
+	margin-left: auto;
+	margin-right: auto;
+	padding: var(--evently-space-6) var(--evently-pad) 0;
+	box-sizing: border-box;
 }
 
 /* Elementor Full Width template — title sits above the builder canvas. */
