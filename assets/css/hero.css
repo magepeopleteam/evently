@@ -14,7 +14,7 @@
 	grid-template-columns: 1fr 1fr;
 	gap: var(--evently-space-7);
 	align-items: center;
-	padding: var(--evently-space-8) var(--evently-pad) var(--evently-space-6);
+	padding: var(--evently-space-8) 0 var(--evently-space-6);
 }
 
 .hero-title {
