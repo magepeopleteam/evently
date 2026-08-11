@@ -143,4 +143,16 @@
 	.evently-org-dash-header {
 		flex-direction: column;
 	}
+
+	.evently-org-dash-stats {
+		grid-template-columns: 1fr;
+	}
+
+	.evently-org-dash-table-wrap,
+	.evently-org-dash-table {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
 }

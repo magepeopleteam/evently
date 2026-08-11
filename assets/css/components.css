@@ -367,6 +367,31 @@
 	backdrop-filter: blur(2px);
 }
 
+@media (max-width: 640px) {
+	.evently-modal {
+		padding: 10vh 12px 12px;
+		align-items: flex-start;
+	}
+
+	.evently-modal__panel {
+		padding: var(--evently-space-3);
+		border-radius: var(--evently-radius-md);
+		max-height: calc(100vh - 20vh);
+		overflow-y: auto;
+	}
+
+	.evently-modal__search-form {
+		flex-direction: column;
+	}
+
+	.evently-autocomplete__panel {
+		min-width: 0;
+		left: 0;
+		right: 0;
+		max-width: none;
+	}
+}
+
 .evently-modal[hidden] {
 	display: none;
 }

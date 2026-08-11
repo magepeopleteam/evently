@@ -190,6 +190,25 @@ body.evently-elementor-hide-title .evently-single-post__header {
 .evently-page__content {
 	font-size: var(--evently-fs-body-lg);
 	line-height: 1.75;
+	overflow-wrap: break-word;
+}
+
+.evently-single-post__content pre,
+.evently-page__content pre,
+.evently-single-post__content .wp-block-code,
+.evently-page__content .wp-block-code,
+.evently-single-post__content .wp-block-preformatted,
+.evently-page__content .wp-block-preformatted {
+	max-width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.evently-single-post__content .wp-block-image img,
+.evently-page__content .wp-block-image img,
+.evently-single-post__content .wp-block-gallery img,
+.evently-page__content .wp-block-gallery img {
+	height: auto;
 }
 
 .evently-single-post__content h2,

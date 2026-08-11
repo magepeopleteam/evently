@@ -60,6 +60,7 @@
 	align-items: center;
 	gap: var(--evently-space-3);
 	margin-bottom: var(--evently-space-3);
+	flex-wrap: wrap;
 }
 
 .evently-organizer-hero__avatar {
@@ -287,5 +288,20 @@
 
 	.evently-archive-toolbar__right {
 		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
+	.evently-archive-hero {
+		padding-top: var(--evently-space-5);
+		padding-bottom: var(--evently-space-4);
+	}
+
+	.evently-archive-hero__title {
+		font-size: clamp(1.75rem, 8vw, 2.5rem);
+	}
+
+	.evently-modal__panel--drawer {
+		max-width: min(360px, 100vw);
+		width: min(360px, 100vw);
 	}
 }

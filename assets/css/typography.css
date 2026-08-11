@@ -191,6 +191,19 @@ small,
 	gap: var(--evently-space-2);
 }
 
+@media (max-width: 640px) {
+	.evently-section-head--row {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: var(--evently-space-1);
+	}
+
+	.evently-section-head--center p,
+	.evently-section-head p {
+		font-size: var(--evently-fs-body);
+	}
+}
+
 .evently-section-head--row .evently-section-head__link {
 	font-size: var(--evently-fs-label);
 	font-weight: 600;

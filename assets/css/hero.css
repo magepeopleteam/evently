@@ -14,7 +14,9 @@
 	grid-template-columns: 1fr 1fr;
 	gap: var(--evently-space-7);
 	align-items: center;
-	padding: var(--evently-space-8) 0 var(--evently-space-6);
+	/* Horizontal inset comes from layout.css (.hero-inner.evently-container) */
+	padding-top: var(--evently-space-8);
+	padding-bottom: var(--evently-space-6);
 }
 
 .hero-title {

@@ -13,6 +13,9 @@ html {
 	-webkit-text-size-adjust: 100%;
 	/* Keep fixed .site-header and in-flow .evently-container on the same x-track */
 	scrollbar-gutter: stable;
+	/* Stop wide embeds/tables/plugin chrome from forcing page-level sideways scroll */
+	overflow-x: hidden;
+	overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -28,6 +31,8 @@ body {
 	color: var(--evently-text);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+	overflow-x: clip;
 }
 
 /*

@@ -2,9 +2,13 @@
  * Responsive overrides — loaded last so it wins the cascade over the
  * section stylesheets it adjusts. Breakpoints match the Figma source
  * exactly: 1000px (tablet) and 640px (mobile). Brief §11/§19 mobile spec.
+ *
+ * Also covers pages, posts, archives, booking/Woo, and dashboard so every
+ * template stays usable from large desktop down to small phones.
  */
 
-/* The fixed header's nav row (logo + menu items + search/login/CTA) has no
+/* ── Extra-wide → tablet: collapse primary nav early ─────────────────
+   The fixed header's nav row (logo + menu items + search/login/CTA) has no
    wrap/shrink fallback, and needs more room than the 1000px tablet breakpoint
    below gives everything else — measured: it stops fitting on one line
    somewhere around 1080-1100px (a dropdown item's caret adds a bit more
@@ -23,19 +27,63 @@
 	}
 }
 
+/* ── Tablet (≤1000px) ──────────────────────────────────────────────── */
 @media (max-width: 1000px) {
+	.hero {
+		min-height: 0;
+	}
+
 	.hero-inner {
 		grid-template-columns: 1fr;
 		gap: var(--evently-space-5);
+		padding-top: var(--evently-space-6);
+		padding-bottom: var(--evently-space-5);
 	}
 
 	.hero-img-wrap {
 		display: none;
 	}
 
+	.hero-sub {
+		max-width: none;
+	}
+
+	/* Search bar: 5 columns crush between ~641–1000px — collapse to a
+	   2×2 field grid + full-width submit before the mobile form takes over. */
+	.search-bar {
+		grid-template-columns: 1fr 1fr;
+		min-height: 0;
+	}
+
+	.search-field {
+		padding: var(--evently-space-2) var(--evently-space-3);
+		border-right: none;
+		border-bottom: 1px solid var(--evently-border);
+	}
+
+	.search-field:nth-child(odd) {
+		border-right: 1px solid var(--evently-border);
+	}
+
+	.search-submit {
+		grid-column: 1 / -1;
+		padding: var(--evently-space-2);
+		justify-content: stretch;
+	}
+
+	.search-submit .btn {
+		width: 100%;
+		justify-content: center;
+	}
+
 	.cat-grid {
 		grid-template-columns: repeat(2, 1fr);
 		grid-template-rows: auto;
+	}
+
+	.cat-card {
+		aspect-ratio: 16 / 10;
+		min-height: 180px;
 	}
 
 	.cat-card--wide {
@@ -61,8 +109,13 @@
 		gap: var(--evently-space-6);
 	}
 
+	.ticket-shadow-card {
+		display: none;
+	}
+
 	.stats-grid {
 		grid-template-columns: repeat(2, 1fr);
+		gap: var(--evently-space-4);
 	}
 
 	.testi-grid {
@@ -71,16 +124,111 @@
 	}
 
 	.journal-grid {
-		grid-template-columns: 1fr;
-		gap: var(--evently-space-6);
+		grid-template-columns: 1fr 1fr;
+		gap: var(--evently-space-4);
 	}
 
 	.footer-grid {
 		grid-template-columns: 1fr 1fr;
 		gap: var(--evently-space-4);
 	}
+
+	.featured-section {
+		height: 420px;
+		max-height: none;
+	}
+
+	.featured-overlay {
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
+	}
+
+	.featured-content {
+		align-items: flex-end;
+		padding: var(--evently-space-6) var(--evently-pad);
+	}
+
+	.evently-section {
+		padding-top: var(--evently-space-7);
+		padding-bottom: var(--evently-space-7);
+	}
+
+	.evently-section--tight {
+		padding-top: var(--evently-space-6);
+		padding-bottom: var(--evently-space-6);
+	}
+
+	.cta-section {
+		padding-top: var(--evently-space-8);
+		padding-bottom: var(--evently-space-8);
+	}
+
+	/* Pages / posts — scale titles, keep content readable */
+	.evently-single-post__title,
+	.evently-page__title,
+	h1.entry-title.elementor-page-title {
+		font-size: clamp(1.75rem, 4vw, 2rem);
+	}
+
+	.evently-single-post__content h2,
+	.evently-page__content h2 {
+		font-size: 1.5rem;
+	}
+
+	.evently-single-post__content,
+	.evently-page__content {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.evently-single-post__content table,
+	.evently-page__content table,
+	.evently-single-post__content .wp-block-table,
+	.evently-page__content .wp-block-table {
+		display: block;
+		max-width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.evently-single-post__content iframe,
+	.evently-page__content iframe,
+	.evently-single-post__content embed,
+	.evently-page__content embed,
+	.evently-single-post__content video,
+	.evently-page__content video,
+	.evently-single-post__content .wp-block-embed,
+	.evently-page__content .wp-block-embed {
+		max-width: 100%;
+	}
+
+	.evently-single-post__content .alignwide,
+	.evently-page__content .alignwide,
+	.evently-single-post__content .alignfull,
+	.evently-page__content .alignfull {
+		max-width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	/* Mobile nav: allow long menus to scroll under the fixed header */
+	.mobile-nav {
+		max-height: calc(100vh - var(--evently-header-height) - 8px);
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	body.admin-bar .mobile-nav {
+		max-height: calc(100vh - var(--evently-header-height) - 46px - 8px);
+	}
 }
 
+@media screen and (max-width: 600px) {
+	body.admin-bar .mobile-nav {
+		max-height: calc(100vh - var(--evently-header-height) - 8px);
+	}
+}
+
+/* ── Mobile (≤640px) ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
 	.search-bar {
 		display: none;
@@ -89,8 +237,40 @@
 	.search-bar-mobile {
 		display: flex;
 		gap: var(--evently-space-1);
-		padding: var(--evently-space-4) var(--evently-pad) 0;
-		background: var(--evently-surface);
+		padding: var(--evently-space-4) 0 0;
+		background: transparent;
+		align-items: stretch;
+	}
+
+	/* Archive hero zeroes .search-wrap padding — restore inset on the mobile form. */
+	.evently-archive-hero .search-bar-mobile {
+		padding-left: var(--evently-pad);
+		padding-right: var(--evently-pad);
+	}
+
+	.search-bar-mobile .evently-input {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.search-bar-mobile .btn {
+		flex: 0 0 auto;
+		white-space: nowrap;
+	}
+
+	.hero-inner {
+		padding-top: var(--evently-space-5);
+		padding-bottom: var(--evently-space-4);
+	}
+
+	.hero-stats {
+		gap: var(--evently-space-3);
+	}
+
+	.hero-btns .btn {
+		flex: 1 1 auto;
+		justify-content: center;
+		text-align: center;
 	}
 
 	.events-grid,
@@ -102,6 +282,7 @@
 
 	.stats-grid {
 		grid-template-columns: repeat(2, 1fr);
+		gap: var(--evently-space-3);
 	}
 
 	.footer-grid {
@@ -114,12 +295,94 @@
 	}
 
 	.cat-card {
-		aspect-ratio: 4/3;
+		aspect-ratio: 4 / 3;
+		min-height: 0;
+	}
+
+	.journal-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.journal-img {
+		height: 220px;
+	}
+
+	.featured-section {
+		height: 360px;
+	}
+
+	.featured-title {
+		font-size: clamp(1.75rem, 8vw, 2.5rem);
+	}
+
+	.cta-title {
+		font-size: clamp(2rem, 10vw, 3rem);
+	}
+
+	.cta-sub {
+		font-size: 1rem;
+	}
+
+	.cta-glow {
+		width: 320px;
+		height: 320px;
+	}
+
+	.evently-section {
+		padding-top: var(--evently-space-6);
+		padding-bottom: var(--evently-space-6);
 	}
 
 	.evently-single-post.evently-section,
 	.evently-page.evently-section {
 		padding-top: var(--evently-space-4);
+	}
+
+	.evently-page--elementor .evently-page__header,
+	.evently-single-post--elementor .evently-single-post__header,
+	.evently-elementor-page-title {
+		padding-top: var(--evently-space-4);
+	}
+
+	.evently-single-post__title,
+	.evently-page__title,
+	h1.entry-title.elementor-page-title {
+		font-size: 1.625rem;
+		line-height: 1.2;
+	}
+
+	.evently-archive-header__title {
+		font-size: clamp(1.75rem, 7vw, 2.125rem);
+	}
+
+	.evently-single-post__thumb,
+	.evently-page__thumb {
+		border-radius: var(--evently-radius-md);
+		margin-bottom: var(--evently-space-4);
+	}
+
+	/* Nested comment threads — don't shove replies off-screen */
+	.evently-comment-list .children {
+		margin-left: var(--evently-space-2);
+	}
+
+	.comment-body {
+		flex-wrap: wrap;
+	}
+
+	.evently-related-posts {
+		margin-top: var(--evently-space-6);
+		padding-top: var(--evently-space-4);
+	}
+
+	/* Pagination — keep controls from overflowing */
+	.navigation.pagination .nav-links,
+	.evently-archive-pagination,
+	.woocommerce-pagination ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		justify-content: center;
 	}
 
 	/* Testimonials become a horizontal snap-scroll row instead of a stack —
@@ -130,11 +393,67 @@
 		scroll-snap-type: x mandatory;
 		-webkit-overflow-scrolling: touch;
 		padding-bottom: 4px;
+		gap: var(--evently-space-2);
+		margin-left: calc(-1 * var(--evently-pad));
+		margin-right: calc(-1 * var(--evently-pad));
+		padding-left: var(--evently-pad);
+		padding-right: var(--evently-pad);
 	}
 
 	.testi-grid .testi-card {
 		flex: 0 0 85%;
 		scroll-snap-align: start;
+	}
+
+	/* Compact event cards in scroll rows — slightly narrower on phones */
+	.evently-scroll-row .event-card--compact {
+		width: min(260px, 78vw);
+		flex-basis: min(260px, 78vw);
+	}
+
+	.evently-scroll-row {
+		margin-left: calc(-1 * var(--evently-pad));
+		margin-right: calc(-1 * var(--evently-pad));
+		padding-left: var(--evently-pad);
+		padding-right: var(--evently-pad);
+	}
+
+	.cal-event-row {
+		padding: 16px;
+	}
+
+	.cal-day {
+		font-size: 12px;
+	}
+
+	.cal-day-name {
+		font-size: 10px;
+	}
+
+	.ticket-ui {
+		padding: 28px 22px;
+	}
+
+	.ticket-date-title {
+		font-size: 22px;
+	}
+
+	.step {
+		padding: 0;
+	}
+
+	.mobile-nav-actions {
+		flex-direction: column;
+	}
+
+	.footer-bottom {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.footer-legal {
+		flex-wrap: wrap;
+		gap: var(--evently-space-2);
 	}
 
 	/* Footer columns become a real native <details>/<summary> accordion —
@@ -169,5 +488,51 @@
 
 	.footer-col[open] .footer-col-title::after {
 		transform: rotate(-135deg);
+	}
+
+	/* Dashboard / booking extras when those sheets are present */
+	.evently-org-dash-stats {
+		grid-template-columns: 1fr;
+	}
+
+	.woocommerce ul.products {
+		grid-template-columns: 1fr !important;
+		gap: var(--evently-space-2);
+	}
+
+	.mpwem-stats {
+		flex-wrap: wrap;
+	}
+}
+
+/* ── Very small phones (≤380px) ────────────────────────────────────── */
+@media (max-width: 380px) {
+	.hero-btns {
+		flex-direction: column;
+	}
+
+	.hero-btns .btn {
+		width: 100%;
+	}
+
+	.stats-grid {
+		grid-template-columns: 1fr;
+		text-align: left;
+	}
+
+	.stat-val {
+		font-size: 2.25rem;
+	}
+
+	.search-bar-mobile {
+		flex-direction: column;
+	}
+
+	.search-bar-mobile .btn {
+		width: 100%;
+	}
+
+	.testi-grid .testi-card {
+		flex-basis: 90%;
 	}
 }

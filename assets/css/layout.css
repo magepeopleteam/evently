@@ -43,6 +43,17 @@ body.evently-header-on-media .evently-main {
 	box-sizing: border-box;
 }
 
+/*
+ * Horizontal inset for containers that are NOT nested inside .evently-section
+ * (which already applies --evently-pad). Header, hero, and any lone container
+ * need this so content never kisses the viewport edge on phones/tablets.
+ */
+.site-header__inner.evently-container,
+.hero-inner.evently-container {
+	padding-left: var(--evently-pad);
+	padding-right: var(--evently-pad);
+}
+
 .evently-container--wide {
 	max-width: var(--evently-canvas);
 }

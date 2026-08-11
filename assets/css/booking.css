@@ -714,7 +714,7 @@
 
 @media (max-width: 640px) {
 	.woocommerce ul.products {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 1fr;
 	}
 
 	.mpwem-dashboard-filters {
@@ -724,5 +724,19 @@
 
 	.mpwem-stats {
 		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: var(--evently-space-2);
+	}
+
+	.woocommerce-cart-form,
+	.woocommerce-checkout {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.woocommerce table.shop_table {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
 	}
 }
