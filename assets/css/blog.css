@@ -133,7 +133,7 @@
 
 /* Elementor Full Width template — title sits above the builder canvas. */
 .evently-elementor-page-title {
-	padding: var(--evently-space-6) var(--evently-pad) 0;
+	padding: var(--evently-space-6) 0 0;
 	box-sizing: border-box;
 }
 
