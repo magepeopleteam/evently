@@ -29,7 +29,7 @@
 	}
 }
 
-.event-img {
+.event-card .event-img {
 	position: relative;
 	overflow: hidden;
 	height: 220px;
@@ -37,20 +37,24 @@
 	flex-shrink: 0;
 }
 
-.event-img img {
+.event-card .event-img img {
 	/* Absolutely positioned + inset:0 (not just width/height:100%) so the
 	   image's box is defined purely by its .event-img parent (position:
 	   relative, above) and can never be influenced by the source photo's own
 	   intrinsic dimensions — belt-and-suspenders for events whose original
 	   upload is a very different resolution/ratio than the rest (e.g. no
 	   image-processing library available server-side to pre-crop them all
-	   to the same 'evently-card' size; see docs/troubleshooting.md). */
+	   to the same 'evently-card' size; see docs/troubleshooting.md).
+	   Selector specificity must beat Elementor's `.elementor img { height: auto }`
+	   (same 0,1,1 as `.event-img img`, but loads later on Elementor pages). */
 	position: absolute;
 	inset: 0;
 	display: block;
 	width: 100%;
+	max-width: none;
 	height: 100%;
 	object-fit: cover;
+	object-position: center;
 	transition: transform var(--evently-transition-slow) ease;
 }
 
