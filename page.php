@@ -16,9 +16,7 @@ get_header();
 	<?php while ( have_posts() ) : ?>
 		<?php the_post(); ?>
 
-		<header class="evently-page__header">
-			<h1 class="evently-page__title"><?php the_title(); ?></h1>
-		</header>
+		<?php evently_render_singular_title( 'page' ); ?>
 
 		<?php if ( has_post_thumbnail() ) : ?>
 			<div class="evently-page__thumb">

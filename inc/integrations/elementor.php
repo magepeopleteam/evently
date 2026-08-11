@@ -113,3 +113,26 @@ function evently_elementor_register_widgets() {
  */
 add_action( 'elementor/elements/categories_registered', 'evently_elementor_register_category' );
 add_action( 'elementor/widgets/register', 'evently_elementor_register_widgets' );
+
+/**
+ * Elementor's "Elementor Full Width" / header-footer page template skips the
+ * theme page.php wrapper — so the H1 never prints. Inject the same title
+ * block Evently uses on classic pages before Elementor content.
+ *
+ * @return void
+ */
+function evently_elementor_print_page_title() {
+	if ( ! function_exists( 'evently_render_singular_title' ) || ! evently_should_render_singular_title() ) {
+		return;
+	}
+
+	// Only pages here — Elementor single-post layouts keep their own chrome.
+	if ( ! is_singular( 'page' ) ) {
+		return;
+	}
+
+	echo '<div class="evently-container evently-elementor-page-title">';
+	evently_render_singular_title( 'page' );
+	echo '</div>';
+}
+add_action( 'elementor/page_templates/header-footer/before_content', 'evently_elementor_print_page_title' );

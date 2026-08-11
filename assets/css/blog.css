@@ -114,14 +114,31 @@
 
 .evently-single-post__header,
 .evently-page__header {
+	display: block;
 	margin-bottom: var(--evently-space-4);
+	position: relative;
+	z-index: 1;
 }
 
 .evently-single-post__title,
 .evently-page__title {
+	display: block;
 	font-size: 32px;
 	line-height: 1.1;
-	margin-bottom: var(--evently-space-2);
+	margin: 0 0 var(--evently-space-2);
+	color: var(--evently-text);
+	font-weight: 800;
+	letter-spacing: -0.03em;
+}
+
+/* Elementor Full Width template — title sits above the builder canvas. */
+.evently-elementor-page-title {
+	padding: var(--evently-space-6) var(--evently-pad) 0;
+	box-sizing: border-box;
+}
+
+.evently-elementor-page-title .evently-page__header {
+	margin-bottom: var(--evently-space-3);
 }
 
 .evently-single-post__meta {

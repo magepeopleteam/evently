@@ -317,3 +317,69 @@ function evently_get_social_links() {
 
 	return $links;
 }
+
+/**
+ * Whether the current singular view should print Evently's page/post title.
+ *
+ * @return bool
+ */
+function evently_should_render_singular_title() {
+	if ( is_front_page() || is_home() ) {
+		return false;
+	}
+
+	if ( ! is_singular( array( 'page', 'post' ) ) ) {
+		return false;
+	}
+
+	// Already printed this request (page.php / single.php / Elementor hook).
+	if ( did_action( 'evently_rendered_singular_title' ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Print the singular page/post title block.
+ *
+ * @param string $context 'page' or 'post'. Empty = detect from queried object.
+ * @return void
+ */
+function evently_render_singular_title( $context = '' ) {
+	if ( ! evently_should_render_singular_title() ) {
+		return;
+	}
+
+	if ( '' === $context ) {
+		$context = is_singular( 'post' ) ? 'post' : 'page';
+	}
+
+	if ( 'post' === $context ) {
+		$evently_categories = get_the_category();
+		?>
+		<header class="evently-single-post__header">
+			<?php if ( ! empty( $evently_categories ) ) : ?>
+				<div class="evently-eyebrow evently-eyebrow--pill"><?php echo esc_html( $evently_categories[0]->name ); ?></div>
+			<?php endif; ?>
+			<h1 class="evently-single-post__title"><?php the_title(); ?></h1>
+			<div class="evently-single-post__meta">
+				<span><?php echo esc_html( get_the_date() ); ?></span>
+				<span aria-hidden="true">·</span>
+				<span><?php echo esc_html( get_the_author() ); ?></span>
+			</div>
+		</header>
+		<?php
+	} else {
+		?>
+		<header class="evently-page__header">
+			<h1 class="evently-page__title"><?php the_title(); ?></h1>
+		</header>
+		<?php
+	}
+
+	/**
+	 * Fires after Evently prints the singular title (prevents duplicates).
+	 */
+	do_action( 'evently_rendered_singular_title' );
+}
