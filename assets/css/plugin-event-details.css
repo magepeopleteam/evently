@@ -68,8 +68,8 @@ body.single-mep_events .evently-main .mep-events-wrapper {
 	width: 100% !important;
 	margin-left: auto !important;
 	margin-right: auto !important;
-	padding-left: var(--evently-pad) !important;
-	padding-right: var(--evently-pad) !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 	box-sizing: border-box;
 }
 
