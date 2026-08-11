@@ -4,11 +4,42 @@
  * across the homepage (brief §11) rather than being redefined per section.
  */
 
+/*
+ * Fixed .site-header is out of flow — clear it on the main landmark so page /
+ * shortcode / archive content never paints underneath the nav. Templates that
+ * intentionally sit content under a transparent header (homepage hero, theme
+ * single-event media) opt out via body class.
+ */
+.evently-main {
+	padding-top: var(--evently-header-height);
+}
+
+body.admin-bar .evently-main {
+	padding-top: calc(var(--evently-header-height) + 32px);
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar .evently-main {
+		padding-top: calc(var(--evently-header-height) + 46px);
+	}
+}
+
+@media screen and (max-width: 600px) {
+	body.admin-bar .evently-main {
+		padding-top: var(--evently-header-height);
+	}
+}
+
+body.evently-front-page .evently-main,
+body.evently-header-on-media .evently-main {
+	padding-top: 0;
+}
+
 .evently-container {
 	width: 100%;
 	max-width: var(--evently-max);
 	margin: 0 auto;
-	padding: 0 var(--evently-pad);
+	padding: 0;
 	box-sizing: border-box;
 }
 

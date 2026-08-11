@@ -11,13 +11,46 @@
  * 4. Match plugin typography to Evently's Plus Jakarta Sans.
  */
 
-/* Clear the fixed site-header. */
+/* Extra air below the shared .evently-main header clearance (layout.css). */
 body.single-mep_events .evently-main {
 	padding-top: calc(var(--evently-header-height) + var(--evently-space-4));
 }
 
+body.admin-bar.single-mep_events .evently-main {
+	padding-top: calc(var(--evently-header-height) + var(--evently-space-4) + 32px);
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar.single-mep_events .evently-main {
+		padding-top: calc(var(--evently-header-height) + var(--evently-space-4) + 46px);
+	}
+}
+
+@media screen and (max-width: 600px) {
+	body.admin-bar.single-mep_events .evently-main {
+		padding-top: calc(var(--evently-header-height) + var(--evently-space-4));
+	}
+}
+
+/* Horizon paints its own top chrome — keep a minimal clear, never under the nav. */
 body.mep-horizon-active .evently-main {
-	padding-top: 40px !important;
+	padding-top: var(--evently-header-height) !important;
+}
+
+body.admin-bar.mep-horizon-active .evently-main {
+	padding-top: calc(var(--evently-header-height) + 32px) !important;
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar.mep-horizon-active .evently-main {
+		padding-top: calc(var(--evently-header-height) + 46px) !important;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	body.admin-bar.mep-horizon-active .evently-main {
+		padding-top: var(--evently-header-height) !important;
+	}
 }
 
 /* Plugin attendee clone-template — hide when skins leave it visible inline. */

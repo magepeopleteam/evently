@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /** Theme version — bump on every release; also used as a cache-busting asset suffix. */
-define( 'EVENTLY_VERSION', '1.0.21' );
+define( 'EVENTLY_VERSION', '1.0.24' );
 
 /** Absolute filesystem path to the theme, no trailing slash. */
 define( 'EVENTLY_DIR', trailingslashit( get_template_directory() ) );

@@ -117,10 +117,9 @@
 		aspect-ratio: 4/3;
 	}
 
-	.evently-archive-header,
-	.evently-single-post,
-	.evently-page {
-		padding-top: calc(var(--evently-header-height) + var(--evently-space-2));
+	.evently-single-post.evently-section,
+	.evently-page.evently-section {
+		padding-top: var(--evently-space-4);
 	}
 
 	/* Testimonials become a horizontal snap-scroll row instead of a stack —

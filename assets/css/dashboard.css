@@ -4,7 +4,7 @@
  */
 
 .evently-organizer-dashboard-page {
-	padding-top: calc(var(--evently-header-height) + var(--evently-space-4));
+	padding-top: var(--evently-space-4);
 	min-height: 60vh;
 }
 

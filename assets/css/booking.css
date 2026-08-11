@@ -7,7 +7,7 @@
  */
 
 .evently-woocommerce {
-	padding-top: var(--evently-header-height);
+	padding-top: var(--evently-space-6);
 }
 
 .evently-woocommerce-title {

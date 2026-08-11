@@ -3,9 +3,14 @@
  * pagination, mobile filter drawer (brief §15).
  */
 
+.evently-archive-page-intro {
+	padding-top: var(--evently-space-6);
+	padding-bottom: var(--evently-space-4);
+}
+
 .evently-archive-hero {
 	background: var(--evently-surface);
-	padding: calc(var(--evently-header-height) + var(--evently-space-6)) 0 var(--evently-space-3);
+	padding: var(--evently-space-6) 0 var(--evently-space-3);
 }
 
 .evently-archive-hero__title {
@@ -47,7 +52,7 @@
 
 .evently-organizer-hero {
 	background: var(--evently-surface);
-	padding: calc(var(--evently-header-height) + var(--evently-space-6)) 0 var(--evently-space-6);
+	padding: var(--evently-space-6) 0;
 }
 
 .evently-organizer-hero__row {
