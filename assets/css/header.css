@@ -241,24 +241,30 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 
 /*
  * Multi-column mega submenu — parents with >8 direct children get
- * `.has-multi-column` + `.menu-columns-N` from setup.php (ceil(count/8)).
- * Items fill column-first (8 per column): 24 children → 3 columns.
- * Centered under the parent label (left: 50% + translateX(-50%)).
+ * `.has-multi-column` + `.menu-columns-N` + `.menu-rows-N` from setup.php.
+ * Capped at 3 columns; extra items add rows so the panel always fits the
+ * viewport. Items fill column-first. Centered under the parent label.
  * Scoped to `.site-nav` so the mobile drawer stays a single stacked list.
  */
 .site-nav li.menu-item-has-children.has-multi-column > .sub-menu {
+	--evently-mega-cols: 2;
+	--evently-mega-rows: 8;
 	display: grid;
 	grid-auto-flow: column;
-	grid-template-rows: repeat(8, auto);
-	grid-auto-columns: minmax(200px, 240px);
-	column-gap: var(--evently-space-4);
+	grid-template-columns: repeat(var(--evently-mega-cols), minmax(0, 1fr));
+	grid-template-rows: repeat(var(--evently-mega-rows), auto);
+	column-gap: var(--evently-space-2);
 	row-gap: 2px;
 	left: 50%;
 	right: auto;
-	min-width: 0;
-	max-width: min(780px, calc(100vw - 48px));
+	width: min(920px, calc(100vw - 32px));
+	min-width: min(480px, calc(100vw - 32px));
+	max-width: calc(100vw - 32px);
+	max-height: min(70vh, 560px);
 	margin-top: 12px;
-	padding: var(--evently-space-3);
+	padding: var(--evently-space-2);
+	overflow-x: hidden;
+	overflow-y: auto;
 	border-radius: var(--evently-radius-md);
 	border: 1px solid var(--evently-border);
 	background-color: var(--evently-white);
@@ -268,47 +274,63 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 	   --evently-mega-shift (set in navigation.js) nudges the panel
 	   only when centering would overflow the viewport. */
 	transform: translate(calc(-50% + var(--evently-mega-shift, 0px)), 4px);
+	-webkit-overflow-scrolling: touch;
 }
 
-/* Full-height column rules sitting in the gaps (2 / 3 / 4 column layouts). */
+.site-nav li.menu-item-has-children.has-multi-column.menu-columns-2 > .sub-menu {
+	--evently-mega-cols: 2;
+}
+
+.site-nav li.menu-item-has-children.has-multi-column.menu-columns-3 > .sub-menu {
+	--evently-mega-cols: 3;
+}
+
+/* Row counts from setup.php (ceil(children / columns)). */
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-5 > .sub-menu { --evently-mega-rows: 5; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-6 > .sub-menu { --evently-mega-rows: 6; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-7 > .sub-menu { --evently-mega-rows: 7; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-8 > .sub-menu { --evently-mega-rows: 8; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-9 > .sub-menu { --evently-mega-rows: 9; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-10 > .sub-menu { --evently-mega-rows: 10; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-11 > .sub-menu { --evently-mega-rows: 11; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-12 > .sub-menu { --evently-mega-rows: 12; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-13 > .sub-menu { --evently-mega-rows: 13; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-14 > .sub-menu { --evently-mega-rows: 14; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-15 > .sub-menu { --evently-mega-rows: 15; }
+.site-nav li.menu-item-has-children.has-multi-column.menu-rows-16 > .sub-menu { --evently-mega-rows: 16; }
+
+/* Full-height column rules sitting in the gaps (2 / 3 column layouts). */
 .site-nav li.menu-item-has-children.has-multi-column.menu-columns-2 > .sub-menu {
 	background-image: linear-gradient(var(--evently-border), var(--evently-border));
-	background-size: 1px calc(100% - (var(--evently-space-3) * 2));
-	background-position: 50% var(--evently-space-3);
+	background-size: 1px calc(100% - (var(--evently-space-2) * 2));
+	background-position: 50% var(--evently-space-2);
 }
 
 .site-nav li.menu-item-has-children.has-multi-column.menu-columns-3 > .sub-menu {
 	background-image:
 		linear-gradient(var(--evently-border), var(--evently-border)),
 		linear-gradient(var(--evently-border), var(--evently-border));
-	background-size: 1px calc(100% - (var(--evently-space-3) * 2));
+	background-size: 1px calc(100% - (var(--evently-space-2) * 2));
 	background-position:
-		calc(100% / 3) var(--evently-space-3),
-		calc(200% / 3) var(--evently-space-3);
+		calc(100% / 3) var(--evently-space-2),
+		calc(200% / 3) var(--evently-space-2);
 }
 
-.site-nav li.menu-item-has-children.has-multi-column.menu-columns-4 > .sub-menu {
-	background-image:
-		linear-gradient(var(--evently-border), var(--evently-border)),
-		linear-gradient(var(--evently-border), var(--evently-border)),
-		linear-gradient(var(--evently-border), var(--evently-border));
-	background-size: 1px calc(100% - (var(--evently-space-3) * 2));
-	background-position:
-		25% var(--evently-space-3),
-		50% var(--evently-space-3),
-		75% var(--evently-space-3);
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu > li {
+	min-width: 0;
 }
 
 .site-nav li.menu-item-has-children.has-multi-column > .sub-menu a {
 	display: block;
-	padding: 10px 14px;
+	padding: 10px 12px;
 	border-radius: var(--evently-radius-sm);
 	font-size: var(--evently-fs-small);
 	font-weight: 500;
-	line-height: 1.4;
+	line-height: 1.35;
 	letter-spacing: -0.01em;
 	color: var(--evently-muted);
 	white-space: normal;
+	overflow-wrap: anywhere;
 	transition: background var(--evently-transition-fast) ease,
 		color var(--evently-transition-fast) ease;
 }
@@ -323,6 +345,31 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 	background: var(--evently-primary-soft);
 	color: var(--evently-primary);
 	font-weight: 600;
+}
+
+/* Nested flyouts inside a mega panel — escape the grid, open to the side. */
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu .sub-menu {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 100%;
+	width: auto;
+	min-width: 200px;
+	max-width: min(280px, calc(100vw - 32px));
+	max-height: none;
+	margin: 0 0 0 var(--evently-space-1);
+	padding: var(--evently-space-1);
+	overflow: visible;
+	grid-template-columns: none;
+	grid-template-rows: none;
+	background-image: none;
+	transform: translateY(4px);
+}
+
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu .menu-item-has-children:hover > .sub-menu,
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu .menu-item-has-children:focus-within > .sub-menu,
+.site-nav li.menu-item-has-children.has-multi-column > .sub-menu .menu-item-has-children.is-open > .sub-menu {
+	transform: translateY(0);
 }
 
 /* Open state: stay horizontally centered under the parent label. */

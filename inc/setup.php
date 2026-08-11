@@ -146,10 +146,12 @@ function evently_excerpt_more() {
 add_filter( 'excerpt_more', 'evently_excerpt_more' );
 
 /**
- * Max items per dropdown column before a new column is added.
- * 9–16 children → 2 columns, 17–24 → 3, etc.
+ * Target items per mega-menu column (before wrapping to the next column).
+ * Hard-capped at 3 columns so the panel always fits the viewport.
+ * 9–16 children → 2 columns, 17+ → 3 columns with extra rows.
  */
 define( 'EVENTLY_MENU_ITEMS_PER_COLUMN', 8 );
+define( 'EVENTLY_MENU_MAX_COLUMNS', 3 );
 
 /**
  * Mark primary-nav parents with more than 8 direct children for multi-column
@@ -166,6 +168,7 @@ function evently_mark_multi_column_menu_items( $items, $args ) {
 	}
 
 	$per_column   = (int) EVENTLY_MENU_ITEMS_PER_COLUMN;
+	$max_columns  = (int) EVENTLY_MENU_MAX_COLUMNS;
 	$child_counts = array();
 
 	foreach ( $items as $item ) {
@@ -189,9 +192,12 @@ function evently_mark_multi_column_menu_items( $items, $args ) {
 			continue;
 		}
 
-		$columns           = (int) ceil( $count / $per_column );
-		$item->classes[]   = 'has-multi-column';
-		$item->classes[]   = 'menu-columns-' . $columns;
+		$columns         = (int) ceil( $count / $per_column );
+		$columns         = max( 2, min( $max_columns, $columns ) );
+		$rows            = (int) ceil( $count / $columns );
+		$item->classes[] = 'has-multi-column';
+		$item->classes[] = 'menu-columns-' . $columns;
+		$item->classes[] = 'menu-rows-' . $rows;
 	}
 
 	return $items;

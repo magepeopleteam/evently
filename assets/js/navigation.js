@@ -94,6 +94,30 @@
 	// horizontally only if centering would clip past the viewport edges.
 	var megaParents = document.querySelectorAll( '.site-nav > .menu-item-has-children.has-multi-column' );
 	var MEGA_PAD = 16;
+	var MEGA_MAX_COLS = 3;
+
+	function prepareMegaMenu( parent ) {
+		var menu = parent.querySelector( ':scope > .sub-menu' );
+		if ( ! menu ) {
+			return;
+		}
+
+		var count = menu.querySelectorAll( ':scope > li' ).length;
+		var cols = 2;
+		if ( count > 16 ) {
+			cols = 3;
+		} else if ( count > 8 ) {
+			cols = 2;
+		}
+		cols = Math.min( MEGA_MAX_COLS, cols );
+		var rows = Math.max( 1, Math.ceil( count / cols ) );
+
+		// Normalize legacy menu-columns-4+ markup from older theme versions.
+		parent.classList.remove( 'menu-columns-2', 'menu-columns-3', 'menu-columns-4', 'menu-columns-5' );
+		parent.classList.add( 'menu-columns-' + cols );
+		menu.style.setProperty( '--evently-mega-cols', String( cols ) );
+		menu.style.setProperty( '--evently-mega-rows', String( rows ) );
+	}
 
 	function clampMegaMenu( parent ) {
 		var menu = parent.querySelector( ':scope > .sub-menu' );
@@ -101,21 +125,26 @@
 			return;
 		}
 
+		prepareMegaMenu( parent );
 		menu.style.setProperty( '--evently-mega-shift', '0px' );
 
-		var rect = menu.getBoundingClientRect();
-		var shift = 0;
+		window.requestAnimationFrame( function () {
+			var rect = menu.getBoundingClientRect();
+			var shift = 0;
+			var maxRight = window.innerWidth - MEGA_PAD;
 
-		if ( rect.left < MEGA_PAD ) {
-			shift = MEGA_PAD - rect.left;
-		} else if ( rect.right > window.innerWidth - MEGA_PAD ) {
-			shift = window.innerWidth - MEGA_PAD - rect.right;
-		}
+			if ( rect.left < MEGA_PAD ) {
+				shift = MEGA_PAD - rect.left;
+			} else if ( rect.right > maxRight ) {
+				shift = maxRight - rect.right;
+			}
 
-		menu.style.setProperty( '--evently-mega-shift', shift + 'px' );
+			menu.style.setProperty( '--evently-mega-shift', shift + 'px' );
+		} );
 	}
 
 	megaParents.forEach( function ( parent ) {
+		prepareMegaMenu( parent );
 		parent.addEventListener( 'mouseenter', function () {
 			clampMegaMenu( parent );
 		} );
@@ -128,6 +157,7 @@
 		'resize',
 		function () {
 			megaParents.forEach( function ( parent ) {
+				prepareMegaMenu( parent );
 				if (
 					parent.matches( ':hover' ) ||
 					parent.matches( ':focus-within' ) ||
