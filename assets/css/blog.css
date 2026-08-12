@@ -157,9 +157,11 @@ body.evently-elementor-hide-title .evently-single-post__header {
 	box-sizing: border-box;
 }
 
-/* Elementor Full Width template — title sits above the builder canvas. */
+/* Elementor Full Width template — title sits above the builder canvas.
+   Small fixed 10px horizontal inset — just enough that the title never
+   touches the edge on mobile, without the wider --evently-pad. */
 .evently-elementor-page-title {
-	padding: var(--evently-space-6) 0 0;
+	padding: var(--evently-space-6) 10px 0;
 	box-sizing: border-box;
 }
 

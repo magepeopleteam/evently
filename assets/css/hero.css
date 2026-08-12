@@ -179,6 +179,12 @@
 .search-bar {
 	max-width: var(--evently-max);
 	margin: 0 auto;
+	/* Same fixed 10px inset as the header, archive layout and Elementor page
+	   title — this floats between the hero and the page content instead of
+	   nesting inside a .evently-section, so it has no padding of its own
+	   otherwise and its edges land flush with the container's. */
+	padding-left: 10px;
+	padding-right: 10px;
 	background: var(--evently-white);
 	border-radius: var(--evently-radius-lg);
 	border: 1px solid var(--evently-border);

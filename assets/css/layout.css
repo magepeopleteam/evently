@@ -14,6 +14,33 @@
 	padding-top: var(--evently-header-height);
 }
 
+/*
+ * Elementor's own full-width Container element (.e-con-full) ships a
+ * default 10px horizontal padding — separate from and unaware of this
+ * theme's --evently-pad/.evently-container spacing system. When a site
+ * owner builds the homepage in Elementor using this theme's own section
+ * widgets (Hero, Trending Events, etc. — see front-page.php), that
+ * widget's .evently-section/.evently-container still renders with the
+ * theme's normal spacing, but it's now nested one level deeper inside
+ * Elementor's own already-padded container, stacking an extra,
+ * uncoordinated 10px on top and pushing that section out of alignment
+ * with the header and every plain (non-Elementor) page — see hero.php's
+ * docblock: the same template part renders identically whether invoked
+ * via Elementor widget or the built-in fallback, so its own spacing
+ * should be the only spacing that applies either way.
+ *
+ * Elementor computes .e-con's padding from --padding-left/right, which
+ * default to var(--container-default-padding-left/right, 10px) — Elementor
+ * ships that custom-property hook specifically so a theme can retune the
+ * default without fighting its (logical-property-based) specificity.
+ * Setting it to 0 here — rather than declaring padding-left/right
+ * ourselves — is what actually reaches the value Elementor renders with.
+ */
+.e-con-full {
+	--container-default-padding-left: 0px;
+	--container-default-padding-right: 0px;
+}
+
 body.admin-bar .evently-main {
 	padding-top: calc(var(--evently-header-height) + 32px);
 }
@@ -39,19 +66,41 @@ body.evently-header-on-media .evently-main {
 	width: 100%;
 	max-width: var(--evently-max);
 	margin: 0 auto;
-	padding: 0;
+	/* Baseline 10px inset so a container's own direct content (grids, cards,
+	   headings) never sits flush with the container's own edge. This used
+	   to be 0, relying entirely on the ambient --evently-pad of an
+	   ancestor .evently-section — which centers the container's max-width
+	   box so effectively that on anything wider than a phone, the section's
+	   padding never actually gets used (the container caps out well short
+	   of the section's padded edge), leaving content sitting exactly on
+	   the container's edge. That's harmless in isolation, but next to the
+	   header/hero/search-bar/archive-layout (which all carry their own
+	   explicit 10px inset — see those rules) it reads as misaligned: the
+	   header's logo sits 10px in while the grid below it sits flush. This
+	   keeps every .evently-container-based section starting at the same
+	   x-position as the header, regardless of Elementor vs. the plain PHP
+	   template — both render the exact same markup/classes either way. */
+	padding-left: 10px;
+	padding-right: 10px;
 	box-sizing: border-box;
 }
 
 /*
  * Horizontal inset for containers that are NOT nested inside .evently-section
- * (which already applies --evently-pad). Header, hero, and any lone container
+ * (which already applies --evently-pad). Hero, and any lone container
  * need this so content never kisses the viewport edge on phones/tablets.
+ * Header gets a tighter, fixed 10px inset instead of --evently-pad — just
+ * enough that the logo/nav never touch the edge on mobile, without the
+ * wider breathing room the rest of the site's containers use.
  */
-.site-header__inner.evently-container,
 .hero-inner.evently-container {
 	padding-left: var(--evently-pad);
 	padding-right: var(--evently-pad);
+}
+
+.site-header__inner.evently-container {
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .evently-container--wide {

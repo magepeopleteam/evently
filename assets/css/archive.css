@@ -3,14 +3,21 @@
  * pagination, mobile filter drawer (brief §15).
  */
 
+/* Same fixed 10px inset as the header, search bar, archive layout, plugin
+   event wrapper and Elementor page title — these two sit directly under
+   .evently-main (no .evently-section ancestor, no padding of their own),
+   so without it their content touches the edge exactly the way the layout
+   container above them does. */
 .evently-archive-page-intro {
 	padding-top: var(--evently-space-6);
 	padding-bottom: var(--evently-space-4);
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .evently-archive-hero {
 	background: var(--evently-surface);
-	padding: var(--evently-space-6) 0 var(--evently-space-3);
+	padding: var(--evently-space-6) 10px var(--evently-space-3);
 }
 
 .evently-archive-hero__title {
@@ -103,7 +110,9 @@
 	display: grid;
 	grid-template-columns: 280px 1fr;
 	gap: var(--evently-space-6);
-	padding: var(--evently-space-6) var(--evently-pad);
+	/* Small fixed 10px horizontal inset — just enough that the sidebar/grid
+	   never touch the edge on mobile, without the wider --evently-pad. */
+	padding: var(--evently-space-6) 10px;
 	align-items: start;
 }
 
