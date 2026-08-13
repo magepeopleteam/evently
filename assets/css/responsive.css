@@ -394,10 +394,14 @@
 		-webkit-overflow-scrolling: touch;
 		padding-bottom: 4px;
 		gap: var(--evently-space-2);
-		margin-left: calc(-1 * var(--evently-pad));
-		margin-right: calc(-1 * var(--evently-pad));
-		padding-left: var(--evently-pad);
-		padding-right: var(--evently-pad);
+		/* Cancel both the section's --evently-pad AND .evently-container's
+		   own 10px inset (layout.css) so this still bleeds fully to the
+		   true edge, then re-add the same total as padding so the cards
+		   line up with the heading above them. */
+		margin-left: calc(-1 * (var(--evently-pad) + 10px));
+		margin-right: calc(-1 * (var(--evently-pad) + 10px));
+		padding-left: calc(var(--evently-pad) + 10px);
+		padding-right: calc(var(--evently-pad) + 10px);
 	}
 
 	.testi-grid .testi-card {
@@ -412,10 +416,12 @@
 	}
 
 	.evently-scroll-row {
-		margin-left: calc(-1 * var(--evently-pad));
-		margin-right: calc(-1 * var(--evently-pad));
-		padding-left: var(--evently-pad);
-		padding-right: var(--evently-pad);
+		/* Same reasoning as .testi-grid above — cancel section pad + the
+		   container's own 10px inset together. */
+		margin-left: calc(-1 * (var(--evently-pad) + 10px));
+		margin-right: calc(-1 * (var(--evently-pad) + 10px));
+		padding-left: calc(var(--evently-pad) + 10px);
+		padding-right: calc(var(--evently-pad) + 10px);
 	}
 
 	.cal-event-row {

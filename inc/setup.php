@@ -119,6 +119,14 @@ function evently_body_classes( $classes ) {
 	if ( evently_has_booking_plugin() && is_singular( 'mep_events' ) && ! evently_use_plugin_event_details() ) {
 		$classes[] = 'evently-header-on-media';
 	}
+	// Flags a page whose content is the Mage EventPress Frontend Submission
+	// plugin's dashboard shortcode, so dashboard.css can give the page's
+	// .evently-page article the same tighter 10px inset used elsewhere
+	// (header, archive layout, Elementor page title) instead of the wider
+	// --evently-pad the rest of the site's pages use.
+	if ( function_exists( 'evently_page_has_mpefs_dashboard' ) && evently_page_has_mpefs_dashboard() ) {
+		$classes[] = 'evently-has-mpefs-dashboard';
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'evently_body_classes' );

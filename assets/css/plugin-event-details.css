@@ -68,8 +68,11 @@ body.single-mep_events .evently-main .mep-events-wrapper {
 	width: 100% !important;
 	margin-left: auto !important;
 	margin-right: auto !important;
-	padding-left: 0 !important;
-	padding-right: 0 !important;
+	/* Same fixed 10px inset as the header, search bar, archive layout and
+	   Elementor page title — this wrapper otherwise had zero horizontal
+	   padding of its own and sat flush with the container's edges. */
+	padding-left: 10px !important;
+	padding-right: 10px !important;
 	box-sizing: border-box;
 }
 
