@@ -16,6 +16,17 @@
 }
 
 .journal-img {
+	/* This is an <a> tag (see event-journal.php) — anchors default to
+	   display:inline, and `height` (plus reliably-clipping overflow:hidden)
+	   don't apply to inline elements, so without this the browser silently
+	   ignores the 280px height below and the <img> inside renders at
+	   whatever size it wants instead. That desyncs this card's real height
+	   from what CSS grid/the row above computed it as, so everything below
+	   the image (eyebrow, title, date/read-more) renders low enough to spill
+	   past the card's box entirely — on a page with enough posts to fill a
+	   real last row, that's low enough to land underneath the site footer.
+	*/
+	display: block;
 	border-radius: var(--evently-radius-md);
 	overflow: hidden;
 	height: 280px;

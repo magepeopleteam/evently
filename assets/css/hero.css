@@ -172,7 +172,18 @@
 /* ── Search bar ───────────────────────────────────────────────────── */
 
 .search-wrap {
-	padding: var(--evently-space-4) var(--evently-pad) 0;
+	/* Vertical padding + full-bleed background band only. No horizontal
+	   padding here on purpose: .search-bar centers itself independently
+	   via max-width:var(--evently-max) + margin:auto (own 10px inset —
+	   see that rule), the exact same mechanism the header uses against
+	   the raw viewport. Giving .search-wrap its own --evently-pad on top
+	   of that made .search-bar center inside an already-inset band
+	   instead of against the viewport directly, so the two only lined up
+	   by coincidence at certain widths and visibly drifted apart at
+	   others. (archive.css already zeroes this for the compact archive
+	   search bar for the same reason — this makes the homepage hero
+	   consistent with that.) */
+	padding: var(--evently-space-4) 0 0;
 	background: var(--evently-surface);
 }
 

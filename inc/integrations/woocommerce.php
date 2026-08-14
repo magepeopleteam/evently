@@ -43,6 +43,25 @@ function evently_woocommerce_setup() {
 add_action( 'after_setup_theme', 'evently_woocommerce_setup' );
 
 /**
+ * Evently has no sidebar concept anywhere (no register_sidebar(), no
+ * sidebar.php) — shop/product pages are meant to run full-width, same as
+ * every other archive in the theme. Without this, WooCommerce's own
+ * `woocommerce_sidebar` hook still calls get_sidebar( 'shop' ), and
+ * since the theme has neither sidebar-shop.php nor sidebar.php,
+ * WordPress core's locate_template() falls all the way through to its
+ * own always-present (deprecated) wp-includes/theme-compat/sidebar.php
+ * — a raw, unstyled dump of every page/archive/category on the site.
+ * Removing the hook entirely (the standard approach for sidebar-less
+ * WooCommerce themes) stops that fallback from ever being reached.
+ *
+ * @return void
+ */
+function evently_woocommerce_remove_sidebar() {
+	remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
+}
+add_action( 'init', 'evently_woocommerce_remove_sidebar' );
+
+/**
  * Wrap WooCommerce's main content in Evently's container so shop/cart/
  * checkout/account pages get the theme's max-width + horizontal padding
  * without touching WooCommerce's own wrapper template files.

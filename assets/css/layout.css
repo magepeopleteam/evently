@@ -35,8 +35,22 @@
  * default without fighting its (logical-property-based) specificity.
  * Setting it to 0 here — rather than declaring padding-left/right
  * ourselves — is what actually reaches the value Elementor renders with.
+ *
+ * `.e-con-full` on its own is NOT theme-specific — it's the plain class
+ * Elementor gives ANY full-width Container a site editor builds, on any
+ * page, including a brand new empty one being drafted from scratch. An
+ * earlier version of this rule targeted `.e-con-full` unscoped, which
+ * zeroed Elementor's own default padding globally — so every new
+ * container anyone built anywhere on the site lost its default padding
+ * too, not just this theme's own pre-built sections. Scoped instead to
+ * containers whose direct child is specifically one of this theme's own
+ * registered widgets (elementor-widget-evently-*, matching the slugs
+ * registered in inc/integrations/elementor/) — see the debug chain in
+ * that earlier fix's discussion: .e-con-full > .elementor-element
+ * .elementor-widget-evently-* is the exact structure front-page.php's
+ * widgets render inside. Nothing else is touched.
  */
-.e-con-full {
+.e-con-full:has( > [class*="elementor-widget-evently-"] ) {
 	--container-default-padding-left: 0px;
 	--container-default-padding-right: 0px;
 }

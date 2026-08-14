@@ -1,8 +1,10 @@
 <?php
 /**
- * "Evently Event Carousel" pattern — a horizontal-scrolling row of real
- * events (brief §25), for pages that want a compact, swipeable teaser
- * rather than a full grid.
+ * Title: Event Carousel
+ * Slug: evently/event-carousel
+ * Categories: evently
+ * Description: A horizontal-scrolling row of real events (brief §25), for
+ * pages that want a compact, swipeable teaser rather than a full grid.
  *
  * @package Evently
  */
@@ -32,3 +34,4 @@ if ( ! function_exists( 'evently_pattern_content_event_carousel' ) ) {
 		return evently_html_block( (string) ob_get_clean() );
 	}
 }
+
