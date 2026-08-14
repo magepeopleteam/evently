@@ -183,13 +183,24 @@
 	gap: var(--evently-space-6);
 }
 
+/*
+ * Same WooCommerce-float-vs-theme-grid conflict as #customer_details and
+ * ul.products (see those fixes further down/up in this file) —
+ * woocommerce-layout.css still gives the summary column
+ * `float:right; width:48%; clear:none` from its pre-grid single-product
+ * layout. (The gallery side isn't affected: that old CSS targets a
+ * legacy `div.images` class current WooCommerce templates no longer
+ * output — modern markup is `.woocommerce-product-gallery`.)
+ */
+.woocommerce div.product .summary {
+	float: none;
+	width: 100%;
+	max-width: none;
+}
+
 .woocommerce div.product .woocommerce-product-gallery {
 	border-radius: var(--evently-radius-lg);
 	overflow: hidden;
-}
-
-.woocommerce div.product .summary {
-	max-width: none;
 }
 
 .woocommerce div.product .summary .price {
