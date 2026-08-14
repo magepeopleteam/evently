@@ -39,6 +39,12 @@
 	border-left: 3px solid var(--evently-primary);
 	border-radius: var(--evently-radius-md);
 	padding: var(--evently-space-3) var(--evently-space-4);
+	/* WooCommerce's own icon (woocommerce.css) is `position:absolute;
+	   left:1.5em` inside this box, sized for its default `padding-left:
+	   3.5em` — this rule's uniform padding above replaced that with a
+	   much narrower left inset, so the icon now sits on top of the text
+	   instead of beside it. Restore just the left side to clear it. */
+	padding-left: 56px;
 	list-style: none;
 	margin-bottom: var(--evently-space-4);
 }
@@ -63,7 +69,35 @@
 	margin: 0;
 }
 
+/*
+ * Same conflict as the checkout #customer_details grid (booking.css,
+ * further down): WooCommerce's own default CSS (woocommerce-layout.css)
+ * still carries its classic float-based product-grid layout —
+ * `ul.products li.product { float:left; width:22.05%; margin:0 3.8%
+ * 2.992em 0 }` (or width:30.75% for .columns-3) — plus a clearfix,
+ * `ul.products::before/::after { content:" "; display:table }`. The
+ * float/width shrinks each card to ~22-31% of its own already-thirded
+ * grid cell, and the clearfix pseudo-elements (real `content`, so not
+ * display:none) become actual phantom grid items, shifting real
+ * products out of their intended cells — the same mechanism, same fix,
+ * as the checkout column swap.
+ */
+.woocommerce ul.products::before,
+.woocommerce ul.products::after {
+	content: none;
+	display: none;
+}
+
 .woocommerce ul.products li.product {
+	/* !important: WooCommerce also ships width/float rules scoped to
+	   ul.products.columns-3 (and .columns-1/2/5/6) specifically — one
+	   extra class than this selector has, so it wins on specificity
+	   alone regardless of source order. The grid should always control
+	   sizing here, whichever columns-N class WooCommerce's Customizer
+	   setting happens to add. */
+	float: none !important;
+	width: 100% !important;
+	margin: 0 !important;
 	background: var(--evently-white);
 	border: 1px solid var(--evently-border);
 	border-radius: var(--evently-radius-md);
