@@ -225,6 +225,68 @@
 	box-shadow: 0 0 0 3px var(--evently-primary-soft);
 }
 
+/* Pagination — WooCommerce ships this completely unstyled (plain text
+   links, one bare-bordered box around the current page). Same pill
+   component as .evently-pagination (archive.css, used on the Event
+   Archive) rather than a second implementation, so shop pagination
+   reads as the same design system. */
+.woocommerce-pagination ul.page-numbers {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 6px;
+	list-style: none;
+	margin: var(--evently-space-6) 0 0;
+	padding: 0;
+}
+
+/* Same recurring pattern as #customer_details/ul.products/div.product
+   summary elsewhere in this file: woocommerce-layout.css still clearfixes
+   this list (`::before/::after { content:" "; display:table }`) for its
+   original float layout. A pseudo-element with real content becomes an
+   actual (invisible) flex item once the list is display:flex, throwing
+   off item order/spacing exactly like it did for the checkout grid. */
+.woocommerce-pagination ul.page-numbers::before,
+.woocommerce-pagination ul.page-numbers::after {
+	content: none;
+	display: none;
+}
+
+.woocommerce-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: var(--evently-radius-sm);
+	border: 1px solid var(--evently-border);
+	color: var(--evently-text);
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	transition: background var(--evently-transition-fast) ease, color var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease;
+}
+
+.woocommerce-pagination a.page-numbers:hover {
+	border-color: var(--evently-dark);
+}
+
+.woocommerce-pagination .page-numbers.current {
+	/* !important: WooCommerce's own default (woocommerce.css) targets this
+	   exact state via `.woocommerce nav.woocommerce-pagination ul li
+	   span.current { background:#e9e6ed; color:#816f98 }` — 4 elements in
+	   the chain vs. this selector's 0, so it wins on specificity even
+	   though this rule is more specific in classes. */
+	background: var(--evently-dark) !important;
+	color: var(--evently-white) !important;
+	border-color: var(--evently-dark);
+}
+
+.woocommerce-pagination .page-numbers.dots {
+	border: none;
+}
+
 /* ── Buttons ──────────────────────────────────────────────────────── */
 
 .woocommerce a.button,
