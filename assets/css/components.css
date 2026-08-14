@@ -646,3 +646,37 @@ body.evently-modal-open {
 body .ekit-wid-con .elementskit-post-image-card:hover .elementskit-entry-thumb > img {
 	transform: scale(1.08);
 }
+
+/*
+ * Equal card height. The widget does ship its own "Equalize Card Height"
+ * toggle (Style tab → Wrapper section), but it doesn't seem to be turned
+ * on for this instance — fixed here as a guaranteed floor regardless of
+ * that setting. The row (.ekit-row.post-items) is already a flex row
+ * with the default align-items (stretch), so each column
+ * (.ekit-col-4) already matches the row's height — the card itself is a
+ * plain block inside that column, which doesn't auto-fill a stretched
+ * parent's height on its own, so it still shows its own natural
+ * (shorter/taller) content height instead of the column's. Making the
+ * card `height:100%` + a flex column, then letting its body
+ * (title/excerpt/button) grow to fill the remainder, is what actually
+ * pushes the button down to a shared bottom edge.
+ */
+.ekit-row.post-items {
+	align-items: stretch;
+}
+
+.elementskit-post-image-card {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.elementskit-post-image-card .elementskit-post-body {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+}
+
+.elementskit-post-image-card .elementskit-post-body .btn-wraper {
+	margin-top: auto;
+}
