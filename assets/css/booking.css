@@ -98,11 +98,12 @@
 	float: none !important;
 	width: 100% !important;
 	margin: 0 !important;
+	position: relative;
 	background: var(--evently-white);
 	border: 1px solid var(--evently-border);
 	border-radius: var(--evently-radius-md);
 	overflow: hidden;
-	padding: 0 0 var(--evently-space-3);
+	padding: 0 0 var(--evently-space-4);
 	transition: transform var(--evently-transition-base) ease, box-shadow var(--evently-transition-base) ease;
 }
 
@@ -111,11 +112,48 @@
 	box-shadow: var(--evently-shadow-card-hover);
 }
 
+/* Thumbnail — same aspect-ratio-boxed, zoom-on-card-hover treatment as
+   .event-card .event-img elsewhere (events.css), so shop cards read as
+   the same component family as the rest of the site. */
 .woocommerce ul.products li.product img {
 	width: 100%;
 	aspect-ratio: 4/3;
 	object-fit: cover;
-	margin-bottom: var(--evently-space-2);
+	margin-bottom: var(--evently-space-3);
+	background: linear-gradient(135deg, var(--evently-surface), var(--evently-border));
+	transition: transform var(--evently-transition-slow) ease;
+}
+
+.woocommerce ul.products li.product:hover img {
+	transform: scale(1.04);
+}
+
+/* Sale badge — WooCommerce's own .onsale is an unstyled olive-green
+   circle pinned to the card's top-right corner (woocommerce.css). Restyled
+   to the theme's own badge language (.evently-badge--soft/.event-cat in
+   components.css/events.css: a small blurred-white pill) so it reads as
+   part of this design system instead of a leftover default. */
+.woocommerce ul.products li.product .onsale {
+	position: absolute;
+	inset: 14px 14px auto auto;
+	top: 14px;
+	right: 14px;
+	left: auto;
+	margin: 0;
+	min-height: 0;
+	min-width: 0;
+	width: auto;
+	height: auto;
+	line-height: 1.4;
+	border-radius: var(--evently-radius-pill);
+	background: var(--evently-primary);
+	color: var(--evently-white);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 5px 12px;
+	z-index: 2;
 }
 
 .woocommerce ul.products li.product .woocommerce-loop-product__title,
@@ -123,7 +161,11 @@
 	font-size: 16px;
 	font-weight: 700;
 	padding: 0 var(--evently-space-3);
-	margin: 0 0 4px;
+	margin: 0 0 6px;
+}
+
+.woocommerce ul.products li.product .star-rating {
+	margin: 0 var(--evently-space-3) 6px;
 }
 
 .woocommerce ul.products li.product .price {
@@ -132,12 +174,55 @@
 	color: var(--evently-text);
 }
 
+.woocommerce ul.products li.product .price del {
+	font-weight: 500;
+	color: var(--evently-muted);
+	opacity: 1;
+	margin-right: 6px;
+}
+
+.woocommerce ul.products li.product .price ins {
+	color: var(--evently-primary);
+	text-decoration: none;
+}
+
 .woocommerce ul.products li.product .button {
-	margin: var(--evently-space-2) var(--evently-space-3) 0;
+	margin: var(--evently-space-3) var(--evently-space-3) 0;
 }
 
 .woocommerce .star-rating {
 	color: var(--evently-warning);
+}
+
+/* ── Shop toolbar (result count + sorting) ───────────────────────────── */
+
+.woocommerce-result-count {
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-small);
+}
+
+.woocommerce-ordering select {
+	appearance: none;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	background-color: var(--evently-white);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23777773' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 14px center;
+	background-size: 12px 8px;
+	padding: 10px 36px 10px 16px;
+	font-family: inherit;
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	color: var(--evently-text);
+	cursor: pointer;
+	transition: border-color var(--evently-transition-fast) ease, box-shadow var(--evently-transition-fast) ease;
+}
+
+.woocommerce-ordering select:focus {
+	outline: none;
+	border-color: var(--evently-primary);
+	box-shadow: 0 0 0 3px var(--evently-primary-soft);
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────── */
