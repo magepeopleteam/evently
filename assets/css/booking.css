@@ -266,6 +266,45 @@
 	gap: var(--evently-space-6);
 }
 
+/*
+ * WooCommerce's own default checkout CSS (woocommerce-layout.css) still
+ * floats these — `.col2-set .col-1 { float:left; width:48% }`, `.col-2
+ * { float:right; width:48% }` — a leftover from its classic 2-column
+ * float layout, even though #customer_details is now a grid. That
+ * default width still wins for these specific properties (equal-or-lower
+ * specificity than this rule doesn't matter for the *cause* here, just
+ * the fix), shrinking each column to ~48% of its own already-halved grid
+ * cell. Cleared explicitly so each column fills its grid cell.
+ */
+.woocommerce-checkout #customer_details .col-1,
+.woocommerce-checkout #customer_details .col-2 {
+	float: none;
+	width: 100%;
+}
+
+/*
+ * The real reason .col-1 (billing) rendered in the *second* grid track
+ * with the first sitting empty: woocommerce-layout.css also gives
+ * `.col2-set` a clearfix — `.col2-set::before, .col2-set::after {
+ * content:" "; display:table; }` — needed to contain the floated
+ * .col-1/.col-2 in that original layout. A pseudo-element with real
+ * `content` is NOT display:none, so as a direct child of a grid
+ * container it becomes an actual (invisible) grid item in its own right.
+ * That's 4 items total in DOM order — ::before, .col-1, .col-2, ::after —
+ * across a 2-column grid, so they wrap: row 1 = [::before, .col-1], row 2
+ * = [.col-2, ::after]. .col-1 lands in column 2 of row 1 (empty column 1
+ * beside it), and .col-2 lands in column 1 of row 2 — two separate rows
+ * instead of the one intended side-by-side row. A grid container never
+ * needs a float clearfix in the first place, so the clean fix is to
+ * remove the pseudo-elements' content entirely rather than trying to
+ * account for them in the grid.
+ */
+.woocommerce-checkout #customer_details::before,
+.woocommerce-checkout #customer_details::after {
+	content: none;
+	display: none;
+}
+
 .woocommerce form .form-row {
 	margin-bottom: var(--evently-space-2);
 }
