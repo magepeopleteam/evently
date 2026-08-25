@@ -48,7 +48,7 @@ $evently_social_icons = array(
 	<div class="evently-container">
 		<div class="footer-grid">
 			<div class="footer-brand">
-				<div class="footer-logo"><?php bloginfo( 'name' ); ?></div>
+				<div class="footer-logo"><?php evently_the_logo(); ?></div>
 				<p class="footer-tagline">
 					<?php echo wp_kses_post( evently_get_setting( 'footer_tagline', __( 'Discover experiences.<br>Create memories.', 'evently' ) ) ); ?>
 				</p>
@@ -70,10 +70,31 @@ $evently_social_icons = array(
 				<?php endif; ?>
 			</div>
 
-			<?php foreach ( $evently_footer_columns as $evently_location => $evently_column_title ) : ?>
+			<?php
+			foreach ( $evently_footer_columns as $evently_location => $evently_column_title ) :
+				$evently_sidebar_id     = 'evently-' . $evently_location;
+				$evently_sidebar_active = is_active_sidebar( $evently_sidebar_id );
+				$evently_sidebar_html   = '';
+
+				if ( $evently_sidebar_active ) {
+					ob_start();
+					dynamic_sidebar( $evently_sidebar_id );
+					$evently_sidebar_html = ob_get_clean();
+
+					// A widget's own title (e.g. a Navigation Menu widget titled
+					// "Company") replaces this column's static heading instead
+					// of showing both stacked on top of each other.
+					if ( preg_match( '#<p class="footer-widget-title">(.*?)</p>#s', $evently_sidebar_html, $evently_title_match ) ) {
+						$evently_column_title = wp_strip_all_tags( $evently_title_match[1] );
+						$evently_sidebar_html = preg_replace( '#<p class="footer-widget-title">.*?</p>#s', '', $evently_sidebar_html, 1 );
+					}
+				}
+				?>
 				<details class="footer-col" open>
 					<summary class="footer-col-title"><?php echo esc_html( $evently_column_title ); ?></summary>
-					<?php if ( has_nav_menu( $evently_location ) ) : ?>
+					<?php if ( $evently_sidebar_active ) : ?>
+						<?php echo $evently_sidebar_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- widget output, already escaped by each widget itself. ?>
+					<?php elseif ( has_nav_menu( $evently_location ) ) : ?>
 						<?php
 						wp_nav_menu(
 							array(
@@ -99,17 +120,27 @@ $evently_social_icons = array(
 		<div class="footer-bottom">
 			<span class="footer-copy">
 				<?php
-				printf(
-					/* translators: 1: current year, 2: site name. */
-					esc_html__( '© %1$s %2$s. All rights reserved.', 'evently' ),
-					esc_html( gmdate( 'Y' ) ),
-					esc_html( get_bloginfo( 'name' ) )
-				);
+				echo evently_get_footer_copyright(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already wp_kses_post()'d inside the helper.
 				?>
 			</span>
 			<div class="footer-legal">
-				<a href="<?php echo esc_url( home_url( '/privacy' ) ); ?>"><?php esc_html_e( 'Privacy', 'evently' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/terms' ) ); ?>"><?php esc_html_e( 'Terms', 'evently' ); ?></a>
+				<?php if ( has_nav_menu( 'footer-legal' ) ) : ?>
+					<?php
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer-legal',
+							'container'      => false,
+							'menu_class'     => '',
+							'items_wrap'     => '%3$s',
+							'depth'          => 1,
+						)
+					);
+					?>
+				<?php else : ?>
+					<?php $evently_privacy_url = get_privacy_policy_url(); ?>
+					<a href="<?php echo esc_url( $evently_privacy_url ? $evently_privacy_url : home_url( '/privacy' ) ); ?>"><?php esc_html_e( 'Privacy', 'evently' ); ?></a>
+					<a href="<?php echo esc_url( home_url( '/terms' ) ); ?>"><?php esc_html_e( 'Terms', 'evently' ); ?></a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>

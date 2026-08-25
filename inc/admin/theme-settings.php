@@ -28,6 +28,18 @@ function evently_get_settings_fields() {
 		// General.
 		'create_event_url'         => array( 'label' => __( 'Create Event URL', 'evently' ), 'section' => 'general', 'type' => 'url', 'default' => '', 'description' => __( 'Where the header/footer "Create Event" buttons link. Leave empty to use the admin new-event screen.', 'evently' ), 'placeholder' => admin_url( 'post-new.php?post_type=mep_events' ) ),
 		'events_page_id'           => array( 'label' => __( 'Events Page', 'evently' ), 'section' => 'general', 'type' => 'page', 'default' => 0, 'description' => __( 'The page using the "Evently — Event Archive" template. Auto-detected if left unset.', 'evently' ) ),
+		'logo_display'             => array(
+			'label'       => __( 'Logo display', 'evently' ),
+			'section'     => 'general',
+			'type'        => 'select',
+			'default'     => 'logo',
+			'options'     => array(
+				'logo' => __( 'Logo image only', 'evently' ),
+				'text' => __( 'Site title only', 'evently' ),
+				'both' => __( 'Logo image and site title', 'evently' ),
+			),
+			'description' => __( 'What the header and footer logo link show. "Logo image" falls back to the site title when no logo is uploaded in Appearance → Customize → Site Identity.', 'evently' ),
+		),
 
 		// Colors.
 		'color_primary'            => array( 'label' => __( 'Primary Accent', 'evently' ), 'section' => 'colors', 'type' => 'color', 'default' => '#6C5CE7' ),
@@ -58,6 +70,15 @@ function evently_get_settings_fields() {
 
 		// Footer.
 		'footer_tagline'           => array( 'label' => __( 'Footer Tagline', 'evently' ), 'section' => 'footer', 'type' => 'textarea', 'default' => '', 'placeholder' => __( 'Discover experiences. Create memories.', 'evently' ) ),
+		'footer_copyright'         => array(
+			'label'       => __( 'Copyright Text', 'evently' ),
+			'section'     => 'footer',
+			'type'        => 'textarea',
+			'default'     => '',
+			/* translators: 1: current year, 2: site name. */
+			'placeholder' => sprintf( __( '© %1$s %2$s. All rights reserved.', 'evently' ), gmdate( 'Y' ), get_bloginfo( 'name' ) ),
+			'description' => __( 'Use {year} and {site} as placeholders. Basic HTML links are allowed, e.g. <a href="/">{site}</a>. Leave blank for the default.', 'evently' ),
+		),
 
 		// Social.
 		'social_instagram'         => array( 'label' => __( 'Instagram URL', 'evently' ), 'section' => 'social', 'type' => 'url', 'default' => '', 'placeholder' => 'https://instagram.com/yourhandle' ),
@@ -98,7 +119,7 @@ function evently_get_settings_section_intros() {
 		'events'       => __( 'What appears on event cards across archives and grids.', 'evently' ),
 		'archive'      => __( 'Listing density and the default events archive layout.', 'evently' ),
 		'single_event' => __( 'How individual event detail pages are rendered.', 'evently' ),
-		'footer'       => __( 'Sitewide footer copy that sits under the Evently logo.', 'evently' ),
+		'footer'       => __( 'Sitewide footer copy that sits under the Evently logo, plus the copyright line. Assign a menu to the "Footer — Legal" location (Appearance → Menus) to control the Privacy/Terms links next to it.', 'evently' ),
 		'social'       => __( 'Profile links shown in the footer social row.', 'evently' ),
 		'performance'  => __( 'Front-end performance toggles that keep pages light.', 'evently' ),
 	);

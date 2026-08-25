@@ -319,6 +319,63 @@ function evently_get_social_links() {
 }
 
 /**
+ * Render the header/footer logo per Evently → Theme Settings' "Logo display"
+ * option, so both call sites (header, footer) share one branch instead of
+ * duplicating the has_custom_logo() check.
+ *
+ * @return void
+ */
+function evently_the_logo() {
+	$display  = evently_get_setting( 'logo_display', 'logo' );
+	$logo_id  = get_theme_mod( 'custom_logo' );
+	$has_logo = $logo_id && wp_attachment_is_image( $logo_id );
+
+	if ( 'text' !== $display && $has_logo ) {
+		$alt = get_post_meta( $logo_id, '_wp_attachment_image_alt', true );
+		echo wp_get_attachment_image(
+			$logo_id,
+			'full',
+			false,
+			array(
+				'class' => 'custom-logo',
+				'alt'   => $alt ? $alt : get_bloginfo( 'name' ),
+			)
+		);
+	}
+
+	if ( 'text' === $display || 'both' === $display || ! $has_logo ) {
+		echo esc_html( get_bloginfo( 'name' ) );
+	}
+}
+
+/**
+ * Footer copyright line — Evently → Theme Settings' `footer_copyright` with
+ * its `{year}`/`{site}` placeholders resolved, or the default
+ * "© {year} {site}. All rights reserved." string when left blank.
+ *
+ * @return string HTML already sanitized with wp_kses_post().
+ */
+function evently_get_footer_copyright() {
+	$copyright = evently_get_setting( 'footer_copyright', '' );
+
+	if ( '' === $copyright ) {
+		return sprintf(
+			/* translators: 1: current year, 2: site name. */
+			esc_html__( '© %1$s %2$s. All rights reserved.', 'evently' ),
+			esc_html( gmdate( 'Y' ) ),
+			esc_html( get_bloginfo( 'name' ) )
+		);
+	}
+
+	$copyright = str_replace( '{year}', gmdate( 'Y' ), $copyright );
+	$copyright = str_replace( '{site}', get_bloginfo( 'name' ), $copyright );
+	$copyright = preg_replace( '/\{[^}]+\}/', ' ', $copyright ); // Strip any stray/unknown placeholders.
+	$copyright = preg_replace( '/\s+/', ' ', trim( $copyright ) );
+
+	return wp_kses_post( $copyright );
+}
+
+/**
  * Whether Elementor's Page Settings → "Hide Title" is enabled for a post.
  *
  * @param int $post_id Post ID. 0 = current queried object.

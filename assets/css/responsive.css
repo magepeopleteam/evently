@@ -237,7 +237,14 @@
 	.search-bar-mobile {
 		display: flex;
 		gap: var(--evently-space-1);
-		padding: var(--evently-space-4) 0 0;
+		/* Same fixed 10px horizontal inset as .search-bar/.site-header__inner.
+		   This used to lean on .search-wrap's own --evently-pad for its
+		   inset (having none of its own), but that padding was removed from
+		   .search-wrap so .search-bar could center itself independently
+		   against the viewport (see hero.css) — which left this, the other
+		   sibling shown only ≤640px, with no inset of its own and sitting
+		   flush against the screen edge. */
+		padding: var(--evently-space-4) 10px 0;
 		background: transparent;
 		align-items: stretch;
 	}

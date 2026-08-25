@@ -136,6 +136,16 @@ function evently_elementor_frontend_styles() {
 			padding-left: 0;
 			padding-right: 0;
 		}
+		/* The Evently Hero widget already reserves the fixed header height
+		   and sets its own inner spacing (hero.css) — Elementor containers
+		   get a default 10px padding on every side, which just adds an extra
+		   gap above/around a widget that is already fully self-spaced. */
+		.e-con:has( > .elementor-widget-evently-hero ) {
+			--padding-top: 0;
+			--padding-right: 0;
+			--padding-bottom: 0;
+			--padding-left: 0;
+		}
 	';
 
 	wp_register_style( 'evently-elementor', false, array( 'evently-layout' ), EVENTLY_VERSION );

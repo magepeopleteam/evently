@@ -1,6 +1,8 @@
 <?php
 /**
- * "Evently Featured Event" pattern (brief §25).
+ * Title: Featured Event
+ * Slug: evently/featured-event
+ * Categories: evently
  *
  * @package Evently
  */
@@ -17,3 +19,4 @@ if ( ! function_exists( 'evently_pattern_content_featured_event' ) ) {
 		return evently_html_block( evently_capture_template_part( 'template-parts/home/featured-event' ) );
 	}
 }
+
