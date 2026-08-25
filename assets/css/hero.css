@@ -14,8 +14,9 @@
 	grid-template-columns: 1fr 1fr;
 	gap: var(--evently-space-7);
 	align-items: center;
-	/* Horizontal inset comes from layout.css (.hero-inner.evently-container) */
-	padding-top: var(--evently-space-8);
+	/* Horizontal inset comes from layout.css (.hero-inner.evently-container).
+	   No padding-top here — .hero's own padding-top already reserves exactly
+	   the fixed header's height, so content should start flush under it. */
 	padding-bottom: var(--evently-space-6);
 }
 

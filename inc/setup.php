@@ -68,6 +68,7 @@ function evently_setup() {
 			'footer-explore'  => __( 'Footer — Explore', 'evently' ),
 			'footer-company'  => __( 'Footer — Company', 'evently' ),
 			'footer-support'  => __( 'Footer — Support', 'evently' ),
+			'footer-legal'    => __( 'Footer — Legal (Privacy/Terms bar)', 'evently' ),
 			'mobile'          => __( 'Mobile Navigation (optional override)', 'evently' ),
 		)
 	);
@@ -81,6 +82,35 @@ function evently_setup() {
 	add_image_size( 'evently-category', 600, 400, true );     // Category bento cards.
 }
 add_action( 'after_setup_theme', 'evently_setup' );
+
+/**
+ * Footer widget areas — one per existing footer column (Explore/Company/
+ * Support). Site-footer.php only calls dynamic_sidebar() when the matching
+ * sidebar is active, so a column an admin never touches keeps rendering its
+ * nav-menu/fallback-links content exactly as before this existed.
+ */
+function evently_register_sidebars() {
+	$columns = array(
+		'evently-footer-explore' => __( 'Footer — Explore Column', 'evently' ),
+		'evently-footer-company' => __( 'Footer — Company Column', 'evently' ),
+		'evently-footer-support' => __( 'Footer — Support Column', 'evently' ),
+	);
+
+	foreach ( $columns as $id => $name ) {
+		register_sidebar(
+			array(
+				'name'          => $name,
+				'id'            => $id,
+				'description'   => __( 'Widgets here replace this footer column&#8217;s menu. Add the core "Navigation Menu" widget to keep using a WordPress menu.', 'evently' ),
+				'before_widget' => '<div id="%1$s" class="evently-widget %2$s">',
+				'after_widget'  => '</div>',
+				'before_title'  => '<p class="footer-widget-title">',
+				'after_title'   => '</p>',
+			)
+		);
+	}
+}
+add_action( 'widgets_init', 'evently_register_sidebars' );
 
 /**
  * Register the block patterns' category so they group together in the inserter,

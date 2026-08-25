@@ -31,11 +31,7 @@ if ( empty( $evently_create_event_url ) ) {
 <header class="site-header" id="evently-site-header" data-evently-header>
 	<div class="evently-container site-header__inner">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo">
-			<?php if ( has_custom_logo() ) : ?>
-				<?php the_custom_logo(); ?>
-			<?php else : ?>
-				<?php bloginfo( 'name' ); ?>
-			<?php endif; ?>
+			<?php evently_the_logo(); ?>
 		</a>
 
 		<div class="header-spacer"></div>

@@ -117,6 +117,9 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 }
 
 .site-logo {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
 	font-size: 22px;
 	font-weight: 800;
 	letter-spacing: -0.04em;
@@ -524,12 +527,21 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu 
 }
 
 .footer-logo {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
 	font-size: 22px;
 	font-weight: 800;
 	letter-spacing: -0.04em;
 	color: var(--evently-white);
 	margin-bottom: var(--evently-space-2);
 	text-transform: uppercase;
+}
+
+.footer-logo img {
+	max-height: 32px;
+	width: auto;
+	text-transform: none;
 }
 
 .footer-tagline {
@@ -602,6 +614,27 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu 
 	color: var(--evently-white);
 }
 
+/* A footer column's widget area (registered in inc/setup.php) renders in
+   place of its nav menu/fallback links when the admin adds widgets to it —
+   dark-footer-appropriate defaults for arbitrary widget output. */
+.footer-col .evently-widget {
+	font-size: var(--evently-fs-label);
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-col .evently-widget:not(:first-child) {
+	margin-top: var(--evently-space-3);
+}
+
+.footer-widget-title {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.4);
+	margin: 0 0 var(--evently-space-2);
+}
+
 .footer-bottom {
 	border-top: 1px solid rgba(255, 255, 255, 0.08);
 	padding-top: var(--evently-space-3);
@@ -630,4 +663,10 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu 
 
 .footer-legal a:hover {
 	color: rgba(255, 255, 255, 0.6);
+}
+
+/* wp_nav_menu() outputs bare <li> items here (items_wrap omits the <ul>
+   wrapper so links sit inline) — see the .site-nav li comment above. */
+.footer-legal li {
+	list-style: none;
 }
