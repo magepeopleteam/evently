@@ -336,7 +336,7 @@ function evently_enqueue_assets() {
 		wp_enqueue_style( 'evently-plugin-event-details' );
 	}
 
-	if ( ( evently_has_woocommerce() && is_account_page() ) || evently_is_organizer_dashboard() ) {
+	if ( ( evently_has_woocommerce() && is_account_page() ) || evently_is_organizer_dashboard() || evently_page_has_mpefs_dashboard() ) {
 		wp_enqueue_style( 'evently-dashboard' );
 		wp_enqueue_script( 'evently-filters' ); // Organizer Dashboard tabs + My Account's own JS is enqueued by WooCommerce/the plugin.
 		wp_enqueue_style( 'evently-events' );
@@ -371,6 +371,26 @@ add_action( 'wp_enqueue_scripts', 'evently_enqueue_assets' );
 if ( ! function_exists( 'evently_is_organizer_dashboard' ) ) {
 	function evently_is_organizer_dashboard() {
 		return is_page_template( 'page-templates/organizer-dashboard.php' );
+	}
+}
+
+/**
+ * Whether the requested page's content places the Mage EventPress Frontend
+ * Submission plugin's `[mep_organizer_dashboard]` shortcode — i.e. a site
+ * using that plugin's own dashboard UI instead of (or alongside) the
+ * theme's bespoke organizer-dashboard.php template. Those pages still need
+ * evently-dashboard.css enqueued so the theme-integration override below
+ * (the `.mpefs-wrap` width cap) actually reaches the page.
+ *
+ * @return bool
+ */
+if ( ! function_exists( 'evently_page_has_mpefs_dashboard' ) ) {
+	function evently_page_has_mpefs_dashboard() {
+		if ( ! is_page() ) {
+			return false;
+		}
+		$post = get_post();
+		return $post && has_shortcode( $post->post_content, 'mep_organizer_dashboard' );
 	}
 }
 

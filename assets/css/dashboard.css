@@ -3,6 +3,46 @@
  * attendees table. Depends on variables/typography/layout/components.
  */
 
+/*
+ * Mage EventPress Frontend Submission plugin integration — cap its
+ * dashboard shortcode ([mep_organizer_dashboard]) to the theme's own
+ * content width.
+ *
+ * The plugin's `.mpefs-wrap--wide`/`--full` modifiers (mpefs-frontend.css)
+ * deliberately break the wrapper out past its parent with negative margins
+ * — by design, for themes whose page column is narrower than the plugin's
+ * own target width (up to 1360px, or ~viewport for --full). Evently's page
+ * template already renders at the theme's own --evently-max (1240px), so
+ * that breakout overshoots it: the dashboard ends up wider than the
+ * site's header/nav sitting above it. The plugin does ship a "match theme
+ * width" option (Settings → Dashboard Width → theme) that returns no
+ * modifier class and avoids this entirely, but that only fixes sites where
+ * the option gets set correctly — this keeps the theme visually correct
+ * regardless of that setting.
+ *
+ * Selectors are doubled (`.mpefs-wrap.mpefs-wrap--wide`) to match the
+ * plugin's own specificity, prefixed with `body` to win the tie without
+ * `!important` (see mpefs-frontend.css's own comment on why it avoids
+ * !important — same reasoning applies here in reverse).
+ */
+body .mpefs-wrap.mpefs-wrap--wide,
+body .mpefs-wrap.mpefs-wrap--full {
+	width: 100%;
+	max-width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+/* Same tighter 10px horizontal inset as the header, archive layout and
+   Elementor page title — instead of the wider --evently-pad the article
+   wrapper (page.php's .evently-page.evently-container.evently-section) uses
+   on every other page. Scoped to the `evently-has-mpefs-dashboard` body
+   class (set in inc/setup.php) so regular pages keep their normal padding. */
+body.evently-has-mpefs-dashboard .evently-page.evently-container.evently-section {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .evently-organizer-dashboard-page {
 	padding-top: var(--evently-space-4);
 	min-height: 60vh;

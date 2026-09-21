@@ -117,6 +117,9 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 }
 
 .site-logo {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
 	font-size: 22px;
 	font-weight: 800;
 	letter-spacing: -0.04em;
@@ -255,7 +258,7 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 	grid-template-rows: repeat(var(--evently-mega-rows), auto);
 	column-gap: var(--evently-space-2);
 	row-gap: 2px;
-	left: 50%;
+	left: calc(50% + var(--evently-mega-shift, 0px));
 	right: auto;
 	width: min(920px, calc(100vw - 32px));
 	min-width: min(480px, calc(100vw - 32px));
@@ -270,10 +273,19 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 	background-color: var(--evently-white);
 	background-repeat: no-repeat;
 	box-shadow: var(--evently-shadow-deep);
-	/* Keep horizontal center + subtle open animation.
-	   --evently-mega-shift (set in navigation.js) nudges the panel
-	   only when centering would overflow the viewport. */
-	transform: translate(calc(-50% + var(--evently-mega-shift, 0px)), 4px);
+	/* Keep horizontal center (via `left`, not `transform`) + subtle open
+	   animation. --evently-mega-shift (set in navigation.js) nudges the
+	   panel only when centering would overflow its container. It lives in
+	   `left` rather than `transform` on purpose: `transform` is the property
+	   that transitions (see .site-nav .sub-menu above), so folding the shift
+	   into it made every shift update chase an in-flight open/close
+	   animation — on a quick re-hover, navigation.js's clamp measurement
+	   could sample a mid-transition position and commit a wrong shift that
+	   nothing ever corrected. `left` isn't transitioned, so the shift always
+	   lands instantly and gets measured/set against the settled layout.
+	   Transform now carries only the constant -50% centering + the Y-axis
+	   open animation, both unaffected by shift changes. */
+	transform: translate(-50%, 4px);
 	-webkit-overflow-scrolling: touch;
 }
 
@@ -372,11 +384,12 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .header-actions .btn
 	transform: translateY(0);
 }
 
-/* Open state: stay horizontally centered under the parent label. */
+/* Open state: horizontal centering/shift comes from `left` above and stays
+   put; only the Y-axis open animation happens here. */
 .site-nav li.menu-item-has-children.has-multi-column:hover > .sub-menu,
 .site-nav li.menu-item-has-children.has-multi-column:focus-within > .sub-menu,
 .site-nav li.menu-item-has-children.has-multi-column.is-open > .sub-menu {
-	transform: translate(calc(-50% + var(--evently-mega-shift, 0px)), 0);
+	transform: translate(-50%, 0);
 }
 
 /* The transparent/dark header state (body.evently-header-on-media, above)
@@ -514,12 +527,21 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu 
 }
 
 .footer-logo {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
 	font-size: 22px;
 	font-weight: 800;
 	letter-spacing: -0.04em;
 	color: var(--evently-white);
 	margin-bottom: var(--evently-space-2);
 	text-transform: uppercase;
+}
+
+.footer-logo img {
+	max-height: 32px;
+	width: auto;
+	text-transform: none;
 }
 
 .footer-tagline {
@@ -592,6 +614,27 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu 
 	color: var(--evently-white);
 }
 
+/* A footer column's widget area (registered in inc/setup.php) renders in
+   place of its nav menu/fallback links when the admin adds widgets to it —
+   dark-footer-appropriate defaults for arbitrary widget output. */
+.footer-col .evently-widget {
+	font-size: var(--evently-fs-label);
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-col .evently-widget:not(:first-child) {
+	margin-top: var(--evently-space-3);
+}
+
+.footer-widget-title {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.4);
+	margin: 0 0 var(--evently-space-2);
+}
+
 .footer-bottom {
 	border-top: 1px solid rgba(255, 255, 255, 0.08);
 	padding-top: var(--evently-space-3);
@@ -620,4 +663,10 @@ body.evently-header-on-media .site-header:not(.is-scrolled) .site-nav .sub-menu 
 
 .footer-legal a:hover {
 	color: rgba(255, 255, 255, 0.6);
+}
+
+/* wp_nav_menu() outputs bare <li> items here (items_wrap omits the <ul>
+   wrapper so links sit inline) — see the .site-nav li comment above. */
+.footer-legal li {
+	list-style: none;
 }

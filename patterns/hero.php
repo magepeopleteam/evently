@@ -1,8 +1,11 @@
 <?php
 /**
- * "Evently Hero" pattern content — captures the real homepage hero
- * template-part (including its floating search bar) so the pattern always
- * matches the live design (brief §25).
+ * Title: Hero
+ * Slug: evently/hero
+ * Categories: evently
+ * Description: Captures the real homepage hero template-part (including
+ * its floating search bar) so the pattern always matches the live design
+ * (brief §25).
  *
  * @package Evently
  */
@@ -19,3 +22,4 @@ if ( ! function_exists( 'evently_pattern_content_hero' ) ) {
 		return evently_html_block( evently_capture_template_part( 'template-parts/home/hero' ) );
 	}
 }
+

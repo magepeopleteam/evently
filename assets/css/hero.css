@@ -14,8 +14,9 @@
 	grid-template-columns: 1fr 1fr;
 	gap: var(--evently-space-7);
 	align-items: center;
-	/* Horizontal inset comes from layout.css (.hero-inner.evently-container) */
-	padding-top: var(--evently-space-8);
+	/* Horizontal inset comes from layout.css (.hero-inner.evently-container).
+	   No padding-top here — .hero's own padding-top already reserves exactly
+	   the fixed header's height, so content should start flush under it. */
 	padding-bottom: var(--evently-space-6);
 }
 
@@ -172,13 +173,30 @@
 /* ── Search bar ───────────────────────────────────────────────────── */
 
 .search-wrap {
-	padding: var(--evently-space-4) var(--evently-pad) 0;
+	/* Vertical padding + full-bleed background band only. No horizontal
+	   padding here on purpose: .search-bar centers itself independently
+	   via max-width:var(--evently-max) + margin:auto (own 10px inset —
+	   see that rule), the exact same mechanism the header uses against
+	   the raw viewport. Giving .search-wrap its own --evently-pad on top
+	   of that made .search-bar center inside an already-inset band
+	   instead of against the viewport directly, so the two only lined up
+	   by coincidence at certain widths and visibly drifted apart at
+	   others. (archive.css already zeroes this for the compact archive
+	   search bar for the same reason — this makes the homepage hero
+	   consistent with that.) */
+	padding: var(--evently-space-4) 0 0;
 	background: var(--evently-surface);
 }
 
 .search-bar {
 	max-width: var(--evently-max);
 	margin: 0 auto;
+	/* Same fixed 10px inset as the header, archive layout and Elementor page
+	   title — this floats between the hero and the page content instead of
+	   nesting inside a .evently-section, so it has no padding of its own
+	   otherwise and its edges land flush with the container's. */
+	padding-left: 10px;
+	padding-right: 10px;
 	background: var(--evently-white);
 	border-radius: var(--evently-radius-lg);
 	border: 1px solid var(--evently-border);

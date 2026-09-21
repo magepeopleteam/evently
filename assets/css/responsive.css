@@ -237,7 +237,14 @@
 	.search-bar-mobile {
 		display: flex;
 		gap: var(--evently-space-1);
-		padding: var(--evently-space-4) 0 0;
+		/* Same fixed 10px horizontal inset as .search-bar/.site-header__inner.
+		   This used to lean on .search-wrap's own --evently-pad for its
+		   inset (having none of its own), but that padding was removed from
+		   .search-wrap so .search-bar could center itself independently
+		   against the viewport (see hero.css) — which left this, the other
+		   sibling shown only ≤640px, with no inset of its own and sitting
+		   flush against the screen edge. */
+		padding: var(--evently-space-4) 10px 0;
 		background: transparent;
 		align-items: stretch;
 	}
@@ -394,10 +401,14 @@
 		-webkit-overflow-scrolling: touch;
 		padding-bottom: 4px;
 		gap: var(--evently-space-2);
-		margin-left: calc(-1 * var(--evently-pad));
-		margin-right: calc(-1 * var(--evently-pad));
-		padding-left: var(--evently-pad);
-		padding-right: var(--evently-pad);
+		/* Cancel both the section's --evently-pad AND .evently-container's
+		   own 10px inset (layout.css) so this still bleeds fully to the
+		   true edge, then re-add the same total as padding so the cards
+		   line up with the heading above them. */
+		margin-left: calc(-1 * (var(--evently-pad) + 10px));
+		margin-right: calc(-1 * (var(--evently-pad) + 10px));
+		padding-left: calc(var(--evently-pad) + 10px);
+		padding-right: calc(var(--evently-pad) + 10px);
 	}
 
 	.testi-grid .testi-card {
@@ -412,10 +423,12 @@
 	}
 
 	.evently-scroll-row {
-		margin-left: calc(-1 * var(--evently-pad));
-		margin-right: calc(-1 * var(--evently-pad));
-		padding-left: var(--evently-pad);
-		padding-right: var(--evently-pad);
+		/* Same reasoning as .testi-grid above — cancel section pad + the
+		   container's own 10px inset together. */
+		margin-left: calc(-1 * (var(--evently-pad) + 10px));
+		margin-right: calc(-1 * (var(--evently-pad) + 10px));
+		padding-left: calc(var(--evently-pad) + 10px);
+		padding-right: calc(var(--evently-pad) + 10px);
 	}
 
 	.cal-event-row {

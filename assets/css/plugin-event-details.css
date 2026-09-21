@@ -68,16 +68,12 @@ body.single-mep_events .evently-main .mep-events-wrapper {
 	width: 100% !important;
 	margin-left: auto !important;
 	margin-right: auto !important;
-	padding-left: var(--evently-pad) !important;
-	padding-right: var(--evently-pad) !important;
+	/* Same fixed 10px inset as the header, search bar, archive layout and
+	   Elementor page title — this wrapper otherwise had zero horizontal
+	   padding of its own and sat flush with the container's edges. */
+	padding-left: 10px !important;
+	padding-right: 10px !important;
 	box-sizing: border-box;
-}
-
-/* Horizon paints its own inset on .horizon_shell — keep the wrapper flush. */
-body.mep-horizon-active .evently-main .mpwem_wrapper,
-body.mep-horizon-active .evently-main .mep-events-wrapper {
-	padding-left: 0 !important;
-	padding-right: 0 !important;
 }
 
 body.single-mep_events .evently-main .mpwem_container {
@@ -170,4 +166,24 @@ body.single-mep_events .mpwem_style .superSlider .iconIndicator,
 body.single-mep_events .mpwem_style .superSlider .iconIndicator.prevItem,
 body.single-mep_events .mpwem_style .superSlider .iconIndicator.nextItem {
 	z-index: 5;
+}
+
+/*
+ * mage-eventpress's own custom Elementor widgets (support/elementor/widget/
+ * event-*.php — Add to Cart Section, Details, Schedule, Speaker List, FAQ,
+ * Location, Map, Countdown, etc.) render with zero padding of their own on
+ * their outer wrapper div, unlike Elementor's native widgets, which always
+ * sit inside a column/container that carries Elementor's own default
+ * padding. Dropped onto a page, they end up flush against whatever they're
+ * next to instead of getting that same breathing room.
+ *
+ * Every one of these 20 wrappers' classes contains "mep-elementor-" (see
+ * get_name()/render() in each widget file) and nothing else in the
+ * plugin's rendered markup does, so a single attribute selector on the
+ * substring safely covers all of them without touching their own inner
+ * content. Fixed here (theme CSS) rather than the plugin's files so a
+ * plugin update can't silently drop it.
+ */
+body.single-mep_events [class*="mep-elementor-"] {
+	padding: var(--evently-space-3);
 }

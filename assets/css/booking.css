@@ -39,6 +39,12 @@
 	border-left: 3px solid var(--evently-primary);
 	border-radius: var(--evently-radius-md);
 	padding: var(--evently-space-3) var(--evently-space-4);
+	/* WooCommerce's own icon (woocommerce.css) is `position:absolute;
+	   left:1.5em` inside this box, sized for its default `padding-left:
+	   3.5em` — this rule's uniform padding above replaced that with a
+	   much narrower left inset, so the icon now sits on top of the text
+	   instead of beside it. Restore just the left side to clear it. */
+	padding-left: 56px;
 	list-style: none;
 	margin-bottom: var(--evently-space-4);
 }
@@ -63,12 +69,41 @@
 	margin: 0;
 }
 
+/*
+ * Same conflict as the checkout #customer_details grid (booking.css,
+ * further down): WooCommerce's own default CSS (woocommerce-layout.css)
+ * still carries its classic float-based product-grid layout —
+ * `ul.products li.product { float:left; width:22.05%; margin:0 3.8%
+ * 2.992em 0 }` (or width:30.75% for .columns-3) — plus a clearfix,
+ * `ul.products::before/::after { content:" "; display:table }`. The
+ * float/width shrinks each card to ~22-31% of its own already-thirded
+ * grid cell, and the clearfix pseudo-elements (real `content`, so not
+ * display:none) become actual phantom grid items, shifting real
+ * products out of their intended cells — the same mechanism, same fix,
+ * as the checkout column swap.
+ */
+.woocommerce ul.products::before,
+.woocommerce ul.products::after {
+	content: none;
+	display: none;
+}
+
 .woocommerce ul.products li.product {
+	/* !important: WooCommerce also ships width/float rules scoped to
+	   ul.products.columns-3 (and .columns-1/2/5/6) specifically — one
+	   extra class than this selector has, so it wins on specificity
+	   alone regardless of source order. The grid should always control
+	   sizing here, whichever columns-N class WooCommerce's Customizer
+	   setting happens to add. */
+	float: none !important;
+	width: 100% !important;
+	margin: 0 !important;
+	position: relative;
 	background: var(--evently-white);
 	border: 1px solid var(--evently-border);
 	border-radius: var(--evently-radius-md);
 	overflow: hidden;
-	padding: 0 0 var(--evently-space-3);
+	padding: 0 0 var(--evently-space-4);
 	transition: transform var(--evently-transition-base) ease, box-shadow var(--evently-transition-base) ease;
 }
 
@@ -77,11 +112,48 @@
 	box-shadow: var(--evently-shadow-card-hover);
 }
 
+/* Thumbnail — same aspect-ratio-boxed, zoom-on-card-hover treatment as
+   .event-card .event-img elsewhere (events.css), so shop cards read as
+   the same component family as the rest of the site. */
 .woocommerce ul.products li.product img {
 	width: 100%;
 	aspect-ratio: 4/3;
 	object-fit: cover;
-	margin-bottom: var(--evently-space-2);
+	margin-bottom: var(--evently-space-3);
+	background: linear-gradient(135deg, var(--evently-surface), var(--evently-border));
+	transition: transform var(--evently-transition-slow) ease;
+}
+
+.woocommerce ul.products li.product:hover img {
+	transform: scale(1.04);
+}
+
+/* Sale badge — WooCommerce's own .onsale is an unstyled olive-green
+   circle pinned to the card's top-right corner (woocommerce.css). Restyled
+   to the theme's own badge language (.evently-badge--soft/.event-cat in
+   components.css/events.css: a small blurred-white pill) so it reads as
+   part of this design system instead of a leftover default. */
+.woocommerce ul.products li.product .onsale {
+	position: absolute;
+	inset: 14px 14px auto auto;
+	top: 14px;
+	right: 14px;
+	left: auto;
+	margin: 0;
+	min-height: 0;
+	min-width: 0;
+	width: auto;
+	height: auto;
+	line-height: 1.4;
+	border-radius: var(--evently-radius-pill);
+	background: var(--evently-primary);
+	color: var(--evently-white);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 5px 12px;
+	z-index: 2;
 }
 
 .woocommerce ul.products li.product .woocommerce-loop-product__title,
@@ -89,7 +161,11 @@
 	font-size: 16px;
 	font-weight: 700;
 	padding: 0 var(--evently-space-3);
-	margin: 0 0 4px;
+	margin: 0 0 6px;
+}
+
+.woocommerce ul.products li.product .star-rating {
+	margin: 0 var(--evently-space-3) 6px;
 }
 
 .woocommerce ul.products li.product .price {
@@ -98,12 +174,117 @@
 	color: var(--evently-text);
 }
 
+.woocommerce ul.products li.product .price del {
+	font-weight: 500;
+	color: var(--evently-muted);
+	opacity: 1;
+	margin-right: 6px;
+}
+
+.woocommerce ul.products li.product .price ins {
+	color: var(--evently-primary);
+	text-decoration: none;
+}
+
 .woocommerce ul.products li.product .button {
-	margin: var(--evently-space-2) var(--evently-space-3) 0;
+	margin: var(--evently-space-3) var(--evently-space-3) 0;
 }
 
 .woocommerce .star-rating {
 	color: var(--evently-warning);
+}
+
+/* ── Shop toolbar (result count + sorting) ───────────────────────────── */
+
+.woocommerce-result-count {
+	color: var(--evently-muted);
+	font-size: var(--evently-fs-small);
+}
+
+.woocommerce-ordering select {
+	appearance: none;
+	border: 1px solid var(--evently-border);
+	border-radius: var(--evently-radius-sm);
+	background-color: var(--evently-white);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23777773' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 14px center;
+	background-size: 12px 8px;
+	padding: 10px 36px 10px 16px;
+	font-family: inherit;
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	color: var(--evently-text);
+	cursor: pointer;
+	transition: border-color var(--evently-transition-fast) ease, box-shadow var(--evently-transition-fast) ease;
+}
+
+.woocommerce-ordering select:focus {
+	outline: none;
+	border-color: var(--evently-primary);
+	box-shadow: 0 0 0 3px var(--evently-primary-soft);
+}
+
+/* Pagination — WooCommerce ships this completely unstyled (plain text
+   links, one bare-bordered box around the current page). Same pill
+   component as .evently-pagination (archive.css, used on the Event
+   Archive) rather than a second implementation, so shop pagination
+   reads as the same design system. */
+.woocommerce-pagination ul.page-numbers {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 6px;
+	list-style: none;
+	margin: var(--evently-space-6) 0 0;
+	padding: 0;
+}
+
+/* Same recurring pattern as #customer_details/ul.products/div.product
+   summary elsewhere in this file: woocommerce-layout.css still clearfixes
+   this list (`::before/::after { content:" "; display:table }`) for its
+   original float layout. A pseudo-element with real content becomes an
+   actual (invisible) flex item once the list is display:flex, throwing
+   off item order/spacing exactly like it did for the checkout grid. */
+.woocommerce-pagination ul.page-numbers::before,
+.woocommerce-pagination ul.page-numbers::after {
+	content: none;
+	display: none;
+}
+
+.woocommerce-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: var(--evently-radius-sm);
+	border: 1px solid var(--evently-border);
+	color: var(--evently-text);
+	font-size: var(--evently-fs-small);
+	font-weight: 600;
+	transition: background var(--evently-transition-fast) ease, color var(--evently-transition-fast) ease,
+		border-color var(--evently-transition-fast) ease;
+}
+
+.woocommerce-pagination a.page-numbers:hover {
+	border-color: var(--evently-dark);
+}
+
+.woocommerce-pagination .page-numbers.current {
+	/* !important: WooCommerce's own default (woocommerce.css) targets this
+	   exact state via `.woocommerce nav.woocommerce-pagination ul li
+	   span.current { background:#e9e6ed; color:#816f98 }` — 4 elements in
+	   the chain vs. this selector's 0, so it wins on specificity even
+	   though this rule is more specific in classes. */
+	background: var(--evently-dark) !important;
+	color: var(--evently-white) !important;
+	border-color: var(--evently-dark);
+}
+
+.woocommerce-pagination .page-numbers.dots {
+	border: none;
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────── */
@@ -149,13 +330,24 @@
 	gap: var(--evently-space-6);
 }
 
+/*
+ * Same WooCommerce-float-vs-theme-grid conflict as #customer_details and
+ * ul.products (see those fixes further down/up in this file) —
+ * woocommerce-layout.css still gives the summary column
+ * `float:right; width:48%; clear:none` from its pre-grid single-product
+ * layout. (The gallery side isn't affected: that old CSS targets a
+ * legacy `div.images` class current WooCommerce templates no longer
+ * output — modern markup is `.woocommerce-product-gallery`.)
+ */
+.woocommerce div.product .summary {
+	float: none;
+	width: 100%;
+	max-width: none;
+}
+
 .woocommerce div.product .woocommerce-product-gallery {
 	border-radius: var(--evently-radius-lg);
 	overflow: hidden;
-}
-
-.woocommerce div.product .summary {
-	max-width: none;
 }
 
 .woocommerce div.product .summary .price {
@@ -264,6 +456,45 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: var(--evently-space-6);
+}
+
+/*
+ * WooCommerce's own default checkout CSS (woocommerce-layout.css) still
+ * floats these — `.col2-set .col-1 { float:left; width:48% }`, `.col-2
+ * { float:right; width:48% }` — a leftover from its classic 2-column
+ * float layout, even though #customer_details is now a grid. That
+ * default width still wins for these specific properties (equal-or-lower
+ * specificity than this rule doesn't matter for the *cause* here, just
+ * the fix), shrinking each column to ~48% of its own already-halved grid
+ * cell. Cleared explicitly so each column fills its grid cell.
+ */
+.woocommerce-checkout #customer_details .col-1,
+.woocommerce-checkout #customer_details .col-2 {
+	float: none;
+	width: 100%;
+}
+
+/*
+ * The real reason .col-1 (billing) rendered in the *second* grid track
+ * with the first sitting empty: woocommerce-layout.css also gives
+ * `.col2-set` a clearfix — `.col2-set::before, .col2-set::after {
+ * content:" "; display:table; }` — needed to contain the floated
+ * .col-1/.col-2 in that original layout. A pseudo-element with real
+ * `content` is NOT display:none, so as a direct child of a grid
+ * container it becomes an actual (invisible) grid item in its own right.
+ * That's 4 items total in DOM order — ::before, .col-1, .col-2, ::after —
+ * across a 2-column grid, so they wrap: row 1 = [::before, .col-1], row 2
+ * = [.col-2, ::after]. .col-1 lands in column 2 of row 1 (empty column 1
+ * beside it), and .col-2 lands in column 1 of row 2 — two separate rows
+ * instead of the one intended side-by-side row. A grid container never
+ * needs a float clearfix in the first place, so the clean fix is to
+ * remove the pseudo-elements' content entirely rather than trying to
+ * account for them in the grid.
+ */
+.woocommerce-checkout #customer_details::before,
+.woocommerce-checkout #customer_details::after {
+	content: none;
+	display: none;
 }
 
 .woocommerce form .form-row {

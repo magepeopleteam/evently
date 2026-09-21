@@ -131,10 +131,25 @@
 		window.requestAnimationFrame( function () {
 			var rect = menu.getBoundingClientRect();
 			var shift = 0;
+
+			// Clamp to the header's content container, not the raw viewport —
+			// on wide screens .evently-container is narrower than the window
+			// (it's centered with side margins), and centering a wide mega
+			// panel under a nav item near the container's edge can spill past
+			// that edge into the outer margin well before it ever reaches the
+			// actual browser edge.
+			var bounds = parent.closest( '.evently-container' );
+			var boundsRect = bounds ? bounds.getBoundingClientRect() : null;
+			var minLeft = MEGA_PAD;
 			var maxRight = window.innerWidth - MEGA_PAD;
 
-			if ( rect.left < MEGA_PAD ) {
-				shift = MEGA_PAD - rect.left;
+			if ( boundsRect ) {
+				minLeft = Math.max( minLeft, boundsRect.left );
+				maxRight = Math.min( maxRight, boundsRect.right );
+			}
+
+			if ( rect.left < minLeft ) {
+				shift = minLeft - rect.left;
 			} else if ( rect.right > maxRight ) {
 				shift = maxRight - rect.right;
 			}
