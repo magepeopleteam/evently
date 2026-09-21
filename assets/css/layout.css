@@ -101,18 +101,15 @@ body.evently-header-on-media .evently-main {
 
 /*
  * Horizontal inset for containers that are NOT nested inside .evently-section
- * (which already applies --evently-pad). Hero, and any lone container
- * need this so content never kisses the viewport edge on phones/tablets.
- * Header gets a tighter, fixed 10px inset instead of --evently-pad — just
- * enough that the logo/nav never touch the edge on mobile, without the
- * wider breathing room the rest of the site's containers use.
+ * (which already applies --evently-pad). Header, hero, and any lone
+ * container need this so content never kisses the viewport edge on
+ * phones/tablets. Fixed 10px, matching the .evently-container baseline
+ * above, the search bar, archive layout, and Elementor page title — so
+ * the header and hero content share the same left/right edge instead of
+ * hero sitting narrower than the header above it.
  */
+.site-header__inner.evently-container,
 .hero-inner.evently-container {
-	padding-left: var(--evently-pad);
-	padding-right: var(--evently-pad);
-}
-
-.site-header__inner.evently-container {
 	padding-left: 10px;
 	padding-right: 10px;
 }
