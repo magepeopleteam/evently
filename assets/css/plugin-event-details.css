@@ -68,9 +68,16 @@ body.single-mep_events .evently-main .mep-events-wrapper {
 	width: 100% !important;
 	margin-left: auto !important;
 	margin-right: auto !important;
+	padding-left: var(--evently-pad) !important;
+	padding-right: var(--evently-pad) !important;
+	box-sizing: border-box;
+}
+
+/* Horizon paints its own inset on .horizon_shell — keep the wrapper flush. */
+body.mep-horizon-active .evently-main .mpwem_wrapper,
+body.mep-horizon-active .evently-main .mep-events-wrapper {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
-	box-sizing: border-box;
 }
 
 body.single-mep_events .evently-main .mpwem_container {
