@@ -1,0 +1,419 @@
+/**
+ * mage-event/list/native.css — companion stylesheet for the theme override
+ * mage-event/list/native.php (loaded by that template, once per page).
+ *
+ * Restores the classic native event-list card on the plugin's current
+ * markup: 150px photo on the left, text column with a 2px rule on its left,
+ * title + date/location/organizer rows, and the "View More Dates" pill.
+ * The redesign's date badge, category tag, ribbons, price, "Book" link and
+ * single-date "Add to Calendar" box are hidden (not removed).
+ *
+ * Every selector is scoped to the override's own class `.mep_native_classic`
+ * under the plugin's list wrapper, so it outranks mep-event-list-modern.css
+ * regardless of stylesheet order and never touches other list styles.
+ */
+
+/* Classic list box: cards stacked with their own 10px margins, row bleeds 7px each side. */
+.list_with_filter_section.mep_event_list .mage_grid_box:has(> .mep_native_classic) {
+	gap: 0;
+	margin: 0 -7px 20px;
+}
+
+/* Card */
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic {
+	display: flex;
+	margin: 10px 0 !important;
+	padding: 0;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background: transparent;
+	box-shadow: none;
+	transform: none;
+	transition: none;
+	overflow: visible;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic:hover,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic:focus-within {
+	border-color: var(--color_theme);
+	box-shadow: none;
+	transform: none;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__surface {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	width: 100%;
+	min-height: 0;
+}
+
+/* Photo */
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__media {
+	position: relative;
+	display: block;
+	flex: 0 1 150px;
+	width: 150px;
+	min-width: 0;
+	border-radius: 5px 0 0 5px;
+	overflow: hidden;
+	background: none;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_list_thumb {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	margin: 0;
+	border-radius: inherit;
+	background: none;
+}
+
+/* Classic crop: photo anchored left, not centered. */
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_list_thumb_img {
+	object-position: left center;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_list_thumb > [data-bg-image] {
+	background-position: left center !important;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic:hover .mep_list_thumb_img {
+	transform: none;
+}
+
+/* Redesign-only additions the classic card never had. */
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__date,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_card__category,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mepev-ribbons,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer .list_price,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer .mep_event_card__book,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer .mpwem_status_area,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer > .mpwem_list_date_list > button.mpwem_get_date_list > i {
+	display: none !important;
+}
+
+/* Text column */
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__body {
+	position: relative;
+	display: block;
+	flex: 0 1 auto;
+	width: calc(100% - 90px);
+	min-width: 0;
+	min-height: 0;
+	margin: 0 0 0 7px;
+	padding: 10px;
+	gap: 0;
+	box-sizing: border-box;
+	color: inherit;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__body::before {
+	content: "";
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 10px;
+	border-left: 2px solid;
+	pointer-events: none;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__link {
+	display: block;
+	margin: 0;
+	padding: 0 0 0 10px;
+	gap: 0;
+	border: 0;
+	color: inherit;
+	text-decoration: none;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_list_title,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__link:hover .mep_list_title {
+	margin: 0 0 5px;
+	padding: 0 0 5px;
+	font-size: 18px;
+	line-height: 27px;
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	text-transform: none;
+	color: #000;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .list_content {
+	display: block;
+	margin: 0;
+	padding: 0;
+	gap: 0;
+	overflow: visible;
+	-webkit-line-clamp: unset;
+	font-size: 16px;
+	line-height: 25px;
+	font-weight: 400;
+	letter-spacing: normal;
+	color: #505050;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .list_content .mi,
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .list_content i {
+	display: inline-block;
+	margin: 0 0.17em 0 0; /* one space, as the classic markup had "<i></i> text" */
+	font-size: 1em;
+	line-height: 1;
+	vertical-align: baseline;
+	opacity: 1;
+	color: var(--color_theme);
+}
+
+/* "View More Dates" — the plugin's real toggle, shown only for multi-date events. */
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer {
+	display: block;
+	margin: 0;
+	padding: 0 0 0 10px;
+	gap: 0;
+	border: 0;
+	line-height: 25.6px;
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer > .mpwem_list_date_list {
+	position: relative;
+	display: inline-block;
+	width: auto;
+	margin: 0;
+	vertical-align: baseline;
+}
+
+/* Open date list: size to its dates instead of the pill's width. */
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer > .mpwem_list_date_list > .date_list_area.mActive {
+	right: auto;
+	width: max-content;
+	min-width: 100%;
+	max-width: min(360px, calc(100vw - 32px));
+}
+
+.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__footer > .mpwem_list_date_list > button.mpwem_get_date_list {
+	display: inline-block;
+	width: auto;
+	min-width: 0;
+	height: auto;
+	margin: 0;
+	padding: 0 15px;
+	border: 1px solid var(--color_theme);
+	border-radius: 20px;
+	background: transparent;
+	box-shadow: none;
+	color: var(--color_theme);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-transform: none;
+	cursor: pointer;
+}
+
+/* Classic responsive steps — same breakpoints as the classic stylesheet. */
+@media only screen and (max-width: 991px) {
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_list_title,
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__link:hover .mep_list_title {
+		margin-top: 10px;
+		font-size: 15px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__media {
+		border-radius: 5px 5px 0 0;
+	}
+}
+
+/* Stacked: full-width photo at its natural ratio, text below. */
+@media only screen and (max-width: 767px) {
+	.list_with_filter_section.mep_event_list .mage_grid_box:has(> .mep_native_classic) {
+		margin: 0;
+	}
+
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__surface {
+		display: block;
+	}
+
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__media {
+		width: 100%;
+	}
+
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_list_thumb {
+		height: auto;
+	}
+
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_list_thumb_img {
+		position: static;
+		width: 100%;
+		height: auto;
+	}
+
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .mep_event_native_list__body {
+		width: 100%;
+		margin: 0;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.list_with_filter_section.mep_event_list .filter_item.mep_event_native_list.mep_native_classic .list_content {
+		font-size: 13px;
+	}
+}
+
+/* Loading placeholder: the plugin's skeleton (printed before the list) is drawn as
+   classic rows the same size as the real cards, so nothing jumps when the list appears.
+   Scoped with :has() to lists that contain classic cards; other lists keep the plugin's. */
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton {
+	margin: 0 -7px 20px;
+}
+
+/* Flex column like the real .mage_grid_box, so the 10px card margins don't collapse. */
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__grid {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__card {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	margin: 10px 0;
+	background: transparent;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__media {
+	flex: 0 1 150px;
+	width: 150px;
+	min-width: 0;
+	border-radius: 5px 0 0 5px;
+	overflow: hidden;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__thumb {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__date,
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__category,
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__foot,
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--excerpt,
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--excerpt-2,
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--org {
+	display: none;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__body {
+	position: relative;
+	display: block;
+	flex: 0 1 auto;
+	width: calc(100% - 90px);
+	min-width: 0;
+	margin: 0 0 0 7px;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__body::before {
+	content: "";
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 10px;
+	width: 2px;
+	background: #e2e2e8;
+}
+
+/* Title first (37px: 27px line + 5px padding + 5px gap), then three 25px rows. */
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__meta {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0;
+	padding: 0 0 0 10px;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--title {
+	order: -1;
+	width: min(270px, 60%);
+	height: 17px;
+	margin: 5px 0 15px;
+	border-radius: 999px;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--date,
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--loc,
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__meta::after {
+	height: 12px;
+	margin: 7px 0 6px;
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--date {
+	width: min(250px, 55%);
+}
+
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--loc {
+	width: min(130px, 40%);
+}
+
+/* Organizer row (the grid skeleton has no third row, so draw one). */
+.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__meta::after {
+	content: "";
+	display: block;
+	width: min(110px, 35%);
+	border-radius: 999px;
+	background: linear-gradient(90deg, #ececf0 0%, #f6f6f8 45%, #ececf0 100%);
+	background-size: 200% 100%;
+	animation: mep-skel-shimmer 1.25s ease-in-out infinite;
+}
+
+@media only screen and (max-width: 991px) {
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__line--title {
+		margin-top: 15px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__media {
+		border-radius: 5px 5px 0 0;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton {
+		margin: 0;
+	}
+
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__card {
+		display: block;
+	}
+
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__media {
+		width: 100%;
+	}
+
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__thumb {
+		height: auto;
+		aspect-ratio: 16 / 9;
+	}
+
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__body {
+		width: 100%;
+		margin: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.list_with_filter_section.mep_event_list:has(.mep_native_classic) .mep_event_list_skeleton__meta::after {
+		animation: none;
+	}
+}
