@@ -425,6 +425,60 @@
 	padding: 10px 14px;
 }
 
+/* woocommerce-layout.css caps this input at 80px, which cut the
+   placeholder to "Coupo". Desktop only — at ≤768px WooCommerce's own
+   smallscreen rule sizes it to 48% beside the Apply button. */
+@media (min-width: 769px) {
+	.woocommerce table.cart td.actions .coupon .input-text {
+		width: 220px;
+	}
+}
+
+/*
+ * WooCommerce's stacked (≤768px) cart/totals tables (.shop_table_responsive)
+ * must stay display:table. responsive.css turns every .evently-page__content
+ * table into a scrolling block below 1000px (meant for article tables), and
+ * the 640px rule at the end of this file does the same for every shop_table.
+ * On a block-level <table> the <tbody> is wrapped in an anonymous
+ * shrink-to-fit table, so the stacked rows covered only part of the card and
+ * Cart totals collapsed to "Subtotal:$30.00". overflow:hidden keeps the
+ * rounded-corner clipping of the base rule above.
+ */
+.woocommerce table.shop_table.shop_table_responsive {
+	display: table;
+	overflow: hidden;
+}
+
+@media (max-width: 768px) {
+	/* WooCommerce's stacked-row rules (`td { display:block }` and the
+	   `td::before { content: attr(data-title) ": " }` label) also match
+	   the ticket table mage-eventpress nests in the product cell, which
+	   printed stray ": " labels and broke its row. Restore that table. */
+	.woocommerce table.shop_table_responsive .mep-cart-details td {
+		display: table-cell;
+	}
+
+	.woocommerce table.shop_table_responsive .mep-cart-details td::before {
+		content: none;
+	}
+
+	.woocommerce table.shop_table_responsive .mep-cart-details td:first-child {
+		text-align: left !important;
+	}
+
+	/* Sold-individually lines (every event ticket) render only a hidden
+	   qty input, so the row held nothing but its floated "Quantity:"
+	   label, which spilled over the next row's border. flow-root contains
+	   the float; where :has() is supported the empty row is hidden. */
+	.woocommerce table.shop_table_responsive.cart tr td.product-quantity {
+		display: flow-root;
+	}
+
+	.woocommerce table.shop_table_responsive.cart tr td.product-quantity:not(:has(input:not([type="hidden"]))) {
+		display: none;
+	}
+}
+
 .woocommerce-cart-form .quantity input.qty,
 .woocommerce input.qty {
 	width: 60px;
@@ -451,6 +505,33 @@
 }
 
 /* ── Checkout ─────────────────────────────────────────────────────── */
+
+/*
+ * Cart / Checkout / My Account pages built with Elementor but holding only
+ * the plain WooCommerce shortcode (no Elementor sections) fall back to the
+ * raw post content — which then has no theme container around it:
+ *  - Elementor "Full Width" template prints the_content() straight into
+ *    <main>, skipping page.php's boxed .evently-container;
+ *  - page.php itself drops that box for Elementor-built pages
+ *    (.evently-page--elementor) so the builder canvas can go full-bleed.
+ * Either way the forms, notices and order review ran edge to edge of the
+ * viewport while the header and page title above them stayed boxed. Give
+ * that bare output the same box and inset as the page title it sits under.
+ * Content placed through Elementor widgets is nested deeper and unaffected.
+ */
+.evently-main > .woocommerce,
+.evently-page--elementor > .evently-page__content > .woocommerce {
+	max-width: var(--evently-max);
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 10px var(--evently-space-8);
+	box-sizing: border-box;
+}
+
+.evently-page--elementor > .evently-page__content > .woocommerce {
+	padding-left: var(--evently-pad);
+	padding-right: var(--evently-pad);
+}
 
 .woocommerce-checkout #customer_details {
 	display: grid;
@@ -529,7 +610,7 @@
 .woocommerce-checkout #order_review {
 	background: var(--evently-surface);
 	border-radius: var(--evently-radius-lg);
-	padding: var(--evently-space-4);
+	padding: var(--evently-space-3);
 }
 
 .woocommerce-checkout-review-order-table {
@@ -541,6 +622,7 @@
 .woocommerce-checkout-review-order-table td {
 	border-bottom: 1px solid var(--evently-border);
 	background: transparent;
+	padding: 10px 12px;
 }
 
 #payment.woocommerce-checkout-payment {
@@ -552,25 +634,72 @@
 
 #payment ul.payment_methods {
 	list-style: none;
-	padding: var(--evently-space-3);
+	padding: var(--evently-space-2);
 	margin: 0;
 	border-bottom: 1px solid var(--evently-border);
 }
 
 #payment ul.payment_methods li {
-	padding: 8px 0;
+	padding: 6px 0;
 }
 
 #payment div.payment_box {
 	background: var(--evently-surface);
 	border-radius: var(--evently-radius-sm);
-	padding: var(--evently-space-3);
-	margin-top: var(--evently-space-2);
+	padding: 12px 14px;
+	margin-top: var(--evently-space-1);
 }
 
+/* No margin: width:100% plus a side margin pushed the button past the
+   payment box edge. WooCommerce's .form-row padding already insets it. */
 #payment #place_order {
 	width: 100%;
-	margin: var(--evently-space-3);
+	margin: 0;
+}
+
+/*
+ * Desktop: two-column checkout. Billing + order notes on the left, "Your
+ * order" (items, totals, payment, Place order) on the right, instead of the
+ * order block sitting under an empty "Additional information" column.
+ * Named areas keep the checkout error group (.woocommerce-NoticeGroup,
+ * injected at the top of the form) full width above both columns; any other
+ * element a plugin prints straight into the form spans both columns too.
+ * Below 1001px the existing single-column stack is unchanged.
+ */
+@media (min-width: 1001px) {
+	.woocommerce-checkout form.checkout {
+		display: grid;
+		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+		grid-template-areas:
+			"notices notices"
+			"details heading"
+			"details review";
+		grid-template-rows: auto auto 1fr;
+		column-gap: var(--evently-space-6);
+		align-items: start;
+	}
+
+	.woocommerce-checkout form.checkout > * {
+		grid-column: 1 / -1;
+	}
+
+	.woocommerce-checkout form.checkout > .woocommerce-NoticeGroup {
+		grid-area: notices;
+	}
+
+	.woocommerce-checkout form.checkout > #customer_details {
+		grid-area: details;
+		grid-template-columns: 1fr;
+		gap: var(--evently-space-3);
+	}
+
+	.woocommerce-checkout form.checkout > #order_review_heading {
+		grid-area: heading;
+	}
+
+	.woocommerce-checkout form.checkout > #order_review {
+		grid-area: review;
+	}
 }
 
 /* ── My Account ───────────────────────────────────────────────────── */
